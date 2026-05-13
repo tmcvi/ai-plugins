@@ -67,6 +67,38 @@ The filter failed validation during view sanitization and was removed. This happ
 
 4. Verify all IDs refer to an existing pivot and the pivots exist in rows/columns (not pages!)
 
+## Grouping Pivot Silently Dropped from Columns
+
+**Symptoms:**
+
+- A Grouping pivot (with `listPropertyPath`) added to Columns is missing from the created View
+- Columns array in the API response contains only the Dimension pivot, not the Grouping pivot
+- No error is returned — the Grouping is silently discarded
+
+**Root Cause:**
+The Pigment API does not allow the same `dimensionId` to appear twice on the same axis (Rows or Columns). When you add both:
+1. A Grouping pivot (`dimensionId: X`, `listPropertyPath: ["SomeProperty"]`) AND
+2. A Dimension pivot (`dimensionId: X`)
+
+to the same Columns (or Rows) array, the Grouping pivot is silently dropped.
+
+This is an API-level constraint. The Pigment web UI can configure this through drag-and-drop but the API rejects the combination.
+
+**When this typically occurs:**
+- Trying to add a "Period Type" grouping header above Month columns (e.g., group months into "Actual" and "Plan" bands)
+- Trying to add a "Quarter" grouping above Month columns while Month remains as the detail pivot
+
+**Workarounds:**
+
+1. **Move the Grouping to Pages**: Put the Grouping pivot (e.g., Period Type) in Pages instead of Columns. Users can then toggle between "Actual" and "Plan" via the page selector. Not a visual column grouping, but functionally communicates the same information.
+
+2. **Use the Pigment UI**: Configure the column grouping manually in the Pigment web interface after creating the base view via the API. The UI supports drag-and-drop to add a property as a column grouping header above an existing dimension.
+
+3. **Replace the Dimension pivot with the Grouping**: If you only need the group-level columns (not individual leaf items), put just the Grouping pivot in Columns and remove the Dimension pivot. This shows "Actual" and "Plan" columns (aggregated), not individual months.
+
+**Note about Pages Groupings:**
+A Grouping pivot on the SAME dimension works fine when placed in Pages while the Dimension pivot is in Columns (different axes). The constraint only applies when both are on the same axis.
+
 ## View Shows No Data
 
 **Symptoms:**
