@@ -1,0 +1,281 @@
+<title>FP&A Use-Case Banner</title>
+<style>
+  :root {
+    --ink: #0C0E1A;
+    --panel: #14172A;
+    --line: rgba(234, 235, 242, 0.10);
+    --line-strong: rgba(234, 235, 242, 0.18);
+    --text: #EAEBF2;
+    --dim: #8A8FA6;
+    --rose: #FF5C8A;
+    --violet: #8B7CFF;
+    --teal: #36D6C3;
+    --amber: #F5B547;
+    --sky: #5AA9FF;
+    --display: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(139,124,255,0.12), transparent 60%),
+      radial-gradient(900px 500px at 5% 110%, rgba(54,214,195,0.10), transparent 55%),
+      var(--ink);
+    color: var(--text);
+    font-family: var(--display);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 64px 0;
+  }
+
+  /* ---- framing context so it reads as a real site section ---- */
+  .section-head {
+    max-width: 1100px;
+    margin: 0 auto 40px;
+    padding: 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--dim);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--line-strong);
+  }
+  .section-head h2 {
+    margin: 0;
+    font-size: clamp(28px, 4.4vw, 46px);
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+  .section-head h2 .grad {
+    background: linear-gradient(92deg, var(--rose), var(--violet) 60%, var(--sky));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .section-head p {
+    margin: 0;
+    color: var(--dim);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 56ch;
+  }
+
+  /* ---- the banner ---- */
+  .banner {
+    position: relative;
+    width: 100%;
+    padding: 30px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(20,23,42,0.0), rgba(20,23,42,0.55), rgba(20,23,42,0.0));
+    /* fade both edges so chips dissolve into the page */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    overflow: hidden;
+  }
+  .banner:hover .track { animation-play-state: paused; }
+
+  .row { overflow: hidden; }
+  .track {
+    display: flex;
+    gap: 14px;
+    width: max-content;
+    will-change: transform;
+  }
+  .track.ltr { animation: marquee-rtl var(--dur, 60s) linear infinite; }
+  .track.rtl { animation: marquee-ltr var(--dur, 60s) linear infinite; }
+
+  /* content is duplicated once; shift by half for a seamless loop */
+  @keyframes marquee-rtl {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes marquee-ltr {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px 20px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.015);
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 520;
+    letter-spacing: -0.005em;
+    color: var(--text);
+    transition: border-color .25s ease, background .25s ease, transform .25s ease;
+  }
+  .chip:hover {
+    border-color: var(--c, var(--line-strong));
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-1px);
+  }
+  .chip .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--c, var(--dim));
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--c, var(--dim)) 16%, transparent);
+    flex: none;
+  }
+  /* a few flagship chips read as filled */
+  .chip.feature {
+    background: var(--c);
+    border-color: transparent;
+    color: #0C0E1A;
+    font-weight: 600;
+  }
+  .chip.feature .dot {
+    background: rgba(12,14,26,0.75);
+    box-shadow: none;
+  }
+
+  /* legend */
+  .legend {
+    max-width: 1100px;
+    margin: 36px auto 0;
+    padding: 0 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    font-size: 13px;
+    color: var(--dim);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i {
+    width: 9px; height: 9px; border-radius: 50%;
+    display: inline-block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .track { animation: none !important; transform: none !important; }
+    .row { overflow-x: auto; }
+    .row::-webkit-scrollbar { display: none; }
+  }
+</style>
+
+<section aria-labelledby="fpa-title">
+  <div class="section-head">
+    <div class="eyebrow">Built for finance teams</div>
+    <h2 id="fpa-title">Every plan, forecast, and close — <span class="grad">modeled in one place.</span></h2>
+    <p>From driver-based budgets to the monthly close, here's the breadth of FP&amp;A work teams run on the platform.</p>
+  </div>
+
+  <div class="banner" id="banner" aria-label="Scrolling list of FP&amp;A use cases"></div>
+
+  <div class="legend" id="legend"></div>
+</section>
+
+<script>
+  const CATS = {
+    revenue:   { label: "Revenue & growth",   color: "var(--rose)" },
+    workforce: { label: "Workforce",          color: "var(--violet)" },
+    cash:      { label: "Cash & capital",     color: "var(--teal)" },
+    strategy:  { label: "Strategic planning", color: "var(--amber)" },
+    reporting: { label: "Reporting & close",  color: "var(--sky)" },
+  };
+
+  // 4 rows of real FP&A use cases, dot-coded by category. feature:true = filled chip.
+  const ROWS = [
+    [
+      ["Revenue forecasting", "revenue", true],
+      ["Headcount planning", "workforce"],
+      ["Driver-based budgeting", "strategy"],
+      ["Cash flow modeling", "cash"],
+      ["Monthly management reporting", "reporting"],
+      ["Sales capacity planning", "revenue"],
+      ["Operating expense planning", "strategy"],
+    ],
+    [
+      ["Rolling forecasts", "strategy"],
+      ["Workforce cost planning", "workforce", true],
+      ["ARR & SaaS metrics", "revenue"],
+      ["Working capital optimization", "cash"],
+      ["Variance analysis", "reporting"],
+      ["Quota & commission planning", "revenue"],
+      ["Scenario planning", "strategy"],
+    ],
+    [
+      ["Consolidation & close", "reporting", true],
+      ["Long-range planning", "strategy"],
+      ["CapEx planning", "cash"],
+      ["Margin analysis by product", "revenue"],
+      ["Zero-based budgeting", "strategy"],
+      ["Attrition & hiring plans", "workforce"],
+      ["Board & investor reporting", "reporting"],
+    ],
+    [
+      ["Demand planning", "strategy"],
+      ["Cost-center allocations", "reporting"],
+      ["Top-down vs bottom-up budgets", "strategy", true],
+      ["Liquidity forecasting", "cash"],
+      ["KPI dashboards", "reporting"],
+      ["Cohort & retention analysis", "revenue"],
+      ["Compensation modeling", "workforce"],
+    ],
+  ];
+
+  const DURATIONS = ["64s", "78s", "58s", "88s"];
+
+  function chipEl([label, cat, feature]) {
+    const el = document.createElement("span");
+    el.className = "chip" + (feature ? " feature" : "");
+    el.style.setProperty("--c", CATS[cat].color);
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    el.appendChild(dot);
+    el.appendChild(document.createTextNode(label));
+    return el;
+  }
+
+  const banner = document.getElementById("banner");
+  ROWS.forEach((items, i) => {
+    const row = document.createElement("div");
+    row.className = "row";
+    const track = document.createElement("div");
+    track.className = "track " + (i % 2 ? "rtl" : "ltr");
+    track.style.setProperty("--dur", DURATIONS[i % DURATIONS.length]);
+    // duplicate the set once so the -50% shift loops seamlessly
+    [...items, ...items].forEach(it => track.appendChild(chipEl(it)));
+    row.appendChild(track);
+    banner.appendChild(row);
+  });
+
+  const legend = document.getElementById("legend");
+  Object.values(CATS).forEach(c => {
+    const s = document.createElement("span");
+    const i = document.createElement("i");
+    i.style.background = c.color;
+    s.appendChild(i);
+    s.appendChild(document.createTextNode(c.label));
+    legend.appendChild(s);
+  });
+</script>
