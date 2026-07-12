@@ -74,3 +74,4 @@ venv/
 .yarnrc
 .yarnrc.yml
 .pnpm-store/
+.claude/settings.local.json
