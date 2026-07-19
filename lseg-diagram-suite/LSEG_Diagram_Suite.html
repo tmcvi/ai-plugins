@@ -1,0 +1,531 @@
+<title>LSEG SAM Forecasting — Conceptual Diagram Suite (v0.1)</title>
+<style>
+  :root{
+    --ground:#F5F8FC; --panel:#FFFFFF; --ink:#16233D; --ink-soft:#4A5A73; --ink-faint:#75859E;
+    --line:#DCE4EF; --line-soft:#E9EFF7;
+    --navy:#1F3864; --green:#1E6B4E; --teal:#17786B; --bronze:#B07A2E; --red:#C0503C;
+    --amber-bg:#FFF7E6; --amber-line:#E4C58A;
+    --link:#25507F;
+    --canvas:#FFFFFF; --canvas-line:#E1E8F2;
+    --shadow:0 1px 2px rgba(20,40,80,.05), 0 8px 24px rgba(20,40,80,.06);
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --maxw:1080px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --ground:#0E141F; --panel:#141C29; --ink:#E7EDF5; --ink-soft:#A9BAD2; --ink-faint:#7D8FA8;
+      --line:#26324A; --line-soft:#1E2838; --link:#8FB4E4;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"]{
+    --ground:#F5F8FC; --panel:#FFFFFF; --ink:#16233D; --ink-soft:#4A5A73; --ink-faint:#75859E;
+    --line:#DCE4EF; --line-soft:#E9EFF7; --link:#25507F;
+    --shadow:0 1px 2px rgba(20,40,80,.05), 0 8px 24px rgba(20,40,80,.06);
+  }
+  :root[data-theme="dark"]{
+    --ground:#0E141F; --panel:#141C29; --ink:#E7EDF5; --ink-soft:#A9BAD2; --ink-faint:#7D8FA8;
+    --line:#26324A; --line-soft:#1E2838; --link:#8FB4E4;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+    font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  a{color:var(--link);text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--bronze);outline-offset:2px;border-radius:3px}
+
+  /* header */
+  header.site{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--panel) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .bar{max-width:var(--maxw);margin:0 auto;padding:12px 24px;display:flex;align-items:center;
+    gap:16px;flex-wrap:wrap;justify-content:space-between;}
+  .bar .lede{display:flex;flex-direction:column;gap:1px}
+  .bar .kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--bronze);font-weight:700}
+  .bar h1{font-family:var(--serif);font-weight:600;font-size:18px;margin:0;line-height:1.2}
+  .pills{display:flex;gap:6px;flex-wrap:wrap}
+  .pill{font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;
+    padding:4px 9px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+  .pill.v{font-family:var(--mono);letter-spacing:0;text-transform:none;color:var(--ink);border-color:var(--navy)}
+  .pill.val{background:var(--amber-bg);border-color:var(--amber-line);color:#7A4E0A}
+
+  main{max-width:var(--maxw);margin:0 auto;padding:0 24px 96px}
+
+  /* intro */
+  .intro{padding:44px 0 8px;border-bottom:1px solid var(--line-soft)}
+  .intro .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);font-weight:700;margin-bottom:14px}
+  .intro h2{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,38px);line-height:1.12;
+    margin:0 0 16px;text-wrap:balance;max-width:20ch}
+  .intro p{max-width:66ch;color:var(--ink-soft);margin:0 0 14px}
+  .intro strong{color:var(--ink)}
+
+  .callout{border:1px solid var(--amber-line);background:var(--amber-bg);color:#5A4416;
+    border-radius:12px;padding:16px 18px;margin:22px 0;max-width:70ch}
+  .callout b{color:#7A4E0A}
+  @media (prefers-color-scheme:dark){.callout{color:#E8D6B0}.callout b{color:#F0C674}}
+  :root[data-theme="dark"] .callout{color:#E8D6B0}:root[data-theme="dark"] .callout b{color:#F0C674}
+
+  /* legend */
+  .legend{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 4px}
+  .tag{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;
+    padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel)}
+  .dot{width:10px;height:10px;border-radius:50%}
+  .dot.g{background:var(--green)} .dot.a{background:var(--bronze)} .dot.r{background:var(--red)}
+  .tag.open{border-style:dashed;border-color:var(--red)}
+
+  /* contents */
+  .toc{margin:34px 0 10px;padding:20px 22px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+  .toc h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 14px;font-weight:700}
+  .toc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:2px 20px}
+  .toc li{border-bottom:1px solid var(--line-soft)}
+  .toc a{display:flex;gap:12px;align-items:baseline;padding:9px 2px;color:var(--ink)}
+  .toc a:hover{text-decoration:none;color:var(--link)}
+  .toc .n{font-family:var(--mono);font-size:12px;color:var(--bronze);font-weight:700;min-width:20px}
+  .toc .t{font-weight:600;font-size:14.5px}
+  .toc .k{margin-left:auto;font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+
+  /* diagram sections */
+  section.dia{padding:52px 0 8px;scroll-margin-top:76px;border-top:1px solid var(--line-soft)}
+  section.dia:first-of-type{border-top:0}
+  .head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  .head .num{font-family:var(--mono);font-size:13px;color:var(--bronze);font-weight:700;letter-spacing:.02em}
+  .head h2{font-family:var(--serif);font-weight:600;font-size:clamp(21px,2.6vw,27px);margin:0;line-height:1.15}
+  .head .kind{margin-left:auto;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--ink-faint);font-weight:700;border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+  .purpose{color:var(--ink-soft);max-width:74ch;margin:0 0 18px;font-size:15.5px}
+
+  .canvas{background:var(--canvas);border:1px solid var(--canvas-line);border-radius:14px;
+    padding:26px 20px;overflow-x:auto;box-shadow:var(--shadow)}
+  pre.mermaid{margin:0;display:flex;justify-content:center;min-width:min-content;font-family:var(--sans)}
+  pre.mermaid svg{max-width:none;height:auto}
+  .cap{font-size:12.5px;color:var(--ink-faint);margin:11px 2px 0;display:flex;gap:8px;align-items:baseline}
+  .cap .file{font-family:var(--mono);color:var(--ink-soft)}
+
+  .notes{margin:16px 0 0;padding:0 0 0 2px;list-style:none;display:flex;flex-direction:column;gap:7px}
+  .notes li{position:relative;padding-left:20px;font-size:14px;color:var(--ink-soft)}
+  .notes li::before{content:"";position:absolute;left:2px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--bronze)}
+  .notes li.open::before{background:transparent;border:1.5px dashed var(--red);width:9px;height:9px;top:7px;left:1px}
+
+  footer{max-width:var(--maxw);margin:0 auto;padding:34px 24px 60px;border-top:1px solid var(--line);
+    color:var(--ink-faint);font-size:13px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+  footer .mono{font-family:var(--mono)}
+</style>
+
+<header class="site">
+  <div class="bar">
+    <div class="lede">
+      <span class="kicker">Viridian Solutions · for LSEG</span>
+      <h1>SAM Forecasting — Conceptual Diagram Suite</h1>
+    </div>
+    <div class="pills">
+      <span class="pill v">v0.1</span>
+      <span class="pill">Conceptual</span>
+      <span class="pill val">For validation</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <div class="eyebrow">The conceptual layer · agreed before wireframes</div>
+    <h2>One shared mental model for the forecast.</h2>
+    <p>These diagrams lock the core forecasting principles for LSEG's Strategic Account Management
+      forecast — deal-based, monthly, built in Pigment and sourced Salesforce → Snowflake → Pigment —
+      so business and technical stakeholders share one picture before any screens are designed.</p>
+    <p><strong>These are not wireframes</strong> and are not meant to look like the application.
+      All content is <strong>Viridian-proposed, not yet LSEG-ratified</strong>. Plain business language,
+      British English throughout. Open questions are flagged, not silently resolved.</p>
+
+    <div class="legend" role="list" aria-label="Confidence legend">
+      <span class="tag" role="listitem"><span class="dot g"></span>Confirmed</span>
+      <span class="tag" role="listitem"><span class="dot a"></span>Working assumption</span>
+      <span class="tag open" role="listitem"><span class="dot r"></span>To validate / OPEN</span>
+    </div>
+
+    <div class="toc">
+      <h3>The suite — seven views</h3>
+      <ol>
+        <li><a href="#d1"><span class="n">01</span><span class="t">Forecast Layers</span><span class="k">Build-up</span></a></li>
+        <li><a href="#d2"><span class="n">02</span><span class="t">Deal Decision Tree</span><span class="k">Per deal</span></a></li>
+        <li><a href="#d3"><span class="n">03</span><span class="t">Layer Migration</span><span class="k">Over cycles</span></a></li>
+        <li><a href="#d4"><span class="n">04</span><span class="t">Planning Principles</span><span class="k">Philosophy</span></a></li>
+        <li><a href="#d5"><span class="n">05</span><span class="t">Process Flow</span><span class="k">Swimlaned</span></a></li>
+        <li><a href="#d6"><span class="n">06</span><span class="t">Solution Architecture</span><span class="k">Data flow</span></a></li>
+        <li><a href="#d7"><span class="n">07</span><span class="t">Variance Questions</span><span class="k">Companion</span></a></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 01 -->
+  <section class="dia" id="d1">
+    <div class="head"><span class="num">01</span><h2>Forecast Layers</h2><span class="kind">Build-up stack</span></div>
+    <p class="purpose">The full build-up: a deal-based foundation, overlays stacked most-known to
+      most-assumed, summing to a single submitted number. Certainty and time are the same axis.</p>
+    <div class="canvas"><pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'lineColor':'#5E82BE','fontFamily':'ui-sans-serif, system-ui, sans-serif'}}}%%
+flowchart BT
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+  DEAL["DEAL-BASED LAYER — values set and adjusted here, always traceable to the deal.&lt;br/>Binary calls: Commit (default In) / Best Case (default Out) / Material Pipeline (above threshold) — full value, binary in/out.&lt;br/>Deal-level adjustment: value override / hedge on a committed deal (stays attached to the deal)."]:::deal
+  EARLY["Early Stage Pipeline Overlay — the deal-based to overlay transition point.&lt;br/>Uses the known below-threshold tail. Levers: Timing (shift ± months) / Value (unweighted total) / Win rate %.&lt;br/>Output = weighted and phased, traceable to the tail deals."]:::ov1
+  NEW["New Deals Not in Pipeline — models deals not yet created.&lt;br/>Drivers (each vs an actuals reference point): Added to Pipeline / Avg Deal Cycle Time / Likely Win Rate / Avg Deal Value."]:::ov2
+  REN["Renewal-Based Overlay (OPEN — data-dependent, confirm with business; position overrideable).&lt;br/>Renewals due for review. Drivers: Available to Review / Renewal %.&lt;br/>Output splits: renews = Gross Sales, lapses = Cancellations."]:::ren
+  TGT["Target / Aspirational — simple manual input by forecast type (Gross Sales, Cancellations)."]:::tgt
+  OUT["= SINGLE SUBMITTED FORECAST — one number, the sum of every layer below."]:::out
+  LENS["Cross-cutting lenses (read ACROSS every layer, not layers themselves):&lt;br/>Swing / range (worst / most-likely / best) and Budget vs forecast (path-to-plan reference)."]:::note
+  AXIS["Certainty / time axis (same axis): near months (CM, CM+1) lean on lower layers (higher certainty);&lt;br/>far months (CM+2 onward) lean on upper layers (more assumption)."]:::axis
+  DEAL ==> EARLY
+  EARLY ==> NEW
+  NEW ==> REN
+  REN ==> TGT
+  TGT ==> OUT
+  OUT -.- LENS
+  DEAL -.- AXIS
+  OUT -.- FRAME
+  classDef out fill:#1E6B4E,stroke:#14503A,color:#ffffff
+  classDef deal fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef ov1 fill:#7FA9D8,stroke:#5E82BE,color:#0F2647
+  classDef ov2 fill:#AEC9EA,stroke:#5E82BE,color:#163057
+  classDef ren fill:#C9DCF2,stroke:#5E82BE,color:#1F3864
+  classDef tgt fill:#DCE6F5,stroke:#9FB8DC,color:#1F3864
+  classDef note fill:#F4F7FC,stroke:#D3DFEE,color:#1F3864
+  classDef axis fill:#E7EDF5,stroke:#C6D2E4,color:#1F3864
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+</pre></div>
+    <p class="cap"><span class="file">LSEG_Forecast_Layers.mmd</span></p>
+    <ul class="notes"><li class="open">Renewal overlay position is a Viridian default, overrideable — marked OPEN.</li></ul>
+  </section>
+
+  <!-- 02 -->
+  <section class="dia" id="d2">
+    <div class="head"><span class="num">02</span><h2>Deal Decision Tree</h2><span class="kind">Per-deal flow</span></div>
+    <p class="purpose">One deal's journey: a materiality gate, the binary in/out call, a three-lever
+      risk triage (each lever with one job, no overlap), rolling up to most-likely, best and worst.</p>
+    <div class="canvas"><pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'lineColor':'#5E82BE','fontFamily':'ui-sans-serif, system-ui, sans-serif'}}}%%
+flowchart TD
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+  START(["Deal in Salesforce&lt;br/>category / value / close month"]):::start
+  MAT{"Material?&lt;br/>above threshold (channel / region / business line)"}:::dec
+  TAIL["Non-material tail&lt;br/>Early Stage Pipeline Overlay (formulaic, greyed, not called deal-by-deal)"]:::tail
+  CALL{"Set the in/out call&lt;br/>default from category, forecaster can override"}:::dec
+  COMMIT["Commit = IN the most-likely (full value)"]:::inn
+  BEST["Best Case = OUT = upside range"]:::outn
+  MATU["Material, can't Commit = OUT = upside range&lt;br/>option: pool as a weighted set (OPEN — needs James/Ken sign-off)"]:::open
+  TRIAGE{"Reflect reality:&lt;br/>what kind of risk?"}:::dec
+  VAL["How big? scope / size risk&lt;br/>ADJUST VALUE (500k to 250k)&lt;br/>delta vs Salesforce = upside. Never a probability haircut."]:::lever
+  TIME["When? timing risk&lt;br/>CHANGE MONTH (Jul to Aug)&lt;br/>delta vs SF close = timing shift"]:::lever
+  SWING["Whether? all-or-nothing risk&lt;br/>KEEP FULL VALUE + FLAG SWING&lt;br/>in = downside floor / out = already upside. The only job of the swing flag."]:::flag
+  ROLL["Rolls up to three numbers"]:::hub
+  ML["MOST-LIKELY (submitted)&lt;br/>= sum of deals IN, at adjusted value and month"]:::rml
+  BESTN["BEST / upside&lt;br/>= most-likely + Salesforce delta (raw CRM ceiling)"]:::rbest
+  WORST["WORST / downside&lt;br/>= most-likely minus flagged IN-deals that could fail"]:::rworst
+  START --> MAT
+  MAT -->|No| TAIL
+  MAT -->|Yes| CALL
+  CALL --> COMMIT
+  CALL --> BEST
+  CALL --> MATU
+  COMMIT --> TRIAGE
+  BEST --> TRIAGE
+  MATU --> TRIAGE
+  TRIAGE --> VAL
+  TRIAGE --> TIME
+  TRIAGE --> SWING
+  VAL --> ROLL
+  TIME --> ROLL
+  SWING --> ROLL
+  ROLL --> ML
+  ROLL --> BESTN
+  ROLL --> WORST
+  START -.- FRAME
+  classDef start fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef dec fill:#FFF3D8,stroke:#C8922E,color:#5A3E0A
+  classDef tail fill:#E7EDF5,stroke:#C6D2E4,color:#1F3864
+  classDef inn fill:#E4F1EA,stroke:#2E8B57,color:#1E6B4E
+  classDef outn fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef open fill:#C9DCF2,stroke:#5E82BE,color:#1F3864,stroke-dasharray: 5 4
+  classDef lever fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef flag fill:#FCEBD0,stroke:#C8922E,color:#7A4E0A
+  classDef hub fill:#EEF3FA,stroke:#B9C6DC,color:#1F3864
+  classDef rml fill:#1E6B4E,stroke:#14503A,color:#ffffff
+  classDef rbest fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef rworst fill:#F8DAD5,stroke:#C0503C,color:#7A2318
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+</pre></div>
+    <p class="cap"><span class="file">LSEG_Deal_Decision_Tree.mmd</span></p>
+    <ul class="notes"><li class="open">Pooling material-uncommittable deals as a weighted, deal-backed set — OPEN, needs James/Ken sign-off.</li></ul>
+  </section>
+
+  <!-- 03 -->
+  <section class="dia" id="d3">
+    <div class="head"><span class="num">03</span><h2>Layer Migration</h2><span class="kind">Vertical bridge</span></div>
+    <p class="purpose">Each overlay is a forward promise that resolves downward into deal-based reality
+      over cycles. The gap at each hand-off is a calibration rate you carry forward.</p>
+    <div class="canvas"><pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'lineColor':'#5E82BE','fontFamily':'ui-sans-serif, system-ui, sans-serif'}}}%%
+flowchart LR
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+  subgraph M["This cycle (M): the forecast — promises"]
+    direction TB
+    NEWM["New Deals overlay&lt;br/>modelled, not yet in pipeline"]:::ov
+    EARLYM["Early Stage overlay&lt;br/>below-threshold tail"]:::ov
+    RENM["Renewal overlay (OPEN)&lt;br/>Available to Review / Renewal %"]:::ovopen
+    BESTM["Best Case (out of forecast)"]:::ov
+  end
+  subgraph MN["Next cycle (M+1): what materialised — reality"]
+    direction TB
+    EARLYR["Early-Stage pipeline&lt;br/>now real deals"]:::real
+    DEALR["Material deal-based&lt;br/>real deal calls"]:::real
+    GCR["Gross Sales / Cancellations"]:::real
+    COMMITR["Commit"]:::real
+  end
+  NEWM -->|"created — promised 1.0m to landed 0.7m (70% creation rate)"| EARLYR
+  EARLYM -->|"crosses threshold — 75% materialised"| DEALR
+  RENM -->|"renews / lapses"| GCR
+  BESTM -->|"upside converts"| COMMITR
+  TWO["Two events per layer, measure BOTH:&lt;br/>Materialised (did the deals show up below?) vs Converted (did they then win?).&lt;br/>Strong creation with weak conversion is a different problem from the reverse."]:::note
+  PAY["Payoff: over cycles each assumption becomes an empirical calibration rate carried forward.&lt;br/>BUILD REQUIREMENT (design in from the start — cannot be reconstructed later):&lt;br/>stamp each deal with the overlay + period that anticipated it."]:::req
+  MN -.- TWO
+  MN -.- PAY
+  M -.- FRAME
+  classDef ov fill:#AEC9EA,stroke:#5E82BE,color:#163057
+  classDef ovopen fill:#C9DCF2,stroke:#5E82BE,color:#1F3864,stroke-dasharray: 5 4
+  classDef real fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef note fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+  classDef req fill:#F6ECDA,stroke:#B07A2E,color:#7A5417
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+</pre></div>
+    <p class="cap"><span class="file">LSEG_Layer_Migration.mmd</span></p>
+    <ul class="notes"><li>Build requirement: stamp each deal with the overlay + period that anticipated it — must be designed in from the start.</li></ul>
+  </section>
+
+  <!-- 04 -->
+  <section class="dia" id="d4">
+    <div class="head"><span class="num">04</span><h2>Planning Principles</h2><span class="kind">Philosophy</span></div>
+    <p class="purpose">The north star and the three pillars beneath it — the number we submit, how we
+      handle uncertainty, and how we improve every cycle.</p>
+    <div class="canvas"><pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'lineColor':'#5E82BE','fontFamily':'ui-sans-serif, system-ui, sans-serif'}}}%%
+flowchart TD
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+  NS["NORTH STAR — Plan as close to reality as we can:&lt;br/>one traceable number that gets sharper every cycle"]:::ns
+  P1["1. The number we submit"]:::h1
+  P2["2. How we handle uncertainty"]:::h2
+  P3["3. How we improve every cycle"]:::h3
+  NS --> P1
+  NS --> P2
+  NS --> P3
+  NS -.- FRAME
+  P1 --> A1["Reflect reality — the month and value we genuinely expect, not raw CRM"]:::c1
+  P1 --> A2["Binary and full value — no probability weighting in the foundation"]:::c1
+  P1 --> A3["One number, one view — never parallel sales vs account-management forecasts"]:::c1
+  P2 --> B1["Uncertainty has a home — reducible moves the estimate, irreducible becomes the range"]:::c2
+  P2 --> B2["The range is derived, not entered — Salesforce delta (upside) + risk flag (downside)"]:::c2
+  P2 --> B3["Deal-based first — overlays only fill genuine visibility gaps"]:::c2
+  P3 --> C1["Everything traceable — drill from any number to the deals behind it"]:::c3
+  P3 --> C2["Every layer a testable hypothesis — measure and refine the assumptions"]:::c3
+  P3 --> C3["Guided, not automated — the tool suggests, the forecaster decides; hygiene is structural"]:::c3
+  classDef ns fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef h1 fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef h2 fill:#17786B,stroke:#0F5045,color:#ffffff
+  classDef h3 fill:#B07A2E,stroke:#8A5E20,color:#ffffff
+  classDef c1 fill:#EAF0F8,stroke:#C4D3E6,color:#1F3864
+  classDef c2 fill:#E4F0EE,stroke:#BBD9D3,color:#17786B
+  classDef c3 fill:#F6ECDA,stroke:#E4CBA0,color:#7A5417
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+</pre></div>
+    <p class="cap"><span class="file">LSEG_Planning_Principles.mmd</span></p>
+  </section>
+
+  <!-- 05 -->
+  <section class="dia" id="d5">
+    <div class="head"><span class="num">05</span><h2>End-to-end Process Flow</h2><span class="kind">Swimlaned</span></div>
+    <p class="purpose">The monthly cycle across role lanes — from the Account Manager keeping Salesforce
+      honest, through build, submit, review and sign-off, to the frozen snapshot and write-back.</p>
+    <div class="canvas"><pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'lineColor':'#5E82BE','fontFamily':'ui-sans-serif, system-ui, sans-serif'}}}%%
+flowchart TB
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+  subgraph CAD["Forecast calendar (cadence)"]
+    direction LR
+    CAL["Cycle opens — per-level deadlines set,&lt;br/>dates worked back, automated alerts"]:::cad
+  end
+  subgraph SYS["Salesforce / data — system of record"]
+    direction LR
+    SF["Salesforce — deals: category, value, close month.&lt;br/>Account Manager keeps it correct = the input"]:::sys
+    SNOW["Snowflake — master pipeline table&lt;br/>refresh approx hourly"]:::sys
+    PIG["Pigment — single LIVE forecast,&lt;br/>reads Salesforce approx hourly while building"]:::sys
+    SNAP["Approved snapshot FROZEN&lt;br/>the benchmark, never edited"]:::snap
+    WB["Write-back to a Snowflake table"]:::sys
+    DOWN["Downstream reporting&lt;br/>(Power BI approx 3-hourly)"]:::sys
+  end
+  subgraph AM["Account Manager"]
+    direction LR
+    AMN["Does NOT act in Pigment.&lt;br/>Gets Salesforce right: correct category, month, value"]:::actor
+  end
+  subgraph AD["Account Director"]
+    direction LR
+    ADB["Builds the DEAL-BASED forecast&lt;br/>(in/out calls + deal-level adjustments) AND overlays"]:::actor
+    ADS["Submits — level LOCKS"]:::lock
+  end
+  subgraph MH["Market Head"]
+    direction LR
+    MHN["Reviews / approves the consolidated view.&lt;br/>May EDIT deal-based calls (fully audited; AD notified).&lt;br/>Can recall / pushback one level"]:::actor
+  end
+  subgraph RH["Regional Head"]
+    direction LR
+    RHN["Reviews / approves.&lt;br/>Overlays at total or market / business-line level&lt;br/>(generally not deal-based)"]:::actor
+  end
+  subgraph SGN["Ultimate sign-off"]
+    direction LR
+    SIGN["Daryl (with James) signs off.&lt;br/>Chris Coleman is owner — NOT a Pigment user"]:::signoff
+  end
+  subgraph FIN["Finance / RevOps"]
+    direction LR
+    FINN["Consume the forecast.&lt;br/>Controlled break-glass: edit others' overlays / submit on behalf"]:::support
+  end
+  subgraph OVR["Sales-overlay org (D&amp;A, FTSE Russell, Risk Intelligence)"]
+    direction LR
+    OVRN["READ-ONLY visibility, engaged early / down the chain.&lt;br/>NOT in the submission workflow (upholds single-forecast principle)"]:::readonly
+  end
+  CAL -.->|"per-level deadlines + alerts"| ADB
+  CAL -.-> MHN
+  CAL -.-> RHN
+  AMN -->|"keeps CRM honest"| SF
+  SF --> SNOW
+  SNOW --> PIG
+  PIG --> ADB
+  ADB --> ADS
+  ADS -->|"submit"| MHN
+  MHN -->|"reject / send-back (separately-audited layer)"| ADB
+  MHN -->|"approve"| RHN
+  RHN -->|"recall / pushback one level"| MHN
+  RHN -->|"approve"| SIGN
+  SIGN -->|"freeze"| SNAP
+  SNAP --> WB
+  WB --> DOWN
+  SNAP -->|"live reopens next cycle from fresh Salesforce (overlays retained)"| PIG
+  PIG -.->|"consume"| FINN
+  FINN -.->|"break-glass"| PIG
+  PIG -.->|"read-only"| OVRN
+  NOTE["Single live forecast at all times.&lt;br/>Systemised flow removes approx 2 days of manual consolidation."]:::note
+  DOWN -.- NOTE
+  CAD -.- FRAME
+  classDef cad fill:#17786B,stroke:#0F5045,color:#ffffff
+  classDef sys fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef snap fill:#1E6B4E,stroke:#14503A,color:#ffffff
+  classDef actor fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef lock fill:#FCEBD0,stroke:#C8922E,color:#7A4E0A
+  classDef signoff fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef support fill:#C9DCF2,stroke:#5E82BE,color:#1F3864
+  classDef readonly fill:#E7EDF5,stroke:#C6D2E4,color:#1F3864
+  classDef note fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+</pre></div>
+    <p class="cap"><span class="file">LSEG_Process_Flow.mmd</span></p>
+    <ul class="notes"><li>On approval the forecast freezes as a snapshot (never edited); the live forecast reopens for the next cycle from fresh Salesforce, overlays retained.</li></ul>
+  </section>
+
+  <!-- 06 -->
+  <section class="dia" id="d6">
+    <div class="head"><span class="num">06</span><h2>Solution / Data-flow Architecture</h2><span class="kind">Conceptual</span></div>
+    <p class="purpose">Salesforce → Snowflake → Pigment → downstream, at the conceptual level.
+      The load-bearing principle: business logic lives in Pigment, not baked into the Snowflake layer.</p>
+    <div class="canvas"><pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'lineColor':'#5E82BE','fontFamily':'ui-sans-serif, system-ui, sans-serif'}}}%%
+flowchart LR
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+  subgraph SFG["Salesforce — system of record"]
+    direction TB
+    SF["Opportunities / deals: category, value, close month.&lt;br/>Two owner keys (account owner + opportunity owner).&lt;br/>Annual (January) FX rate."]:::sys
+  end
+  subgraph SNG["Snowflake — transform / curated layer"]
+    direction TB
+    MASTER["'Master pipeline' output table — already feeds approx 90% of LSEG reporting.&lt;br/>Carries pipeline + plan (budget) + actuals,&lt;br/>distinguished by a source / identifier field. Refresh approx hourly."]:::sys
+    DIMS["Dimension / mapping tables (managed separately):&lt;br/>two people-hierarchies keyed to Workday staging by employee number&lt;br/>(levels 6 / 5 / 4 = account director / market head / regional head),&lt;br/>product hierarchy (finance master data), region hierarchy,&lt;br/>reporting-market carving (Partners, LCC)."]:::dims
+  end
+  WD["Workday — staging table&lt;br/>(employee-number key)"]:::src
+  subgraph PGG["Pigment — the forecasting layer"]
+    direction TB
+    PIG["Direct read · delta loads · minimal access.&lt;br/>BUSINESS LOGIC LIVES HERE (visible, adjustable):&lt;br/>routing / eligibility · three-tier model · overlays ·&lt;br/>swing / range · workflow · snapshots.&lt;br/>FX carried NOT converted (GBP + local currency fields)."]:::pig
+  end
+  WB["Write-back to a&lt;br/>Snowflake table"]:::sys
+  DOWN["Downstream reporting&lt;br/>(Power BI approx 3-hourly)"]:::sys
+  WD --> DIMS
+  SF -->|"approx hourly refresh"| MASTER
+  MASTER -->|"direct read · delta loads (changed records only) · minimal footprint"| PIG
+  DIMS -.->|"mapping / hierarchies"| PIG
+  PIG --> WB
+  WB --> DOWN
+  PRIN["KEY PRINCIPLE: logic lives in Pigment, NOT baked into the Snowflake curated layer.&lt;br/>Delta loads (changed records only) · minimal read footprint ·&lt;br/>annual FX rate rebased yearly · FX carried not converted.&lt;br/>Full physical source-to-target = a later data-architecture session (out of scope here)."]:::note
+  PGG -.- PRIN
+  SFG -.- FRAME
+  classDef sys fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef dims fill:#7FA9D8,stroke:#5E82BE,color:#0F2647
+  classDef src fill:#E7EDF5,stroke:#C6D2E4,color:#1F3864
+  classDef pig fill:#1E6B4E,stroke:#14503A,color:#ffffff
+  classDef note fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+</pre></div>
+    <p class="cap"><span class="file">LSEG_Architecture.mmd</span></p>
+  </section>
+
+  <!-- 07 -->
+  <section class="dia" id="d7">
+    <div class="head"><span class="num">07</span><h2>Variance — Questions this Answers</h2><span class="kind">Companion</span></div>
+    <p class="purpose">The horizontal variance bridge is a waterfall, which stays as the SVG mockup.
+      This editable companion captures the six questions the approach answers, and what tests each.</p>
+    <div class="callout"><b>Variance view decision.</b> The waterfall itself has no Mermaid equivalent, so
+      it is kept as <b>LSEG_Variance_Storytelling_v0.1.svg</b>. This flowchart is the editable companion —
+      it loses the bars but gains the questions in a form we can revise together.</div>
+    <div class="canvas"><pre class="mermaid">
+%%{init:{'theme':'base','themeVariables':{'lineColor':'#5E82BE','fontFamily':'ui-sans-serif, system-ui, sans-serif'}}}%%
+flowchart TD
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+  HUB["The variance bridge answers:&lt;br/>(companion to the waterfall — kept as SVG)"]:::hub
+  Q1["Why did the forecast move?"]:::q
+  Q2["Did Commit actually commit?"]:::q
+  Q3["Did the tail convert at the assumed rate?"]:::q
+  Q4["Did new pipeline materialise as modelled?"]:::q
+  Q5["Which deals slipped — absorbed vs incremental?"]:::q
+  Q6["How much of the forecast is deal-based vs overlay?"]:::q
+  M1["Horizontal bridge: takes (adds) minus puts (reductions),&lt;br/>every bar drills to named deals"]:::mech
+  M2["Swing flag / downside calibration&lt;br/>(the only source of downside)"]:::mech
+  M3["Early Stage overlay: materialised vs converted rate"]:::mech
+  M4["New Deals overlay: creation rate (promised vs materialised)"]:::mech
+  M5["Puts, itemised — absorbed within the number vs incremental loss"]:::mech
+  M6["Layer split — percent deal-backed vs percent overlay assumption"]:::mech
+  HUB --> Q1 --> M1
+  HUB --> Q2 --> M2
+  HUB --> Q3 --> M3
+  HUB --> Q4 --> M4
+  HUB --> Q5 --> M5
+  HUB --> Q6 --> M6
+  HUB -.- FRAME
+  classDef hub fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef q fill:#FFF3D8,stroke:#C8922E,color:#5A3E0A
+  classDef mech fill:#E4F0EE,stroke:#17786B,color:#0F5045
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+</pre></div>
+    <p class="cap"><span class="file">LSEG_Variance_Questions.mmd</span></p>
+  </section>
+
+  <section class="dia" id="open" style="border-top:1px solid var(--line)">
+    <div class="head"><span class="num">·</span><h2>Open items to preserve</h2></div>
+    <p class="purpose">Flagged on the diagrams above, not silently resolved.</p>
+    <ul class="notes">
+      <li class="open"><strong>Renewal layer position</strong> — placed above New Deals, below Target (Viridian default; overrideable).</li>
+      <li class="open"><strong>Deal-backed pooling</strong> of material-uncommittable deals — needs James/Ken sign-off; mutually-exclusive membership, rule-defined, consumes upside range.</li>
+      <li><strong>Migration-tagging build requirement</strong> — stamp deals with the anticipating overlay + period; must be designed in from the start.</li>
+      <li class="open"><strong>Swing / range definition</strong> — what qualifies as a swing, and monthly vs quarterly management, is not yet agreed (EMEA operates on quarters).</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <span>Prepared by <strong>Viridian Solutions</strong> — Tom, Solution Lead. Content Viridian-proposed, not LSEG-ratified.</span>
+  <span class="mono">v0.1 · conceptual · for validation</span>
+</footer>
