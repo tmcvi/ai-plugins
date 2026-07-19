@@ -1,0 +1,35 @@
+%% LSEG Core Planning Principles — north star + three pillars
+%% v0.1 · conceptual · for validation · Viridian-proposed, not LSEG-ratified
+%% Paste into Miro via Mermaid import.
+flowchart TD
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+  NS["NORTH STAR — Plan as close to reality as we can:<br/>one traceable number that gets sharper every cycle"]:::ns
+  P1["1. The number we submit"]:::h1
+  P2["2. How we handle uncertainty"]:::h2
+  P3["3. How we improve every cycle"]:::h3
+
+  NS --> P1
+  NS --> P2
+  NS --> P3
+  NS -.- FRAME
+
+  P1 --> A1["Reflect reality — the month and value we genuinely expect, not raw CRM"]:::c1
+  P1 --> A2["Binary and full value — no probability weighting in the foundation"]:::c1
+  P1 --> A3["One number, one view — never parallel sales vs account-management forecasts"]:::c1
+
+  P2 --> B1["Uncertainty has a home — reducible moves the estimate, irreducible becomes the range"]:::c2
+  P2 --> B2["The range is derived, not entered — Salesforce delta (upside) + risk flag (downside)"]:::c2
+  P2 --> B3["Deal-based first — overlays only fill genuine visibility gaps"]:::c2
+
+  P3 --> C1["Everything traceable — drill from any number to the deals behind it"]:::c3
+  P3 --> C2["Every layer a testable hypothesis — measure and refine the assumptions"]:::c3
+  P3 --> C3["Guided, not automated — the tool suggests, the forecaster decides; hygiene is structural"]:::c3
+
+  classDef ns fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef h1 fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef h2 fill:#17786B,stroke:#0F5045,color:#ffffff
+  classDef h3 fill:#B07A2E,stroke:#8A5E20,color:#ffffff
+  classDef c1 fill:#EAF0F8,stroke:#C4D3E6,color:#1F3864
+  classDef c2 fill:#E4F0EE,stroke:#BBD9D3,color:#17786B
+  classDef c3 fill:#F6ECDA,stroke:#E4CBA0,color:#7A5417
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423

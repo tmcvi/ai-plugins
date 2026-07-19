@@ -1,0 +1,38 @@
+%% LSEG Layer Migration Bridge — overlays (promises) materialise down into deal-based reality over cycles
+%% v0.1 · conceptual · for validation · Viridian-proposed, not LSEG-ratified
+%% Paste into Miro via Mermaid import.
+flowchart LR
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+  subgraph M["This cycle (M): the forecast — promises"]
+    direction TB
+    NEWM["New Deals overlay<br/>modelled, not yet in pipeline"]:::ov
+    EARLYM["Early Stage overlay<br/>below-threshold tail"]:::ov
+    RENM["Renewal overlay (OPEN)<br/>Available to Review / Renewal percent"]:::ovopen
+    BESTM["Best Case (out of forecast)"]:::ov
+  end
+  subgraph MN["Next cycle (M+1): what materialised — reality"]
+    direction TB
+    EARLYR["Early-Stage pipeline<br/>now real deals"]:::real
+    DEALR["Material deal-based<br/>real deal calls"]:::real
+    GCR["Gross Sales / Cancellations"]:::real
+    COMMITR["Commit"]:::real
+  end
+
+  NEWM -->|"created — promised 1.0m to landed 0.7m (70% creation rate)"| EARLYR
+  EARLYM -->|"crosses threshold — 75% materialised"| DEALR
+  RENM -->|"renews / lapses"| GCR
+  BESTM -->|"upside converts"| COMMITR
+
+  TWO["Two events per layer, measure BOTH:<br/>Materialised (did the deals show up below?) vs Converted (did they then win?).<br/>Strong creation + weak conversion is a different problem from the reverse."]:::note
+  PAY["Payoff: over cycles each assumption becomes an empirical calibration rate carried forward.<br/>BUILD REQUIREMENT (design in from the start — cannot be reconstructed later):<br/>stamp each deal with the overlay + period that anticipated it."]:::req
+
+  MN -.- TWO
+  MN -.- PAY
+  M -.- FRAME
+
+  classDef ov fill:#AEC9EA,stroke:#5E82BE,color:#163057
+  classDef ovopen fill:#C9DCF2,stroke:#5E82BE,color:#1F3864,stroke-dasharray: 5 4
+  classDef real fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef note fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+  classDef req fill:#F6ECDA,stroke:#B07A2E,color:#7A5417
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423

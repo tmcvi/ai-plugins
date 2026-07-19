@@ -1,0 +1,54 @@
+%% LSEG Deal-Level Decision Tree — materiality gate, the call, the three-lever risk triage, roll-up
+%% v0.1 · conceptual · for validation · Viridian-proposed, not LSEG-ratified
+%% Paste into Miro via Mermaid import.
+flowchart TD
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+  START(["Deal in Salesforce<br/>category / value / close month"]):::start
+  MAT{"Material?<br/>above threshold (channel / region / business line)"}:::dec
+  TAIL["Non-material tail<br/>Early Stage Pipeline Overlay (formulaic, greyed, not called deal-by-deal)"]:::tail
+  CALL{"Set the in/out call<br/>default from category, forecaster can override"}:::dec
+  COMMIT["Commit = IN the most-likely (full value)"]:::inn
+  BEST["Best Case = OUT = upside range"]:::outn
+  MATU["Material, can't Commit = OUT = upside range<br/>option: pool as a weighted set (OPEN — needs James/Ken sign-off)"]:::open
+  TRIAGE{"Reflect reality:<br/>what kind of risk?"}:::dec
+  VAL["How big? scope / size risk<br/>ADJUST VALUE (500k to 250k)<br/>delta vs Salesforce = upside. Never a probability haircut."]:::lever
+  TIME["When? timing risk<br/>CHANGE MONTH (Jul to Aug)<br/>delta vs SF close = timing shift"]:::lever
+  SWING["Whether? all-or-nothing risk<br/>KEEP FULL VALUE + FLAG SWING<br/>in = downside floor / out = already upside. The only job of the swing flag."]:::flag
+  ROLL["Rolls up to three numbers"]:::hub
+  ML["MOST-LIKELY (submitted)<br/>= sum of deals IN, at adjusted value and month"]:::rml
+  BESTN["BEST / upside<br/>= most-likely + Salesforce delta (raw CRM ceiling)"]:::rbest
+  WORST["WORST / downside<br/>= most-likely minus flagged IN-deals that could fail"]:::rworst
+
+  START --> MAT
+  MAT -->|No| TAIL
+  MAT -->|Yes| CALL
+  CALL --> COMMIT
+  CALL --> BEST
+  CALL --> MATU
+  COMMIT --> TRIAGE
+  BEST --> TRIAGE
+  MATU --> TRIAGE
+  TRIAGE --> VAL
+  TRIAGE --> TIME
+  TRIAGE --> SWING
+  VAL --> ROLL
+  TIME --> ROLL
+  SWING --> ROLL
+  ROLL --> ML
+  ROLL --> BESTN
+  ROLL --> WORST
+  START -.- FRAME
+
+  classDef start fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef dec fill:#FFF3D8,stroke:#C8922E,color:#5A3E0A
+  classDef tail fill:#E7EDF5,stroke:#C6D2E4,color:#1F3864
+  classDef inn fill:#E4F1EA,stroke:#2E8B57,color:#1E6B4E
+  classDef outn fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef open fill:#C9DCF2,stroke:#5E82BE,color:#1F3864,stroke-dasharray: 5 4
+  classDef lever fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef flag fill:#FCEBD0,stroke:#C8922E,color:#7A4E0A
+  classDef hub fill:#EEF3FA,stroke:#B9C6DC,color:#1F3864
+  classDef rml fill:#1E6B4E,stroke:#14503A,color:#ffffff
+  classDef rbest fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef rworst fill:#F8DAD5,stroke:#C0503C,color:#7A2318
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423

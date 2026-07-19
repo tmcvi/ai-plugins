@@ -1,0 +1,45 @@
+%% LSEG Solution / Data-flow Architecture (conceptual — not physical schema)
+%% v0.1 · conceptual · for validation · Viridian-proposed, not LSEG-ratified
+%% Paste into Miro via Mermaid import. Three stages + downstream; boxes-and-arrows, conceptual.
+flowchart LR
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+
+  subgraph SFG["Salesforce — system of record"]
+    direction TB
+    SF["Opportunities / deals: category, value, close month.<br/>Two owner keys (account owner + opportunity owner).<br/>Annual (January) FX rate."]:::sys
+  end
+
+  subgraph SNG["Snowflake — transform / curated layer"]
+    direction TB
+    MASTER["'Master pipeline' output table — already feeds approx 90% of LSEG reporting.<br/>Carries pipeline + plan (budget) + actuals,<br/>distinguished by a source / identifier field. Refresh approx hourly."]:::sys
+    DIMS["Dimension / mapping tables (managed separately):<br/>two people-hierarchies keyed to Workday staging by employee number<br/>(levels 6 / 5 / 4 = account director / market head / regional head),<br/>product hierarchy (finance master data), region hierarchy,<br/>reporting-market carving (Partners, LCC)."]:::dims
+  end
+
+  WD["Workday — staging table<br/>(employee-number key)"]:::src
+
+  subgraph PGG["Pigment — the forecasting layer"]
+    direction TB
+    PIG["Direct read · delta loads · minimal access.<br/>BUSINESS LOGIC LIVES HERE (visible, adjustable):<br/>routing / eligibility · three-tier model · overlays ·<br/>swing / range · workflow · snapshots.<br/>FX carried NOT converted (GBP + local currency fields)."]:::pig
+  end
+
+  WB["Write-back to a<br/>Snowflake table"]:::sys
+  DOWN["Downstream reporting<br/>(Power BI approx 3-hourly)"]:::sys
+
+  WD --> DIMS
+  SF -->|"approx hourly refresh"| MASTER
+  MASTER -->|"direct read · delta loads (changed records only) · minimal footprint"| PIG
+  DIMS -.->|"mapping / hierarchies"| PIG
+  PIG --> WB
+  WB --> DOWN
+
+  PRIN["KEY PRINCIPLE: logic lives in Pigment, NOT baked into the Snowflake curated layer.<br/>Delta loads (changed records only) · minimal read footprint ·<br/>annual FX rate rebased yearly · FX carried not converted.<br/>Full physical source-to-target = a later data-architecture session (out of scope here)."]:::note
+
+  PGG -.- PRIN
+  SFG -.- FRAME
+
+  classDef sys fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef dims fill:#7FA9D8,stroke:#5E82BE,color:#0F2647
+  classDef src fill:#E7EDF5,stroke:#C6D2E4,color:#1F3864
+  classDef pig fill:#1E6B4E,stroke:#14503A,color:#ffffff
+  classDef note fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423

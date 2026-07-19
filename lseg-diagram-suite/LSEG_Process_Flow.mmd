@@ -1,0 +1,93 @@
+%% LSEG End-to-end Forecast Process Flow (swimlaned) — the monthly cycle across role lanes
+%% v0.1 · conceptual · for validation · Viridian-proposed, not LSEG-ratified
+%% Paste into Miro via Mermaid import. Lanes = subgraphs; time flows left to right.
+flowchart TB
+  FRAME["v0.1 · Conceptual · For validation · Viridian-proposed, not LSEG-ratified"]:::frame
+
+  subgraph CAD["Forecast calendar (cadence)"]
+    direction LR
+    CAL["Cycle opens — per-level deadlines set,<br/>dates worked back, automated alerts"]:::cad
+  end
+
+  subgraph SYS["Salesforce / data — system of record"]
+    direction LR
+    SF["Salesforce — deals: category, value, close month.<br/>Account Manager keeps it correct = the input"]:::sys
+    SNOW["Snowflake — master pipeline table<br/>refresh approx hourly"]:::sys
+    PIG["Pigment — single LIVE forecast,<br/>reads Salesforce approx hourly while building"]:::sys
+    SNAP["Approved snapshot FROZEN<br/>the benchmark, never edited"]:::snap
+    WB["Write-back to a Snowflake table"]:::sys
+    DOWN["Downstream reporting<br/>(Power BI approx 3-hourly)"]:::sys
+  end
+
+  subgraph AM["Account Manager"]
+    direction LR
+    AMN["Does NOT act in Pigment.<br/>Gets Salesforce right: correct category, month, value"]:::actor
+  end
+
+  subgraph AD["Account Director"]
+    direction LR
+    ADB["Builds the DEAL-BASED forecast<br/>(in/out calls + deal-level adjustments) AND overlays"]:::actor
+    ADS["Submits — level LOCKS"]:::lock
+  end
+
+  subgraph MH["Market Head"]
+    direction LR
+    MHN["Reviews / approves the consolidated view.<br/>May EDIT deal-based calls (fully audited; AD notified).<br/>Can recall / pushback one level"]:::actor
+  end
+
+  subgraph RH["Regional Head"]
+    direction LR
+    RHN["Reviews / approves.<br/>Overlays at total or market / business-line level<br/>(generally not deal-based)"]:::actor
+  end
+
+  subgraph SGN["Ultimate sign-off"]
+    direction LR
+    SIGN["Daryl (with James) signs off.<br/>Chris Coleman is owner — NOT a Pigment user"]:::signoff
+  end
+
+  subgraph FIN["Finance / RevOps"]
+    direction LR
+    FINN["Consume the forecast.<br/>Controlled break-glass: edit others' overlays / submit on behalf"]:::support
+  end
+
+  subgraph OVR["Sales-overlay org (D&A, FTSE Russell, Risk Intelligence)"]
+    direction LR
+    OVRN["READ-ONLY visibility, engaged early / down the chain.<br/>NOT in the submission workflow (upholds single-forecast principle)"]:::readonly
+  end
+
+  CAL -.->|"per-level deadlines + alerts"| ADB
+  CAL -.-> MHN
+  CAL -.-> RHN
+
+  AMN -->|"keeps CRM honest"| SF
+  SF --> SNOW
+  SNOW --> PIG
+  PIG --> ADB
+  ADB --> ADS
+  ADS -->|"submit"| MHN
+  MHN -->|"reject / send-back (separately-audited layer)"| ADB
+  MHN -->|"approve"| RHN
+  RHN -->|"recall / pushback one level"| MHN
+  RHN -->|"approve"| SIGN
+  SIGN -->|"freeze"| SNAP
+  SNAP --> WB
+  WB --> DOWN
+  SNAP -->|"live reopens next cycle from fresh Salesforce (overlays retained)"| PIG
+  PIG -.->|"consume"| FINN
+  FINN -.->|"break-glass"| PIG
+  PIG -.->|"read-only"| OVRN
+
+  NOTE["Single live forecast at all times.<br/>Systemised flow removes approx 2 days of manual consolidation."]:::note
+  DOWN -.- NOTE
+  CAD -.- FRAME
+
+  classDef cad fill:#17786B,stroke:#0F5045,color:#ffffff
+  classDef sys fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef snap fill:#1E6B4E,stroke:#14503A,color:#ffffff
+  classDef actor fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef lock fill:#FCEBD0,stroke:#C8922E,color:#7A4E0A
+  classDef signoff fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef support fill:#C9DCF2,stroke:#5E82BE,color:#1F3864
+  classDef readonly fill:#E7EDF5,stroke:#C6D2E4,color:#1F3864
+  classDef note fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+  classDef frame fill:#FFF7E6,stroke:#C8922E,color:#4A4423
