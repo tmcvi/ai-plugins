@@ -1,0 +1,33 @@
+%% LSEG Forecast Layers — build-up from deal-based (base) to aspiration (top)
+%% v0.1 · conceptual · for validation · Viridian-proposed, not LSEG-ratified
+%% Paste into Miro via Mermaid import. flowchart BT = foundation at bottom, output on top.
+%% Fallback if a Miro build rejects flowchart: change first line to "graph BT".
+flowchart BT
+  DEAL["DEAL-BASED LAYER — values set and adjusted here, always traceable to the deal.<br/>Binary calls: Commit (default In) / Best Case (default Out) / Material Pipeline (above threshold) — full value, binary in/out.<br/>Deal-level adjustment: value override / hedge on a committed deal."]:::deal
+  EARLY["Early Stage Pipeline Overlay — the deal-based to overlay transition point.<br/>Uses the known below-threshold tail. Levers: Timing (shift plus or minus months) / Value (unweighted total) / Win rate percent.<br/>Output: weighted and phased, traceable to the tail deals."]:::ov1
+  NEW["New Deals Not in Pipeline — models deals not yet created.<br/>Drivers (each against an actuals reference point): Added to Pipeline / Avg Deal Cycle Time / Likely Win Rate / Avg Deal Value."]:::ov2
+  REN["Renewal-Based Overlay — renewals due for review. (OPEN — data-dependent, confirm with business; position overrideable.)<br/>Drivers: Available to Review / Renewal percent. Output splits: renews = Gross Sales, lapses = Cancellations."]:::ren
+  TGT["Target / Aspirational — simple manual input by forecast type (Gross Sales, Cancellations)."]:::tgt
+  OUT["SINGLE SUBMITTED FORECAST — one number, the sum of every layer below."]:::out
+
+  AXIS["Certainty / time axis (same axis):<br/>near months (CM, CM+1) lean on lower layers — higher certainty;<br/>far months (CM+2 onward) lean on upper layers — more assumption."]:::axis
+  LENS["Cross-cutting lenses — read across every layer, not layers themselves:<br/>Swing / range (worst / most-likely / best) and Budget vs forecast (path to plan)."]:::note
+  WHY["Why layers: each overlay = drivers + a retained calculation, building up from most-known to most-assumed,<br/>so every assumption is visible, adjustable, and traceable — and resolves downward into deals over time."]:::note
+
+  DEAL ==> EARLY
+  EARLY ==> NEW
+  NEW ==> REN
+  REN ==> TGT
+  TGT ==> OUT
+  OUT -.- LENS
+  DEAL -.- AXIS
+  DEAL -.- WHY
+
+  classDef out fill:#1E6B4E,stroke:#14503A,color:#ffffff
+  classDef deal fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef ov1 fill:#7FA9D8,stroke:#5E82BE,color:#0F2647
+  classDef ov2 fill:#AEC9EA,stroke:#5E82BE,color:#163057
+  classDef ren fill:#C9DCF2,stroke:#5E82BE,color:#1F3864,stroke-dasharray: 5 4
+  classDef tgt fill:#DCE6F5,stroke:#9FB8DC,color:#1F3864
+  classDef note fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+  classDef axis fill:#E7EDF5,stroke:#C6D2E4,color:#1F3864

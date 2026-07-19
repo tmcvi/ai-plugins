@@ -1,0 +1,49 @@
+%% LSEG Solution / Data-flow Architecture — conceptual (NOT physical schema, NOT field-level)
+%% v0.1 · conceptual · for validation · Viridian-proposed, not LSEG-ratified
+%% Paste into Miro via Mermaid import. Fallback: change first line to "graph LR".
+flowchart LR
+  subgraph SF["SALESFORCE — system of record"]
+    direction TB
+    SF1["Opportunities / deals: category, value, close month.<br/>Two owner keys: account owner + opportunity owner.<br/>Annual (January) FX rate."]:::sys
+  end
+
+  subgraph SN["SNOWFLAKE — transform"]
+    direction TB
+    SN1["'Master pipeline' output table — already feeds ~90% of LSEG reporting.<br/>Carries pipeline + plan (budget) + actuals, distinguished by a source / identifier field.<br/>Refreshes ~hourly."]:::sys
+    SN2["Dimension / mapping tables (managed separately):<br/>two people-hierarchies keyed to a Workday staging table by employee number<br/>(levels 6 / 5 / 4 = account director / market head / regional head);<br/>product hierarchy (finance master data); region hierarchy; reporting-market carving (Partners, LCC)."]:::dim
+  end
+
+  subgraph PG["PIGMENT — the forecasting layer"]
+    direction TB
+    PG1["Direct read · delta loads · minimal access footprint.<br/>FX carried, not converted (GBP + local currency fields)."]:::sys
+    PG2["BUSINESS LOGIC LIVES HERE (visible, adjustable):<br/>routing / eligibility · the three-tier model · overlays · swing / range · the workflow · snapshots."]:::logic
+  end
+
+  subgraph DOWN["DOWNSTREAM"]
+    direction TB
+    WB["Write-back to a Snowflake table"]:::out
+    BI["Reporting (Power BI ~3-hourly)"]:::sys
+  end
+
+  SF1 -->|"direct read, delta loads"| SN1
+  SN1 --> PG1
+  SN2 -.->|"mapping / hierarchies"| PG1
+  PG1 --> PG2
+  PG2 --> WB
+  WB --> BI
+
+  KEY["KEY PRINCIPLE: logic lives in Pigment, NOT baked into the Snowflake curated layer."]:::keynote
+  PRIN["Principles: delta loads (changed records only) · minimal read footprint ·<br/>annual FX rate rebased yearly · FX carried not converted."]:::note
+  SCOPE["Out of scope here: full physical source-to-target mapping<br/>is a later data-architecture session."]:::scope
+
+  PG -.- KEY
+  PG -.- PRIN
+  SN -.- SCOPE
+
+  classDef sys fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef dim fill:#7FA9D8,stroke:#5E82BE,color:#0F2647
+  classDef logic fill:#1E6B4E,stroke:#14503A,color:#ffffff
+  classDef out fill:#17786B,stroke:#0F5045,color:#ffffff
+  classDef note fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+  classDef keynote fill:#B07A2E,stroke:#8A5E20,color:#ffffff
+  classDef scope fill:#E7EDF5,stroke:#C6D2E4,color:#1F3864,stroke-dasharray: 5 4

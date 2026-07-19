@@ -1,0 +1,45 @@
+%% LSEG Layer Migration Bridge — the vertical bridge (overlays resolve DOWN into deal-based reality over cycles)
+%% v0.1 · conceptual · for validation · Viridian-proposed, not LSEG-ratified
+%% Paste into Miro via Mermaid import. Fallback: change first line to "graph LR".
+flowchart LR
+  subgraph PROMISE["Forward promises — overlays and Best Case (an earlier cycle)"]
+    direction TB
+    NEW["New Deals Not in Pipeline<br/>(deals not yet created)"]:::ov2
+    EARLY0["Early Stage Pipeline Overlay<br/>(known below-threshold tail)"]:::ov1
+    REN0["Renewal-Based Overlay<br/>(OPEN — confirm with business)"]:::ren
+    BEST0["Best Case (deal call, default Out)"]:::outn
+  end
+
+  subgraph REALITY["Resolves downward into deal-based reality (as time passes)"]
+    direction TB
+    EARLY1["Early Stage / below-threshold tail"]:::ov1
+    MAT["Material deal-based (Commit / Best Case)"]:::deal
+    COMMIT1["Commit (In the most-likely)"]:::inn
+    GROSS["Gross Sales"]:::inn
+    CANC["Cancellations"]:::rworst
+  end
+
+  NEW ==>|"creation rate e.g. £1m → £0.7m = 70%"| EARLY1
+  EARLY0 ==>|"materialisation rate"| MAT
+  BEST0 ==>|"conversion rate"| COMMIT1
+  REN0 ==>|"renews"| GROSS
+  REN0 ==>|"lapses"| CANC
+
+  CALIB["Calibration: promised vs materialised gap at each hand-off<br/>= a rate you carry forward to the next cycle."]:::calib
+  EVENTS["Two events per layer — measure BOTH:<br/>Materialised (did the deals show up below?) vs Converted (did they then win?).<br/>Strong creation + weak conversion is a different problem from the reverse."]:::note
+  BUILD["BUILD REQUIREMENT (design in from the start — cannot be reconstructed later):<br/>stamp each deal with the overlay + period that anticipated it,<br/>so anticipated pipeline can be told from surprise pipeline."]:::req
+
+  REALITY -.- CALIB
+  CALIB -.- EVENTS
+  PROMISE -.- BUILD
+
+  classDef deal fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef ov1 fill:#7FA9D8,stroke:#5E82BE,color:#0F2647
+  classDef ov2 fill:#AEC9EA,stroke:#5E82BE,color:#163057
+  classDef ren fill:#C9DCF2,stroke:#5E82BE,color:#1F3864,stroke-dasharray: 5 4
+  classDef inn fill:#E4F1EA,stroke:#2E8B57,color:#1E6B4E
+  classDef outn fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef rworst fill:#F8DAD5,stroke:#C0503C,color:#7A2318
+  classDef calib fill:#17786B,stroke:#0F5045,color:#ffffff
+  classDef note fill:#FFF7E6,stroke:#C8922E,color:#4A4423
+  classDef req fill:#B07A2E,stroke:#8A5E20,color:#ffffff,stroke-dasharray: 5 4

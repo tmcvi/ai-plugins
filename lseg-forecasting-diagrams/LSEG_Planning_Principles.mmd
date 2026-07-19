@@ -1,0 +1,39 @@
+%% LSEG Planning Principles — north star + 3 pillars x 3 principles (the swing / risk / range philosophy)
+%% v0.1 · conceptual · for validation · Viridian-proposed, not LSEG-ratified
+%% Paste into Miro via Mermaid import. Fallback: change first line to "graph TD".
+flowchart TD
+  NS["NORTH STAR<br/>Forecast as close to reality as possible —<br/>the month and value you genuinely expect, not the raw Salesforce position."]:::ns
+
+  P1["Pillar 1 — One risk, one lever<br/>(three risk types, three levers, no overlap)"]:::pillar
+  P2["Pillar 2 — Binary and deal-traceable foundation"]:::pillar
+  P3["Pillar 3 — The range is derived, not entered"]:::pillar
+
+  P1A["Scope / size risk (how BIG) → adjust the value<br/>to the real expected size (500k → 250k)."]:::prin
+  P1B["Timing risk (WHEN) → change the month<br/>(SF says July, forecast August)."]:::prin
+  P1C["All-or-nothing risk (WHETHER) → keep full value + flag Swing.<br/>This is the only job of the swing flag."]:::prinflag
+
+  P2A["Full value, binary in/out — no probability weighting in the foundation."]:::prin
+  P2B["Never a probability haircut — weighting a single deal breaks the<br/>product / business-line roll-up and actual-vs-forecast comparison."]:::prin
+  P2C["Values are set and adjusted at the deal, always traceable to the deal."]:::prin
+
+  P3A["Upside / best = the raw-Salesforce ceiling. The Salesforce delta<br/>(deals left out + values cut + months moved) is the upside — free, itemised, deal-traceable."]:::prin
+  P3B["Downside / worst = most-likely minus flagged in-deals that could fail.<br/>The swing flag is the only source of downside (by design, not a gap)."]:::prin
+  P3C["Salesforce hygiene becomes structural — a stale close date or inflated value<br/>moves the range, so AMs have a self-interested reason to keep CRM honest."]:::prin
+
+  NS --> P1
+  NS --> P2
+  NS --> P3
+  P1 --> P1A
+  P1 --> P1B
+  P1 --> P1C
+  P2 --> P2A
+  P2 --> P2B
+  P2 --> P2C
+  P3 --> P3A
+  P3 --> P3B
+  P3 --> P3C
+
+  classDef ns fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef pillar fill:#1E6B4E,stroke:#14503A,color:#ffffff
+  classDef prin fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef prinflag fill:#FCEBD0,stroke:#C8922E,color:#7A4E0A

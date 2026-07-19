@@ -1,0 +1,32 @@
+%% LSEG Variance — the questions this approach answers (companion to the waterfall SVG)
+%% v0.1 · conceptual · for validation · Viridian-proposed, not LSEG-ratified
+%% NOTE: the horizontal variance bridge is a WATERFALL — Mermaid has no waterfall,
+%% so LSEG_Variance_Storytelling_v0.1.svg remains the source of truth for the bars.
+%% This companion captures only the "questions this answers" content, editable for Miro.
+%% Fallback: change first line to "graph TD".
+flowchart TD
+  HUB["Variance storytelling — every bar drills to specific named deals.<br/>Horizontal bridge: opening forecast → takes (adds) minus puts (reduces) → closing forecast."]:::hub
+
+  Q1["Why did the forecast move?"]:::q
+  Q2["Did Commit actually commit?"]:::q
+  Q3["Did the tail convert at the assumed rate?"]:::q
+  Q4["Did new pipeline materialise as modelled?"]:::q
+  Q5["Which deals slipped (absorbed vs incremental)?"]:::q
+  Q6["How much of the forecast is deal-based vs overlay?"]:::q
+
+  TAKE["Takes = new deals in, accelerated / upgraded"]:::take
+  PUT["Puts = slipped, value-cut, lost"]:::put
+
+  HUB --> Q1
+  HUB --> Q2
+  HUB --> Q3
+  HUB --> Q4
+  HUB --> Q5
+  HUB --> Q6
+  HUB -.- TAKE
+  HUB -.- PUT
+
+  classDef hub fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef q fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef take fill:#3E9E6B,stroke:#2E8B57,color:#ffffff
+  classDef put fill:#D06A57,stroke:#C0503C,color:#ffffff

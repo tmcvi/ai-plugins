@@ -1,0 +1,69 @@
+%% LSEG End-to-end Forecast Process Flow — the monthly cycle across role lanes (swimlanes as subgraphs)
+%% v0.1 · conceptual · for validation · Viridian-proposed, not LSEG-ratified
+%% Paste into Miro via Mermaid import. Fallback: change first line to "graph TB".
+flowchart TB
+  CAL["Forecast calendar drives per-level deadlines with automated alerts<br/>(deadline entered, dates worked back). Single live forecast at all times."]:::note
+
+  subgraph SF["Salesforce / data — system of record"]
+    direction TB
+    SF1["Deals: category, value, close month.<br/>Refreshes to Snowflake ~hourly; Pigment reads it live (~hourly) while a forecast is being built."]:::sys
+  end
+
+  subgraph AM["Account Manager"]
+    direction TB
+    AM1["Does NOT act in Pigment.<br/>Responsible for getting Salesforce right (correct category, month, value) — this is the input."]:::actor
+  end
+
+  subgraph AD["Account Director"]
+    direction TB
+    AD1["Builds the deal-based forecast:<br/>in/out calls + deal-level adjustments (per the decision tree)."]:::actor
+    AD2["Builds the overlays, then SUBMITS.<br/>On submission this level LOCKS."]:::actor
+  end
+
+  subgraph MH["Market Head"]
+    direction TB
+    MH1["Reviews / approves the consolidated view.<br/>May edit deal-based calls — fully audited, AD is notified.<br/>Can recall / pushback one level."]:::actor
+  end
+
+  subgraph RH["Regional Head"]
+    direction TB
+    RH1["Reviews / approves.<br/>Makes overlays at total or market / business-line level (generally not deal-based)."]:::actor
+  end
+
+  subgraph TOP["Ultimate sign-off"]
+    direction TB
+    TOP1["Daryl (with James) signs off.<br/>Chris Coleman is owner but NOT a Pigment user."]:::actor
+  end
+
+  subgraph FIN["Finance / RevOps"]
+    direction TB
+    FIN1["Consume the forecast.<br/>Controlled break-glass may edit others' overlays / submit on behalf."]:::sys
+  end
+
+  subgraph OV["Sales-overlay org (Data & Analytics, FTSE Russell, Risk Intelligence)"]
+    direction TB
+    OV1["READ-ONLY visibility, engaged early / down the chain.<br/>NOT in the submission workflow (upholds the single-forecast principle)."]:::readonly
+  end
+
+  DONE["On APPROVAL: forecast FROZEN as a snapshot (the benchmark, never edited)<br/>→ write-back to a Snowflake table feeds downstream.<br/>Live forecast reopens for the next cycle from fresh Salesforce data (overlays retained).<br/>Systemised flow removes ~2 days of manual consolidation."]:::out
+
+  CAL -.-> SF
+  SF1 --> AM1
+  AM1 --> AD1
+  AD1 --> AD2
+  AD2 --> MH1
+  MH1 --> RH1
+  RH1 --> TOP1
+  TOP1 --> DONE
+  DONE -.->|"next cycle, fresh SF data"| SF1
+
+  MH1 -.->|"reject / send-back or edit (separately-audited layer)"| AD2
+  RH1 -.->|"recall / pushback one level"| MH1
+  DONE -.-> FIN1
+  SF1 -.-> OV1
+
+  classDef sys fill:#1F3864,stroke:#132444,color:#ffffff
+  classDef actor fill:#DCE6F5,stroke:#5E82BE,color:#1F3864
+  classDef readonly fill:#E7EDF5,stroke:#C6D2E4,color:#1F3864,stroke-dasharray: 5 4
+  classDef out fill:#1E6B4E,stroke:#14503A,color:#ffffff
+  classDef note fill:#FFF7E6,stroke:#C8922E,color:#4A4423
