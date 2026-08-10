@@ -107,5 +107,22 @@ No recursion; offsets not loops; statuses are aggregations (not calc members); e
 4. Demand loaded as a weekly-avg rate per Model×Market (compact); drives cover/allocation identically for the demo.
 5. Deferred (structures exist, loadable from CSVs): far-forward production (W+26→W+51), sealed allocation actuals, registrations/floating-shipments actuals splice.
 
-## 9. Remaining
-Phase 4 — boards (B0 Landing, B1 Cohort Trace, B2 Supply & Allocation, B3 Compare), Working/Base scenarios, watermark + styling. Not yet started.
+## 9. Build Review v1 — corrections status
+
+**C1 — allocation rebuilt as snapshot cover-gap (DONE, checkpoint passed).**
+New metrics (folder `3. Calculations`):
+- **Sealed Allocated Units** `e9ade3a4` — *Model × Market × Prod Week* · `IF('Production Week'.'Start Date' <= DATE(2026,8,10), 'Production Plan Units' * 'Allocation Share', BLANK)`
+- **Sealed Units Shipped** `ff685955` · `'Sealed Allocated Units'[BY: 'Production Week' -> 'Ship Week Ref', Model, Market]`
+- **Sealed Units Sold** `c40ee46a` · `('Sealed Allocated Units' * 'Sell-Through Weight')[BY: 'Production Week','Sell Offset' -> 'Sale Week Ref', Model, Market]`
+- **Cover Snapshot** `b1bfb93c` — *Model × Market* (pipeline cover @ W+1, sealed only) · `IF('Demand Rate' > 0, ((CUMULATE('Sealed Units Shipped',Week) - CUMULATE('Sealed Units Sold',Week)) / 'Demand Rate')[SELECT: Week = TIMEDIM(DATE(2026,8,17), Week)], BLANK)`
+- **Unit Gap** `86fe9d01` — *Model × Market* (lead-time-adjusted) · `IF('Demand Rate' > 0, MAX(0, ('Target Cover Weeks' + 'Transit Weeks' + 'Inbound Lag Weeks') - 'Cover Snapshot') * 'Demand Rate' * 'Priority Weight', 0)`
+- **Forward Gap Share** `e90d2d17` · `IF('Unit Gap'[REMOVE: Market] > 0, 'Unit Gap' / 'Unit Gap'[REMOVE: Market], 'Allocation Share')`
+- **Floor Units** `8f6275c7` · `IF('Demand Rate' > 0, 'Production Plan Units' * 'Min Allocation Pct', 0)`
+- **Landed Cover** `eb0613a9` — *Model × Market* (C3.3 gauge basis) · `'Cover Snapshot' - ('Transit Weeks' + 'Inbound Lag Weeks')`
+- **Allocated Units** `7d84fab0` rewritten · `IF('Production Week'.'Start Date' <= DATE(2026,8,10), 'Sealed Allocated Units', 'Floor Units' + ('Production Plan Units' - 'Floor Units'[REMOVE: Market]) * 'Forward Gap Share')`
+
+Design note: gap benchmarked against **Target + Transit + Inbound** (lead-time-adjusted days'-supply), so long-transit markets aren't structurally starved by a flat target. Slice-date metrics re-gated on `Demand Rate > 0` (was `Allocated Units > 0`) to break a circular dependency. Acyclic: sealed chain → Cover Snapshot → gap → forward allocation.
+
+C1 checkpoint results: conservation = 0 (±1e-14) on all cohorts; Poland W+6 = 8.6% (≥3% floor ✓); acceptance test — raising Germany demand 120→144 lifted Germany's W+6 share 125.2→140.1 and dropped its Landed Cover 2.48→2.08 (allocation chases demand). Baseline Landed Cover clusters ~2.5–3 across markets (calm opening screen — by design).
+
+**Remaining:** C2 (far-forward production + calendar-edge guard; sealed allocation actuals + actuals-preferred; registrations/floating splice) · C3 (Units Floating; Wholesale/Registration; wire gauge to Landed Cover) · Boards (B1 hero, B2, B0, B3 static) · C4 polish (weighted sale week). Scenarios out of scope.
