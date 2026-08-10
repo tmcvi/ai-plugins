@@ -1,5 +1,6 @@
 scope,market,priority_weight,min_pct,target_cover_weeks
 market,UK,1.0,0.0,
+market,Ireland,1.0,0.0,
 market,Germany,1.0,0.0,
 market,France,1.0,0.0,
 market,Italy,1.0,0.0,

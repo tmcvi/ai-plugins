@@ -1,1023 +1,1107 @@
 model,production_week,market,units
-Civic,-26,UK,149
-Civic,-26,Germany,118
-Civic,-26,France,87
-Civic,-26,Spain,99
-Civic,-26,Belgium,62
-Civic,-26,Poland,83
-Civic,-26,Nordics,74
-CR-V,-26,UK,149
-CR-V,-26,Germany,118
-CR-V,-26,France,87
-CR-V,-26,Spain,99
-CR-V,-26,Belgium,62
-CR-V,-26,Poland,83
-CR-V,-26,Nordics,74
-HR-V,-26,UK,74
-HR-V,-26,Germany,59
-HR-V,-26,France,43
-HR-V,-26,Spain,50
-HR-V,-26,Belgium,31
-HR-V,-26,Poland,42
-HR-V,-26,Nordics,37
-Jazz,-26,UK,89
-Jazz,-26,Germany,71
-Jazz,-26,France,52
-Jazz,-26,Spain,59
-Jazz,-26,Belgium,37
-Jazz,-26,Poland,50
-Jazz,-26,Nordics,45
-e:Ny1,-26,UK,38
-e:Ny1,-26,Germany,30
-e:Ny1,-26,France,22
-e:Ny1,-26,Belgium,16
-e:Ny1,-26,Nordics,19
-Civic,-25,UK,188
-Civic,-25,Germany,149
-Civic,-25,France,109
-Civic,-25,Italy,141
-Civic,-25,Netherlands,94
-CR-V,-25,UK,188
-CR-V,-25,Germany,149
-CR-V,-25,France,109
-CR-V,-25,Italy,141
-CR-V,-25,Netherlands,94
-HR-V,-25,UK,94
-HR-V,-25,Germany,74
-HR-V,-25,France,55
-HR-V,-25,Italy,70
-HR-V,-25,Netherlands,47
-Jazz,-25,UK,113
-Jazz,-25,Germany,89
-Jazz,-25,France,66
-Jazz,-25,Italy,85
-Jazz,-25,Netherlands,56
-e:Ny1,-25,UK,45
-e:Ny1,-25,Germany,36
-e:Ny1,-25,France,26
-e:Ny1,-25,Netherlands,23
-Civic,-24,UK,152
-Civic,-24,Germany,121
-Civic,-24,France,89
-Civic,-24,Spain,101
-Civic,-24,Belgium,63
-Civic,-24,Nordics,76
-Civic,-24,Portugal,86
-CR-V,-24,UK,152
-CR-V,-24,Germany,121
-CR-V,-24,France,89
-CR-V,-24,Spain,101
-CR-V,-24,Belgium,63
-CR-V,-24,Nordics,76
-CR-V,-24,Portugal,86
-HR-V,-24,UK,76
-HR-V,-24,Germany,60
-HR-V,-24,France,44
-HR-V,-24,Spain,51
-HR-V,-24,Belgium,32
-HR-V,-24,Nordics,38
-HR-V,-24,Portugal,43
-Jazz,-24,UK,91
-Jazz,-24,Germany,72
-Jazz,-24,France,53
-Jazz,-24,Spain,61
-Jazz,-24,Belgium,38
-Jazz,-24,Nordics,46
-Jazz,-24,Portugal,51
-e:Ny1,-24,UK,41
-e:Ny1,-24,Germany,32
-e:Ny1,-24,France,24
-e:Ny1,-24,Belgium,17
-e:Ny1,-24,Nordics,20
-Civic,-23,UK,169
-Civic,-23,Germany,133
-Civic,-23,France,98
-Civic,-23,Italy,126
-Civic,-23,Netherlands,84
-Civic,-23,Poland,95
-CR-V,-23,UK,168
-CR-V,-23,Germany,133
-CR-V,-23,France,98
-CR-V,-23,Italy,126
-CR-V,-23,Netherlands,84
-CR-V,-23,Poland,95
-HR-V,-23,UK,84
-HR-V,-23,Germany,67
-HR-V,-23,France,49
-HR-V,-23,Italy,63
-HR-V,-23,Netherlands,42
-HR-V,-23,Poland,47
-Jazz,-23,UK,101
-Jazz,-23,Germany,80
-Jazz,-23,France,59
-Jazz,-23,Italy,76
-Jazz,-23,Netherlands,50
-Jazz,-23,Poland,57
-e:Ny1,-23,UK,49
-e:Ny1,-23,Germany,39
-e:Ny1,-23,France,28
-e:Ny1,-23,Netherlands,24
-Civic,-22,UK,178
-Civic,-22,Germany,141
-Civic,-22,France,104
-Civic,-22,Spain,119
-Civic,-22,Belgium,74
-Civic,-22,Nordics,89
-CR-V,-22,UK,178
-CR-V,-22,Germany,141
-CR-V,-22,France,104
-CR-V,-22,Spain,119
-CR-V,-22,Belgium,74
-CR-V,-22,Nordics,89
-HR-V,-22,UK,89
-HR-V,-22,Germany,71
-HR-V,-22,France,52
-HR-V,-22,Spain,59
-HR-V,-22,Belgium,37
-HR-V,-22,Nordics,45
-Jazz,-22,UK,107
-Jazz,-22,Germany,85
-Jazz,-22,France,62
-Jazz,-22,Spain,71
-Jazz,-22,Belgium,45
-Jazz,-22,Nordics,53
-e:Ny1,-22,UK,44
-e:Ny1,-22,Germany,35
-e:Ny1,-22,France,25
-e:Ny1,-22,Belgium,18
-e:Ny1,-22,Nordics,22
-Civic,-21,UK,173
-Civic,-21,Germany,137
-Civic,-21,France,101
-Civic,-21,Italy,130
-Civic,-21,Netherlands,87
-Civic,-21,Portugal,98
-CR-V,-21,UK,173
-CR-V,-21,Germany,137
-CR-V,-21,France,101
-CR-V,-21,Italy,130
-CR-V,-21,Netherlands,87
-CR-V,-21,Portugal,98
-HR-V,-21,UK,87
-HR-V,-21,Germany,69
-HR-V,-21,France,50
-HR-V,-21,Italy,65
-HR-V,-21,Netherlands,43
-HR-V,-21,Portugal,49
-Jazz,-21,UK,104
-Jazz,-21,Germany,82
-Jazz,-21,France,61
-Jazz,-21,Italy,78
-Jazz,-21,Netherlands,52
-Jazz,-21,Portugal,59
-e:Ny1,-21,UK,52
-e:Ny1,-21,Germany,42
-e:Ny1,-21,France,31
-e:Ny1,-21,Netherlands,26
-Civic,-20,UK,161
-Civic,-20,Germany,128
-Civic,-20,France,94
-Civic,-20,Spain,107
-Civic,-20,Belgium,67
-Civic,-20,Poland,91
-Civic,-20,Nordics,81
-CR-V,-20,UK,161
-CR-V,-20,Germany,128
-CR-V,-20,France,94
-CR-V,-20,Spain,107
-CR-V,-20,Belgium,67
-CR-V,-20,Poland,91
-CR-V,-20,Nordics,81
-HR-V,-20,UK,81
-HR-V,-20,Germany,64
-HR-V,-20,France,47
-HR-V,-20,Spain,54
-HR-V,-20,Belgium,34
-HR-V,-20,Poland,45
-HR-V,-20,Nordics,40
-Jazz,-20,UK,97
-Jazz,-20,Germany,77
-Jazz,-20,France,57
-Jazz,-20,Spain,65
-Jazz,-20,Belgium,40
-Jazz,-20,Poland,54
-Jazz,-20,Nordics,48
-e:Ny1,-20,UK,47
-e:Ny1,-20,Germany,37
-e:Ny1,-20,France,27
-e:Ny1,-20,Belgium,20
-e:Ny1,-20,Nordics,24
-Civic,-19,UK,195
-Civic,-19,Germany,154
-Civic,-19,France,114
-Civic,-19,Italy,146
-Civic,-19,Netherlands,97
-CR-V,-19,UK,195
-CR-V,-19,Germany,154
-CR-V,-19,France,113
-CR-V,-19,Italy,146
-CR-V,-19,Netherlands,97
-HR-V,-19,UK,97
-HR-V,-19,Germany,77
-HR-V,-19,France,57
-HR-V,-19,Italy,73
-HR-V,-19,Netherlands,49
-Jazz,-19,UK,117
-Jazz,-19,Germany,92
-Jazz,-19,France,68
-Jazz,-19,Italy,88
-Jazz,-19,Netherlands,58
-e:Ny1,-19,UK,53
-e:Ny1,-19,Germany,42
-e:Ny1,-19,France,31
-e:Ny1,-19,Netherlands,27
-Civic,-18,UK,155
-Civic,-18,Germany,123
-Civic,-18,France,90
-Civic,-18,Spain,103
-Civic,-18,Belgium,65
-Civic,-18,Nordics,78
-Civic,-18,Portugal,87
-CR-V,-18,UK,155
-CR-V,-18,Germany,123
-CR-V,-18,France,90
-CR-V,-18,Spain,103
-CR-V,-18,Belgium,65
-CR-V,-18,Nordics,78
-CR-V,-18,Portugal,87
-HR-V,-18,UK,77
-HR-V,-18,Germany,61
-HR-V,-18,France,45
-HR-V,-18,Spain,52
-HR-V,-18,Belgium,32
-HR-V,-18,Nordics,39
-HR-V,-18,Portugal,44
-Jazz,-18,UK,93
-Jazz,-18,Germany,74
-Jazz,-18,France,54
-Jazz,-18,Spain,62
-Jazz,-18,Belgium,39
-Jazz,-18,Nordics,46
-Jazz,-18,Portugal,52
-e:Ny1,-18,UK,47
-e:Ny1,-18,Germany,37
-e:Ny1,-18,France,27
-e:Ny1,-18,Belgium,20
-e:Ny1,-18,Nordics,24
-Civic,-17,UK,170
-Civic,-17,Germany,134
-Civic,-17,France,99
-Civic,-17,Italy,127
-Civic,-17,Netherlands,85
-Civic,-17,Poland,95
-CR-V,-17,UK,170
-CR-V,-17,Germany,134
-CR-V,-17,France,99
-CR-V,-17,Italy,127
-CR-V,-17,Netherlands,85
-CR-V,-17,Poland,95
-HR-V,-17,UK,85
-HR-V,-17,Germany,67
-HR-V,-17,France,49
-HR-V,-17,Italy,64
-HR-V,-17,Netherlands,42
-HR-V,-17,Poland,48
-Jazz,-17,UK,102
-Jazz,-17,Germany,81
-Jazz,-17,France,59
-Jazz,-17,Italy,76
-Jazz,-17,Netherlands,51
-Jazz,-17,Poland,57
-e:Ny1,-17,UK,56
-e:Ny1,-17,Germany,44
-e:Ny1,-17,France,33
-e:Ny1,-17,Netherlands,28
-Civic,-16,UK,169
-Civic,-16,Germany,134
-Civic,-16,France,99
-Civic,-16,Spain,113
-Civic,-16,Belgium,70
-Civic,-16,Nordics,85
-CR-V,-16,UK,169
-CR-V,-16,Germany,134
-CR-V,-16,France,99
-CR-V,-16,Spain,113
-CR-V,-16,Belgium,70
-CR-V,-16,Nordics,85
-HR-V,-16,UK,85
-HR-V,-16,Germany,67
-HR-V,-16,France,49
-HR-V,-16,Spain,57
-HR-V,-16,Belgium,35
-HR-V,-16,Nordics,42
-Jazz,-16,UK,102
-Jazz,-16,Germany,80
-Jazz,-16,France,59
-Jazz,-16,Spain,68
-Jazz,-16,Belgium,42
-Jazz,-16,Nordics,51
-e:Ny1,-16,UK,47
-e:Ny1,-16,Germany,37
-e:Ny1,-16,France,27
-e:Ny1,-16,Belgium,20
-e:Ny1,-16,Nordics,24
-Civic,-15,UK,161
-Civic,-15,Germany,127
-Civic,-15,France,94
-Civic,-15,Italy,121
-Civic,-15,Netherlands,80
-Civic,-15,Portugal,90
-CR-V,-15,UK,161
-CR-V,-15,Germany,127
-CR-V,-15,France,94
-CR-V,-15,Italy,121
-CR-V,-15,Netherlands,80
-CR-V,-15,Portugal,90
-HR-V,-15,UK,80
-HR-V,-15,Germany,64
-HR-V,-15,France,47
-HR-V,-15,Italy,60
-HR-V,-15,Netherlands,40
-HR-V,-15,Portugal,45
-Jazz,-15,UK,97
-Jazz,-15,Germany,77
-Jazz,-15,France,56
-Jazz,-15,Italy,72
-Jazz,-15,Netherlands,48
-Jazz,-15,Portugal,54
-e:Ny1,-15,UK,55
-e:Ny1,-15,Germany,44
-e:Ny1,-15,France,32
-e:Ny1,-15,Netherlands,27
-Civic,-14,UK,153
-Civic,-14,Germany,121
-Civic,-14,France,90
-Civic,-14,Spain,102
-Civic,-14,Belgium,64
-Civic,-14,Poland,86
-Civic,-14,Nordics,77
-CR-V,-14,UK,153
-CR-V,-14,Germany,121
-CR-V,-14,France,90
-CR-V,-14,Spain,102
-CR-V,-14,Belgium,64
-CR-V,-14,Poland,86
-CR-V,-14,Nordics,77
-HR-V,-14,UK,76
-HR-V,-14,Germany,61
-HR-V,-14,France,45
-HR-V,-14,Spain,51
-HR-V,-14,Belgium,32
-HR-V,-14,Poland,43
-HR-V,-14,Nordics,38
-Jazz,-14,UK,92
-Jazz,-14,Germany,73
-Jazz,-14,France,54
-Jazz,-14,Spain,61
-Jazz,-14,Belgium,38
-Jazz,-14,Poland,52
-Jazz,-14,Nordics,46
-e:Ny1,-14,UK,51
-e:Ny1,-14,Germany,40
-e:Ny1,-14,France,29
-e:Ny1,-14,Belgium,21
-e:Ny1,-14,Nordics,25
-Civic,-13,UK,185
-Civic,-13,Germany,146
-Civic,-13,France,108
-Civic,-13,Italy,138
-Civic,-13,Netherlands,92
-CR-V,-13,UK,185
-CR-V,-13,Germany,146
-CR-V,-13,France,108
-CR-V,-13,Italy,138
-CR-V,-13,Netherlands,92
-HR-V,-13,UK,92
-HR-V,-13,Germany,73
-HR-V,-13,France,54
-HR-V,-13,Italy,69
-HR-V,-13,Netherlands,46
-Jazz,-13,UK,111
-Jazz,-13,Germany,88
-Jazz,-13,France,64
-Jazz,-13,Italy,83
-Jazz,-13,Netherlands,55
-e:Ny1,-13,UK,57
-e:Ny1,-13,Germany,45
-e:Ny1,-13,France,33
-e:Ny1,-13,Netherlands,29
-Civic,-12,UK,149
-Civic,-12,Germany,118
-Civic,-12,France,87
-Civic,-12,Spain,100
-Civic,-12,Belgium,62
-Civic,-12,Nordics,75
-Civic,-12,Portugal,84
-CR-V,-12,UK,149
-CR-V,-12,Germany,118
-CR-V,-12,France,87
-CR-V,-12,Spain,100
-CR-V,-12,Belgium,62
-CR-V,-12,Nordics,75
-CR-V,-12,Portugal,84
-HR-V,-12,UK,75
-HR-V,-12,Germany,59
-HR-V,-12,France,44
-HR-V,-12,Spain,50
-HR-V,-12,Belgium,31
-HR-V,-12,Nordics,37
-HR-V,-12,Portugal,42
-Jazz,-12,UK,90
-Jazz,-12,Germany,71
-Jazz,-12,France,52
-Jazz,-12,Spain,60
-Jazz,-12,Belgium,37
-Jazz,-12,Nordics,45
-Jazz,-12,Portugal,50
-e:Ny1,-12,UK,51
-e:Ny1,-12,Germany,40
-e:Ny1,-12,France,30
-e:Ny1,-12,Belgium,21
-e:Ny1,-12,Nordics,26
-Civic,-11,UK,157
-Civic,-11,Germany,124
-Civic,-11,France,91
-Civic,-11,Italy,117
-Civic,-11,Netherlands,78
-Civic,-11,Poland,88
-CR-V,-11,UK,156
-CR-V,-11,Germany,124
-CR-V,-11,France,91
-CR-V,-11,Italy,117
-CR-V,-11,Netherlands,78
-CR-V,-11,Poland,88
-HR-V,-11,UK,78
-HR-V,-11,Germany,62
-HR-V,-11,France,45
-HR-V,-11,Italy,59
-HR-V,-11,Netherlands,39
-HR-V,-11,Poland,44
-Jazz,-11,UK,94
-Jazz,-11,Germany,74
-Jazz,-11,France,55
-Jazz,-11,Italy,70
-Jazz,-11,Netherlands,47
-Jazz,-11,Poland,53
-e:Ny1,-11,UK,58
-e:Ny1,-11,Germany,46
-e:Ny1,-11,France,33
-e:Ny1,-11,Netherlands,29
-Civic,-10,UK,171
-Civic,-10,Germany,135
-Civic,-10,France,100
-Civic,-10,Spain,114
-Civic,-10,Belgium,71
-Civic,-10,Nordics,86
-CR-V,-10,UK,171
-CR-V,-10,Germany,135
-CR-V,-10,France,100
-CR-V,-10,Spain,114
-CR-V,-10,Belgium,71
-CR-V,-10,Nordics,86
-HR-V,-10,UK,85
-HR-V,-10,Germany,68
-HR-V,-10,France,50
-HR-V,-10,Spain,57
-HR-V,-10,Belgium,35
-HR-V,-10,Nordics,43
-Jazz,-10,UK,103
-Jazz,-10,Germany,81
-Jazz,-10,France,60
-Jazz,-10,Spain,68
-Jazz,-10,Belgium,43
-Jazz,-10,Nordics,51
-e:Ny1,-10,UK,53
-e:Ny1,-10,Germany,42
-e:Ny1,-10,France,31
-e:Ny1,-10,Belgium,22
-e:Ny1,-10,Nordics,27
-Civic,-9,UK,164
-Civic,-9,Germany,130
-Civic,-9,France,96
-Civic,-9,Italy,123
-Civic,-9,Netherlands,82
-Civic,-9,Portugal,92
-CR-V,-9,UK,164
-CR-V,-9,Germany,130
-CR-V,-9,France,96
-CR-V,-9,Italy,123
-CR-V,-9,Netherlands,82
-CR-V,-9,Portugal,92
-HR-V,-9,UK,82
-HR-V,-9,Germany,65
-HR-V,-9,France,48
-HR-V,-9,Italy,61
-HR-V,-9,Netherlands,41
-HR-V,-9,Portugal,46
-Jazz,-9,UK,98
-Jazz,-9,Germany,78
-Jazz,-9,France,58
-Jazz,-9,Italy,74
-Jazz,-9,Netherlands,49
-Jazz,-9,Portugal,55
-e:Ny1,-9,UK,63
-e:Ny1,-9,Germany,50
-e:Ny1,-9,France,36
-e:Ny1,-9,Netherlands,31
-Civic,-8,UK,146
-Civic,-8,Germany,116
-Civic,-8,France,85
-Civic,-8,Spain,97
-Civic,-8,Belgium,61
-Civic,-8,Poland,82
-Civic,-8,Nordics,73
-CR-V,-8,UK,146
-CR-V,-8,Germany,116
-CR-V,-8,France,85
-CR-V,-8,Spain,97
-CR-V,-8,Belgium,61
-CR-V,-8,Poland,82
-CR-V,-8,Nordics,73
-HR-V,-8,UK,73
-HR-V,-8,Germany,58
-HR-V,-8,France,43
-HR-V,-8,Spain,49
-HR-V,-8,Belgium,30
-HR-V,-8,Poland,41
-HR-V,-8,Nordics,36
-Jazz,-8,UK,88
-Jazz,-8,Germany,69
-Jazz,-8,France,51
-Jazz,-8,Spain,58
-Jazz,-8,Belgium,37
-Jazz,-8,Poland,49
-Jazz,-8,Nordics,44
-e:Ny1,-8,UK,54
-e:Ny1,-8,Germany,43
-e:Ny1,-8,France,31
-e:Ny1,-8,Belgium,22
-e:Ny1,-8,Nordics,27
-Civic,-7,UK,182
-Civic,-7,Germany,144
-Civic,-7,France,106
-Civic,-7,Italy,136
-Civic,-7,Netherlands,91
-CR-V,-7,UK,182
-CR-V,-7,Germany,144
-CR-V,-7,France,106
-CR-V,-7,Italy,136
-CR-V,-7,Netherlands,91
-HR-V,-7,UK,91
-HR-V,-7,Germany,72
-HR-V,-7,France,53
-HR-V,-7,Italy,68
-HR-V,-7,Netherlands,46
-Jazz,-7,UK,109
-Jazz,-7,Germany,86
-Jazz,-7,France,64
-Jazz,-7,Italy,82
-Jazz,-7,Netherlands,55
-e:Ny1,-7,UK,62
-e:Ny1,-7,Germany,49
-e:Ny1,-7,France,37
-e:Ny1,-7,Netherlands,31
-Civic,-6,UK,147
-Civic,-6,Germany,117
-Civic,-6,France,86
-Civic,-6,Spain,98
-Civic,-6,Belgium,61
-Civic,-6,Nordics,74
-Civic,-6,Portugal,83
-CR-V,-6,UK,147
-CR-V,-6,Germany,116
-CR-V,-6,France,86
-CR-V,-6,Spain,98
-CR-V,-6,Belgium,61
-CR-V,-6,Nordics,74
-CR-V,-6,Portugal,83
-HR-V,-6,UK,74
-HR-V,-6,Germany,58
-HR-V,-6,France,43
-HR-V,-6,Spain,49
-HR-V,-6,Belgium,31
-HR-V,-6,Nordics,37
-HR-V,-6,Portugal,41
-Jazz,-6,UK,88
-Jazz,-6,Germany,70
-Jazz,-6,France,51
-Jazz,-6,Spain,59
-Jazz,-6,Belgium,37
-Jazz,-6,Nordics,44
-Jazz,-6,Portugal,50
-e:Ny1,-6,UK,56
-e:Ny1,-6,Germany,44
-e:Ny1,-6,France,33
-e:Ny1,-6,Belgium,23
-e:Ny1,-6,Nordics,28
-Civic,-5,UK,147
-Civic,-5,Germany,116
-Civic,-5,France,86
-Civic,-5,Italy,110
-Civic,-5,Netherlands,73
-Civic,-5,Poland,83
-CR-V,-5,UK,147
-CR-V,-5,Germany,116
-CR-V,-5,France,86
-CR-V,-5,Italy,110
-CR-V,-5,Netherlands,73
-CR-V,-5,Poland,82
-HR-V,-5,UK,73
-HR-V,-5,Germany,58
-HR-V,-5,France,43
-HR-V,-5,Italy,55
-HR-V,-5,Netherlands,37
-HR-V,-5,Poland,41
-Jazz,-5,UK,88
-Jazz,-5,Germany,70
-Jazz,-5,France,51
-Jazz,-5,Italy,66
-Jazz,-5,Netherlands,44
-Jazz,-5,Poland,50
-e:Ny1,-5,UK,60
-e:Ny1,-5,Germany,47
-e:Ny1,-5,France,35
-e:Ny1,-5,Netherlands,30
-Civic,-4,UK,159
-Civic,-4,Germany,126
-Civic,-4,France,93
-Civic,-4,Spain,106
-Civic,-4,Belgium,66
-Civic,-4,Nordics,79
-CR-V,-4,UK,159
-CR-V,-4,Germany,126
-CR-V,-4,France,93
-CR-V,-4,Spain,106
-CR-V,-4,Belgium,66
-CR-V,-4,Nordics,79
-HR-V,-4,UK,80
-HR-V,-4,Germany,63
-HR-V,-4,France,46
-HR-V,-4,Spain,53
-HR-V,-4,Belgium,33
-HR-V,-4,Nordics,40
-Jazz,-4,UK,95
-Jazz,-4,Germany,75
-Jazz,-4,France,56
-Jazz,-4,Spain,63
-Jazz,-4,Belgium,40
-Jazz,-4,Nordics,48
-e:Ny1,-4,UK,54
-e:Ny1,-4,Germany,43
-e:Ny1,-4,France,32
-e:Ny1,-4,Belgium,23
-e:Ny1,-4,Nordics,27
-Civic,-3,UK,151
-Civic,-3,Germany,119
-Civic,-3,France,88
-Civic,-3,Italy,113
-Civic,-3,Netherlands,75
-Civic,-3,Portugal,85
-CR-V,-3,UK,150
-CR-V,-3,Germany,119
-CR-V,-3,France,88
-CR-V,-3,Italy,113
-CR-V,-3,Netherlands,75
-CR-V,-3,Portugal,85
-HR-V,-3,UK,75
-HR-V,-3,Germany,60
-HR-V,-3,France,44
-HR-V,-3,Italy,56
-HR-V,-3,Netherlands,38
-HR-V,-3,Portugal,42
-Jazz,-3,UK,90
-Jazz,-3,Germany,71
-Jazz,-3,France,53
-Jazz,-3,Italy,68
-Jazz,-3,Netherlands,45
-Jazz,-3,Portugal,51
-e:Ny1,-3,UK,64
-e:Ny1,-3,Germany,50
-e:Ny1,-3,France,37
-e:Ny1,-3,Netherlands,32
-Civic,-2,UK,141
-Civic,-2,Germany,112
-Civic,-2,France,82
-Civic,-2,Spain,94
-Civic,-2,Belgium,59
-Civic,-2,Poland,79
-Civic,-2,Nordics,70
-CR-V,-2,UK,141
-CR-V,-2,Germany,112
-CR-V,-2,France,82
-CR-V,-2,Spain,94
-CR-V,-2,Belgium,59
-CR-V,-2,Poland,79
-CR-V,-2,Nordics,70
-HR-V,-2,UK,71
-HR-V,-2,Germany,56
-HR-V,-2,France,41
-HR-V,-2,Spain,47
-HR-V,-2,Belgium,29
-HR-V,-2,Poland,40
-HR-V,-2,Nordics,35
-Jazz,-2,UK,85
-Jazz,-2,Germany,67
-Jazz,-2,France,49
-Jazz,-2,Spain,56
-Jazz,-2,Belgium,35
-Jazz,-2,Poland,48
-Jazz,-2,Nordics,42
-e:Ny1,-2,UK,57
-e:Ny1,-2,Germany,45
-e:Ny1,-2,France,33
-e:Ny1,-2,Belgium,24
-e:Ny1,-2,Nordics,28
-Civic,-1,UK,159
-Civic,-1,Germany,126
-Civic,-1,France,93
-Civic,-1,Italy,119
-Civic,-1,Netherlands,79
-CR-V,-1,UK,159
-CR-V,-1,Germany,126
-CR-V,-1,France,93
-CR-V,-1,Italy,119
-CR-V,-1,Netherlands,79
-HR-V,-1,UK,79
-HR-V,-1,Germany,63
-HR-V,-1,France,46
-HR-V,-1,Italy,60
-HR-V,-1,Netherlands,40
-Jazz,-1,UK,95
-Jazz,-1,Germany,75
-Jazz,-1,France,56
-Jazz,-1,Italy,72
-Jazz,-1,Netherlands,48
-e:Ny1,-1,UK,60
-e:Ny1,-1,Germany,47
-e:Ny1,-1,France,35
-e:Ny1,-1,Netherlands,30
-Civic,0,UK,127
-Civic,0,Germany,100
-Civic,0,France,74
-Civic,0,Spain,85
-Civic,0,Belgium,53
-Civic,0,Nordics,63
-Civic,0,Portugal,71
-CR-V,0,UK,127
-CR-V,0,Germany,100
-CR-V,0,France,74
-CR-V,0,Spain,85
-CR-V,0,Belgium,53
-CR-V,0,Nordics,63
-CR-V,0,Portugal,71
-HR-V,0,UK,63
-HR-V,0,Germany,50
-HR-V,0,France,37
-HR-V,0,Spain,42
-HR-V,0,Belgium,26
-HR-V,0,Nordics,32
-HR-V,0,Portugal,36
-Jazz,0,UK,76
-Jazz,0,Germany,60
-Jazz,0,France,44
-Jazz,0,Spain,51
-Jazz,0,Belgium,32
-Jazz,0,Nordics,38
-Jazz,0,Portugal,43
-e:Ny1,0,UK,52
-e:Ny1,0,Germany,42
-e:Ny1,0,France,31
-e:Ny1,0,Belgium,22
-e:Ny1,0,Nordics,26
-Civic,1,UK,137
-Civic,1,Germany,108
-Civic,1,France,80
-Civic,1,Italy,103
-Civic,1,Netherlands,68
-Civic,1,Poland,77
-CR-V,1,UK,137
-CR-V,1,Germany,108
-CR-V,1,France,80
-CR-V,1,Italy,103
-CR-V,1,Netherlands,68
-CR-V,1,Poland,77
-HR-V,1,UK,68
-HR-V,1,Germany,54
-HR-V,1,France,40
-HR-V,1,Italy,51
-HR-V,1,Netherlands,34
-HR-V,1,Poland,39
-Jazz,1,UK,82
-Jazz,1,Germany,65
-Jazz,1,France,48
-Jazz,1,Italy,61
-Jazz,1,Netherlands,41
-Jazz,1,Poland,46
-e:Ny1,1,UK,61
-e:Ny1,1,Germany,48
-e:Ny1,1,France,36
-e:Ny1,1,Netherlands,31
-Civic,2,UK,143
-Civic,2,Germany,114
-Civic,2,France,84
-Civic,2,Spain,96
-Civic,2,Belgium,60
-Civic,2,Nordics,72
-CR-V,2,UK,143
-CR-V,2,Germany,114
-CR-V,2,France,84
-CR-V,2,Spain,96
-CR-V,2,Belgium,60
-CR-V,2,Nordics,72
-HR-V,2,UK,72
-HR-V,2,Germany,57
-HR-V,2,France,42
-HR-V,2,Spain,48
-HR-V,2,Belgium,30
-HR-V,2,Nordics,36
-Jazz,2,UK,86
-Jazz,2,Germany,68
-Jazz,2,France,50
-Jazz,2,Spain,58
-Jazz,2,Belgium,36
-Jazz,2,Nordics,43
-e:Ny1,2,UK,54
-e:Ny1,2,Germany,43
-e:Ny1,2,France,32
-e:Ny1,2,Belgium,22
-e:Ny1,2,Nordics,27
-Civic,3,UK,141
-Civic,3,Germany,111
-Civic,3,France,82
-Civic,3,Italy,105
-Civic,3,Netherlands,70
-Civic,3,Portugal,79
-CR-V,3,UK,141
-CR-V,3,Germany,111
-CR-V,3,France,82
-CR-V,3,Italy,105
-CR-V,3,Netherlands,70
-CR-V,3,Portugal,79
-HR-V,3,UK,70
-HR-V,3,Germany,56
-HR-V,3,France,41
-HR-V,3,Italy,53
-HR-V,3,Netherlands,35
-HR-V,3,Portugal,39
-Jazz,3,UK,84
-Jazz,3,Germany,67
-Jazz,3,France,49
-Jazz,3,Italy,63
-Jazz,3,Netherlands,42
-Jazz,3,Portugal,47
-e:Ny1,3,UK,65
-e:Ny1,3,Germany,51
-e:Ny1,3,France,38
-e:Ny1,3,Netherlands,32
-Civic,4,UK,156
-Civic,4,Germany,124
-Civic,4,France,91
-Civic,4,Spain,104
-Civic,4,Belgium,65
-Civic,4,Poland,88
-Civic,4,Nordics,78
-CR-V,4,UK,156
-CR-V,4,Germany,124
-CR-V,4,France,91
-CR-V,4,Spain,104
-CR-V,4,Belgium,65
-CR-V,4,Poland,88
-CR-V,4,Nordics,78
-HR-V,4,UK,78
-HR-V,4,Germany,62
-HR-V,4,France,46
-HR-V,4,Spain,52
-HR-V,4,Belgium,32
-HR-V,4,Poland,44
-HR-V,4,Nordics,39
-Jazz,4,UK,93
-Jazz,4,Germany,74
-Jazz,4,France,55
-Jazz,4,Spain,62
-Jazz,4,Belgium,39
-Jazz,4,Poland,53
-Jazz,4,Nordics,47
-e:Ny1,4,UK,69
-e:Ny1,4,Germany,55
-e:Ny1,4,France,40
-e:Ny1,4,Belgium,29
-e:Ny1,4,Nordics,34
-Civic,5,UK,195
-Civic,5,Germany,154
-Civic,5,France,114
-Civic,5,Italy,146
-Civic,5,Netherlands,98
-CR-V,5,UK,195
-CR-V,5,Germany,154
-CR-V,5,France,114
-CR-V,5,Italy,146
-CR-V,5,Netherlands,98
-HR-V,5,UK,97
-HR-V,5,Germany,77
-HR-V,5,France,57
-HR-V,5,Italy,73
-HR-V,5,Netherlands,49
-Jazz,5,UK,117
-Jazz,5,Germany,93
-Jazz,5,France,68
-Jazz,5,Italy,88
-Jazz,5,Netherlands,58
-e:Ny1,5,UK,80
-e:Ny1,5,Germany,63
-e:Ny1,5,France,47
-e:Ny1,5,Netherlands,40
-Civic,6,UK,154
-Civic,6,Germany,122
-Civic,6,France,90
-Civic,6,Spain,103
-Civic,6,Belgium,64
-Civic,6,Nordics,77
-Civic,6,Portugal,86
-CR-V,6,UK,154
-CR-V,6,Germany,122
-CR-V,6,France,90
-CR-V,6,Spain,102
-CR-V,6,Belgium,64
-CR-V,6,Nordics,77
-CR-V,6,Portugal,86
-HR-V,6,UK,77
-HR-V,6,Germany,61
-HR-V,6,France,45
-HR-V,6,Spain,51
-HR-V,6,Belgium,32
-HR-V,6,Nordics,39
-HR-V,6,Portugal,43
-Jazz,6,UK,92
-Jazz,6,Germany,73
-Jazz,6,France,54
-Jazz,6,Spain,62
-Jazz,6,Belgium,38
-Jazz,6,Nordics,46
-Jazz,6,Portugal,52
-e:Ny1,6,UK,70
-e:Ny1,6,Germany,55
-e:Ny1,6,France,41
-e:Ny1,6,Belgium,29
-e:Ny1,6,Nordics,35
-Civic,7,UK,169
-Civic,7,Germany,134
-Civic,7,France,99
-Civic,7,Italy,127
-Civic,7,Netherlands,85
-Civic,7,Poland,95
-CR-V,7,UK,169
-CR-V,7,Germany,134
-CR-V,7,France,99
-CR-V,7,Italy,127
-CR-V,7,Netherlands,85
-CR-V,7,Poland,95
-HR-V,7,UK,85
-HR-V,7,Germany,67
-HR-V,7,France,49
-HR-V,7,Italy,64
-HR-V,7,Netherlands,42
-HR-V,7,Poland,48
-Jazz,7,UK,102
-Jazz,7,Germany,80
-Jazz,7,France,59
-Jazz,7,Italy,76
-Jazz,7,Netherlands,51
-Jazz,7,Poland,57
-e:Ny1,7,UK,83
-e:Ny1,7,Germany,65
-e:Ny1,7,France,48
-e:Ny1,7,Netherlands,41
-Civic,8,UK,169
-Civic,8,Germany,134
-Civic,8,France,99
-Civic,8,Spain,113
-Civic,8,Belgium,71
-Civic,8,Nordics,85
-CR-V,8,UK,169
-CR-V,8,Germany,134
-CR-V,8,France,99
-CR-V,8,Spain,113
-CR-V,8,Belgium,71
-CR-V,8,Nordics,85
-HR-V,8,UK,85
-HR-V,8,Germany,67
-HR-V,8,France,49
-HR-V,8,Spain,57
-HR-V,8,Belgium,35
-HR-V,8,Nordics,42
-Jazz,8,UK,102
-Jazz,8,Germany,80
-Jazz,8,France,59
-Jazz,8,Spain,68
-Jazz,8,Belgium,42
-Jazz,8,Nordics,51
-e:Ny1,8,UK,69
-e:Ny1,8,Germany,55
-e:Ny1,8,France,40
-e:Ny1,8,Belgium,29
-e:Ny1,8,Nordics,34
+Civic LHD,-26,Germany,119
+Civic LHD,-26,France,88
+Civic LHD,-26,Italy,113
+Civic LHD,-26,Spain,101
+Civic LHD,-26,Netherlands,75
+Civic RHD,-26,UK,176
+CR-V LHD,-26,Germany,119
+CR-V LHD,-26,France,88
+CR-V LHD,-26,Italy,113
+CR-V LHD,-26,Spain,101
+CR-V LHD,-26,Netherlands,75
+CR-V RHD,-26,UK,176
+HR-V LHD,-26,Germany,60
+HR-V LHD,-26,France,44
+HR-V LHD,-26,Italy,56
+HR-V LHD,-26,Spain,50
+HR-V LHD,-26,Netherlands,38
+HR-V RHD,-26,UK,88
+Jazz LHD,-26,Germany,71
+Jazz LHD,-26,France,53
+Jazz LHD,-26,Italy,68
+Jazz LHD,-26,Spain,60
+Jazz LHD,-26,Netherlands,45
+Jazz RHD,-26,UK,106
+e:Ny1 LHD,-26,Germany,34
+e:Ny1 LHD,-26,France,25
+e:Ny1 LHD,-26,Netherlands,22
+e:Ny1 RHD,-26,UK,44
+Civic LHD,-25,Germany,139
+Civic LHD,-25,France,103
+Civic LHD,-25,Belgium,73
+Civic LHD,-25,Poland,99
+Civic LHD,-25,Nordics,88
+Civic RHD,-25,UK,143
+Civic RHD,-25,Ireland,36
+CR-V LHD,-25,Germany,139
+CR-V LHD,-25,France,103
+CR-V LHD,-25,Belgium,73
+CR-V LHD,-25,Poland,99
+CR-V LHD,-25,Nordics,88
+CR-V RHD,-25,UK,143
+CR-V RHD,-25,Ireland,36
+HR-V LHD,-25,Germany,70
+HR-V LHD,-25,France,51
+HR-V LHD,-25,Belgium,37
+HR-V LHD,-25,Poland,49
+HR-V LHD,-25,Nordics,44
+HR-V RHD,-25,UK,71
+HR-V RHD,-25,Ireland,18
+Jazz LHD,-25,Germany,84
+Jazz LHD,-25,France,62
+Jazz LHD,-25,Belgium,44
+Jazz LHD,-25,Poland,59
+Jazz LHD,-25,Nordics,53
+Jazz RHD,-25,UK,86
+Jazz RHD,-25,Ireland,21
+e:Ny1 LHD,-25,Germany,29
+e:Ny1 LHD,-25,France,22
+e:Ny1 LHD,-25,Belgium,15
+e:Ny1 LHD,-25,Nordics,18
+e:Ny1 RHD,-25,UK,37
+e:Ny1 RHD,-25,Ireland,9
+Civic LHD,-24,Germany,104
+Civic LHD,-24,France,77
+Civic LHD,-24,Italy,99
+Civic LHD,-24,Spain,88
+Civic LHD,-24,Netherlands,66
+Civic LHD,-24,Portugal,74
+Civic RHD,-24,UK,180
+CR-V LHD,-24,Germany,104
+CR-V LHD,-24,France,77
+CR-V LHD,-24,Italy,99
+CR-V LHD,-24,Spain,88
+CR-V LHD,-24,Netherlands,66
+CR-V LHD,-24,Portugal,74
+CR-V RHD,-24,UK,180
+HR-V LHD,-24,Germany,52
+HR-V LHD,-24,France,39
+HR-V LHD,-24,Italy,49
+HR-V LHD,-24,Spain,44
+HR-V LHD,-24,Netherlands,33
+HR-V LHD,-24,Portugal,37
+HR-V RHD,-24,UK,90
+Jazz LHD,-24,Germany,63
+Jazz LHD,-24,France,46
+Jazz LHD,-24,Italy,59
+Jazz LHD,-24,Spain,53
+Jazz LHD,-24,Netherlands,39
+Jazz LHD,-24,Portugal,44
+Jazz RHD,-24,UK,108
+e:Ny1 LHD,-24,Germany,37
+e:Ny1 LHD,-24,France,27
+e:Ny1 LHD,-24,Netherlands,23
+e:Ny1 RHD,-24,UK,47
+Civic LHD,-23,Germany,180
+Civic LHD,-23,France,132
+Civic LHD,-23,Belgium,95
+Civic LHD,-23,Nordics,113
+Civic RHD,-23,UK,148
+Civic RHD,-23,Ireland,37
+CR-V LHD,-23,Germany,179
+CR-V LHD,-23,France,132
+CR-V LHD,-23,Belgium,95
+CR-V LHD,-23,Nordics,113
+CR-V RHD,-23,UK,148
+CR-V RHD,-23,Ireland,37
+HR-V LHD,-23,Germany,90
+HR-V LHD,-23,France,66
+HR-V LHD,-23,Belgium,47
+HR-V LHD,-23,Nordics,57
+HR-V RHD,-23,UK,74
+HR-V RHD,-23,Ireland,18
+Jazz LHD,-23,Germany,108
+Jazz LHD,-23,France,79
+Jazz LHD,-23,Belgium,57
+Jazz LHD,-23,Nordics,68
+Jazz RHD,-23,UK,89
+Jazz RHD,-23,Ireland,22
+e:Ny1 LHD,-23,Germany,31
+e:Ny1 LHD,-23,France,23
+e:Ny1 LHD,-23,Belgium,17
+e:Ny1 LHD,-23,Nordics,20
+e:Ny1 RHD,-23,UK,39
+e:Ny1 RHD,-23,Ireland,10
+Civic LHD,-22,Germany,107
+Civic LHD,-22,France,79
+Civic LHD,-22,Italy,101
+Civic LHD,-22,Spain,90
+Civic LHD,-22,Netherlands,67
+Civic LHD,-22,Poland,76
+Civic RHD,-22,UK,185
+CR-V LHD,-22,Germany,107
+CR-V LHD,-22,France,79
+CR-V LHD,-22,Italy,101
+CR-V LHD,-22,Spain,90
+CR-V LHD,-22,Netherlands,67
+CR-V LHD,-22,Poland,76
+CR-V RHD,-22,UK,185
+HR-V LHD,-22,Germany,53
+HR-V LHD,-22,France,39
+HR-V LHD,-22,Italy,51
+HR-V LHD,-22,Spain,45
+HR-V LHD,-22,Netherlands,34
+HR-V LHD,-22,Poland,38
+HR-V RHD,-22,UK,93
+Jazz LHD,-22,Germany,64
+Jazz LHD,-22,France,47
+Jazz LHD,-22,Italy,61
+Jazz LHD,-22,Spain,54
+Jazz LHD,-22,Netherlands,40
+Jazz LHD,-22,Poland,46
+Jazz RHD,-22,UK,111
+e:Ny1 LHD,-22,Germany,40
+e:Ny1 LHD,-22,France,29
+e:Ny1 LHD,-22,Netherlands,25
+e:Ny1 RHD,-22,UK,50
+Civic LHD,-21,Germany,149
+Civic LHD,-21,France,109
+Civic LHD,-21,Belgium,78
+Civic LHD,-21,Nordics,94
+Civic LHD,-21,Portugal,106
+Civic RHD,-21,UK,152
+Civic RHD,-21,Ireland,38
+CR-V LHD,-21,Germany,149
+CR-V LHD,-21,France,109
+CR-V LHD,-21,Belgium,78
+CR-V LHD,-21,Nordics,94
+CR-V LHD,-21,Portugal,106
+CR-V RHD,-21,UK,152
+CR-V RHD,-21,Ireland,38
+HR-V LHD,-21,Germany,74
+HR-V LHD,-21,France,55
+HR-V LHD,-21,Belgium,39
+HR-V LHD,-21,Nordics,47
+HR-V LHD,-21,Portugal,53
+HR-V RHD,-21,UK,76
+HR-V RHD,-21,Ireland,19
+Jazz LHD,-21,Germany,89
+Jazz LHD,-21,France,66
+Jazz LHD,-21,Belgium,47
+Jazz LHD,-21,Nordics,56
+Jazz LHD,-21,Portugal,64
+Jazz RHD,-21,UK,91
+Jazz RHD,-21,Ireland,23
+e:Ny1 LHD,-21,Germany,34
+e:Ny1 LHD,-21,France,25
+e:Ny1 LHD,-21,Belgium,18
+e:Ny1 LHD,-21,Nordics,21
+e:Ny1 RHD,-21,UK,42
+e:Ny1 RHD,-21,Ireland,11
+Civic LHD,-20,Germany,129
+Civic LHD,-20,France,95
+Civic LHD,-20,Italy,123
+Civic LHD,-20,Spain,109
+Civic LHD,-20,Netherlands,82
+Civic RHD,-20,UK,191
+CR-V LHD,-20,Germany,129
+CR-V LHD,-20,France,95
+CR-V LHD,-20,Italy,123
+CR-V LHD,-20,Spain,109
+CR-V LHD,-20,Netherlands,82
+CR-V RHD,-20,UK,191
+HR-V LHD,-20,Germany,65
+HR-V LHD,-20,France,48
+HR-V LHD,-20,Italy,61
+HR-V LHD,-20,Spain,54
+HR-V LHD,-20,Netherlands,41
+HR-V RHD,-20,UK,96
+Jazz LHD,-20,Germany,78
+Jazz LHD,-20,France,57
+Jazz LHD,-20,Italy,74
+Jazz LHD,-20,Spain,65
+Jazz LHD,-20,Netherlands,49
+Jazz RHD,-20,UK,115
+e:Ny1 LHD,-20,Germany,43
+e:Ny1 LHD,-20,France,31
+e:Ny1 LHD,-20,Netherlands,27
+e:Ny1 RHD,-20,UK,54
+Civic LHD,-19,Germany,145
+Civic LHD,-19,France,106
+Civic LHD,-19,Belgium,76
+Civic LHD,-19,Poland,103
+Civic LHD,-19,Nordics,91
+Civic RHD,-19,UK,148
+Civic RHD,-19,Ireland,37
+CR-V LHD,-19,Germany,144
+CR-V LHD,-19,France,106
+CR-V LHD,-19,Belgium,76
+CR-V LHD,-19,Poland,103
+CR-V LHD,-19,Nordics,91
+CR-V RHD,-19,UK,148
+CR-V RHD,-19,Ireland,37
+HR-V LHD,-19,Germany,72
+HR-V LHD,-19,France,53
+HR-V LHD,-19,Belgium,38
+HR-V LHD,-19,Poland,51
+HR-V LHD,-19,Nordics,46
+HR-V RHD,-19,UK,74
+HR-V RHD,-19,Ireland,19
+Jazz LHD,-19,Germany,86
+Jazz LHD,-19,France,64
+Jazz LHD,-19,Belgium,46
+Jazz LHD,-19,Poland,61
+Jazz LHD,-19,Nordics,55
+Jazz RHD,-19,UK,89
+Jazz RHD,-19,Ireland,22
+e:Ny1 LHD,-19,Germany,34
+e:Ny1 LHD,-19,France,25
+e:Ny1 LHD,-19,Belgium,18
+e:Ny1 LHD,-19,Nordics,22
+e:Ny1 RHD,-19,UK,43
+e:Ny1 RHD,-19,Ireland,11
+Civic LHD,-18,Germany,106
+Civic LHD,-18,France,78
+Civic LHD,-18,Italy,101
+Civic LHD,-18,Spain,89
+Civic LHD,-18,Netherlands,67
+Civic LHD,-18,Portugal,76
+Civic RHD,-18,UK,184
+CR-V LHD,-18,Germany,106
+CR-V LHD,-18,France,78
+CR-V LHD,-18,Italy,101
+CR-V LHD,-18,Spain,89
+CR-V LHD,-18,Netherlands,67
+CR-V LHD,-18,Portugal,76
+CR-V RHD,-18,UK,184
+HR-V LHD,-18,Germany,53
+HR-V LHD,-18,France,39
+HR-V LHD,-18,Italy,50
+HR-V LHD,-18,Spain,45
+HR-V LHD,-18,Netherlands,33
+HR-V LHD,-18,Portugal,38
+HR-V RHD,-18,UK,92
+Jazz LHD,-18,Germany,64
+Jazz LHD,-18,France,47
+Jazz LHD,-18,Italy,60
+Jazz LHD,-18,Spain,54
+Jazz LHD,-18,Netherlands,40
+Jazz LHD,-18,Portugal,45
+Jazz RHD,-18,UK,110
+e:Ny1 LHD,-18,Germany,43
+e:Ny1 LHD,-18,France,31
+e:Ny1 LHD,-18,Netherlands,27
+e:Ny1 RHD,-18,UK,54
+Civic LHD,-17,Germany,181
+Civic LHD,-17,France,134
+Civic LHD,-17,Belgium,95
+Civic LHD,-17,Nordics,114
+Civic RHD,-17,UK,149
+Civic RHD,-17,Ireland,37
+CR-V LHD,-17,Germany,181
+CR-V LHD,-17,France,134
+CR-V LHD,-17,Belgium,95
+CR-V LHD,-17,Nordics,114
+CR-V RHD,-17,UK,149
+CR-V RHD,-17,Ireland,37
+HR-V LHD,-17,Germany,90
+HR-V LHD,-17,France,67
+HR-V LHD,-17,Belgium,48
+HR-V LHD,-17,Nordics,57
+HR-V RHD,-17,UK,74
+HR-V RHD,-17,Ireland,19
+Jazz LHD,-17,Germany,108
+Jazz LHD,-17,France,80
+Jazz LHD,-17,Belgium,57
+Jazz LHD,-17,Nordics,69
+Jazz RHD,-17,UK,90
+Jazz RHD,-17,Ireland,22
+e:Ny1 LHD,-17,Germany,36
+e:Ny1 LHD,-17,France,27
+e:Ny1 LHD,-17,Belgium,19
+e:Ny1 LHD,-17,Nordics,23
+e:Ny1 RHD,-17,UK,45
+e:Ny1 RHD,-17,Ireland,11
+Civic LHD,-16,Germany,102
+Civic LHD,-16,France,75
+Civic LHD,-16,Italy,96
+Civic LHD,-16,Spain,85
+Civic LHD,-16,Netherlands,64
+Civic LHD,-16,Poland,72
+Civic RHD,-16,UK,176
+CR-V LHD,-16,Germany,102
+CR-V LHD,-16,France,75
+CR-V LHD,-16,Italy,96
+CR-V LHD,-16,Spain,85
+CR-V LHD,-16,Netherlands,64
+CR-V LHD,-16,Poland,72
+CR-V RHD,-16,UK,176
+HR-V LHD,-16,Germany,51
+HR-V LHD,-16,France,37
+HR-V LHD,-16,Italy,48
+HR-V LHD,-16,Spain,43
+HR-V LHD,-16,Netherlands,32
+HR-V LHD,-16,Poland,36
+HR-V RHD,-16,UK,88
+Jazz LHD,-16,Germany,61
+Jazz LHD,-16,France,45
+Jazz LHD,-16,Italy,58
+Jazz LHD,-16,Spain,51
+Jazz LHD,-16,Netherlands,39
+Jazz LHD,-16,Poland,43
+Jazz RHD,-16,UK,105
+e:Ny1 LHD,-16,Germany,43
+e:Ny1 LHD,-16,France,31
+e:Ny1 LHD,-16,Netherlands,27
+e:Ny1 RHD,-16,UK,54
+Civic LHD,-15,Germany,138
+Civic LHD,-15,France,102
+Civic LHD,-15,Belgium,72
+Civic LHD,-15,Nordics,87
+Civic LHD,-15,Portugal,98
+Civic RHD,-15,UK,141
+Civic RHD,-15,Ireland,35
+CR-V LHD,-15,Germany,138
+CR-V LHD,-15,France,102
+CR-V LHD,-15,Belgium,72
+CR-V LHD,-15,Nordics,87
+CR-V LHD,-15,Portugal,98
+CR-V RHD,-15,UK,141
+CR-V RHD,-15,Ireland,35
+HR-V LHD,-15,Germany,69
+HR-V LHD,-15,France,51
+HR-V LHD,-15,Belgium,36
+HR-V LHD,-15,Nordics,43
+HR-V LHD,-15,Portugal,49
+HR-V RHD,-15,UK,70
+HR-V RHD,-15,Ireland,18
+Jazz LHD,-15,Germany,83
+Jazz LHD,-15,France,61
+Jazz LHD,-15,Belgium,43
+Jazz LHD,-15,Nordics,52
+Jazz LHD,-15,Portugal,59
+Jazz RHD,-15,UK,85
+Jazz RHD,-15,Ireland,21
+e:Ny1 LHD,-15,Germany,36
+e:Ny1 LHD,-15,France,26
+e:Ny1 LHD,-15,Belgium,19
+e:Ny1 LHD,-15,Nordics,22
+e:Ny1 RHD,-15,UK,44
+e:Ny1 RHD,-15,Ireland,11
+Civic LHD,-14,Germany,123
+Civic LHD,-14,France,91
+Civic LHD,-14,Italy,116
+Civic LHD,-14,Spain,103
+Civic LHD,-14,Netherlands,78
+Civic RHD,-14,UK,182
+CR-V LHD,-14,Germany,123
+CR-V LHD,-14,France,91
+CR-V LHD,-14,Italy,116
+CR-V LHD,-14,Spain,103
+CR-V LHD,-14,Netherlands,78
+CR-V RHD,-14,UK,182
+HR-V LHD,-14,Germany,61
+HR-V LHD,-14,France,45
+HR-V LHD,-14,Italy,58
+HR-V LHD,-14,Spain,52
+HR-V LHD,-14,Netherlands,39
+HR-V RHD,-14,UK,91
+Jazz LHD,-14,Germany,74
+Jazz LHD,-14,France,54
+Jazz LHD,-14,Italy,70
+Jazz LHD,-14,Spain,62
+Jazz LHD,-14,Netherlands,47
+Jazz RHD,-14,UK,109
+e:Ny1 LHD,-14,Germany,46
+e:Ny1 LHD,-14,France,33
+e:Ny1 LHD,-14,Netherlands,29
+e:Ny1 RHD,-14,UK,58
+Civic LHD,-13,Germany,137
+Civic LHD,-13,France,101
+Civic LHD,-13,Belgium,72
+Civic LHD,-13,Poland,97
+Civic LHD,-13,Nordics,87
+Civic RHD,-13,UK,140
+Civic RHD,-13,Ireland,35
+CR-V LHD,-13,Germany,137
+CR-V LHD,-13,France,101
+CR-V LHD,-13,Belgium,72
+CR-V LHD,-13,Poland,97
+CR-V LHD,-13,Nordics,87
+CR-V RHD,-13,UK,140
+CR-V RHD,-13,Ireland,35
+HR-V LHD,-13,Germany,68
+HR-V LHD,-13,France,50
+HR-V LHD,-13,Belgium,36
+HR-V LHD,-13,Poland,49
+HR-V LHD,-13,Nordics,43
+HR-V RHD,-13,UK,70
+HR-V RHD,-13,Ireland,18
+Jazz LHD,-13,Germany,82
+Jazz LHD,-13,France,61
+Jazz LHD,-13,Belgium,43
+Jazz LHD,-13,Poland,58
+Jazz LHD,-13,Nordics,52
+Jazz RHD,-13,UK,84
+Jazz RHD,-13,Ireland,21
+e:Ny1 LHD,-13,Germany,37
+e:Ny1 LHD,-13,France,27
+e:Ny1 LHD,-13,Belgium,19
+e:Ny1 LHD,-13,Nordics,23
+e:Ny1 RHD,-13,UK,46
+e:Ny1 RHD,-13,Ireland,12
+Civic LHD,-12,Germany,102
+Civic LHD,-12,France,75
+Civic LHD,-12,Italy,97
+Civic LHD,-12,Spain,86
+Civic LHD,-12,Netherlands,65
+Civic LHD,-12,Portugal,73
+Civic RHD,-12,UK,177
+CR-V LHD,-12,Germany,102
+CR-V LHD,-12,France,75
+CR-V LHD,-12,Italy,97
+CR-V LHD,-12,Spain,86
+CR-V LHD,-12,Netherlands,65
+CR-V LHD,-12,Portugal,73
+CR-V RHD,-12,UK,177
+HR-V LHD,-12,Germany,51
+HR-V LHD,-12,France,38
+HR-V LHD,-12,Italy,49
+HR-V LHD,-12,Spain,43
+HR-V LHD,-12,Netherlands,32
+HR-V LHD,-12,Portugal,36
+HR-V RHD,-12,UK,89
+Jazz LHD,-12,Germany,61
+Jazz LHD,-12,France,45
+Jazz LHD,-12,Italy,58
+Jazz LHD,-12,Spain,52
+Jazz LHD,-12,Netherlands,39
+Jazz LHD,-12,Portugal,44
+Jazz RHD,-12,UK,106
+e:Ny1 LHD,-12,Germany,46
+e:Ny1 LHD,-12,France,34
+e:Ny1 LHD,-12,Netherlands,29
+e:Ny1 RHD,-12,UK,59
+Civic LHD,-11,Germany,167
+Civic LHD,-11,France,123
+Civic LHD,-11,Belgium,88
+Civic LHD,-11,Nordics,105
+Civic RHD,-11,UK,138
+Civic RHD,-11,Ireland,34
+CR-V LHD,-11,Germany,167
+CR-V LHD,-11,France,123
+CR-V LHD,-11,Belgium,88
+CR-V LHD,-11,Nordics,105
+CR-V RHD,-11,UK,137
+CR-V RHD,-11,Ireland,34
+HR-V LHD,-11,Germany,83
+HR-V LHD,-11,France,61
+HR-V LHD,-11,Belgium,44
+HR-V LHD,-11,Nordics,53
+HR-V RHD,-11,UK,69
+HR-V RHD,-11,Ireland,17
+Jazz LHD,-11,Germany,100
+Jazz LHD,-11,France,74
+Jazz LHD,-11,Belgium,53
+Jazz LHD,-11,Nordics,63
+Jazz RHD,-11,UK,82
+Jazz RHD,-11,Ireland,21
+e:Ny1 LHD,-11,Germany,37
+e:Ny1 LHD,-11,France,27
+e:Ny1 LHD,-11,Belgium,20
+e:Ny1 LHD,-11,Nordics,24
+e:Ny1 RHD,-11,UK,46
+e:Ny1 RHD,-11,Ireland,12
+Civic LHD,-10,Germany,103
+Civic LHD,-10,France,76
+Civic LHD,-10,Italy,97
+Civic LHD,-10,Spain,86
+Civic LHD,-10,Netherlands,65
+Civic LHD,-10,Poland,73
+Civic RHD,-10,UK,177
+CR-V LHD,-10,Germany,103
+CR-V LHD,-10,France,76
+CR-V LHD,-10,Italy,97
+CR-V LHD,-10,Spain,86
+CR-V LHD,-10,Netherlands,65
+CR-V LHD,-10,Poland,73
+CR-V RHD,-10,UK,177
+HR-V LHD,-10,Germany,51
+HR-V LHD,-10,France,38
+HR-V LHD,-10,Italy,49
+HR-V LHD,-10,Spain,43
+HR-V LHD,-10,Netherlands,32
+HR-V LHD,-10,Poland,36
+HR-V RHD,-10,UK,89
+Jazz LHD,-10,Germany,62
+Jazz LHD,-10,France,45
+Jazz LHD,-10,Italy,58
+Jazz LHD,-10,Spain,52
+Jazz LHD,-10,Netherlands,39
+Jazz LHD,-10,Poland,44
+Jazz RHD,-10,UK,106
+e:Ny1 LHD,-10,Germany,48
+e:Ny1 LHD,-10,France,36
+e:Ny1 LHD,-10,Netherlands,30
+e:Ny1 RHD,-10,UK,61
+Civic LHD,-9,Germany,141
+Civic LHD,-9,France,103
+Civic LHD,-9,Belgium,74
+Civic LHD,-9,Nordics,89
+Civic LHD,-9,Portugal,100
+Civic RHD,-9,UK,144
+Civic RHD,-9,Ireland,36
+CR-V LHD,-9,Germany,141
+CR-V LHD,-9,France,103
+CR-V LHD,-9,Belgium,74
+CR-V LHD,-9,Nordics,89
+CR-V LHD,-9,Portugal,100
+CR-V RHD,-9,UK,144
+CR-V RHD,-9,Ireland,36
+HR-V LHD,-9,Germany,70
+HR-V LHD,-9,France,52
+HR-V LHD,-9,Belgium,37
+HR-V LHD,-9,Nordics,44
+HR-V LHD,-9,Portugal,50
+HR-V RHD,-9,UK,72
+HR-V RHD,-9,Ireland,18
+Jazz LHD,-9,Germany,84
+Jazz LHD,-9,France,62
+Jazz LHD,-9,Belgium,45
+Jazz LHD,-9,Nordics,53
+Jazz LHD,-9,Portugal,60
+Jazz RHD,-9,UK,86
+Jazz RHD,-9,Ireland,22
+e:Ny1 LHD,-9,Germany,40
+e:Ny1 LHD,-9,France,30
+e:Ny1 LHD,-9,Belgium,21
+e:Ny1 LHD,-9,Nordics,26
+e:Ny1 RHD,-9,UK,50
+e:Ny1 RHD,-9,Ireland,13
+Civic LHD,-8,Germany,117
+Civic LHD,-8,France,86
+Civic LHD,-8,Italy,111
+Civic LHD,-8,Spain,99
+Civic LHD,-8,Netherlands,74
+Civic RHD,-8,UK,173
+CR-V LHD,-8,Germany,117
+CR-V LHD,-8,France,86
+CR-V LHD,-8,Italy,111
+CR-V LHD,-8,Spain,99
+CR-V LHD,-8,Netherlands,74
+CR-V RHD,-8,UK,173
+HR-V LHD,-8,Germany,59
+HR-V LHD,-8,France,43
+HR-V LHD,-8,Italy,55
+HR-V LHD,-8,Spain,49
+HR-V LHD,-8,Netherlands,37
+HR-V RHD,-8,UK,87
+Jazz LHD,-8,Germany,70
+Jazz LHD,-8,France,52
+Jazz LHD,-8,Italy,67
+Jazz LHD,-8,Spain,59
+Jazz LHD,-8,Netherlands,44
+Jazz RHD,-8,UK,104
+e:Ny1 LHD,-8,Germany,48
+e:Ny1 LHD,-8,France,36
+e:Ny1 LHD,-8,Netherlands,31
+e:Ny1 RHD,-8,UK,62
+Civic LHD,-7,Germany,135
+Civic LHD,-7,France,99
+Civic LHD,-7,Belgium,71
+Civic LHD,-7,Poland,96
+Civic LHD,-7,Nordics,85
+Civic RHD,-7,UK,138
+Civic RHD,-7,Ireland,35
+CR-V LHD,-7,Germany,135
+CR-V LHD,-7,France,99
+CR-V LHD,-7,Belgium,71
+CR-V LHD,-7,Poland,96
+CR-V LHD,-7,Nordics,85
+CR-V RHD,-7,UK,138
+CR-V RHD,-7,Ireland,35
+HR-V LHD,-7,Germany,67
+HR-V LHD,-7,France,50
+HR-V LHD,-7,Belgium,35
+HR-V LHD,-7,Poland,48
+HR-V LHD,-7,Nordics,43
+HR-V RHD,-7,UK,70
+HR-V RHD,-7,Ireland,17
+Jazz LHD,-7,Germany,81
+Jazz LHD,-7,France,60
+Jazz LHD,-7,Belgium,43
+Jazz LHD,-7,Poland,57
+Jazz LHD,-7,Nordics,51
+Jazz RHD,-7,UK,83
+Jazz RHD,-7,Ireland,21
+e:Ny1 LHD,-7,Germany,40
+e:Ny1 LHD,-7,France,30
+e:Ny1 LHD,-7,Belgium,21
+e:Ny1 LHD,-7,Nordics,25
+e:Ny1 RHD,-7,UK,50
+e:Ny1 RHD,-7,Ireland,13
+Civic LHD,-6,Germany,101
+Civic LHD,-6,France,74
+Civic LHD,-6,Italy,95
+Civic LHD,-6,Spain,85
+Civic LHD,-6,Netherlands,64
+Civic LHD,-6,Portugal,72
+Civic RHD,-6,UK,175
+CR-V LHD,-6,Germany,101
+CR-V LHD,-6,France,74
+CR-V LHD,-6,Italy,95
+CR-V LHD,-6,Spain,85
+CR-V LHD,-6,Netherlands,64
+CR-V LHD,-6,Portugal,72
+CR-V RHD,-6,UK,174
+HR-V LHD,-6,Germany,50
+HR-V LHD,-6,France,37
+HR-V LHD,-6,Italy,48
+HR-V LHD,-6,Spain,43
+HR-V LHD,-6,Netherlands,32
+HR-V LHD,-6,Portugal,36
+HR-V RHD,-6,UK,87
+Jazz LHD,-6,Germany,60
+Jazz LHD,-6,France,45
+Jazz LHD,-6,Italy,57
+Jazz LHD,-6,Spain,51
+Jazz LHD,-6,Netherlands,38
+Jazz LHD,-6,Portugal,43
+Jazz RHD,-6,UK,105
+e:Ny1 LHD,-6,Germany,50
+e:Ny1 LHD,-6,France,37
+e:Ny1 LHD,-6,Netherlands,32
+e:Ny1 RHD,-6,UK,65
+Civic LHD,-5,Germany,157
+Civic LHD,-5,France,116
+Civic LHD,-5,Belgium,82
+Civic LHD,-5,Nordics,99
+Civic RHD,-5,UK,129
+Civic RHD,-5,Ireland,32
+CR-V LHD,-5,Germany,157
+CR-V LHD,-5,France,115
+CR-V LHD,-5,Belgium,82
+CR-V LHD,-5,Nordics,99
+CR-V RHD,-5,UK,129
+CR-V RHD,-5,Ireland,32
+HR-V LHD,-5,Germany,78
+HR-V LHD,-5,France,58
+HR-V LHD,-5,Belgium,41
+HR-V LHD,-5,Nordics,50
+HR-V RHD,-5,UK,64
+HR-V RHD,-5,Ireland,16
+Jazz LHD,-5,Germany,94
+Jazz LHD,-5,France,69
+Jazz LHD,-5,Belgium,50
+Jazz LHD,-5,Nordics,59
+Jazz RHD,-5,UK,78
+Jazz RHD,-5,Ireland,19
+e:Ny1 LHD,-5,Germany,39
+e:Ny1 LHD,-5,France,29
+e:Ny1 LHD,-5,Belgium,20
+e:Ny1 LHD,-5,Nordics,24
+e:Ny1 RHD,-5,UK,48
+e:Ny1 RHD,-5,Ireland,12
+Civic LHD,-4,Germany,96
+Civic LHD,-4,France,70
+Civic LHD,-4,Italy,90
+Civic LHD,-4,Spain,80
+Civic LHD,-4,Netherlands,60
+Civic LHD,-4,Poland,68
+Civic RHD,-4,UK,165
+CR-V LHD,-4,Germany,96
+CR-V LHD,-4,France,70
+CR-V LHD,-4,Italy,90
+CR-V LHD,-4,Spain,80
+CR-V LHD,-4,Netherlands,60
+CR-V LHD,-4,Poland,68
+CR-V RHD,-4,UK,165
+HR-V LHD,-4,Germany,48
+HR-V LHD,-4,France,35
+HR-V LHD,-4,Italy,45
+HR-V LHD,-4,Spain,40
+HR-V LHD,-4,Netherlands,30
+HR-V LHD,-4,Poland,34
+HR-V RHD,-4,UK,83
+Jazz LHD,-4,Germany,57
+Jazz LHD,-4,France,42
+Jazz LHD,-4,Italy,54
+Jazz LHD,-4,Spain,48
+Jazz LHD,-4,Netherlands,36
+Jazz LHD,-4,Poland,41
+Jazz RHD,-4,UK,99
+e:Ny1 LHD,-4,Germany,49
+e:Ny1 LHD,-4,France,36
+e:Ny1 LHD,-4,Netherlands,31
+e:Ny1 RHD,-4,UK,63
+Civic LHD,-3,Germany,129
+Civic LHD,-3,France,95
+Civic LHD,-3,Belgium,68
+Civic LHD,-3,Nordics,82
+Civic LHD,-3,Portugal,92
+Civic RHD,-3,UK,132
+Civic RHD,-3,Ireland,33
+CR-V LHD,-3,Germany,129
+CR-V LHD,-3,France,95
+CR-V LHD,-3,Belgium,68
+CR-V LHD,-3,Nordics,81
+CR-V LHD,-3,Portugal,92
+CR-V RHD,-3,UK,132
+CR-V RHD,-3,Ireland,33
+HR-V LHD,-3,Germany,64
+HR-V LHD,-3,France,47
+HR-V LHD,-3,Belgium,34
+HR-V LHD,-3,Nordics,41
+HR-V LHD,-3,Portugal,46
+HR-V RHD,-3,UK,66
+HR-V RHD,-3,Ireland,17
+Jazz LHD,-3,Germany,77
+Jazz LHD,-3,France,57
+Jazz LHD,-3,Belgium,41
+Jazz LHD,-3,Nordics,49
+Jazz LHD,-3,Portugal,55
+Jazz RHD,-3,UK,79
+Jazz RHD,-3,Ireland,20
+e:Ny1 LHD,-3,Germany,41
+e:Ny1 LHD,-3,France,30
+e:Ny1 LHD,-3,Belgium,22
+e:Ny1 LHD,-3,Nordics,26
+e:Ny1 RHD,-3,UK,51
+e:Ny1 RHD,-3,Ireland,13
+Civic LHD,-2,Germany,113
+Civic LHD,-2,France,83
+Civic LHD,-2,Italy,107
+Civic LHD,-2,Spain,95
+Civic LHD,-2,Netherlands,72
+Civic RHD,-2,UK,167
+CR-V LHD,-2,Germany,113
+CR-V LHD,-2,France,83
+CR-V LHD,-2,Italy,107
+CR-V LHD,-2,Spain,95
+CR-V LHD,-2,Netherlands,72
+CR-V RHD,-2,UK,167
+HR-V LHD,-2,Germany,56
+HR-V LHD,-2,France,42
+HR-V LHD,-2,Italy,53
+HR-V LHD,-2,Spain,48
+HR-V LHD,-2,Netherlands,36
+HR-V RHD,-2,UK,84
+Jazz LHD,-2,Germany,68
+Jazz LHD,-2,France,50
+Jazz LHD,-2,Italy,64
+Jazz LHD,-2,Spain,57
+Jazz LHD,-2,Netherlands,43
+Jazz RHD,-2,UK,100
+e:Ny1 LHD,-2,Germany,51
+e:Ny1 LHD,-2,France,38
+e:Ny1 LHD,-2,Netherlands,32
+e:Ny1 RHD,-2,UK,66
+Civic LHD,-1,Germany,118
+Civic LHD,-1,France,87
+Civic LHD,-1,Belgium,62
+Civic LHD,-1,Poland,84
+Civic LHD,-1,Nordics,74
+Civic RHD,-1,UK,121
+Civic RHD,-1,Ireland,30
+CR-V LHD,-1,Germany,118
+CR-V LHD,-1,France,87
+CR-V LHD,-1,Belgium,62
+CR-V LHD,-1,Poland,84
+CR-V LHD,-1,Nordics,74
+CR-V RHD,-1,UK,121
+CR-V RHD,-1,Ireland,30
+HR-V LHD,-1,Germany,59
+HR-V LHD,-1,France,44
+HR-V LHD,-1,Belgium,31
+HR-V LHD,-1,Poland,42
+HR-V LHD,-1,Nordics,37
+HR-V RHD,-1,UK,60
+HR-V RHD,-1,Ireland,15
+Jazz LHD,-1,Germany,71
+Jazz LHD,-1,France,52
+Jazz LHD,-1,Belgium,37
+Jazz LHD,-1,Poland,50
+Jazz LHD,-1,Nordics,45
+Jazz RHD,-1,UK,73
+Jazz RHD,-1,Ireland,18
+e:Ny1 LHD,-1,Germany,39
+e:Ny1 LHD,-1,France,29
+e:Ny1 LHD,-1,Belgium,20
+e:Ny1 LHD,-1,Nordics,24
+e:Ny1 RHD,-1,UK,48
+e:Ny1 RHD,-1,Ireland,12
+Civic LHD,0,Germany,87
+Civic LHD,0,France,64
+Civic LHD,0,Italy,82
+Civic LHD,0,Spain,73
+Civic LHD,0,Netherlands,55
+Civic LHD,0,Portugal,62
+Civic RHD,0,UK,150
+CR-V LHD,0,Germany,87
+CR-V LHD,0,France,64
+CR-V LHD,0,Italy,82
+CR-V LHD,0,Spain,73
+CR-V LHD,0,Netherlands,55
+CR-V LHD,0,Portugal,62
+CR-V RHD,0,UK,150
+HR-V LHD,0,Germany,43
+HR-V LHD,0,France,32
+HR-V LHD,0,Italy,41
+HR-V LHD,0,Spain,37
+HR-V LHD,0,Netherlands,27
+HR-V LHD,0,Portugal,31
+HR-V RHD,0,UK,75
+Jazz LHD,0,Germany,52
+Jazz LHD,0,France,39
+Jazz LHD,0,Italy,49
+Jazz LHD,0,Spain,44
+Jazz LHD,0,Netherlands,33
+Jazz LHD,0,Portugal,37
+Jazz RHD,0,UK,90
+e:Ny1 LHD,0,Germany,47
+e:Ny1 LHD,0,France,35
+e:Ny1 LHD,0,Netherlands,30
+e:Ny1 RHD,0,UK,61
+Civic LHD,1,Germany,146
+Civic LHD,1,France,108
+Civic LHD,1,Belgium,77
+Civic LHD,1,Nordics,92
+Civic RHD,1,UK,120
+Civic RHD,1,Ireland,30
+CR-V LHD,1,Germany,146
+CR-V LHD,1,France,108
+CR-V LHD,1,Belgium,77
+CR-V LHD,1,Nordics,92
+CR-V RHD,1,UK,120
+CR-V RHD,1,Ireland,30
+HR-V LHD,1,Germany,73
+HR-V LHD,1,France,54
+HR-V LHD,1,Belgium,38
+HR-V LHD,1,Nordics,46
+HR-V RHD,1,UK,60
+HR-V RHD,1,Ireland,15
+Jazz LHD,1,Germany,88
+Jazz LHD,1,France,64
+Jazz LHD,1,Belgium,46
+Jazz LHD,1,Nordics,55
+Jazz RHD,1,UK,72
+Jazz RHD,1,Ireland,18
+e:Ny1 LHD,1,Germany,39
+e:Ny1 LHD,1,France,29
+e:Ny1 LHD,1,Belgium,21
+e:Ny1 LHD,1,Nordics,25
+e:Ny1 RHD,1,UK,50
+e:Ny1 RHD,1,Ireland,12
+Civic LHD,2,Germany,86
+Civic LHD,2,France,64
+Civic LHD,2,Italy,82
+Civic LHD,2,Spain,73
+Civic LHD,2,Netherlands,54
+Civic LHD,2,Poland,61
+Civic RHD,2,UK,149
+CR-V LHD,2,Germany,86
+CR-V LHD,2,France,64
+CR-V LHD,2,Italy,82
+CR-V LHD,2,Spain,73
+CR-V LHD,2,Netherlands,54
+CR-V LHD,2,Poland,61
+CR-V RHD,2,UK,149
+HR-V LHD,2,Germany,43
+HR-V LHD,2,France,32
+HR-V LHD,2,Italy,41
+HR-V LHD,2,Spain,36
+HR-V LHD,2,Netherlands,27
+HR-V LHD,2,Poland,31
+HR-V RHD,2,UK,75
+Jazz LHD,2,Germany,52
+Jazz LHD,2,France,38
+Jazz LHD,2,Italy,49
+Jazz LHD,2,Spain,43
+Jazz LHD,2,Netherlands,33
+Jazz LHD,2,Poland,37
+Jazz RHD,2,UK,89
+e:Ny1 LHD,2,Germany,49
+e:Ny1 LHD,2,France,36
+e:Ny1 LHD,2,Netherlands,31
+e:Ny1 RHD,2,UK,62
+Civic LHD,3,Germany,120
+Civic LHD,3,France,89
+Civic LHD,3,Belgium,63
+Civic LHD,3,Nordics,76
+Civic LHD,3,Portugal,86
+Civic RHD,3,UK,123
+Civic RHD,3,Ireland,31
+CR-V LHD,3,Germany,120
+CR-V LHD,3,France,89
+CR-V LHD,3,Belgium,63
+CR-V LHD,3,Nordics,76
+CR-V LHD,3,Portugal,86
+CR-V RHD,3,UK,123
+CR-V RHD,3,Ireland,31
+HR-V LHD,3,Germany,60
+HR-V LHD,3,France,44
+HR-V LHD,3,Belgium,32
+HR-V LHD,3,Nordics,38
+HR-V LHD,3,Portugal,43
+HR-V RHD,3,UK,62
+HR-V RHD,3,Ireland,15
+Jazz LHD,3,Germany,72
+Jazz LHD,3,France,53
+Jazz LHD,3,Belgium,38
+Jazz LHD,3,Nordics,46
+Jazz LHD,3,Portugal,51
+Jazz RHD,3,UK,74
+Jazz RHD,3,Ireland,18
+e:Ny1 LHD,3,Germany,42
+e:Ny1 LHD,3,France,31
+e:Ny1 LHD,3,Belgium,22
+e:Ny1 LHD,3,Nordics,26
+e:Ny1 RHD,3,UK,52
+e:Ny1 RHD,3,Ireland,13
+Civic LHD,4,Germany,125
+Civic LHD,4,France,92
+Civic LHD,4,Italy,119
+Civic LHD,4,Spain,106
+Civic LHD,4,Netherlands,79
+Civic RHD,4,UK,185
+CR-V LHD,4,Germany,125
+CR-V LHD,4,France,92
+CR-V LHD,4,Italy,119
+CR-V LHD,4,Spain,106
+CR-V LHD,4,Netherlands,79
+CR-V RHD,4,UK,185
+HR-V LHD,4,Germany,63
+HR-V LHD,4,France,46
+HR-V LHD,4,Italy,59
+HR-V LHD,4,Spain,53
+HR-V LHD,4,Netherlands,39
+HR-V RHD,4,UK,93
+Jazz LHD,4,Germany,75
+Jazz LHD,4,France,55
+Jazz LHD,4,Italy,71
+Jazz LHD,4,Spain,63
+Jazz LHD,4,Netherlands,48
+Jazz RHD,4,UK,111
+e:Ny1 LHD,4,Germany,62
+e:Ny1 LHD,4,France,46
+e:Ny1 LHD,4,Netherlands,39
+e:Ny1 RHD,4,UK,80
+Civic LHD,5,Germany,145
+Civic LHD,5,France,107
+Civic LHD,5,Belgium,76
+Civic LHD,5,Poland,103
+Civic LHD,5,Nordics,91
+Civic RHD,5,UK,148
+Civic RHD,5,Ireland,37
+CR-V LHD,5,Germany,145
+CR-V LHD,5,France,107
+CR-V LHD,5,Belgium,76
+CR-V LHD,5,Poland,103
+CR-V LHD,5,Nordics,91
+CR-V RHD,5,UK,148
+CR-V RHD,5,Ireland,37
+HR-V LHD,5,Germany,72
+HR-V LHD,5,France,53
+HR-V LHD,5,Belgium,38
+HR-V LHD,5,Poland,51
+HR-V LHD,5,Nordics,46
+HR-V RHD,5,UK,74
+HR-V RHD,5,Ireland,19
+Jazz LHD,5,Germany,87
+Jazz LHD,5,France,64
+Jazz LHD,5,Belgium,46
+Jazz LHD,5,Poland,61
+Jazz LHD,5,Nordics,55
+Jazz RHD,5,UK,89
+Jazz RHD,5,Ireland,22
+e:Ny1 LHD,5,Germany,51
+e:Ny1 LHD,5,France,38
+e:Ny1 LHD,5,Belgium,27
+e:Ny1 LHD,5,Nordics,33
+e:Ny1 RHD,5,UK,65
+e:Ny1 RHD,5,Ireland,16
+Civic LHD,6,Germany,105
+Civic LHD,6,France,78
+Civic LHD,6,Italy,100
+Civic LHD,6,Spain,89
+Civic LHD,6,Netherlands,67
+Civic LHD,6,Portugal,75
+Civic RHD,6,UK,182
+CR-V LHD,6,Germany,105
+CR-V LHD,6,France,78
+CR-V LHD,6,Italy,100
+CR-V LHD,6,Spain,89
+CR-V LHD,6,Netherlands,66
+CR-V LHD,6,Portugal,75
+CR-V RHD,6,UK,182
+HR-V LHD,6,Germany,53
+HR-V LHD,6,France,39
+HR-V LHD,6,Italy,50
+HR-V LHD,6,Spain,44
+HR-V LHD,6,Netherlands,33
+HR-V LHD,6,Portugal,38
+HR-V RHD,6,UK,91
+Jazz LHD,6,Germany,63
+Jazz LHD,6,France,47
+Jazz LHD,6,Italy,60
+Jazz LHD,6,Spain,53
+Jazz LHD,6,Netherlands,40
+Jazz LHD,6,Portugal,45
+Jazz RHD,6,UK,109
+e:Ny1 LHD,6,Germany,63
+e:Ny1 LHD,6,France,46
+e:Ny1 LHD,6,Netherlands,40
+e:Ny1 RHD,6,UK,81
+Civic LHD,7,Germany,181
+Civic LHD,7,France,133
+Civic LHD,7,Belgium,95
+Civic LHD,7,Nordics,114
+Civic RHD,7,UK,149
+Civic RHD,7,Ireland,37
+CR-V LHD,7,Germany,181
+CR-V LHD,7,France,133
+CR-V LHD,7,Belgium,95
+CR-V LHD,7,Nordics,114
+CR-V RHD,7,UK,149
+CR-V RHD,7,Ireland,37
+HR-V LHD,7,Germany,90
+HR-V LHD,7,France,67
+HR-V LHD,7,Belgium,48
+HR-V LHD,7,Nordics,57
+HR-V RHD,7,UK,74
+HR-V RHD,7,Ireland,19
+Jazz LHD,7,Germany,108
+Jazz LHD,7,France,80
+Jazz LHD,7,Belgium,57
+Jazz LHD,7,Nordics,69
+Jazz RHD,7,UK,89
+Jazz RHD,7,Ireland,22
+e:Ny1 LHD,7,Germany,53
+e:Ny1 LHD,7,France,39
+e:Ny1 LHD,7,Belgium,28
+e:Ny1 LHD,7,Nordics,34
+e:Ny1 RHD,7,UK,66
+e:Ny1 RHD,7,Ireland,17
+Civic LHD,8,Germany,102
+Civic LHD,8,France,75
+Civic LHD,8,Italy,96
+Civic LHD,8,Spain,86
+Civic LHD,8,Netherlands,64
+Civic LHD,8,Poland,72
+Civic RHD,8,UK,176
+CR-V LHD,8,Germany,102
+CR-V LHD,8,France,75
+CR-V LHD,8,Italy,96
+CR-V LHD,8,Spain,86
+CR-V LHD,8,Netherlands,64
+CR-V LHD,8,Poland,72
+CR-V RHD,8,UK,176
+HR-V LHD,8,Germany,51
+HR-V LHD,8,France,37
+HR-V LHD,8,Italy,48
+HR-V LHD,8,Spain,43
+HR-V LHD,8,Netherlands,32
+HR-V LHD,8,Poland,36
+HR-V RHD,8,UK,88
+Jazz LHD,8,Germany,61
+Jazz LHD,8,France,45
+Jazz LHD,8,Italy,58
+Jazz LHD,8,Spain,51
+Jazz LHD,8,Netherlands,39
+Jazz LHD,8,Poland,43
+Jazz RHD,8,UK,105
+e:Ny1 LHD,8,Germany,62
+e:Ny1 LHD,8,France,46
+e:Ny1 LHD,8,Netherlands,39
+e:Ny1 RHD,8,UK,80

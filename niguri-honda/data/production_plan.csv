@@ -1,391 +1,781 @@
 model,production_week,week_start_date,status,units
-Civic,-26,2026-02-09,actual,672
-CR-V,-26,2026-02-09,actual,672
-HR-V,-26,2026-02-09,actual,336
-Jazz,-26,2026-02-09,actual,403
-e:Ny1,-26,2026-02-09,actual,125
-Civic,-25,2026-02-16,actual,681
-CR-V,-25,2026-02-16,actual,681
-HR-V,-25,2026-02-16,actual,340
-Jazz,-25,2026-02-16,actual,409
-e:Ny1,-25,2026-02-16,actual,130
-Civic,-24,2026-02-23,actual,688
-CR-V,-24,2026-02-23,actual,688
-HR-V,-24,2026-02-23,actual,344
-Jazz,-24,2026-02-23,actual,412
-e:Ny1,-24,2026-02-23,actual,134
-Civic,-23,2026-03-02,actual,705
-CR-V,-23,2026-03-02,actual,704
-HR-V,-23,2026-03-02,actual,352
-Jazz,-23,2026-03-02,actual,423
-e:Ny1,-23,2026-03-02,actual,140
-Civic,-22,2026-03-09,actual,705
-CR-V,-22,2026-03-09,actual,705
-HR-V,-22,2026-03-09,actual,353
-Jazz,-22,2026-03-09,actual,423
-e:Ny1,-22,2026-03-09,actual,144
-Civic,-21,2026-03-16,actual,726
-CR-V,-21,2026-03-16,actual,726
-HR-V,-21,2026-03-16,actual,363
-Jazz,-21,2026-03-16,actual,436
-e:Ny1,-21,2026-03-16,actual,151
-Civic,-20,2026-03-23,actual,729
-CR-V,-20,2026-03-23,actual,729
-HR-V,-20,2026-03-23,actual,365
-Jazz,-20,2026-03-23,actual,438
-e:Ny1,-20,2026-03-23,actual,155
-Civic,-19,2026-03-30,actual,706
-CR-V,-19,2026-03-30,actual,705
-HR-V,-19,2026-03-30,actual,353
-Jazz,-19,2026-03-30,actual,423
-e:Ny1,-19,2026-03-30,actual,153
-Civic,-18,2026-04-06,actual,701
-CR-V,-18,2026-04-06,actual,701
-HR-V,-18,2026-04-06,actual,350
-Jazz,-18,2026-04-06,actual,420
-e:Ny1,-18,2026-04-06,actual,155
-Civic,-17,2026-04-13,actual,710
-CR-V,-17,2026-04-13,actual,710
-HR-V,-17,2026-04-13,actual,355
-Jazz,-17,2026-04-13,actual,426
-e:Ny1,-17,2026-04-13,actual,161
-Civic,-16,2026-04-20,actual,670
-CR-V,-16,2026-04-20,actual,670
-HR-V,-16,2026-04-20,actual,335
-Jazz,-16,2026-04-20,actual,402
-e:Ny1,-16,2026-04-20,actual,155
-Civic,-15,2026-04-27,actual,673
-CR-V,-15,2026-04-27,actual,673
-HR-V,-15,2026-04-27,actual,336
-Jazz,-15,2026-04-27,actual,404
-e:Ny1,-15,2026-04-27,actual,158
-Civic,-14,2026-05-04,actual,693
-CR-V,-14,2026-05-04,actual,693
-HR-V,-14,2026-05-04,actual,346
-Jazz,-14,2026-05-04,actual,416
-e:Ny1,-14,2026-05-04,actual,166
-Civic,-13,2026-05-11,actual,669
-CR-V,-13,2026-05-11,actual,669
-HR-V,-13,2026-05-11,actual,334
-Jazz,-13,2026-05-11,actual,401
-e:Ny1,-13,2026-05-11,actual,164
-Civic,-12,2026-05-18,actual,675
-CR-V,-12,2026-05-18,actual,675
-HR-V,-12,2026-05-18,actual,338
-Jazz,-12,2026-05-18,actual,405
-e:Ny1,-12,2026-05-18,actual,168
-Civic,-11,2026-05-25,actual,655
-CR-V,-11,2026-05-25,actual,654
-HR-V,-11,2026-05-25,actual,327
-Jazz,-11,2026-05-25,actual,393
-e:Ny1,-11,2026-05-25,actual,166
-Civic,-10,2026-06-01,actual,677
-CR-V,-10,2026-06-01,actual,677
-HR-V,-10,2026-06-01,actual,338
-Jazz,-10,2026-06-01,actual,406
-e:Ny1,-10,2026-06-01,actual,175
-Civic,-9,2026-06-08,actual,687
-CR-V,-9,2026-06-08,actual,687
-HR-V,-9,2026-06-08,actual,343
-Jazz,-9,2026-06-08,actual,412
-e:Ny1,-9,2026-06-08,actual,180
-Civic,-8,2026-06-15,actual,660
-CR-V,-8,2026-06-15,actual,660
-HR-V,-8,2026-06-15,actual,330
-Jazz,-8,2026-06-15,actual,396
-e:Ny1,-8,2026-06-15,actual,177
-Civic,-7,2026-06-22,actual,659
-CR-V,-7,2026-06-22,actual,659
-HR-V,-7,2026-06-22,actual,330
-Jazz,-7,2026-06-22,actual,396
-e:Ny1,-7,2026-06-22,actual,179
-Civic,-6,2026-06-29,actual,666
-CR-V,-6,2026-06-29,actual,665
-HR-V,-6,2026-06-29,actual,333
-Jazz,-6,2026-06-29,actual,399
-e:Ny1,-6,2026-06-29,actual,184
-Civic,-5,2026-07-06,actual,615
-CR-V,-5,2026-07-06,actual,614
-HR-V,-5,2026-07-06,actual,307
-Jazz,-5,2026-07-06,actual,369
-e:Ny1,-5,2026-07-06,actual,172
-Civic,-4,2026-07-13,actual,629
-CR-V,-4,2026-07-13,actual,629
-HR-V,-4,2026-07-13,actual,315
-Jazz,-4,2026-07-13,actual,377
-e:Ny1,-4,2026-07-13,actual,179
-Civic,-3,2026-07-20,actual,631
-CR-V,-3,2026-07-20,actual,630
-HR-V,-3,2026-07-20,actual,315
-Jazz,-3,2026-07-20,actual,378
-e:Ny1,-3,2026-07-20,actual,183
-Civic,-2,2026-07-27,actual,637
-CR-V,-2,2026-07-27,actual,637
-HR-V,-2,2026-07-27,actual,319
-Jazz,-2,2026-07-27,actual,382
-e:Ny1,-2,2026-07-27,actual,187
-Civic,-1,2026-08-03,actual,576
-CR-V,-1,2026-08-03,actual,576
-HR-V,-1,2026-08-03,actual,288
-Jazz,-1,2026-08-03,actual,346
-e:Ny1,-1,2026-08-03,actual,172
-Civic,0,2026-08-10,actual,573
-CR-V,0,2026-08-10,actual,573
-HR-V,0,2026-08-10,actual,286
-Jazz,0,2026-08-10,actual,344
-e:Ny1,0,2026-08-10,actual,173
-Civic,1,2026-08-17,firm,573
-CR-V,1,2026-08-17,firm,573
-HR-V,1,2026-08-17,firm,286
-Jazz,1,2026-08-17,firm,343
-e:Ny1,1,2026-08-17,firm,176
-Civic,2,2026-08-24,firm,569
-CR-V,2,2026-08-24,firm,569
-HR-V,2,2026-08-24,firm,285
-Jazz,2,2026-08-24,firm,341
-e:Ny1,2,2026-08-24,firm,178
-Civic,3,2026-08-31,firm,588
-CR-V,3,2026-08-31,firm,588
-HR-V,3,2026-08-31,firm,294
-Jazz,3,2026-08-31,firm,352
-e:Ny1,3,2026-08-31,firm,186
-Civic,4,2026-09-07,firm,706
-CR-V,4,2026-09-07,firm,706
-HR-V,4,2026-09-07,firm,353
-Jazz,4,2026-09-07,firm,423
-e:Ny1,4,2026-09-07,firm,227
-Civic,5,2026-09-14,firm,707
-CR-V,5,2026-09-14,firm,707
-HR-V,5,2026-09-14,firm,353
-Jazz,5,2026-09-14,firm,424
-e:Ny1,5,2026-09-14,firm,230
-Civic,6,2026-09-21,firm,696
-CR-V,6,2026-09-21,firm,695
-HR-V,6,2026-09-21,firm,348
-Jazz,6,2026-09-21,firm,417
-e:Ny1,6,2026-09-21,firm,230
-Civic,7,2026-09-28,firm,709
-CR-V,7,2026-09-28,firm,709
-HR-V,7,2026-09-28,firm,355
-Jazz,7,2026-09-28,firm,425
-e:Ny1,7,2026-09-28,firm,237
-Civic,8,2026-10-05,firm,671
-CR-V,8,2026-10-05,firm,671
-HR-V,8,2026-10-05,firm,335
-Jazz,8,2026-10-05,firm,402
-e:Ny1,8,2026-10-05,firm,227
-Civic,9,2026-10-12,planned,693
-CR-V,9,2026-10-12,planned,693
-HR-V,9,2026-10-12,planned,346
-Jazz,9,2026-10-12,planned,416
-e:Ny1,9,2026-10-12,planned,238
-Civic,10,2026-10-19,planned,691
-CR-V,10,2026-10-19,planned,691
-HR-V,10,2026-10-19,planned,345
-Jazz,10,2026-10-19,planned,415
-e:Ny1,10,2026-10-19,planned,241
-Civic,11,2026-10-26,planned,677
-CR-V,11,2026-10-26,planned,676
-HR-V,11,2026-10-26,planned,338
-Jazz,11,2026-10-26,planned,406
-e:Ny1,11,2026-10-26,planned,239
-Civic,12,2026-11-02,planned,680
-CR-V,12,2026-11-02,planned,680
-HR-V,12,2026-11-02,planned,340
-Jazz,12,2026-11-02,planned,408
-e:Ny1,12,2026-11-02,planned,243
-Civic,13,2026-11-09,planned,676
-CR-V,13,2026-11-09,planned,676
-HR-V,13,2026-11-09,planned,338
-Jazz,13,2026-11-09,planned,406
-e:Ny1,13,2026-11-09,planned,244
-Civic,14,2026-11-16,planned,659
-CR-V,14,2026-11-16,planned,659
-HR-V,14,2026-11-16,planned,329
-Jazz,14,2026-11-16,planned,395
-e:Ny1,14,2026-11-16,planned,241
-Civic,15,2026-11-23,planned,671
-CR-V,15,2026-11-23,planned,671
-HR-V,15,2026-11-23,planned,335
-Jazz,15,2026-11-23,planned,402
-e:Ny1,15,2026-11-23,planned,249
-Civic,16,2026-11-30,planned,679
-CR-V,16,2026-11-30,planned,679
-HR-V,16,2026-11-30,planned,340
-Jazz,16,2026-11-30,planned,408
-e:Ny1,16,2026-11-30,planned,255
-Civic,17,2026-12-07,planned,517
-CR-V,17,2026-12-07,planned,517
-HR-V,17,2026-12-07,planned,259
-Jazz,17,2026-12-07,planned,310
-e:Ny1,17,2026-12-07,planned,197
-Civic,18,2026-12-14,planned,517
-CR-V,18,2026-12-14,planned,517
-HR-V,18,2026-12-14,planned,258
-Jazz,18,2026-12-14,planned,310
-e:Ny1,18,2026-12-14,planned,198
-Civic,19,2026-12-21,planned,526
-CR-V,19,2026-12-21,planned,525
-HR-V,19,2026-12-21,planned,263
-Jazz,19,2026-12-21,planned,315
-e:Ny1,19,2026-12-21,planned,204
-Civic,20,2026-12-28,planned,520
-CR-V,20,2026-12-28,planned,520
-HR-V,20,2026-12-28,planned,260
-Jazz,20,2026-12-28,planned,312
-e:Ny1,20,2026-12-28,planned,205
-Civic,21,2027-01-04,planned,606
-CR-V,21,2027-01-04,planned,606
-HR-V,21,2027-01-04,planned,303
-Jazz,21,2027-01-04,planned,364
-e:Ny1,21,2027-01-04,planned,241
-Civic,22,2027-01-11,planned,589
-CR-V,22,2027-01-11,planned,589
-HR-V,22,2027-01-11,planned,294
-Jazz,22,2027-01-11,planned,353
-e:Ny1,22,2027-01-11,planned,237
-Civic,23,2027-01-18,planned,587
-CR-V,23,2027-01-18,planned,587
-HR-V,23,2027-01-18,planned,294
-Jazz,23,2027-01-18,planned,353
-e:Ny1,23,2027-01-18,planned,239
-Civic,24,2027-01-25,planned,584
-CR-V,24,2027-01-25,planned,584
-HR-V,24,2027-01-25,planned,292
-Jazz,24,2027-01-25,planned,351
-e:Ny1,24,2027-01-25,planned,240
-Civic,25,2027-02-01,planned,625
-CR-V,25,2027-02-01,planned,625
-HR-V,25,2027-02-01,planned,313
-Jazz,25,2027-02-01,planned,375
-e:Ny1,25,2027-02-01,planned,260
-Civic,26,2027-02-08,planned,614
-CR-V,26,2027-02-08,planned,614
-HR-V,26,2027-02-08,planned,307
-Jazz,26,2027-02-08,planned,368
-e:Ny1,26,2027-02-08,planned,258
-Civic,27,2027-02-15,planned,644
-CR-V,27,2027-02-15,planned,644
-HR-V,27,2027-02-15,planned,322
-Jazz,27,2027-02-15,planned,386
-e:Ny1,27,2027-02-15,planned,274
-Civic,28,2027-02-22,planned,611
-CR-V,28,2027-02-22,planned,611
-HR-V,28,2027-02-22,planned,306
-Jazz,28,2027-02-22,planned,367
-e:Ny1,28,2027-02-22,planned,263
-Civic,29,2027-03-01,planned,657
-CR-V,29,2027-03-01,planned,657
-HR-V,29,2027-03-01,planned,328
-Jazz,29,2027-03-01,planned,394
-e:Ny1,29,2027-03-01,planned,285
-Civic,30,2027-03-08,planned,666
-CR-V,30,2027-03-08,planned,665
-HR-V,30,2027-03-08,planned,333
-Jazz,30,2027-03-08,planned,399
-e:Ny1,30,2027-03-08,planned,292
-Civic,31,2027-03-15,planned,682
-CR-V,31,2027-03-15,planned,682
-HR-V,31,2027-03-15,planned,341
-Jazz,31,2027-03-15,planned,410
-e:Ny1,31,2027-03-15,planned,302
-Civic,32,2027-03-22,planned,663
-CR-V,32,2027-03-22,planned,663
-HR-V,32,2027-03-22,planned,332
-Jazz,32,2027-03-22,planned,398
-e:Ny1,32,2027-03-22,planned,297
-Civic,33,2027-03-29,planned,656
-CR-V,33,2027-03-29,planned,656
-HR-V,33,2027-03-29,planned,328
-Jazz,33,2027-03-29,planned,393
-e:Ny1,33,2027-03-29,planned,296
-Civic,34,2027-04-05,planned,638
-CR-V,34,2027-04-05,planned,638
-HR-V,34,2027-04-05,planned,319
-Jazz,34,2027-04-05,planned,382
-e:Ny1,34,2027-04-05,planned,291
-Civic,35,2027-04-12,planned,630
-CR-V,35,2027-04-12,planned,630
-HR-V,35,2027-04-12,planned,315
-Jazz,35,2027-04-12,planned,378
-e:Ny1,35,2027-04-12,planned,291
-Civic,36,2027-04-19,planned,662
-CR-V,36,2027-04-19,planned,662
-HR-V,36,2027-04-19,planned,331
-Jazz,36,2027-04-19,planned,398
-e:Ny1,36,2027-04-19,planned,309
-Civic,37,2027-04-26,planned,634
-CR-V,37,2027-04-26,planned,634
-HR-V,37,2027-04-26,planned,317
-Jazz,37,2027-04-26,planned,380
-e:Ny1,37,2027-04-26,planned,298
-Civic,38,2027-05-03,planned,627
-CR-V,38,2027-05-03,planned,627
-HR-V,38,2027-05-03,planned,314
-Jazz,38,2027-05-03,planned,377
-e:Ny1,38,2027-05-03,planned,298
-Civic,39,2027-05-10,planned,643
-CR-V,39,2027-05-10,planned,643
-HR-V,39,2027-05-10,planned,321
-Jazz,39,2027-05-10,planned,385
-e:Ny1,39,2027-05-10,planned,308
-Civic,40,2027-05-17,planned,626
-CR-V,40,2027-05-17,planned,626
-HR-V,40,2027-05-17,planned,313
-Jazz,40,2027-05-17,planned,376
-e:Ny1,40,2027-05-17,planned,303
-Civic,41,2027-05-24,planned,626
-CR-V,41,2027-05-24,planned,626
-HR-V,41,2027-05-24,planned,313
-Jazz,41,2027-05-24,planned,375
-e:Ny1,41,2027-05-24,planned,306
-Civic,42,2027-05-31,planned,624
-CR-V,42,2027-05-31,planned,624
-HR-V,42,2027-05-31,planned,312
-Jazz,42,2027-05-31,planned,375
-e:Ny1,42,2027-05-31,planned,308
-Civic,43,2027-06-07,planned,618
-CR-V,43,2027-06-07,planned,618
-HR-V,43,2027-06-07,planned,309
-Jazz,43,2027-06-07,planned,370
-e:Ny1,43,2027-06-07,planned,307
-Civic,44,2027-06-14,planned,643
-CR-V,44,2027-06-14,planned,643
-HR-V,44,2027-06-14,planned,322
-Jazz,44,2027-06-14,planned,386
-e:Ny1,44,2027-06-14,planned,323
-Civic,45,2027-06-21,planned,634
-CR-V,45,2027-06-21,planned,633
-HR-V,45,2027-06-21,planned,317
-Jazz,45,2027-06-21,planned,380
-e:Ny1,45,2027-06-21,planned,321
-Civic,46,2027-06-28,planned,613
-CR-V,46,2027-06-28,planned,613
-HR-V,46,2027-06-28,planned,306
-Jazz,46,2027-06-28,planned,367
-e:Ny1,46,2027-06-28,planned,313
-Civic,47,2027-07-05,planned,576
-CR-V,47,2027-07-05,planned,576
-HR-V,47,2027-07-05,planned,288
-Jazz,47,2027-07-05,planned,345
-e:Ny1,47,2027-07-05,planned,297
-Civic,48,2027-07-12,planned,590
-CR-V,48,2027-07-12,planned,590
-HR-V,48,2027-07-12,planned,295
-Jazz,48,2027-07-12,planned,354
-e:Ny1,48,2027-07-12,planned,307
-Civic,49,2027-07-19,planned,580
-CR-V,49,2027-07-19,planned,579
-HR-V,49,2027-07-19,planned,290
-Jazz,49,2027-07-19,planned,348
-e:Ny1,49,2027-07-19,planned,304
-Civic,50,2027-07-26,planned,599
-CR-V,50,2027-07-26,planned,599
-HR-V,50,2027-07-26,planned,299
-Jazz,50,2027-07-26,planned,359
-e:Ny1,50,2027-07-26,planned,317
-Civic,51,2027-08-02,planned,529
-CR-V,51,2027-08-02,planned,529
-HR-V,51,2027-08-02,planned,264
-Jazz,51,2027-08-02,planned,317
-e:Ny1,51,2027-08-02,planned,282
+Civic LHD,-26,2026-02-09,actual,496
+Civic RHD,-26,2026-02-09,actual,176
+CR-V LHD,-26,2026-02-09,actual,496
+CR-V RHD,-26,2026-02-09,actual,176
+HR-V LHD,-26,2026-02-09,actual,248
+HR-V RHD,-26,2026-02-09,actual,88
+Jazz LHD,-26,2026-02-09,actual,297
+Jazz RHD,-26,2026-02-09,actual,106
+e:Ny1 LHD,-26,2026-02-09,actual,81
+e:Ny1 RHD,-26,2026-02-09,actual,44
+Civic LHD,-25,2026-02-16,actual,502
+Civic RHD,-25,2026-02-16,actual,179
+CR-V LHD,-25,2026-02-16,actual,502
+CR-V RHD,-25,2026-02-16,actual,179
+HR-V LHD,-25,2026-02-16,actual,251
+HR-V RHD,-25,2026-02-16,actual,89
+Jazz LHD,-25,2026-02-16,actual,302
+Jazz RHD,-25,2026-02-16,actual,107
+e:Ny1 LHD,-25,2026-02-16,actual,84
+e:Ny1 RHD,-25,2026-02-16,actual,46
+Civic LHD,-24,2026-02-23,actual,508
+Civic RHD,-24,2026-02-23,actual,180
+CR-V LHD,-24,2026-02-23,actual,508
+CR-V RHD,-24,2026-02-23,actual,180
+HR-V LHD,-24,2026-02-23,actual,254
+HR-V RHD,-24,2026-02-23,actual,90
+Jazz LHD,-24,2026-02-23,actual,304
+Jazz RHD,-24,2026-02-23,actual,108
+e:Ny1 LHD,-24,2026-02-23,actual,87
+e:Ny1 RHD,-24,2026-02-23,actual,47
+Civic LHD,-23,2026-03-02,actual,520
+Civic RHD,-23,2026-03-02,actual,185
+CR-V LHD,-23,2026-03-02,actual,519
+CR-V RHD,-23,2026-03-02,actual,185
+HR-V LHD,-23,2026-03-02,actual,260
+HR-V RHD,-23,2026-03-02,actual,92
+Jazz LHD,-23,2026-03-02,actual,312
+Jazz RHD,-23,2026-03-02,actual,111
+e:Ny1 LHD,-23,2026-03-02,actual,91
+e:Ny1 RHD,-23,2026-03-02,actual,49
+Civic LHD,-22,2026-03-09,actual,520
+Civic RHD,-22,2026-03-09,actual,185
+CR-V LHD,-22,2026-03-09,actual,520
+CR-V RHD,-22,2026-03-09,actual,185
+HR-V LHD,-22,2026-03-09,actual,260
+HR-V RHD,-22,2026-03-09,actual,93
+Jazz LHD,-22,2026-03-09,actual,312
+Jazz RHD,-22,2026-03-09,actual,111
+e:Ny1 LHD,-22,2026-03-09,actual,94
+e:Ny1 RHD,-22,2026-03-09,actual,50
+Civic LHD,-21,2026-03-16,actual,536
+Civic RHD,-21,2026-03-16,actual,190
+CR-V LHD,-21,2026-03-16,actual,536
+CR-V RHD,-21,2026-03-16,actual,190
+HR-V LHD,-21,2026-03-16,actual,268
+HR-V RHD,-21,2026-03-16,actual,95
+Jazz LHD,-21,2026-03-16,actual,322
+Jazz RHD,-21,2026-03-16,actual,114
+e:Ny1 LHD,-21,2026-03-16,actual,98
+e:Ny1 RHD,-21,2026-03-16,actual,53
+Civic LHD,-20,2026-03-23,actual,538
+Civic RHD,-20,2026-03-23,actual,191
+CR-V LHD,-20,2026-03-23,actual,538
+CR-V RHD,-20,2026-03-23,actual,191
+HR-V LHD,-20,2026-03-23,actual,269
+HR-V RHD,-20,2026-03-23,actual,96
+Jazz LHD,-20,2026-03-23,actual,323
+Jazz RHD,-20,2026-03-23,actual,115
+e:Ny1 LHD,-20,2026-03-23,actual,101
+e:Ny1 RHD,-20,2026-03-23,actual,54
+Civic LHD,-19,2026-03-30,actual,521
+Civic RHD,-19,2026-03-30,actual,185
+CR-V LHD,-19,2026-03-30,actual,520
+CR-V RHD,-19,2026-03-30,actual,185
+HR-V LHD,-19,2026-03-30,actual,260
+HR-V RHD,-19,2026-03-30,actual,93
+Jazz LHD,-19,2026-03-30,actual,312
+Jazz RHD,-19,2026-03-30,actual,111
+e:Ny1 LHD,-19,2026-03-30,actual,99
+e:Ny1 RHD,-19,2026-03-30,actual,54
+Civic LHD,-18,2026-04-06,actual,517
+Civic RHD,-18,2026-04-06,actual,184
+CR-V LHD,-18,2026-04-06,actual,517
+CR-V RHD,-18,2026-04-06,actual,184
+HR-V LHD,-18,2026-04-06,actual,258
+HR-V RHD,-18,2026-04-06,actual,92
+Jazz LHD,-18,2026-04-06,actual,310
+Jazz RHD,-18,2026-04-06,actual,110
+e:Ny1 LHD,-18,2026-04-06,actual,101
+e:Ny1 RHD,-18,2026-04-06,actual,54
+Civic LHD,-17,2026-04-13,actual,524
+Civic RHD,-17,2026-04-13,actual,186
+CR-V LHD,-17,2026-04-13,actual,524
+CR-V RHD,-17,2026-04-13,actual,186
+HR-V LHD,-17,2026-04-13,actual,262
+HR-V RHD,-17,2026-04-13,actual,93
+Jazz LHD,-17,2026-04-13,actual,314
+Jazz RHD,-17,2026-04-13,actual,112
+e:Ny1 LHD,-17,2026-04-13,actual,105
+e:Ny1 RHD,-17,2026-04-13,actual,56
+Civic LHD,-16,2026-04-20,actual,494
+Civic RHD,-16,2026-04-20,actual,176
+CR-V LHD,-16,2026-04-20,actual,494
+CR-V RHD,-16,2026-04-20,actual,176
+HR-V LHD,-16,2026-04-20,actual,247
+HR-V RHD,-16,2026-04-20,actual,88
+Jazz LHD,-16,2026-04-20,actual,297
+Jazz RHD,-16,2026-04-20,actual,105
+e:Ny1 LHD,-16,2026-04-20,actual,101
+e:Ny1 RHD,-16,2026-04-20,actual,54
+Civic LHD,-15,2026-04-27,actual,497
+Civic RHD,-15,2026-04-27,actual,176
+CR-V LHD,-15,2026-04-27,actual,497
+CR-V RHD,-15,2026-04-27,actual,176
+HR-V LHD,-15,2026-04-27,actual,248
+HR-V RHD,-15,2026-04-27,actual,88
+Jazz LHD,-15,2026-04-27,actual,298
+Jazz RHD,-15,2026-04-27,actual,106
+e:Ny1 LHD,-15,2026-04-27,actual,103
+e:Ny1 RHD,-15,2026-04-27,actual,55
+Civic LHD,-14,2026-05-04,actual,511
+Civic RHD,-14,2026-05-04,actual,182
+CR-V LHD,-14,2026-05-04,actual,511
+CR-V RHD,-14,2026-05-04,actual,182
+HR-V LHD,-14,2026-05-04,actual,255
+HR-V RHD,-14,2026-05-04,actual,91
+Jazz LHD,-14,2026-05-04,actual,307
+Jazz RHD,-14,2026-05-04,actual,109
+e:Ny1 LHD,-14,2026-05-04,actual,108
+e:Ny1 RHD,-14,2026-05-04,actual,58
+Civic LHD,-13,2026-05-11,actual,494
+Civic RHD,-13,2026-05-11,actual,175
+CR-V LHD,-13,2026-05-11,actual,494
+CR-V RHD,-13,2026-05-11,actual,175
+HR-V LHD,-13,2026-05-11,actual,246
+HR-V RHD,-13,2026-05-11,actual,88
+Jazz LHD,-13,2026-05-11,actual,296
+Jazz RHD,-13,2026-05-11,actual,105
+e:Ny1 LHD,-13,2026-05-11,actual,106
+e:Ny1 RHD,-13,2026-05-11,actual,58
+Civic LHD,-12,2026-05-18,actual,498
+Civic RHD,-12,2026-05-18,actual,177
+CR-V LHD,-12,2026-05-18,actual,498
+CR-V RHD,-12,2026-05-18,actual,177
+HR-V LHD,-12,2026-05-18,actual,249
+HR-V RHD,-12,2026-05-18,actual,89
+Jazz LHD,-12,2026-05-18,actual,299
+Jazz RHD,-12,2026-05-18,actual,106
+e:Ny1 LHD,-12,2026-05-18,actual,109
+e:Ny1 RHD,-12,2026-05-18,actual,59
+Civic LHD,-11,2026-05-25,actual,483
+Civic RHD,-11,2026-05-25,actual,172
+CR-V LHD,-11,2026-05-25,actual,483
+CR-V RHD,-11,2026-05-25,actual,171
+HR-V LHD,-11,2026-05-25,actual,241
+HR-V RHD,-11,2026-05-25,actual,86
+Jazz LHD,-11,2026-05-25,actual,290
+Jazz RHD,-11,2026-05-25,actual,103
+e:Ny1 LHD,-11,2026-05-25,actual,108
+e:Ny1 RHD,-11,2026-05-25,actual,58
+Civic LHD,-10,2026-06-01,actual,500
+Civic RHD,-10,2026-06-01,actual,177
+CR-V LHD,-10,2026-06-01,actual,500
+CR-V RHD,-10,2026-06-01,actual,177
+HR-V LHD,-10,2026-06-01,actual,249
+HR-V RHD,-10,2026-06-01,actual,89
+Jazz LHD,-10,2026-06-01,actual,300
+Jazz RHD,-10,2026-06-01,actual,106
+e:Ny1 LHD,-10,2026-06-01,actual,114
+e:Ny1 RHD,-10,2026-06-01,actual,61
+Civic LHD,-9,2026-06-08,actual,507
+Civic RHD,-9,2026-06-08,actual,180
+CR-V LHD,-9,2026-06-08,actual,507
+CR-V RHD,-9,2026-06-08,actual,180
+HR-V LHD,-9,2026-06-08,actual,253
+HR-V RHD,-9,2026-06-08,actual,90
+Jazz LHD,-9,2026-06-08,actual,304
+Jazz RHD,-9,2026-06-08,actual,108
+e:Ny1 LHD,-9,2026-06-08,actual,117
+e:Ny1 RHD,-9,2026-06-08,actual,63
+Civic LHD,-8,2026-06-15,actual,487
+Civic RHD,-8,2026-06-15,actual,173
+CR-V LHD,-8,2026-06-15,actual,487
+CR-V RHD,-8,2026-06-15,actual,173
+HR-V LHD,-8,2026-06-15,actual,243
+HR-V RHD,-8,2026-06-15,actual,87
+Jazz LHD,-8,2026-06-15,actual,292
+Jazz RHD,-8,2026-06-15,actual,104
+e:Ny1 LHD,-8,2026-06-15,actual,115
+e:Ny1 RHD,-8,2026-06-15,actual,62
+Civic LHD,-7,2026-06-22,actual,486
+Civic RHD,-7,2026-06-22,actual,173
+CR-V LHD,-7,2026-06-22,actual,486
+CR-V RHD,-7,2026-06-22,actual,173
+HR-V LHD,-7,2026-06-22,actual,243
+HR-V RHD,-7,2026-06-22,actual,87
+Jazz LHD,-7,2026-06-22,actual,292
+Jazz RHD,-7,2026-06-22,actual,104
+e:Ny1 LHD,-7,2026-06-22,actual,116
+e:Ny1 RHD,-7,2026-06-22,actual,63
+Civic LHD,-6,2026-06-29,actual,491
+Civic RHD,-6,2026-06-29,actual,175
+CR-V LHD,-6,2026-06-29,actual,491
+CR-V RHD,-6,2026-06-29,actual,174
+HR-V LHD,-6,2026-06-29,actual,246
+HR-V RHD,-6,2026-06-29,actual,87
+Jazz LHD,-6,2026-06-29,actual,294
+Jazz RHD,-6,2026-06-29,actual,105
+e:Ny1 LHD,-6,2026-06-29,actual,119
+e:Ny1 RHD,-6,2026-06-29,actual,65
+Civic LHD,-5,2026-07-06,actual,454
+Civic RHD,-5,2026-07-06,actual,161
+CR-V LHD,-5,2026-07-06,actual,453
+CR-V RHD,-5,2026-07-06,actual,161
+HR-V LHD,-5,2026-07-06,actual,227
+HR-V RHD,-5,2026-07-06,actual,80
+Jazz LHD,-5,2026-07-06,actual,272
+Jazz RHD,-5,2026-07-06,actual,97
+e:Ny1 LHD,-5,2026-07-06,actual,112
+e:Ny1 RHD,-5,2026-07-06,actual,60
+Civic LHD,-4,2026-07-13,actual,464
+Civic RHD,-4,2026-07-13,actual,165
+CR-V LHD,-4,2026-07-13,actual,464
+CR-V RHD,-4,2026-07-13,actual,165
+HR-V LHD,-4,2026-07-13,actual,232
+HR-V RHD,-4,2026-07-13,actual,83
+Jazz LHD,-4,2026-07-13,actual,278
+Jazz RHD,-4,2026-07-13,actual,99
+e:Ny1 LHD,-4,2026-07-13,actual,116
+e:Ny1 RHD,-4,2026-07-13,actual,63
+Civic LHD,-3,2026-07-20,actual,466
+Civic RHD,-3,2026-07-20,actual,165
+CR-V LHD,-3,2026-07-20,actual,465
+CR-V RHD,-3,2026-07-20,actual,165
+HR-V LHD,-3,2026-07-20,actual,232
+HR-V RHD,-3,2026-07-20,actual,83
+Jazz LHD,-3,2026-07-20,actual,279
+Jazz RHD,-3,2026-07-20,actual,99
+e:Ny1 LHD,-3,2026-07-20,actual,119
+e:Ny1 RHD,-3,2026-07-20,actual,64
+Civic LHD,-2,2026-07-27,actual,470
+Civic RHD,-2,2026-07-27,actual,167
+CR-V LHD,-2,2026-07-27,actual,470
+CR-V RHD,-2,2026-07-27,actual,167
+HR-V LHD,-2,2026-07-27,actual,235
+HR-V RHD,-2,2026-07-27,actual,84
+Jazz LHD,-2,2026-07-27,actual,282
+Jazz RHD,-2,2026-07-27,actual,100
+e:Ny1 LHD,-2,2026-07-27,actual,121
+e:Ny1 RHD,-2,2026-07-27,actual,66
+Civic LHD,-1,2026-08-03,actual,425
+Civic RHD,-1,2026-08-03,actual,151
+CR-V LHD,-1,2026-08-03,actual,425
+CR-V RHD,-1,2026-08-03,actual,151
+HR-V LHD,-1,2026-08-03,actual,213
+HR-V RHD,-1,2026-08-03,actual,75
+Jazz LHD,-1,2026-08-03,actual,255
+Jazz RHD,-1,2026-08-03,actual,91
+e:Ny1 LHD,-1,2026-08-03,actual,112
+e:Ny1 RHD,-1,2026-08-03,actual,60
+Civic LHD,0,2026-08-10,actual,423
+Civic RHD,0,2026-08-10,actual,150
+CR-V LHD,0,2026-08-10,actual,423
+CR-V RHD,0,2026-08-10,actual,150
+HR-V LHD,0,2026-08-10,actual,211
+HR-V RHD,0,2026-08-10,actual,75
+Jazz LHD,0,2026-08-10,actual,254
+Jazz RHD,0,2026-08-10,actual,90
+e:Ny1 LHD,0,2026-08-10,actual,112
+e:Ny1 RHD,0,2026-08-10,actual,61
+Civic LHD,1,2026-08-17,firm,423
+Civic RHD,1,2026-08-17,firm,150
+CR-V LHD,1,2026-08-17,firm,423
+CR-V RHD,1,2026-08-17,firm,150
+HR-V LHD,1,2026-08-17,firm,211
+HR-V RHD,1,2026-08-17,firm,75
+Jazz LHD,1,2026-08-17,firm,253
+Jazz RHD,1,2026-08-17,firm,90
+e:Ny1 LHD,1,2026-08-17,firm,114
+e:Ny1 RHD,1,2026-08-17,firm,62
+Civic LHD,2,2026-08-24,firm,420
+Civic RHD,2,2026-08-24,firm,149
+CR-V LHD,2,2026-08-24,firm,420
+CR-V RHD,2,2026-08-24,firm,149
+HR-V LHD,2,2026-08-24,firm,210
+HR-V RHD,2,2026-08-24,firm,75
+Jazz LHD,2,2026-08-24,firm,252
+Jazz RHD,2,2026-08-24,firm,89
+e:Ny1 LHD,2,2026-08-24,firm,116
+e:Ny1 RHD,2,2026-08-24,firm,62
+Civic LHD,3,2026-08-31,firm,434
+Civic RHD,3,2026-08-31,firm,154
+CR-V LHD,3,2026-08-31,firm,434
+CR-V RHD,3,2026-08-31,firm,154
+HR-V LHD,3,2026-08-31,firm,217
+HR-V RHD,3,2026-08-31,firm,77
+Jazz LHD,3,2026-08-31,firm,260
+Jazz RHD,3,2026-08-31,firm,92
+e:Ny1 LHD,3,2026-08-31,firm,121
+e:Ny1 RHD,3,2026-08-31,firm,65
+Civic LHD,4,2026-09-07,firm,521
+Civic RHD,4,2026-09-07,firm,185
+CR-V LHD,4,2026-09-07,firm,521
+CR-V RHD,4,2026-09-07,firm,185
+HR-V LHD,4,2026-09-07,firm,260
+HR-V RHD,4,2026-09-07,firm,93
+Jazz LHD,4,2026-09-07,firm,312
+Jazz RHD,4,2026-09-07,firm,111
+e:Ny1 LHD,4,2026-09-07,firm,147
+e:Ny1 RHD,4,2026-09-07,firm,80
+Civic LHD,5,2026-09-14,firm,522
+Civic RHD,5,2026-09-14,firm,185
+CR-V LHD,5,2026-09-14,firm,522
+CR-V RHD,5,2026-09-14,firm,185
+HR-V LHD,5,2026-09-14,firm,260
+HR-V RHD,5,2026-09-14,firm,93
+Jazz LHD,5,2026-09-14,firm,313
+Jazz RHD,5,2026-09-14,firm,111
+e:Ny1 LHD,5,2026-09-14,firm,149
+e:Ny1 RHD,5,2026-09-14,firm,81
+Civic LHD,6,2026-09-21,firm,514
+Civic RHD,6,2026-09-21,firm,182
+CR-V LHD,6,2026-09-21,firm,513
+CR-V RHD,6,2026-09-21,firm,182
+HR-V LHD,6,2026-09-21,firm,257
+HR-V RHD,6,2026-09-21,firm,91
+Jazz LHD,6,2026-09-21,firm,308
+Jazz RHD,6,2026-09-21,firm,109
+e:Ny1 LHD,6,2026-09-21,firm,149
+e:Ny1 RHD,6,2026-09-21,firm,81
+Civic LHD,7,2026-09-28,firm,523
+Civic RHD,7,2026-09-28,firm,186
+CR-V LHD,7,2026-09-28,firm,523
+CR-V RHD,7,2026-09-28,firm,186
+HR-V LHD,7,2026-09-28,firm,262
+HR-V RHD,7,2026-09-28,firm,93
+Jazz LHD,7,2026-09-28,firm,314
+Jazz RHD,7,2026-09-28,firm,111
+e:Ny1 LHD,7,2026-09-28,firm,154
+e:Ny1 RHD,7,2026-09-28,firm,83
+Civic LHD,8,2026-10-05,firm,495
+Civic RHD,8,2026-10-05,firm,176
+CR-V LHD,8,2026-10-05,firm,495
+CR-V RHD,8,2026-10-05,firm,176
+HR-V LHD,8,2026-10-05,firm,247
+HR-V RHD,8,2026-10-05,firm,88
+Jazz LHD,8,2026-10-05,firm,297
+Jazz RHD,8,2026-10-05,firm,105
+e:Ny1 LHD,8,2026-10-05,firm,147
+e:Ny1 RHD,8,2026-10-05,firm,80
+Civic LHD,9,2026-10-12,planned,511
+Civic RHD,9,2026-10-12,planned,182
+CR-V LHD,9,2026-10-12,planned,511
+CR-V RHD,9,2026-10-12,planned,182
+HR-V LHD,9,2026-10-12,planned,255
+HR-V RHD,9,2026-10-12,planned,91
+Jazz LHD,9,2026-10-12,planned,307
+Jazz RHD,9,2026-10-12,planned,109
+e:Ny1 LHD,9,2026-10-12,planned,155
+e:Ny1 RHD,9,2026-10-12,planned,83
+Civic LHD,10,2026-10-19,planned,510
+Civic RHD,10,2026-10-19,planned,181
+CR-V LHD,10,2026-10-19,planned,510
+CR-V RHD,10,2026-10-19,planned,181
+HR-V LHD,10,2026-10-19,planned,255
+HR-V RHD,10,2026-10-19,planned,90
+Jazz LHD,10,2026-10-19,planned,306
+Jazz RHD,10,2026-10-19,planned,109
+e:Ny1 LHD,10,2026-10-19,planned,156
+e:Ny1 RHD,10,2026-10-19,planned,85
+Civic LHD,11,2026-10-26,planned,500
+Civic RHD,11,2026-10-26,planned,177
+CR-V LHD,11,2026-10-26,planned,499
+CR-V RHD,11,2026-10-26,planned,177
+HR-V LHD,11,2026-10-26,planned,249
+HR-V RHD,11,2026-10-26,planned,89
+Jazz LHD,11,2026-10-26,planned,300
+Jazz RHD,11,2026-10-26,planned,106
+e:Ny1 LHD,11,2026-10-26,planned,155
+e:Ny1 RHD,11,2026-10-26,planned,84
+Civic LHD,12,2026-11-02,planned,502
+Civic RHD,12,2026-11-02,planned,178
+CR-V LHD,12,2026-11-02,planned,502
+CR-V RHD,12,2026-11-02,planned,178
+HR-V LHD,12,2026-11-02,planned,251
+HR-V RHD,12,2026-11-02,planned,89
+Jazz LHD,12,2026-11-02,planned,301
+Jazz RHD,12,2026-11-02,planned,107
+e:Ny1 LHD,12,2026-11-02,planned,158
+e:Ny1 RHD,12,2026-11-02,planned,85
+Civic LHD,13,2026-11-09,planned,499
+Civic RHD,13,2026-11-09,planned,177
+CR-V LHD,13,2026-11-09,planned,499
+CR-V RHD,13,2026-11-09,planned,177
+HR-V LHD,13,2026-11-09,planned,249
+HR-V RHD,13,2026-11-09,planned,89
+Jazz LHD,13,2026-11-09,planned,300
+Jazz RHD,13,2026-11-09,planned,106
+e:Ny1 LHD,13,2026-11-09,planned,158
+e:Ny1 RHD,13,2026-11-09,planned,86
+Civic LHD,14,2026-11-16,planned,486
+Civic RHD,14,2026-11-16,planned,173
+CR-V LHD,14,2026-11-16,planned,486
+CR-V RHD,14,2026-11-16,planned,173
+HR-V LHD,14,2026-11-16,planned,243
+HR-V RHD,14,2026-11-16,planned,86
+Jazz LHD,14,2026-11-16,planned,291
+Jazz RHD,14,2026-11-16,planned,104
+e:Ny1 LHD,14,2026-11-16,planned,156
+e:Ny1 RHD,14,2026-11-16,planned,85
+Civic LHD,15,2026-11-23,planned,495
+Civic RHD,15,2026-11-23,planned,176
+CR-V LHD,15,2026-11-23,planned,495
+CR-V RHD,15,2026-11-23,planned,176
+HR-V LHD,15,2026-11-23,planned,247
+HR-V RHD,15,2026-11-23,planned,88
+Jazz LHD,15,2026-11-23,planned,297
+Jazz RHD,15,2026-11-23,planned,105
+e:Ny1 LHD,15,2026-11-23,planned,162
+e:Ny1 RHD,15,2026-11-23,planned,87
+Civic LHD,16,2026-11-30,planned,501
+Civic RHD,16,2026-11-30,planned,178
+CR-V LHD,16,2026-11-30,planned,501
+CR-V RHD,16,2026-11-30,planned,178
+HR-V LHD,16,2026-11-30,planned,251
+HR-V RHD,16,2026-11-30,planned,89
+Jazz LHD,16,2026-11-30,planned,301
+Jazz RHD,16,2026-11-30,planned,107
+e:Ny1 LHD,16,2026-11-30,planned,166
+e:Ny1 RHD,16,2026-11-30,planned,89
+Civic LHD,17,2026-12-07,planned,381
+Civic RHD,17,2026-12-07,planned,136
+CR-V LHD,17,2026-12-07,planned,381
+CR-V RHD,17,2026-12-07,planned,136
+HR-V LHD,17,2026-12-07,planned,191
+HR-V RHD,17,2026-12-07,planned,68
+Jazz LHD,17,2026-12-07,planned,229
+Jazz RHD,17,2026-12-07,planned,81
+e:Ny1 LHD,17,2026-12-07,planned,128
+e:Ny1 RHD,17,2026-12-07,planned,69
+Civic LHD,18,2026-12-14,planned,381
+Civic RHD,18,2026-12-14,planned,136
+CR-V LHD,18,2026-12-14,planned,381
+CR-V RHD,18,2026-12-14,planned,136
+HR-V LHD,18,2026-12-14,planned,190
+HR-V RHD,18,2026-12-14,planned,68
+Jazz LHD,18,2026-12-14,planned,229
+Jazz RHD,18,2026-12-14,planned,81
+e:Ny1 LHD,18,2026-12-14,planned,129
+e:Ny1 RHD,18,2026-12-14,planned,69
+Civic LHD,19,2026-12-21,planned,388
+Civic RHD,19,2026-12-21,planned,138
+CR-V LHD,19,2026-12-21,planned,387
+CR-V RHD,19,2026-12-21,planned,138
+HR-V LHD,19,2026-12-21,planned,194
+HR-V RHD,19,2026-12-21,planned,69
+Jazz LHD,19,2026-12-21,planned,232
+Jazz RHD,19,2026-12-21,planned,83
+e:Ny1 LHD,19,2026-12-21,planned,132
+e:Ny1 RHD,19,2026-12-21,planned,72
+Civic LHD,20,2026-12-28,planned,384
+Civic RHD,20,2026-12-28,planned,136
+CR-V LHD,20,2026-12-28,planned,384
+CR-V RHD,20,2026-12-28,planned,136
+HR-V LHD,20,2026-12-28,planned,192
+HR-V RHD,20,2026-12-28,planned,68
+Jazz LHD,20,2026-12-28,planned,230
+Jazz RHD,20,2026-12-28,planned,82
+e:Ny1 LHD,20,2026-12-28,planned,133
+e:Ny1 RHD,20,2026-12-28,planned,72
+Civic LHD,21,2027-01-04,planned,447
+Civic RHD,21,2027-01-04,planned,159
+CR-V LHD,21,2027-01-04,planned,447
+CR-V RHD,21,2027-01-04,planned,159
+HR-V LHD,21,2027-01-04,planned,224
+HR-V RHD,21,2027-01-04,planned,79
+Jazz LHD,21,2027-01-04,planned,269
+Jazz RHD,21,2027-01-04,planned,95
+e:Ny1 LHD,21,2027-01-04,planned,156
+e:Ny1 RHD,21,2027-01-04,planned,85
+Civic LHD,22,2027-01-11,planned,435
+Civic RHD,22,2027-01-11,planned,154
+CR-V LHD,22,2027-01-11,planned,435
+CR-V RHD,22,2027-01-11,planned,154
+HR-V LHD,22,2027-01-11,planned,217
+HR-V RHD,22,2027-01-11,planned,77
+Jazz LHD,22,2027-01-11,planned,260
+Jazz RHD,22,2027-01-11,planned,93
+e:Ny1 LHD,22,2027-01-11,planned,154
+e:Ny1 RHD,22,2027-01-11,planned,83
+Civic LHD,23,2027-01-18,planned,433
+Civic RHD,23,2027-01-18,planned,154
+CR-V LHD,23,2027-01-18,planned,433
+CR-V RHD,23,2027-01-18,planned,154
+HR-V LHD,23,2027-01-18,planned,217
+HR-V RHD,23,2027-01-18,planned,77
+Jazz LHD,23,2027-01-18,planned,260
+Jazz RHD,23,2027-01-18,planned,93
+e:Ny1 LHD,23,2027-01-18,planned,155
+e:Ny1 RHD,23,2027-01-18,planned,84
+Civic LHD,24,2027-01-25,planned,431
+Civic RHD,24,2027-01-25,planned,153
+CR-V LHD,24,2027-01-25,planned,431
+CR-V RHD,24,2027-01-25,planned,153
+HR-V LHD,24,2027-01-25,planned,215
+HR-V RHD,24,2027-01-25,planned,77
+Jazz LHD,24,2027-01-25,planned,259
+Jazz RHD,24,2027-01-25,planned,92
+e:Ny1 LHD,24,2027-01-25,planned,156
+e:Ny1 RHD,24,2027-01-25,planned,84
+Civic LHD,25,2027-02-01,planned,461
+Civic RHD,25,2027-02-01,planned,164
+CR-V LHD,25,2027-02-01,planned,461
+CR-V RHD,25,2027-02-01,planned,164
+HR-V LHD,25,2027-02-01,planned,231
+HR-V RHD,25,2027-02-01,planned,82
+Jazz LHD,25,2027-02-01,planned,277
+Jazz RHD,25,2027-02-01,planned,98
+e:Ny1 LHD,25,2027-02-01,planned,169
+e:Ny1 RHD,25,2027-02-01,planned,91
+Civic LHD,26,2027-02-08,planned,453
+Civic RHD,26,2027-02-08,planned,161
+CR-V LHD,26,2027-02-08,planned,453
+CR-V RHD,26,2027-02-08,planned,161
+HR-V LHD,26,2027-02-08,planned,227
+HR-V RHD,26,2027-02-08,planned,80
+Jazz LHD,26,2027-02-08,planned,272
+Jazz RHD,26,2027-02-08,planned,96
+e:Ny1 LHD,26,2027-02-08,planned,168
+e:Ny1 RHD,26,2027-02-08,planned,90
+Civic LHD,27,2027-02-15,planned,475
+Civic RHD,27,2027-02-15,planned,169
+CR-V LHD,27,2027-02-15,planned,475
+CR-V RHD,27,2027-02-15,planned,169
+HR-V LHD,27,2027-02-15,planned,238
+HR-V RHD,27,2027-02-15,planned,84
+Jazz LHD,27,2027-02-15,planned,285
+Jazz RHD,27,2027-02-15,planned,101
+e:Ny1 LHD,27,2027-02-15,planned,178
+e:Ny1 RHD,27,2027-02-15,planned,96
+Civic LHD,28,2027-02-22,planned,451
+Civic RHD,28,2027-02-22,planned,160
+CR-V LHD,28,2027-02-22,planned,451
+CR-V RHD,28,2027-02-22,planned,160
+HR-V LHD,28,2027-02-22,planned,226
+HR-V RHD,28,2027-02-22,planned,80
+Jazz LHD,28,2027-02-22,planned,271
+Jazz RHD,28,2027-02-22,planned,96
+e:Ny1 LHD,28,2027-02-22,planned,171
+e:Ny1 RHD,28,2027-02-22,planned,92
+Civic LHD,29,2027-03-01,planned,485
+Civic RHD,29,2027-03-01,planned,172
+CR-V LHD,29,2027-03-01,planned,485
+CR-V RHD,29,2027-03-01,planned,172
+HR-V LHD,29,2027-03-01,planned,242
+HR-V RHD,29,2027-03-01,planned,86
+Jazz LHD,29,2027-03-01,planned,291
+Jazz RHD,29,2027-03-01,planned,103
+e:Ny1 LHD,29,2027-03-01,planned,185
+e:Ny1 RHD,29,2027-03-01,planned,100
+Civic LHD,30,2027-03-08,planned,491
+Civic RHD,30,2027-03-08,planned,175
+CR-V LHD,30,2027-03-08,planned,491
+CR-V RHD,30,2027-03-08,planned,174
+HR-V LHD,30,2027-03-08,planned,246
+HR-V RHD,30,2027-03-08,planned,87
+Jazz LHD,30,2027-03-08,planned,294
+Jazz RHD,30,2027-03-08,planned,105
+e:Ny1 LHD,30,2027-03-08,planned,190
+e:Ny1 RHD,30,2027-03-08,planned,102
+Civic LHD,31,2027-03-15,planned,503
+Civic RHD,31,2027-03-15,planned,179
+CR-V LHD,31,2027-03-15,planned,503
+CR-V RHD,31,2027-03-15,planned,179
+HR-V LHD,31,2027-03-15,planned,252
+HR-V RHD,31,2027-03-15,planned,89
+Jazz LHD,31,2027-03-15,planned,303
+Jazz RHD,31,2027-03-15,planned,107
+e:Ny1 LHD,31,2027-03-15,planned,196
+e:Ny1 RHD,31,2027-03-15,planned,106
+Civic LHD,32,2027-03-22,planned,489
+Civic RHD,32,2027-03-22,planned,174
+CR-V LHD,32,2027-03-22,planned,489
+CR-V RHD,32,2027-03-22,planned,174
+HR-V LHD,32,2027-03-22,planned,245
+HR-V RHD,32,2027-03-22,planned,87
+Jazz LHD,32,2027-03-22,planned,294
+Jazz RHD,32,2027-03-22,planned,104
+e:Ny1 LHD,32,2027-03-22,planned,193
+e:Ny1 RHD,32,2027-03-22,planned,104
+Civic LHD,33,2027-03-29,planned,484
+Civic RHD,33,2027-03-29,planned,172
+CR-V LHD,33,2027-03-29,planned,484
+CR-V RHD,33,2027-03-29,planned,172
+HR-V LHD,33,2027-03-29,planned,242
+HR-V RHD,33,2027-03-29,planned,86
+Jazz LHD,33,2027-03-29,planned,290
+Jazz RHD,33,2027-03-29,planned,103
+e:Ny1 LHD,33,2027-03-29,planned,192
+e:Ny1 RHD,33,2027-03-29,planned,104
+Civic LHD,34,2027-04-05,planned,471
+Civic RHD,34,2027-04-05,planned,167
+CR-V LHD,34,2027-04-05,planned,471
+CR-V RHD,34,2027-04-05,planned,167
+HR-V LHD,34,2027-04-05,planned,235
+HR-V RHD,34,2027-04-05,planned,84
+Jazz LHD,34,2027-04-05,planned,282
+Jazz RHD,34,2027-04-05,planned,100
+e:Ny1 LHD,34,2027-04-05,planned,189
+e:Ny1 RHD,34,2027-04-05,planned,102
+Civic LHD,35,2027-04-12,planned,465
+Civic RHD,35,2027-04-12,planned,165
+CR-V LHD,35,2027-04-12,planned,465
+CR-V RHD,35,2027-04-12,planned,165
+HR-V LHD,35,2027-04-12,planned,232
+HR-V RHD,35,2027-04-12,planned,83
+Jazz LHD,35,2027-04-12,planned,279
+Jazz RHD,35,2027-04-12,planned,99
+e:Ny1 LHD,35,2027-04-12,planned,189
+e:Ny1 RHD,35,2027-04-12,planned,102
+Civic LHD,36,2027-04-19,planned,488
+Civic RHD,36,2027-04-19,planned,174
+CR-V LHD,36,2027-04-19,planned,488
+CR-V RHD,36,2027-04-19,planned,174
+HR-V LHD,36,2027-04-19,planned,244
+HR-V RHD,36,2027-04-19,planned,87
+Jazz LHD,36,2027-04-19,planned,294
+Jazz RHD,36,2027-04-19,planned,104
+e:Ny1 LHD,36,2027-04-19,planned,201
+e:Ny1 RHD,36,2027-04-19,planned,108
+Civic LHD,37,2027-04-26,planned,468
+Civic RHD,37,2027-04-26,planned,166
+CR-V LHD,37,2027-04-26,planned,468
+CR-V RHD,37,2027-04-26,planned,166
+HR-V LHD,37,2027-04-26,planned,234
+HR-V RHD,37,2027-04-26,planned,83
+Jazz LHD,37,2027-04-26,planned,280
+Jazz RHD,37,2027-04-26,planned,100
+e:Ny1 LHD,37,2027-04-26,planned,194
+e:Ny1 RHD,37,2027-04-26,planned,104
+Civic LHD,38,2027-05-03,planned,463
+Civic RHD,38,2027-05-03,planned,164
+CR-V LHD,38,2027-05-03,planned,463
+CR-V RHD,38,2027-05-03,planned,164
+HR-V LHD,38,2027-05-03,planned,232
+HR-V RHD,38,2027-05-03,planned,82
+Jazz LHD,38,2027-05-03,planned,278
+Jazz RHD,38,2027-05-03,planned,99
+e:Ny1 LHD,38,2027-05-03,planned,194
+e:Ny1 RHD,38,2027-05-03,planned,104
+Civic LHD,39,2027-05-10,planned,474
+Civic RHD,39,2027-05-10,planned,169
+CR-V LHD,39,2027-05-10,planned,474
+CR-V RHD,39,2027-05-10,planned,169
+HR-V LHD,39,2027-05-10,planned,237
+HR-V RHD,39,2027-05-10,planned,84
+Jazz LHD,39,2027-05-10,planned,284
+Jazz RHD,39,2027-05-10,planned,101
+e:Ny1 LHD,39,2027-05-10,planned,200
+e:Ny1 RHD,39,2027-05-10,planned,108
+Civic LHD,40,2027-05-17,planned,462
+Civic RHD,40,2027-05-17,planned,164
+CR-V LHD,40,2027-05-17,planned,462
+CR-V RHD,40,2027-05-17,planned,164
+HR-V LHD,40,2027-05-17,planned,231
+HR-V RHD,40,2027-05-17,planned,82
+Jazz LHD,40,2027-05-17,planned,277
+Jazz RHD,40,2027-05-17,planned,99
+e:Ny1 LHD,40,2027-05-17,planned,197
+e:Ny1 RHD,40,2027-05-17,planned,106
+Civic LHD,41,2027-05-24,planned,462
+Civic RHD,41,2027-05-24,planned,164
+CR-V LHD,41,2027-05-24,planned,462
+CR-V RHD,41,2027-05-24,planned,164
+HR-V LHD,41,2027-05-24,planned,231
+HR-V RHD,41,2027-05-24,planned,82
+Jazz LHD,41,2027-05-24,planned,277
+Jazz RHD,41,2027-05-24,planned,98
+e:Ny1 LHD,41,2027-05-24,planned,199
+e:Ny1 RHD,41,2027-05-24,planned,107
+Civic LHD,42,2027-05-31,planned,460
+Civic RHD,42,2027-05-31,planned,164
+CR-V LHD,42,2027-05-31,planned,460
+CR-V RHD,42,2027-05-31,planned,164
+HR-V LHD,42,2027-05-31,planned,230
+HR-V RHD,42,2027-05-31,planned,82
+Jazz LHD,42,2027-05-31,planned,277
+Jazz RHD,42,2027-05-31,planned,98
+e:Ny1 LHD,42,2027-05-31,planned,200
+e:Ny1 RHD,42,2027-05-31,planned,108
+Civic LHD,43,2027-06-07,planned,456
+Civic RHD,43,2027-06-07,planned,162
+CR-V LHD,43,2027-06-07,planned,456
+CR-V RHD,43,2027-06-07,planned,162
+HR-V LHD,43,2027-06-07,planned,228
+HR-V RHD,43,2027-06-07,planned,81
+Jazz LHD,43,2027-06-07,planned,273
+Jazz RHD,43,2027-06-07,planned,97
+e:Ny1 LHD,43,2027-06-07,planned,199
+e:Ny1 RHD,43,2027-06-07,planned,108
+Civic LHD,44,2027-06-14,planned,474
+Civic RHD,44,2027-06-14,planned,169
+CR-V LHD,44,2027-06-14,planned,474
+CR-V RHD,44,2027-06-14,planned,169
+HR-V LHD,44,2027-06-14,planned,238
+HR-V RHD,44,2027-06-14,planned,84
+Jazz LHD,44,2027-06-14,planned,285
+Jazz RHD,44,2027-06-14,planned,101
+e:Ny1 LHD,44,2027-06-14,planned,210
+e:Ny1 RHD,44,2027-06-14,planned,113
+Civic LHD,45,2027-06-21,planned,468
+Civic RHD,45,2027-06-21,planned,166
+CR-V LHD,45,2027-06-21,planned,467
+CR-V RHD,45,2027-06-21,planned,166
+HR-V LHD,45,2027-06-21,planned,234
+HR-V RHD,45,2027-06-21,planned,83
+Jazz LHD,45,2027-06-21,planned,280
+Jazz RHD,45,2027-06-21,planned,100
+e:Ny1 LHD,45,2027-06-21,planned,208
+e:Ny1 RHD,45,2027-06-21,planned,113
+Civic LHD,46,2027-06-28,planned,452
+Civic RHD,46,2027-06-28,planned,161
+CR-V LHD,46,2027-06-28,planned,452
+CR-V RHD,46,2027-06-28,planned,161
+HR-V LHD,46,2027-06-28,planned,226
+HR-V RHD,46,2027-06-28,planned,80
+Jazz LHD,46,2027-06-28,planned,271
+Jazz RHD,46,2027-06-28,planned,96
+e:Ny1 LHD,46,2027-06-28,planned,203
+e:Ny1 RHD,46,2027-06-28,planned,110
+Civic LHD,47,2027-07-05,planned,425
+Civic RHD,47,2027-07-05,planned,151
+CR-V LHD,47,2027-07-05,planned,425
+CR-V RHD,47,2027-07-05,planned,151
+HR-V LHD,47,2027-07-05,planned,213
+HR-V RHD,47,2027-07-05,planned,75
+Jazz LHD,47,2027-07-05,planned,255
+Jazz RHD,47,2027-07-05,planned,90
+e:Ny1 LHD,47,2027-07-05,planned,193
+e:Ny1 RHD,47,2027-07-05,planned,104
+Civic LHD,48,2027-07-12,planned,435
+Civic RHD,48,2027-07-12,planned,155
+CR-V LHD,48,2027-07-12,planned,435
+CR-V RHD,48,2027-07-12,planned,155
+HR-V LHD,48,2027-07-12,planned,218
+HR-V RHD,48,2027-07-12,planned,77
+Jazz LHD,48,2027-07-12,planned,261
+Jazz RHD,48,2027-07-12,planned,93
+e:Ny1 LHD,48,2027-07-12,planned,199
+e:Ny1 RHD,48,2027-07-12,planned,108
+Civic LHD,49,2027-07-19,planned,428
+Civic RHD,49,2027-07-19,planned,152
+CR-V LHD,49,2027-07-19,planned,427
+CR-V RHD,49,2027-07-19,planned,152
+HR-V LHD,49,2027-07-19,planned,214
+HR-V RHD,49,2027-07-19,planned,76
+Jazz LHD,49,2027-07-19,planned,257
+Jazz RHD,49,2027-07-19,planned,91
+e:Ny1 LHD,49,2027-07-19,planned,197
+e:Ny1 RHD,49,2027-07-19,planned,107
+Civic LHD,50,2027-07-26,planned,442
+Civic RHD,50,2027-07-26,planned,157
+CR-V LHD,50,2027-07-26,planned,442
+CR-V RHD,50,2027-07-26,planned,157
+HR-V LHD,50,2027-07-26,planned,221
+HR-V RHD,50,2027-07-26,planned,78
+Jazz LHD,50,2027-07-26,planned,265
+Jazz RHD,50,2027-07-26,planned,94
+e:Ny1 LHD,50,2027-07-26,planned,206
+e:Ny1 RHD,50,2027-07-26,planned,111
+Civic LHD,51,2027-08-02,planned,390
+Civic RHD,51,2027-08-02,planned,139
+CR-V LHD,51,2027-08-02,planned,390
+CR-V RHD,51,2027-08-02,planned,139
+HR-V LHD,51,2027-08-02,planned,195
+HR-V RHD,51,2027-08-02,planned,69
+Jazz LHD,51,2027-08-02,planned,234
+Jazz RHD,51,2027-08-02,planned,83
+e:Ny1 LHD,51,2027-08-02,planned,183
+e:Ny1 RHD,51,2027-08-02,planned,99

@@ -1,831 +1,899 @@
 model,production_week,market,ship_week,ship_date,units,vessel_ref
-Civic,-26,UK,-25,2026-02-16,149,MV Sakura / V2600
-Civic,-26,Germany,-25,2026-02-16,118,MV Kanto / V2601
-Civic,-26,France,-25,2026-02-16,87,MV Setouchi / V2602
-Civic,-26,Spain,-25,2026-02-16,99,MV Tokaido / V2603
-Civic,-26,Belgium,-25,2026-02-16,62,MV Sendai / V2604
-Civic,-26,Poland,-25,2026-02-16,83,MV Kyushu / V2605
-Civic,-26,Nordics,-25,2026-02-16,74,MV Aomori / V2606
-CR-V,-26,UK,-25,2026-02-16,149,MV Nagano / V2607
-CR-V,-26,Germany,-25,2026-02-16,118,MV Iwate / V2608
-CR-V,-26,France,-25,2026-02-16,87,MV Suzuka / V2609
-CR-V,-26,Spain,-25,2026-02-16,99,MV Sakura / V2610
-CR-V,-26,Belgium,-25,2026-02-16,62,MV Kanto / V2611
-CR-V,-26,Poland,-25,2026-02-16,83,MV Setouchi / V2612
-CR-V,-26,Nordics,-25,2026-02-16,74,MV Tokaido / V2613
-HR-V,-26,UK,-24,2026-02-23,74,MV Sendai / V2614
-HR-V,-26,Germany,-24,2026-02-23,59,MV Kyushu / V2615
-HR-V,-26,France,-24,2026-02-23,43,MV Aomori / V2616
-HR-V,-26,Spain,-24,2026-02-23,50,MV Nagano / V2617
-HR-V,-26,Belgium,-24,2026-02-23,31,MV Iwate / V2618
-HR-V,-26,Poland,-24,2026-02-23,42,MV Suzuka / V2619
-HR-V,-26,Nordics,-24,2026-02-23,37,MV Sakura / V2620
-Jazz,-26,UK,-24,2026-02-23,89,MV Kanto / V2621
-Jazz,-26,Germany,-24,2026-02-23,71,MV Setouchi / V2622
-Jazz,-26,France,-24,2026-02-23,52,MV Tokaido / V2623
-Jazz,-26,Spain,-24,2026-02-23,59,MV Sendai / V2624
-Jazz,-26,Belgium,-24,2026-02-23,37,MV Kyushu / V2625
-Jazz,-26,Poland,-24,2026-02-23,50,MV Aomori / V2626
-Jazz,-26,Nordics,-24,2026-02-23,45,MV Nagano / V2627
-e:Ny1,-26,UK,-24,2026-02-23,38,MV Iwate / V2628
-e:Ny1,-26,Germany,-24,2026-02-23,30,MV Suzuka / V2629
-e:Ny1,-26,France,-24,2026-02-23,22,MV Sakura / V2630
-e:Ny1,-26,Belgium,-24,2026-02-23,16,MV Kanto / V2631
-e:Ny1,-26,Nordics,-24,2026-02-23,19,MV Setouchi / V2632
-Civic,-25,UK,-24,2026-02-23,188,MV Tokaido / V2633
-Civic,-25,Germany,-24,2026-02-23,149,MV Sendai / V2634
-Civic,-25,France,-24,2026-02-23,109,MV Kyushu / V2635
-Civic,-25,Italy,-24,2026-02-23,141,MV Aomori / V2636
-Civic,-25,Netherlands,-24,2026-02-23,94,MV Nagano / V2637
-CR-V,-25,UK,-24,2026-02-23,188,MV Iwate / V2638
-CR-V,-25,Germany,-24,2026-02-23,149,MV Suzuka / V2639
-CR-V,-25,France,-24,2026-02-23,109,MV Sakura / V2640
-CR-V,-25,Italy,-24,2026-02-23,141,MV Kanto / V2641
-CR-V,-25,Netherlands,-24,2026-02-23,94,MV Setouchi / V2642
-HR-V,-25,UK,-23,2026-03-02,94,MV Tokaido / V2643
-HR-V,-25,Germany,-23,2026-03-02,74,MV Sendai / V2644
-HR-V,-25,France,-23,2026-03-02,55,MV Kyushu / V2645
-HR-V,-25,Italy,-23,2026-03-02,70,MV Aomori / V2646
-HR-V,-25,Netherlands,-23,2026-03-02,47,MV Nagano / V2647
-Jazz,-25,UK,-23,2026-03-02,113,MV Iwate / V2648
-Jazz,-25,Germany,-23,2026-03-02,89,MV Suzuka / V2649
-Jazz,-25,France,-23,2026-03-02,66,MV Sakura / V2650
-Jazz,-25,Italy,-23,2026-03-02,85,MV Kanto / V2651
-Jazz,-25,Netherlands,-23,2026-03-02,56,MV Setouchi / V2652
-e:Ny1,-25,UK,-23,2026-03-02,45,MV Tokaido / V2653
-e:Ny1,-25,Germany,-23,2026-03-02,36,MV Sendai / V2654
-e:Ny1,-25,France,-23,2026-03-02,26,MV Kyushu / V2655
-e:Ny1,-25,Netherlands,-23,2026-03-02,23,MV Aomori / V2656
-Civic,-24,UK,-23,2026-03-02,152,MV Nagano / V2657
-Civic,-24,Germany,-23,2026-03-02,121,MV Iwate / V2658
-Civic,-24,France,-23,2026-03-02,89,MV Suzuka / V2659
-Civic,-24,Spain,-23,2026-03-02,101,MV Sakura / V2660
-Civic,-24,Belgium,-23,2026-03-02,63,MV Kanto / V2661
-Civic,-24,Nordics,-23,2026-03-02,76,MV Setouchi / V2662
-Civic,-24,Portugal,-23,2026-03-02,86,MV Tokaido / V2663
-CR-V,-24,UK,-23,2026-03-02,152,MV Sendai / V2664
-CR-V,-24,Germany,-23,2026-03-02,121,MV Kyushu / V2665
-CR-V,-24,France,-23,2026-03-02,89,MV Aomori / V2666
-CR-V,-24,Spain,-23,2026-03-02,101,MV Nagano / V2667
-CR-V,-24,Belgium,-23,2026-03-02,63,MV Iwate / V2668
-CR-V,-24,Nordics,-23,2026-03-02,76,MV Suzuka / V2669
-CR-V,-24,Portugal,-23,2026-03-02,86,MV Sakura / V2670
-HR-V,-24,UK,-22,2026-03-09,76,MV Kanto / V2671
-HR-V,-24,Germany,-22,2026-03-09,60,MV Setouchi / V2672
-HR-V,-24,France,-22,2026-03-09,44,MV Tokaido / V2673
-HR-V,-24,Spain,-22,2026-03-09,51,MV Sendai / V2674
-HR-V,-24,Belgium,-22,2026-03-09,32,MV Kyushu / V2675
-HR-V,-24,Nordics,-22,2026-03-09,38,MV Aomori / V2676
-HR-V,-24,Portugal,-22,2026-03-09,43,MV Nagano / V2677
-Jazz,-24,UK,-22,2026-03-09,91,MV Iwate / V2678
-Jazz,-24,Germany,-22,2026-03-09,72,MV Suzuka / V2679
-Jazz,-24,France,-22,2026-03-09,53,MV Sakura / V2680
-Jazz,-24,Spain,-22,2026-03-09,61,MV Kanto / V2681
-Jazz,-24,Belgium,-22,2026-03-09,38,MV Setouchi / V2682
-Jazz,-24,Nordics,-22,2026-03-09,46,MV Tokaido / V2683
-Jazz,-24,Portugal,-22,2026-03-09,51,MV Sendai / V2684
-e:Ny1,-24,UK,-22,2026-03-09,41,MV Kyushu / V2685
-e:Ny1,-24,Germany,-22,2026-03-09,32,MV Aomori / V2686
-e:Ny1,-24,France,-22,2026-03-09,24,MV Nagano / V2687
-e:Ny1,-24,Belgium,-22,2026-03-09,17,MV Iwate / V2688
-e:Ny1,-24,Nordics,-22,2026-03-09,20,MV Suzuka / V2689
-Civic,-23,UK,-22,2026-03-09,169,MV Sakura / V2690
-Civic,-23,Germany,-22,2026-03-09,133,MV Kanto / V2691
-Civic,-23,France,-22,2026-03-09,98,MV Setouchi / V2692
-Civic,-23,Italy,-22,2026-03-09,126,MV Tokaido / V2693
-Civic,-23,Netherlands,-22,2026-03-09,84,MV Sendai / V2694
-Civic,-23,Poland,-22,2026-03-09,95,MV Kyushu / V2695
-CR-V,-23,UK,-22,2026-03-09,168,MV Aomori / V2696
-CR-V,-23,Germany,-22,2026-03-09,133,MV Nagano / V2697
-CR-V,-23,France,-22,2026-03-09,98,MV Iwate / V2698
-CR-V,-23,Italy,-22,2026-03-09,126,MV Suzuka / V2699
-CR-V,-23,Netherlands,-22,2026-03-09,84,MV Sakura / V2700
-CR-V,-23,Poland,-22,2026-03-09,95,MV Kanto / V2701
-HR-V,-23,UK,-21,2026-03-16,84,MV Setouchi / V2702
-HR-V,-23,Germany,-21,2026-03-16,67,MV Tokaido / V2703
-HR-V,-23,France,-21,2026-03-16,49,MV Sendai / V2704
-HR-V,-23,Italy,-21,2026-03-16,63,MV Kyushu / V2705
-HR-V,-23,Netherlands,-21,2026-03-16,42,MV Aomori / V2706
-HR-V,-23,Poland,-21,2026-03-16,47,MV Nagano / V2707
-Jazz,-23,UK,-21,2026-03-16,101,MV Iwate / V2708
-Jazz,-23,Germany,-21,2026-03-16,80,MV Suzuka / V2709
-Jazz,-23,France,-21,2026-03-16,59,MV Sakura / V2710
-Jazz,-23,Italy,-21,2026-03-16,76,MV Kanto / V2711
-Jazz,-23,Netherlands,-21,2026-03-16,50,MV Setouchi / V2712
-Jazz,-23,Poland,-21,2026-03-16,57,MV Tokaido / V2713
-e:Ny1,-23,UK,-21,2026-03-16,49,MV Sendai / V2714
-e:Ny1,-23,Germany,-21,2026-03-16,39,MV Kyushu / V2715
-e:Ny1,-23,France,-21,2026-03-16,28,MV Aomori / V2716
-e:Ny1,-23,Netherlands,-21,2026-03-16,24,MV Nagano / V2717
-Civic,-22,UK,-21,2026-03-16,178,MV Iwate / V2718
-Civic,-22,Germany,-21,2026-03-16,141,MV Suzuka / V2719
-Civic,-22,France,-21,2026-03-16,104,MV Sakura / V2720
-Civic,-22,Spain,-21,2026-03-16,119,MV Kanto / V2721
-Civic,-22,Belgium,-21,2026-03-16,74,MV Setouchi / V2722
-Civic,-22,Nordics,-21,2026-03-16,89,MV Tokaido / V2723
-CR-V,-22,UK,-21,2026-03-16,178,MV Sendai / V2724
-CR-V,-22,Germany,-21,2026-03-16,141,MV Kyushu / V2725
-CR-V,-22,France,-21,2026-03-16,104,MV Aomori / V2726
-CR-V,-22,Spain,-21,2026-03-16,119,MV Nagano / V2727
-CR-V,-22,Belgium,-21,2026-03-16,74,MV Iwate / V2728
-CR-V,-22,Nordics,-21,2026-03-16,89,MV Suzuka / V2729
-HR-V,-22,UK,-20,2026-03-23,89,MV Sakura / V2730
-HR-V,-22,Germany,-20,2026-03-23,71,MV Kanto / V2731
-HR-V,-22,France,-20,2026-03-23,52,MV Setouchi / V2732
-HR-V,-22,Spain,-20,2026-03-23,59,MV Tokaido / V2733
-HR-V,-22,Belgium,-20,2026-03-23,37,MV Sendai / V2734
-HR-V,-22,Nordics,-20,2026-03-23,45,MV Kyushu / V2735
-Jazz,-22,UK,-20,2026-03-23,107,MV Aomori / V2736
-Jazz,-22,Germany,-20,2026-03-23,85,MV Nagano / V2737
-Jazz,-22,France,-20,2026-03-23,62,MV Iwate / V2738
-Jazz,-22,Spain,-20,2026-03-23,71,MV Suzuka / V2739
-Jazz,-22,Belgium,-20,2026-03-23,45,MV Sakura / V2740
-Jazz,-22,Nordics,-20,2026-03-23,53,MV Kanto / V2741
-e:Ny1,-22,UK,-20,2026-03-23,44,MV Setouchi / V2742
-e:Ny1,-22,Germany,-20,2026-03-23,35,MV Tokaido / V2743
-e:Ny1,-22,France,-20,2026-03-23,25,MV Sendai / V2744
-e:Ny1,-22,Belgium,-20,2026-03-23,18,MV Kyushu / V2745
-e:Ny1,-22,Nordics,-20,2026-03-23,22,MV Aomori / V2746
-Civic,-21,UK,-20,2026-03-23,173,MV Nagano / V2747
-Civic,-21,Germany,-20,2026-03-23,137,MV Iwate / V2748
-Civic,-21,France,-20,2026-03-23,101,MV Suzuka / V2749
-Civic,-21,Italy,-20,2026-03-23,130,MV Sakura / V2750
-Civic,-21,Netherlands,-20,2026-03-23,87,MV Kanto / V2751
-Civic,-21,Portugal,-20,2026-03-23,98,MV Setouchi / V2752
-CR-V,-21,UK,-20,2026-03-23,173,MV Tokaido / V2753
-CR-V,-21,Germany,-20,2026-03-23,137,MV Sendai / V2754
-CR-V,-21,France,-20,2026-03-23,101,MV Kyushu / V2755
-CR-V,-21,Italy,-20,2026-03-23,130,MV Aomori / V2756
-CR-V,-21,Netherlands,-20,2026-03-23,87,MV Nagano / V2757
-CR-V,-21,Portugal,-20,2026-03-23,98,MV Iwate / V2758
-HR-V,-21,UK,-19,2026-03-30,87,MV Suzuka / V2759
-HR-V,-21,Germany,-19,2026-03-30,69,MV Sakura / V2760
-HR-V,-21,France,-19,2026-03-30,50,MV Kanto / V2761
-HR-V,-21,Italy,-19,2026-03-30,65,MV Setouchi / V2762
-HR-V,-21,Netherlands,-19,2026-03-30,43,MV Tokaido / V2763
-HR-V,-21,Portugal,-19,2026-03-30,49,MV Sendai / V2764
-Jazz,-21,UK,-19,2026-03-30,104,MV Kyushu / V2765
-Jazz,-21,Germany,-19,2026-03-30,82,MV Aomori / V2766
-Jazz,-21,France,-19,2026-03-30,61,MV Nagano / V2767
-Jazz,-21,Italy,-19,2026-03-30,78,MV Iwate / V2768
-Jazz,-21,Netherlands,-19,2026-03-30,52,MV Suzuka / V2769
-Jazz,-21,Portugal,-19,2026-03-30,59,MV Sakura / V2770
-e:Ny1,-21,UK,-19,2026-03-30,52,MV Kanto / V2771
-e:Ny1,-21,Germany,-19,2026-03-30,42,MV Setouchi / V2772
-e:Ny1,-21,France,-19,2026-03-30,31,MV Tokaido / V2773
-e:Ny1,-21,Netherlands,-19,2026-03-30,26,MV Sendai / V2774
-Civic,-20,UK,-19,2026-03-30,161,MV Kyushu / V2775
-Civic,-20,Germany,-19,2026-03-30,128,MV Aomori / V2776
-Civic,-20,France,-19,2026-03-30,94,MV Nagano / V2777
-Civic,-20,Spain,-19,2026-03-30,107,MV Iwate / V2778
-Civic,-20,Belgium,-19,2026-03-30,67,MV Suzuka / V2779
-Civic,-20,Poland,-19,2026-03-30,91,MV Sakura / V2780
-Civic,-20,Nordics,-19,2026-03-30,81,MV Kanto / V2781
-CR-V,-20,UK,-19,2026-03-30,161,MV Setouchi / V2782
-CR-V,-20,Germany,-19,2026-03-30,128,MV Tokaido / V2783
-CR-V,-20,France,-19,2026-03-30,94,MV Sendai / V2784
-CR-V,-20,Spain,-19,2026-03-30,107,MV Kyushu / V2785
-CR-V,-20,Belgium,-19,2026-03-30,67,MV Aomori / V2786
-CR-V,-20,Poland,-19,2026-03-30,91,MV Nagano / V2787
-CR-V,-20,Nordics,-19,2026-03-30,81,MV Iwate / V2788
-HR-V,-20,UK,-18,2026-04-06,81,MV Suzuka / V2789
-HR-V,-20,Germany,-18,2026-04-06,64,MV Sakura / V2790
-HR-V,-20,France,-18,2026-04-06,47,MV Kanto / V2791
-HR-V,-20,Spain,-18,2026-04-06,54,MV Setouchi / V2792
-HR-V,-20,Belgium,-18,2026-04-06,34,MV Tokaido / V2793
-HR-V,-20,Poland,-18,2026-04-06,45,MV Sendai / V2794
-HR-V,-20,Nordics,-18,2026-04-06,40,MV Kyushu / V2795
-Jazz,-20,UK,-18,2026-04-06,97,MV Aomori / V2796
-Jazz,-20,Germany,-18,2026-04-06,77,MV Nagano / V2797
-Jazz,-20,France,-18,2026-04-06,57,MV Iwate / V2798
-Jazz,-20,Spain,-18,2026-04-06,65,MV Suzuka / V2799
-Jazz,-20,Belgium,-18,2026-04-06,40,MV Sakura / V2800
-Jazz,-20,Poland,-18,2026-04-06,54,MV Kanto / V2801
-Jazz,-20,Nordics,-18,2026-04-06,48,MV Setouchi / V2802
-e:Ny1,-20,UK,-18,2026-04-06,47,MV Tokaido / V2803
-e:Ny1,-20,Germany,-18,2026-04-06,37,MV Sendai / V2804
-e:Ny1,-20,France,-18,2026-04-06,27,MV Kyushu / V2805
-e:Ny1,-20,Belgium,-18,2026-04-06,20,MV Aomori / V2806
-e:Ny1,-20,Nordics,-18,2026-04-06,24,MV Nagano / V2807
-Civic,-19,UK,-18,2026-04-06,195,MV Iwate / V2808
-Civic,-19,Germany,-18,2026-04-06,154,MV Suzuka / V2809
-Civic,-19,France,-18,2026-04-06,114,MV Sakura / V2810
-Civic,-19,Italy,-18,2026-04-06,146,MV Kanto / V2811
-Civic,-19,Netherlands,-18,2026-04-06,97,MV Setouchi / V2812
-CR-V,-19,UK,-18,2026-04-06,195,MV Tokaido / V2813
-CR-V,-19,Germany,-18,2026-04-06,154,MV Sendai / V2814
-CR-V,-19,France,-18,2026-04-06,113,MV Kyushu / V2815
-CR-V,-19,Italy,-18,2026-04-06,146,MV Aomori / V2816
-CR-V,-19,Netherlands,-18,2026-04-06,97,MV Nagano / V2817
-HR-V,-19,UK,-17,2026-04-13,97,MV Iwate / V2818
-HR-V,-19,Germany,-17,2026-04-13,77,MV Suzuka / V2819
-HR-V,-19,France,-17,2026-04-13,57,MV Sakura / V2820
-HR-V,-19,Italy,-17,2026-04-13,73,MV Kanto / V2821
-HR-V,-19,Netherlands,-17,2026-04-13,49,MV Setouchi / V2822
-Jazz,-19,UK,-17,2026-04-13,117,MV Tokaido / V2823
-Jazz,-19,Germany,-17,2026-04-13,92,MV Sendai / V2824
-Jazz,-19,France,-17,2026-04-13,68,MV Kyushu / V2825
-Jazz,-19,Italy,-17,2026-04-13,88,MV Aomori / V2826
-Jazz,-19,Netherlands,-17,2026-04-13,58,MV Nagano / V2827
-e:Ny1,-19,UK,-17,2026-04-13,53,MV Iwate / V2828
-e:Ny1,-19,Germany,-17,2026-04-13,42,MV Suzuka / V2829
-e:Ny1,-19,France,-17,2026-04-13,31,MV Sakura / V2830
-e:Ny1,-19,Netherlands,-17,2026-04-13,27,MV Kanto / V2831
-Civic,-18,UK,-17,2026-04-13,155,MV Setouchi / V2832
-Civic,-18,Germany,-17,2026-04-13,123,MV Tokaido / V2833
-Civic,-18,France,-17,2026-04-13,90,MV Sendai / V2834
-Civic,-18,Spain,-17,2026-04-13,103,MV Kyushu / V2835
-Civic,-18,Belgium,-17,2026-04-13,65,MV Aomori / V2836
-Civic,-18,Nordics,-17,2026-04-13,78,MV Nagano / V2837
-Civic,-18,Portugal,-17,2026-04-13,87,MV Iwate / V2838
-CR-V,-18,UK,-17,2026-04-13,155,MV Suzuka / V2839
-CR-V,-18,Germany,-17,2026-04-13,123,MV Sakura / V2840
-CR-V,-18,France,-17,2026-04-13,90,MV Kanto / V2841
-CR-V,-18,Spain,-17,2026-04-13,103,MV Setouchi / V2842
-CR-V,-18,Belgium,-17,2026-04-13,65,MV Tokaido / V2843
-CR-V,-18,Nordics,-17,2026-04-13,78,MV Sendai / V2844
-CR-V,-18,Portugal,-17,2026-04-13,87,MV Kyushu / V2845
-HR-V,-18,UK,-16,2026-04-20,77,MV Aomori / V2846
-HR-V,-18,Germany,-16,2026-04-20,61,MV Nagano / V2847
-HR-V,-18,France,-16,2026-04-20,45,MV Iwate / V2848
-HR-V,-18,Spain,-16,2026-04-20,52,MV Suzuka / V2849
-HR-V,-18,Belgium,-16,2026-04-20,32,MV Sakura / V2850
-HR-V,-18,Nordics,-16,2026-04-20,39,MV Kanto / V2851
-HR-V,-18,Portugal,-16,2026-04-20,44,MV Setouchi / V2852
-Jazz,-18,UK,-16,2026-04-20,93,MV Tokaido / V2853
-Jazz,-18,Germany,-16,2026-04-20,74,MV Sendai / V2854
-Jazz,-18,France,-16,2026-04-20,54,MV Kyushu / V2855
-Jazz,-18,Spain,-16,2026-04-20,62,MV Aomori / V2856
-Jazz,-18,Belgium,-16,2026-04-20,39,MV Nagano / V2857
-Jazz,-18,Nordics,-16,2026-04-20,46,MV Iwate / V2858
-Jazz,-18,Portugal,-16,2026-04-20,52,MV Suzuka / V2859
-e:Ny1,-18,UK,-16,2026-04-20,47,MV Sakura / V2860
-e:Ny1,-18,Germany,-16,2026-04-20,37,MV Kanto / V2861
-e:Ny1,-18,France,-16,2026-04-20,27,MV Setouchi / V2862
-e:Ny1,-18,Belgium,-16,2026-04-20,20,MV Tokaido / V2863
-e:Ny1,-18,Nordics,-16,2026-04-20,24,MV Sendai / V2864
-Civic,-17,UK,-16,2026-04-20,170,MV Kyushu / V2865
-Civic,-17,Germany,-16,2026-04-20,134,MV Aomori / V2866
-Civic,-17,France,-16,2026-04-20,99,MV Nagano / V2867
-Civic,-17,Italy,-16,2026-04-20,127,MV Iwate / V2868
-Civic,-17,Netherlands,-16,2026-04-20,85,MV Suzuka / V2869
-Civic,-17,Poland,-16,2026-04-20,95,MV Sakura / V2870
-CR-V,-17,UK,-16,2026-04-20,170,MV Kanto / V2871
-CR-V,-17,Germany,-16,2026-04-20,134,MV Setouchi / V2872
-CR-V,-17,France,-16,2026-04-20,99,MV Tokaido / V2873
-CR-V,-17,Italy,-16,2026-04-20,127,MV Sendai / V2874
-CR-V,-17,Netherlands,-16,2026-04-20,85,MV Kyushu / V2875
-CR-V,-17,Poland,-16,2026-04-20,95,MV Aomori / V2876
-HR-V,-17,UK,-15,2026-04-27,85,MV Nagano / V2877
-HR-V,-17,Germany,-15,2026-04-27,67,MV Iwate / V2878
-HR-V,-17,France,-15,2026-04-27,49,MV Suzuka / V2879
-HR-V,-17,Italy,-15,2026-04-27,64,MV Sakura / V2880
-HR-V,-17,Netherlands,-15,2026-04-27,42,MV Kanto / V2881
-HR-V,-17,Poland,-15,2026-04-27,48,MV Setouchi / V2882
-Jazz,-17,UK,-15,2026-04-27,102,MV Tokaido / V2883
-Jazz,-17,Germany,-15,2026-04-27,81,MV Sendai / V2884
-Jazz,-17,France,-15,2026-04-27,59,MV Kyushu / V2885
-Jazz,-17,Italy,-15,2026-04-27,76,MV Aomori / V2886
-Jazz,-17,Netherlands,-15,2026-04-27,51,MV Nagano / V2887
-Jazz,-17,Poland,-15,2026-04-27,57,MV Iwate / V2888
-e:Ny1,-17,UK,-15,2026-04-27,56,MV Suzuka / V2889
-e:Ny1,-17,Germany,-15,2026-04-27,44,MV Sakura / V2890
-e:Ny1,-17,France,-15,2026-04-27,33,MV Kanto / V2891
-e:Ny1,-17,Netherlands,-15,2026-04-27,28,MV Setouchi / V2892
-Civic,-16,UK,-15,2026-04-27,169,MV Tokaido / V2893
-Civic,-16,Germany,-15,2026-04-27,134,MV Sendai / V2894
-Civic,-16,France,-15,2026-04-27,99,MV Kyushu / V2895
-Civic,-16,Spain,-15,2026-04-27,113,MV Aomori / V2896
-Civic,-16,Belgium,-15,2026-04-27,70,MV Nagano / V2897
-Civic,-16,Nordics,-15,2026-04-27,85,MV Iwate / V2898
-CR-V,-16,UK,-15,2026-04-27,169,MV Suzuka / V2899
-CR-V,-16,Germany,-15,2026-04-27,134,MV Sakura / V2900
-CR-V,-16,France,-15,2026-04-27,99,MV Kanto / V2901
-CR-V,-16,Spain,-15,2026-04-27,113,MV Setouchi / V2902
-CR-V,-16,Belgium,-15,2026-04-27,70,MV Tokaido / V2903
-CR-V,-16,Nordics,-15,2026-04-27,85,MV Sendai / V2904
-HR-V,-16,UK,-14,2026-05-04,85,MV Kyushu / V2905
-HR-V,-16,Germany,-14,2026-05-04,67,MV Aomori / V2906
-HR-V,-16,France,-14,2026-05-04,49,MV Nagano / V2907
-HR-V,-16,Spain,-14,2026-05-04,57,MV Iwate / V2908
-HR-V,-16,Belgium,-14,2026-05-04,35,MV Suzuka / V2909
-HR-V,-16,Nordics,-14,2026-05-04,42,MV Sakura / V2910
-Jazz,-16,UK,-14,2026-05-04,102,MV Kanto / V2911
-Jazz,-16,Germany,-14,2026-05-04,80,MV Setouchi / V2912
-Jazz,-16,France,-14,2026-05-04,59,MV Tokaido / V2913
-Jazz,-16,Spain,-14,2026-05-04,68,MV Sendai / V2914
-Jazz,-16,Belgium,-14,2026-05-04,42,MV Kyushu / V2915
-Jazz,-16,Nordics,-14,2026-05-04,51,MV Aomori / V2916
-e:Ny1,-16,UK,-14,2026-05-04,47,MV Nagano / V2917
-e:Ny1,-16,Germany,-14,2026-05-04,37,MV Iwate / V2918
-e:Ny1,-16,France,-14,2026-05-04,27,MV Suzuka / V2919
-e:Ny1,-16,Belgium,-14,2026-05-04,20,MV Sakura / V2920
-e:Ny1,-16,Nordics,-14,2026-05-04,24,MV Kanto / V2921
-Civic,-15,UK,-14,2026-05-04,161,MV Setouchi / V2922
-Civic,-15,Germany,-14,2026-05-04,127,MV Tokaido / V2923
-Civic,-15,France,-14,2026-05-04,94,MV Sendai / V2924
-Civic,-15,Italy,-14,2026-05-04,121,MV Kyushu / V2925
-Civic,-15,Netherlands,-14,2026-05-04,80,MV Aomori / V2926
-Civic,-15,Portugal,-14,2026-05-04,90,MV Nagano / V2927
-CR-V,-15,UK,-14,2026-05-04,161,MV Iwate / V2928
-CR-V,-15,Germany,-14,2026-05-04,127,MV Suzuka / V2929
-CR-V,-15,France,-14,2026-05-04,94,MV Sakura / V2930
-CR-V,-15,Italy,-14,2026-05-04,121,MV Kanto / V2931
-CR-V,-15,Netherlands,-14,2026-05-04,80,MV Setouchi / V2932
-CR-V,-15,Portugal,-14,2026-05-04,90,MV Tokaido / V2933
-HR-V,-15,UK,-13,2026-05-11,80,MV Sendai / V2934
-HR-V,-15,Germany,-13,2026-05-11,64,MV Kyushu / V2935
-HR-V,-15,France,-13,2026-05-11,47,MV Aomori / V2936
-HR-V,-15,Italy,-13,2026-05-11,60,MV Nagano / V2937
-HR-V,-15,Netherlands,-13,2026-05-11,40,MV Iwate / V2938
-HR-V,-15,Portugal,-13,2026-05-11,45,MV Suzuka / V2939
-Jazz,-15,UK,-13,2026-05-11,97,MV Sakura / V2940
-Jazz,-15,Germany,-13,2026-05-11,77,MV Kanto / V2941
-Jazz,-15,France,-13,2026-05-11,56,MV Setouchi / V2942
-Jazz,-15,Italy,-13,2026-05-11,72,MV Tokaido / V2943
-Jazz,-15,Netherlands,-13,2026-05-11,48,MV Sendai / V2944
-Jazz,-15,Portugal,-13,2026-05-11,54,MV Kyushu / V2945
-e:Ny1,-15,UK,-13,2026-05-11,55,MV Aomori / V2946
-e:Ny1,-15,Germany,-13,2026-05-11,44,MV Nagano / V2947
-e:Ny1,-15,France,-13,2026-05-11,32,MV Iwate / V2948
-e:Ny1,-15,Netherlands,-13,2026-05-11,27,MV Suzuka / V2949
-Civic,-14,UK,-13,2026-05-11,153,MV Sakura / V2950
-Civic,-14,Germany,-13,2026-05-11,121,MV Kanto / V2951
-Civic,-14,France,-13,2026-05-11,90,MV Setouchi / V2952
-Civic,-14,Spain,-13,2026-05-11,102,MV Tokaido / V2953
-Civic,-14,Belgium,-13,2026-05-11,64,MV Sendai / V2954
-Civic,-14,Poland,-13,2026-05-11,86,MV Kyushu / V2955
-Civic,-14,Nordics,-13,2026-05-11,77,MV Aomori / V2956
-CR-V,-14,UK,-13,2026-05-11,153,MV Nagano / V2957
-CR-V,-14,Germany,-13,2026-05-11,121,MV Iwate / V2958
-CR-V,-14,France,-13,2026-05-11,90,MV Suzuka / V2959
-CR-V,-14,Spain,-13,2026-05-11,102,MV Sakura / V2960
-CR-V,-14,Belgium,-13,2026-05-11,64,MV Kanto / V2961
-CR-V,-14,Poland,-13,2026-05-11,86,MV Setouchi / V2962
-CR-V,-14,Nordics,-13,2026-05-11,77,MV Tokaido / V2963
-HR-V,-14,UK,-12,2026-05-18,76,MV Sendai / V2964
-HR-V,-14,Germany,-12,2026-05-18,61,MV Kyushu / V2965
-HR-V,-14,France,-12,2026-05-18,45,MV Aomori / V2966
-HR-V,-14,Spain,-12,2026-05-18,51,MV Nagano / V2967
-HR-V,-14,Belgium,-12,2026-05-18,32,MV Iwate / V2968
-HR-V,-14,Poland,-12,2026-05-18,43,MV Suzuka / V2969
-HR-V,-14,Nordics,-12,2026-05-18,38,MV Sakura / V2970
-Jazz,-14,UK,-12,2026-05-18,92,MV Kanto / V2971
-Jazz,-14,Germany,-12,2026-05-18,73,MV Setouchi / V2972
-Jazz,-14,France,-12,2026-05-18,54,MV Tokaido / V2973
-Jazz,-14,Spain,-12,2026-05-18,61,MV Sendai / V2974
-Jazz,-14,Belgium,-12,2026-05-18,38,MV Kyushu / V2975
-Jazz,-14,Poland,-12,2026-05-18,52,MV Aomori / V2976
-Jazz,-14,Nordics,-12,2026-05-18,46,MV Nagano / V2977
-e:Ny1,-14,UK,-12,2026-05-18,51,MV Iwate / V2978
-e:Ny1,-14,Germany,-12,2026-05-18,40,MV Suzuka / V2979
-e:Ny1,-14,France,-12,2026-05-18,29,MV Sakura / V2980
-e:Ny1,-14,Belgium,-12,2026-05-18,21,MV Kanto / V2981
-e:Ny1,-14,Nordics,-12,2026-05-18,25,MV Setouchi / V2982
-Civic,-13,UK,-12,2026-05-18,185,MV Tokaido / V2983
-Civic,-13,Germany,-12,2026-05-18,146,MV Sendai / V2984
-Civic,-13,France,-12,2026-05-18,108,MV Kyushu / V2985
-Civic,-13,Italy,-12,2026-05-18,138,MV Aomori / V2986
-Civic,-13,Netherlands,-12,2026-05-18,92,MV Nagano / V2987
-CR-V,-13,UK,-12,2026-05-18,185,MV Iwate / V2988
-CR-V,-13,Germany,-12,2026-05-18,146,MV Suzuka / V2989
-CR-V,-13,France,-12,2026-05-18,108,MV Sakura / V2990
-CR-V,-13,Italy,-12,2026-05-18,138,MV Kanto / V2991
-CR-V,-13,Netherlands,-12,2026-05-18,92,MV Setouchi / V2992
-HR-V,-13,UK,-11,2026-05-25,92,MV Tokaido / V2993
-HR-V,-13,Germany,-11,2026-05-25,73,MV Sendai / V2994
-HR-V,-13,France,-11,2026-05-25,54,MV Kyushu / V2995
-HR-V,-13,Italy,-11,2026-05-25,69,MV Aomori / V2996
-HR-V,-13,Netherlands,-11,2026-05-25,46,MV Nagano / V2997
-Jazz,-13,UK,-11,2026-05-25,111,MV Iwate / V2998
-Jazz,-13,Germany,-11,2026-05-25,88,MV Suzuka / V2999
-Jazz,-13,France,-11,2026-05-25,64,MV Sakura / V3000
-Jazz,-13,Italy,-11,2026-05-25,83,MV Kanto / V3001
-Jazz,-13,Netherlands,-11,2026-05-25,55,MV Setouchi / V3002
-e:Ny1,-13,UK,-11,2026-05-25,57,MV Tokaido / V3003
-e:Ny1,-13,Germany,-11,2026-05-25,45,MV Sendai / V3004
-e:Ny1,-13,France,-11,2026-05-25,33,MV Kyushu / V3005
-e:Ny1,-13,Netherlands,-11,2026-05-25,29,MV Aomori / V3006
-Civic,-12,UK,-11,2026-05-25,149,MV Nagano / V3007
-Civic,-12,Germany,-11,2026-05-25,118,MV Iwate / V3008
-Civic,-12,France,-11,2026-05-25,87,MV Suzuka / V3009
-Civic,-12,Spain,-11,2026-05-25,100,MV Sakura / V3010
-Civic,-12,Belgium,-11,2026-05-25,62,MV Kanto / V3011
-Civic,-12,Nordics,-11,2026-05-25,75,MV Setouchi / V3012
-Civic,-12,Portugal,-11,2026-05-25,84,MV Tokaido / V3013
-CR-V,-12,UK,-11,2026-05-25,149,MV Sendai / V3014
-CR-V,-12,Germany,-11,2026-05-25,118,MV Kyushu / V3015
-CR-V,-12,France,-11,2026-05-25,87,MV Aomori / V3016
-CR-V,-12,Spain,-11,2026-05-25,100,MV Nagano / V3017
-CR-V,-12,Belgium,-11,2026-05-25,62,MV Iwate / V3018
-CR-V,-12,Nordics,-11,2026-05-25,75,MV Suzuka / V3019
-CR-V,-12,Portugal,-11,2026-05-25,84,MV Sakura / V3020
-HR-V,-12,UK,-10,2026-06-01,75,MV Kanto / V3021
-HR-V,-12,Germany,-10,2026-06-01,59,MV Setouchi / V3022
-HR-V,-12,France,-10,2026-06-01,44,MV Tokaido / V3023
-HR-V,-12,Spain,-10,2026-06-01,50,MV Sendai / V3024
-HR-V,-12,Belgium,-10,2026-06-01,31,MV Kyushu / V3025
-HR-V,-12,Nordics,-10,2026-06-01,37,MV Aomori / V3026
-HR-V,-12,Portugal,-10,2026-06-01,42,MV Nagano / V3027
-Jazz,-12,UK,-10,2026-06-01,90,MV Iwate / V3028
-Jazz,-12,Germany,-10,2026-06-01,71,MV Suzuka / V3029
-Jazz,-12,France,-10,2026-06-01,52,MV Sakura / V3030
-Jazz,-12,Spain,-10,2026-06-01,60,MV Kanto / V3031
-Jazz,-12,Belgium,-10,2026-06-01,37,MV Setouchi / V3032
-Jazz,-12,Nordics,-10,2026-06-01,45,MV Tokaido / V3033
-Jazz,-12,Portugal,-10,2026-06-01,50,MV Sendai / V3034
-e:Ny1,-12,UK,-10,2026-06-01,51,MV Kyushu / V3035
-e:Ny1,-12,Germany,-10,2026-06-01,40,MV Aomori / V3036
-e:Ny1,-12,France,-10,2026-06-01,30,MV Nagano / V3037
-e:Ny1,-12,Belgium,-10,2026-06-01,21,MV Iwate / V3038
-e:Ny1,-12,Nordics,-10,2026-06-01,26,MV Suzuka / V3039
-Civic,-11,UK,-10,2026-06-01,157,MV Sakura / V3040
-Civic,-11,Germany,-10,2026-06-01,124,MV Kanto / V3041
-Civic,-11,France,-10,2026-06-01,91,MV Setouchi / V3042
-Civic,-11,Italy,-10,2026-06-01,117,MV Tokaido / V3043
-Civic,-11,Netherlands,-10,2026-06-01,78,MV Sendai / V3044
-Civic,-11,Poland,-10,2026-06-01,88,MV Kyushu / V3045
-CR-V,-11,UK,-10,2026-06-01,156,MV Aomori / V3046
-CR-V,-11,Germany,-10,2026-06-01,124,MV Nagano / V3047
-CR-V,-11,France,-10,2026-06-01,91,MV Iwate / V3048
-CR-V,-11,Italy,-10,2026-06-01,117,MV Suzuka / V3049
-CR-V,-11,Netherlands,-10,2026-06-01,78,MV Sakura / V3050
-CR-V,-11,Poland,-10,2026-06-01,88,MV Kanto / V3051
-HR-V,-11,UK,-9,2026-06-08,78,MV Setouchi / V3052
-HR-V,-11,Germany,-9,2026-06-08,62,MV Tokaido / V3053
-HR-V,-11,France,-9,2026-06-08,45,MV Sendai / V3054
-HR-V,-11,Italy,-9,2026-06-08,59,MV Kyushu / V3055
-HR-V,-11,Netherlands,-9,2026-06-08,39,MV Aomori / V3056
-HR-V,-11,Poland,-9,2026-06-08,44,MV Nagano / V3057
-Jazz,-11,UK,-9,2026-06-08,94,MV Iwate / V3058
-Jazz,-11,Germany,-9,2026-06-08,74,MV Suzuka / V3059
-Jazz,-11,France,-9,2026-06-08,55,MV Sakura / V3060
-Jazz,-11,Italy,-9,2026-06-08,70,MV Kanto / V3061
-Jazz,-11,Netherlands,-9,2026-06-08,47,MV Setouchi / V3062
-Jazz,-11,Poland,-9,2026-06-08,53,MV Tokaido / V3063
-e:Ny1,-11,UK,-9,2026-06-08,58,MV Sendai / V3064
-e:Ny1,-11,Germany,-9,2026-06-08,46,MV Kyushu / V3065
-e:Ny1,-11,France,-9,2026-06-08,33,MV Aomori / V3066
-e:Ny1,-11,Netherlands,-9,2026-06-08,29,MV Nagano / V3067
-Civic,-10,UK,-9,2026-06-08,171,MV Iwate / V3068
-Civic,-10,Germany,-9,2026-06-08,135,MV Suzuka / V3069
-Civic,-10,France,-9,2026-06-08,100,MV Sakura / V3070
-Civic,-10,Spain,-9,2026-06-08,114,MV Kanto / V3071
-Civic,-10,Belgium,-9,2026-06-08,71,MV Setouchi / V3072
-Civic,-10,Nordics,-9,2026-06-08,86,MV Tokaido / V3073
-CR-V,-10,UK,-9,2026-06-08,171,MV Sendai / V3074
-CR-V,-10,Germany,-9,2026-06-08,135,MV Kyushu / V3075
-CR-V,-10,France,-9,2026-06-08,100,MV Aomori / V3076
-CR-V,-10,Spain,-9,2026-06-08,114,MV Nagano / V3077
-CR-V,-10,Belgium,-9,2026-06-08,71,MV Iwate / V3078
-CR-V,-10,Nordics,-9,2026-06-08,86,MV Suzuka / V3079
-HR-V,-10,UK,-8,2026-06-15,85,MV Sakura / V3080
-HR-V,-10,Germany,-8,2026-06-15,68,MV Kanto / V3081
-HR-V,-10,France,-8,2026-06-15,50,MV Setouchi / V3082
-HR-V,-10,Spain,-8,2026-06-15,57,MV Tokaido / V3083
-HR-V,-10,Belgium,-8,2026-06-15,35,MV Sendai / V3084
-HR-V,-10,Nordics,-8,2026-06-15,43,MV Kyushu / V3085
-Jazz,-10,UK,-8,2026-06-15,103,MV Aomori / V3086
-Jazz,-10,Germany,-8,2026-06-15,81,MV Nagano / V3087
-Jazz,-10,France,-8,2026-06-15,60,MV Iwate / V3088
-Jazz,-10,Spain,-8,2026-06-15,68,MV Suzuka / V3089
-Jazz,-10,Belgium,-8,2026-06-15,43,MV Sakura / V3090
-Jazz,-10,Nordics,-8,2026-06-15,51,MV Kanto / V3091
-e:Ny1,-10,UK,-8,2026-06-15,53,MV Setouchi / V3092
-e:Ny1,-10,Germany,-8,2026-06-15,42,MV Tokaido / V3093
-e:Ny1,-10,France,-8,2026-06-15,31,MV Sendai / V3094
-e:Ny1,-10,Belgium,-8,2026-06-15,22,MV Kyushu / V3095
-e:Ny1,-10,Nordics,-8,2026-06-15,27,MV Aomori / V3096
-Civic,-9,UK,-8,2026-06-15,164,MV Nagano / V3097
-Civic,-9,Germany,-8,2026-06-15,130,MV Iwate / V3098
-Civic,-9,France,-8,2026-06-15,96,MV Suzuka / V3099
-Civic,-9,Italy,-8,2026-06-15,123,MV Sakura / V3100
-Civic,-9,Netherlands,-8,2026-06-15,82,MV Kanto / V3101
-Civic,-9,Portugal,-8,2026-06-15,92,MV Setouchi / V3102
-CR-V,-9,UK,-8,2026-06-15,164,MV Tokaido / V3103
-CR-V,-9,Germany,-8,2026-06-15,130,MV Sendai / V3104
-CR-V,-9,France,-8,2026-06-15,96,MV Kyushu / V3105
-CR-V,-9,Italy,-8,2026-06-15,123,MV Aomori / V3106
-CR-V,-9,Netherlands,-8,2026-06-15,82,MV Nagano / V3107
-CR-V,-9,Portugal,-8,2026-06-15,92,MV Iwate / V3108
-HR-V,-9,UK,-7,2026-06-22,82,MV Suzuka / V3109
-HR-V,-9,Germany,-7,2026-06-22,65,MV Sakura / V3110
-HR-V,-9,France,-7,2026-06-22,48,MV Kanto / V3111
-HR-V,-9,Italy,-7,2026-06-22,61,MV Setouchi / V3112
-HR-V,-9,Netherlands,-7,2026-06-22,41,MV Tokaido / V3113
-HR-V,-9,Portugal,-7,2026-06-22,46,MV Sendai / V3114
-Jazz,-9,UK,-7,2026-06-22,98,MV Kyushu / V3115
-Jazz,-9,Germany,-7,2026-06-22,78,MV Aomori / V3116
-Jazz,-9,France,-7,2026-06-22,58,MV Nagano / V3117
-Jazz,-9,Italy,-7,2026-06-22,74,MV Iwate / V3118
-Jazz,-9,Netherlands,-7,2026-06-22,49,MV Suzuka / V3119
-Jazz,-9,Portugal,-7,2026-06-22,55,MV Sakura / V3120
-e:Ny1,-9,UK,-7,2026-06-22,63,MV Kanto / V3121
-e:Ny1,-9,Germany,-7,2026-06-22,50,MV Setouchi / V3122
-e:Ny1,-9,France,-7,2026-06-22,36,MV Tokaido / V3123
-e:Ny1,-9,Netherlands,-7,2026-06-22,31,MV Sendai / V3124
-Civic,-8,UK,-7,2026-06-22,146,MV Kyushu / V3125
-Civic,-8,Germany,-7,2026-06-22,116,MV Aomori / V3126
-Civic,-8,France,-7,2026-06-22,85,MV Nagano / V3127
-Civic,-8,Spain,-7,2026-06-22,97,MV Iwate / V3128
-Civic,-8,Belgium,-7,2026-06-22,61,MV Suzuka / V3129
-Civic,-8,Poland,-7,2026-06-22,82,MV Sakura / V3130
-Civic,-8,Nordics,-7,2026-06-22,73,MV Kanto / V3131
-CR-V,-8,UK,-7,2026-06-22,146,MV Setouchi / V3132
-CR-V,-8,Germany,-7,2026-06-22,116,MV Tokaido / V3133
-CR-V,-8,France,-7,2026-06-22,85,MV Sendai / V3134
-CR-V,-8,Spain,-7,2026-06-22,97,MV Kyushu / V3135
-CR-V,-8,Belgium,-7,2026-06-22,61,MV Aomori / V3136
-CR-V,-8,Poland,-7,2026-06-22,82,MV Nagano / V3137
-CR-V,-8,Nordics,-7,2026-06-22,73,MV Iwate / V3138
-HR-V,-8,UK,-6,2026-06-29,73,MV Suzuka / V3139
-HR-V,-8,Germany,-6,2026-06-29,58,MV Sakura / V3140
-HR-V,-8,France,-6,2026-06-29,43,MV Kanto / V3141
-HR-V,-8,Spain,-6,2026-06-29,49,MV Setouchi / V3142
-HR-V,-8,Belgium,-6,2026-06-29,30,MV Tokaido / V3143
-HR-V,-8,Poland,-6,2026-06-29,41,MV Sendai / V3144
-HR-V,-8,Nordics,-6,2026-06-29,36,MV Kyushu / V3145
-Jazz,-8,UK,-6,2026-06-29,88,MV Aomori / V3146
-Jazz,-8,Germany,-6,2026-06-29,69,MV Nagano / V3147
-Jazz,-8,France,-6,2026-06-29,51,MV Iwate / V3148
-Jazz,-8,Spain,-6,2026-06-29,58,MV Suzuka / V3149
-Jazz,-8,Belgium,-6,2026-06-29,37,MV Sakura / V3150
-Jazz,-8,Poland,-6,2026-06-29,49,MV Kanto / V3151
-Jazz,-8,Nordics,-6,2026-06-29,44,MV Setouchi / V3152
-e:Ny1,-8,UK,-6,2026-06-29,54,MV Tokaido / V3153
-e:Ny1,-8,Germany,-6,2026-06-29,43,MV Sendai / V3154
-e:Ny1,-8,France,-6,2026-06-29,31,MV Kyushu / V3155
-e:Ny1,-8,Belgium,-6,2026-06-29,22,MV Aomori / V3156
-e:Ny1,-8,Nordics,-6,2026-06-29,27,MV Nagano / V3157
-Civic,-7,UK,-6,2026-06-29,182,MV Iwate / V3158
-Civic,-7,Germany,-6,2026-06-29,144,MV Suzuka / V3159
-Civic,-7,France,-6,2026-06-29,106,MV Sakura / V3160
-Civic,-7,Italy,-6,2026-06-29,136,MV Kanto / V3161
-Civic,-7,Netherlands,-6,2026-06-29,91,MV Setouchi / V3162
-CR-V,-7,UK,-6,2026-06-29,182,MV Tokaido / V3163
-CR-V,-7,Germany,-6,2026-06-29,144,MV Sendai / V3164
-CR-V,-7,France,-6,2026-06-29,106,MV Kyushu / V3165
-CR-V,-7,Italy,-6,2026-06-29,136,MV Aomori / V3166
-CR-V,-7,Netherlands,-6,2026-06-29,91,MV Nagano / V3167
-HR-V,-7,UK,-5,2026-07-06,91,MV Iwate / V3168
-HR-V,-7,Germany,-5,2026-07-06,72,MV Suzuka / V3169
-HR-V,-7,France,-5,2026-07-06,53,MV Sakura / V3170
-HR-V,-7,Italy,-5,2026-07-06,68,MV Kanto / V3171
-HR-V,-7,Netherlands,-5,2026-07-06,46,MV Setouchi / V3172
-Jazz,-7,UK,-5,2026-07-06,109,MV Tokaido / V3173
-Jazz,-7,Germany,-5,2026-07-06,86,MV Sendai / V3174
-Jazz,-7,France,-5,2026-07-06,64,MV Kyushu / V3175
-Jazz,-7,Italy,-5,2026-07-06,82,MV Aomori / V3176
-Jazz,-7,Netherlands,-5,2026-07-06,55,MV Nagano / V3177
-e:Ny1,-7,UK,-5,2026-07-06,62,MV Iwate / V3178
-e:Ny1,-7,Germany,-5,2026-07-06,49,MV Suzuka / V3179
-e:Ny1,-7,France,-5,2026-07-06,37,MV Sakura / V3180
-e:Ny1,-7,Netherlands,-5,2026-07-06,31,MV Kanto / V3181
-Civic,-6,UK,-5,2026-07-06,147,MV Setouchi / V3182
-Civic,-6,Germany,-5,2026-07-06,117,MV Tokaido / V3183
-Civic,-6,France,-5,2026-07-06,86,MV Sendai / V3184
-Civic,-6,Spain,-5,2026-07-06,98,MV Kyushu / V3185
-Civic,-6,Belgium,-5,2026-07-06,61,MV Aomori / V3186
-Civic,-6,Nordics,-5,2026-07-06,74,MV Nagano / V3187
-Civic,-6,Portugal,-5,2026-07-06,83,MV Iwate / V3188
-CR-V,-6,UK,-5,2026-07-06,147,MV Suzuka / V3189
-CR-V,-6,Germany,-5,2026-07-06,116,MV Sakura / V3190
-CR-V,-6,France,-5,2026-07-06,86,MV Kanto / V3191
-CR-V,-6,Spain,-5,2026-07-06,98,MV Setouchi / V3192
-CR-V,-6,Belgium,-5,2026-07-06,61,MV Tokaido / V3193
-CR-V,-6,Nordics,-5,2026-07-06,74,MV Sendai / V3194
-CR-V,-6,Portugal,-5,2026-07-06,83,MV Kyushu / V3195
-HR-V,-6,UK,-4,2026-07-13,74,MV Aomori / V3196
-HR-V,-6,Germany,-4,2026-07-13,58,MV Nagano / V3197
-HR-V,-6,France,-4,2026-07-13,43,MV Iwate / V3198
-HR-V,-6,Spain,-4,2026-07-13,49,MV Suzuka / V3199
-HR-V,-6,Belgium,-4,2026-07-13,31,MV Sakura / V3200
-HR-V,-6,Nordics,-4,2026-07-13,37,MV Kanto / V3201
-HR-V,-6,Portugal,-4,2026-07-13,41,MV Setouchi / V3202
-Jazz,-6,UK,-4,2026-07-13,88,MV Tokaido / V3203
-Jazz,-6,Germany,-4,2026-07-13,70,MV Sendai / V3204
-Jazz,-6,France,-4,2026-07-13,51,MV Kyushu / V3205
-Jazz,-6,Spain,-4,2026-07-13,59,MV Aomori / V3206
-Jazz,-6,Belgium,-4,2026-07-13,37,MV Nagano / V3207
-Jazz,-6,Nordics,-4,2026-07-13,44,MV Iwate / V3208
-Jazz,-6,Portugal,-4,2026-07-13,50,MV Suzuka / V3209
-e:Ny1,-6,UK,-4,2026-07-13,56,MV Sakura / V3210
-e:Ny1,-6,Germany,-4,2026-07-13,44,MV Kanto / V3211
-e:Ny1,-6,France,-4,2026-07-13,33,MV Setouchi / V3212
-e:Ny1,-6,Belgium,-4,2026-07-13,23,MV Tokaido / V3213
-e:Ny1,-6,Nordics,-4,2026-07-13,28,MV Sendai / V3214
-Civic,-5,UK,-4,2026-07-13,147,MV Kyushu / V3215
-Civic,-5,Germany,-4,2026-07-13,116,MV Aomori / V3216
-Civic,-5,France,-4,2026-07-13,86,MV Nagano / V3217
-Civic,-5,Italy,-4,2026-07-13,110,MV Iwate / V3218
-Civic,-5,Netherlands,-4,2026-07-13,73,MV Suzuka / V3219
-Civic,-5,Poland,-4,2026-07-13,83,MV Sakura / V3220
-CR-V,-5,UK,-4,2026-07-13,147,MV Kanto / V3221
-CR-V,-5,Germany,-4,2026-07-13,116,MV Setouchi / V3222
-CR-V,-5,France,-4,2026-07-13,86,MV Tokaido / V3223
-CR-V,-5,Italy,-4,2026-07-13,110,MV Sendai / V3224
-CR-V,-5,Netherlands,-4,2026-07-13,73,MV Kyushu / V3225
-CR-V,-5,Poland,-4,2026-07-13,82,MV Aomori / V3226
-HR-V,-5,UK,-3,2026-07-20,73,MV Nagano / V3227
-HR-V,-5,Germany,-3,2026-07-20,58,MV Iwate / V3228
-HR-V,-5,France,-3,2026-07-20,43,MV Suzuka / V3229
-HR-V,-5,Italy,-3,2026-07-20,55,MV Sakura / V3230
-HR-V,-5,Netherlands,-3,2026-07-20,37,MV Kanto / V3231
-HR-V,-5,Poland,-3,2026-07-20,41,MV Setouchi / V3232
-Jazz,-5,UK,-3,2026-07-20,88,MV Tokaido / V3233
-Jazz,-5,Germany,-3,2026-07-20,70,MV Sendai / V3234
-Jazz,-5,France,-3,2026-07-20,51,MV Kyushu / V3235
-Jazz,-5,Italy,-3,2026-07-20,66,MV Aomori / V3236
-Jazz,-5,Netherlands,-3,2026-07-20,44,MV Nagano / V3237
-Jazz,-5,Poland,-3,2026-07-20,50,MV Iwate / V3238
-e:Ny1,-5,UK,-3,2026-07-20,60,MV Suzuka / V3239
-e:Ny1,-5,Germany,-3,2026-07-20,47,MV Sakura / V3240
-e:Ny1,-5,France,-3,2026-07-20,35,MV Kanto / V3241
-e:Ny1,-5,Netherlands,-3,2026-07-20,30,MV Setouchi / V3242
-Civic,-4,UK,-3,2026-07-20,159,MV Tokaido / V3243
-Civic,-4,Germany,-3,2026-07-20,126,MV Sendai / V3244
-Civic,-4,France,-3,2026-07-20,93,MV Kyushu / V3245
-Civic,-4,Spain,-3,2026-07-20,106,MV Aomori / V3246
-Civic,-4,Belgium,-3,2026-07-20,66,MV Nagano / V3247
-Civic,-4,Nordics,-3,2026-07-20,79,MV Iwate / V3248
-CR-V,-4,UK,-3,2026-07-20,159,MV Suzuka / V3249
-CR-V,-4,Germany,-3,2026-07-20,126,MV Sakura / V3250
-CR-V,-4,France,-3,2026-07-20,93,MV Kanto / V3251
-CR-V,-4,Spain,-3,2026-07-20,106,MV Setouchi / V3252
-CR-V,-4,Belgium,-3,2026-07-20,66,MV Tokaido / V3253
-CR-V,-4,Nordics,-3,2026-07-20,79,MV Sendai / V3254
-HR-V,-4,UK,-2,2026-07-27,80,MV Kyushu / V3255
-HR-V,-4,Germany,-2,2026-07-27,63,MV Aomori / V3256
-HR-V,-4,France,-2,2026-07-27,46,MV Nagano / V3257
-HR-V,-4,Spain,-2,2026-07-27,53,MV Iwate / V3258
-HR-V,-4,Belgium,-2,2026-07-27,33,MV Suzuka / V3259
-HR-V,-4,Nordics,-2,2026-07-27,40,MV Sakura / V3260
-Jazz,-4,UK,-2,2026-07-27,95,MV Kanto / V3261
-Jazz,-4,Germany,-2,2026-07-27,75,MV Setouchi / V3262
-Jazz,-4,France,-2,2026-07-27,56,MV Tokaido / V3263
-Jazz,-4,Spain,-2,2026-07-27,63,MV Sendai / V3264
-Jazz,-4,Belgium,-2,2026-07-27,40,MV Kyushu / V3265
-Jazz,-4,Nordics,-2,2026-07-27,48,MV Aomori / V3266
-e:Ny1,-4,UK,-2,2026-07-27,54,MV Nagano / V3267
-e:Ny1,-4,Germany,-2,2026-07-27,43,MV Iwate / V3268
-e:Ny1,-4,France,-2,2026-07-27,32,MV Suzuka / V3269
-e:Ny1,-4,Belgium,-2,2026-07-27,23,MV Sakura / V3270
-e:Ny1,-4,Nordics,-2,2026-07-27,27,MV Kanto / V3271
-Civic,-3,UK,-2,2026-07-27,151,MV Setouchi / V3272
-Civic,-3,Germany,-2,2026-07-27,119,MV Tokaido / V3273
-Civic,-3,France,-2,2026-07-27,88,MV Sendai / V3274
-Civic,-3,Italy,-2,2026-07-27,113,MV Kyushu / V3275
-Civic,-3,Netherlands,-2,2026-07-27,75,MV Aomori / V3276
-Civic,-3,Portugal,-2,2026-07-27,85,MV Nagano / V3277
-CR-V,-3,UK,-2,2026-07-27,150,MV Iwate / V3278
-CR-V,-3,Germany,-2,2026-07-27,119,MV Suzuka / V3279
-CR-V,-3,France,-2,2026-07-27,88,MV Sakura / V3280
-CR-V,-3,Italy,-2,2026-07-27,113,MV Kanto / V3281
-CR-V,-3,Netherlands,-2,2026-07-27,75,MV Setouchi / V3282
-CR-V,-3,Portugal,-2,2026-07-27,85,MV Tokaido / V3283
-HR-V,-3,UK,-1,2026-08-03,75,MV Sendai / V3284
-HR-V,-3,Germany,-1,2026-08-03,60,MV Kyushu / V3285
-HR-V,-3,France,-1,2026-08-03,44,MV Aomori / V3286
-HR-V,-3,Italy,-1,2026-08-03,56,MV Nagano / V3287
-HR-V,-3,Netherlands,-1,2026-08-03,38,MV Iwate / V3288
-HR-V,-3,Portugal,-1,2026-08-03,42,MV Suzuka / V3289
-Jazz,-3,UK,-1,2026-08-03,90,MV Sakura / V3290
-Jazz,-3,Germany,-1,2026-08-03,71,MV Kanto / V3291
-Jazz,-3,France,-1,2026-08-03,53,MV Setouchi / V3292
-Jazz,-3,Italy,-1,2026-08-03,68,MV Tokaido / V3293
-Jazz,-3,Netherlands,-1,2026-08-03,45,MV Sendai / V3294
-Jazz,-3,Portugal,-1,2026-08-03,51,MV Kyushu / V3295
-e:Ny1,-3,UK,-1,2026-08-03,64,MV Aomori / V3296
-e:Ny1,-3,Germany,-1,2026-08-03,50,MV Nagano / V3297
-e:Ny1,-3,France,-1,2026-08-03,37,MV Iwate / V3298
-e:Ny1,-3,Netherlands,-1,2026-08-03,32,MV Suzuka / V3299
-Civic,-2,UK,-1,2026-08-03,141,MV Sakura / V3300
-Civic,-2,Germany,-1,2026-08-03,112,MV Kanto / V3301
-Civic,-2,France,-1,2026-08-03,82,MV Setouchi / V3302
-Civic,-2,Spain,-1,2026-08-03,94,MV Tokaido / V3303
-Civic,-2,Belgium,-1,2026-08-03,59,MV Sendai / V3304
-Civic,-2,Poland,-1,2026-08-03,79,MV Kyushu / V3305
-Civic,-2,Nordics,-1,2026-08-03,70,MV Aomori / V3306
-CR-V,-2,UK,-1,2026-08-03,141,MV Nagano / V3307
-CR-V,-2,Germany,-1,2026-08-03,112,MV Iwate / V3308
-CR-V,-2,France,-1,2026-08-03,82,MV Suzuka / V3309
-CR-V,-2,Spain,-1,2026-08-03,94,MV Sakura / V3310
-CR-V,-2,Belgium,-1,2026-08-03,59,MV Kanto / V3311
-CR-V,-2,Poland,-1,2026-08-03,79,MV Setouchi / V3312
-CR-V,-2,Nordics,-1,2026-08-03,70,MV Tokaido / V3313
-HR-V,-2,UK,0,2026-08-10,71,MV Sendai / V3314
-HR-V,-2,Germany,0,2026-08-10,56,MV Kyushu / V3315
-HR-V,-2,France,0,2026-08-10,41,MV Aomori / V3316
-HR-V,-2,Spain,0,2026-08-10,47,MV Nagano / V3317
-HR-V,-2,Belgium,0,2026-08-10,29,MV Iwate / V3318
-HR-V,-2,Poland,0,2026-08-10,40,MV Suzuka / V3319
-HR-V,-2,Nordics,0,2026-08-10,35,MV Sakura / V3320
-Jazz,-2,UK,0,2026-08-10,85,MV Kanto / V3321
-Jazz,-2,Germany,0,2026-08-10,67,MV Setouchi / V3322
-Jazz,-2,France,0,2026-08-10,49,MV Tokaido / V3323
-Jazz,-2,Spain,0,2026-08-10,56,MV Sendai / V3324
-Jazz,-2,Belgium,0,2026-08-10,35,MV Kyushu / V3325
-Jazz,-2,Poland,0,2026-08-10,48,MV Aomori / V3326
-Jazz,-2,Nordics,0,2026-08-10,42,MV Nagano / V3327
-e:Ny1,-2,UK,0,2026-08-10,57,MV Iwate / V3328
-e:Ny1,-2,Germany,0,2026-08-10,45,MV Suzuka / V3329
-e:Ny1,-2,France,0,2026-08-10,33,MV Sakura / V3330
-e:Ny1,-2,Belgium,0,2026-08-10,24,MV Kanto / V3331
-e:Ny1,-2,Nordics,0,2026-08-10,28,MV Setouchi / V3332
-Civic,-1,UK,0,2026-08-10,159,MV Tokaido / V3333
-Civic,-1,Germany,0,2026-08-10,126,MV Sendai / V3334
-Civic,-1,France,0,2026-08-10,93,MV Kyushu / V3335
-Civic,-1,Italy,0,2026-08-10,119,MV Aomori / V3336
-Civic,-1,Netherlands,0,2026-08-10,79,MV Nagano / V3337
-CR-V,-1,UK,0,2026-08-10,159,MV Iwate / V3338
-CR-V,-1,Germany,0,2026-08-10,126,MV Suzuka / V3339
-CR-V,-1,France,0,2026-08-10,93,MV Sakura / V3340
-CR-V,-1,Italy,0,2026-08-10,119,MV Kanto / V3341
-CR-V,-1,Netherlands,0,2026-08-10,79,MV Setouchi / V3342
-HR-V,-1,UK,1,2026-08-17,79,MV Tokaido / V3343
-HR-V,-1,Germany,1,2026-08-17,63,MV Sendai / V3344
-HR-V,-1,France,1,2026-08-17,46,MV Kyushu / V3345
-HR-V,-1,Italy,1,2026-08-17,60,MV Aomori / V3346
-HR-V,-1,Netherlands,1,2026-08-17,40,MV Nagano / V3347
-Jazz,-1,UK,1,2026-08-17,95,MV Iwate / V3348
-Jazz,-1,Germany,1,2026-08-17,75,MV Suzuka / V3349
-Jazz,-1,France,1,2026-08-17,56,MV Sakura / V3350
-Jazz,-1,Italy,1,2026-08-17,72,MV Kanto / V3351
-Jazz,-1,Netherlands,1,2026-08-17,48,MV Setouchi / V3352
-e:Ny1,-1,UK,1,2026-08-17,60,MV Tokaido / V3353
-e:Ny1,-1,Germany,1,2026-08-17,47,MV Sendai / V3354
-e:Ny1,-1,France,1,2026-08-17,35,MV Kyushu / V3355
-e:Ny1,-1,Netherlands,1,2026-08-17,30,MV Aomori / V3356
-Civic,0,UK,1,2026-08-17,127,MV Nagano / V3357
-Civic,0,Germany,1,2026-08-17,100,MV Iwate / V3358
-Civic,0,France,1,2026-08-17,74,MV Suzuka / V3359
-Civic,0,Spain,1,2026-08-17,85,MV Sakura / V3360
-Civic,0,Belgium,1,2026-08-17,53,MV Kanto / V3361
-Civic,0,Nordics,1,2026-08-17,63,MV Setouchi / V3362
-Civic,0,Portugal,1,2026-08-17,71,MV Tokaido / V3363
-CR-V,0,UK,1,2026-08-17,127,MV Sendai / V3364
-CR-V,0,Germany,1,2026-08-17,100,MV Kyushu / V3365
-CR-V,0,France,1,2026-08-17,74,MV Aomori / V3366
-CR-V,0,Spain,1,2026-08-17,85,MV Nagano / V3367
-CR-V,0,Belgium,1,2026-08-17,53,MV Iwate / V3368
-CR-V,0,Nordics,1,2026-08-17,63,MV Suzuka / V3369
-CR-V,0,Portugal,1,2026-08-17,71,MV Sakura / V3370
-HR-V,0,UK,2,2026-08-24,63,MV Kanto / V3371
-HR-V,0,Germany,2,2026-08-24,50,MV Setouchi / V3372
-HR-V,0,France,2,2026-08-24,37,MV Tokaido / V3373
-HR-V,0,Spain,2,2026-08-24,42,MV Sendai / V3374
-HR-V,0,Belgium,2,2026-08-24,26,MV Kyushu / V3375
-HR-V,0,Nordics,2,2026-08-24,32,MV Aomori / V3376
-HR-V,0,Portugal,2,2026-08-24,36,MV Nagano / V3377
-Jazz,0,UK,2,2026-08-24,76,MV Iwate / V3378
-Jazz,0,Germany,2,2026-08-24,60,MV Suzuka / V3379
-Jazz,0,France,2,2026-08-24,44,MV Sakura / V3380
-Jazz,0,Spain,2,2026-08-24,51,MV Kanto / V3381
-Jazz,0,Belgium,2,2026-08-24,32,MV Setouchi / V3382
-Jazz,0,Nordics,2,2026-08-24,38,MV Tokaido / V3383
-Jazz,0,Portugal,2,2026-08-24,43,MV Sendai / V3384
-e:Ny1,0,UK,2,2026-08-24,52,MV Kyushu / V3385
-e:Ny1,0,Germany,2,2026-08-24,42,MV Aomori / V3386
-e:Ny1,0,France,2,2026-08-24,31,MV Nagano / V3387
-e:Ny1,0,Belgium,2,2026-08-24,22,MV Iwate / V3388
-e:Ny1,0,Nordics,2,2026-08-24,26,MV Suzuka / V3389
-Civic,1,UK,2,2026-08-24,137,MV Sakura / V3390
-Civic,1,Germany,2,2026-08-24,108,MV Kanto / V3391
-Civic,1,France,2,2026-08-24,80,MV Setouchi / V3392
-Civic,1,Italy,2,2026-08-24,103,MV Tokaido / V3393
-Civic,1,Netherlands,2,2026-08-24,68,MV Sendai / V3394
-Civic,1,Poland,2,2026-08-24,77,MV Kyushu / V3395
-CR-V,1,UK,2,2026-08-24,137,MV Aomori / V3396
-CR-V,1,Germany,2,2026-08-24,108,MV Nagano / V3397
-CR-V,1,France,2,2026-08-24,80,MV Iwate / V3398
-CR-V,1,Italy,2,2026-08-24,103,MV Suzuka / V3399
-CR-V,1,Netherlands,2,2026-08-24,68,MV Sakura / V3400
-CR-V,1,Poland,2,2026-08-24,77,MV Kanto / V3401
-HR-V,1,UK,3,2026-08-31,68,MV Setouchi / V3402
-HR-V,1,Germany,3,2026-08-31,54,MV Tokaido / V3403
-HR-V,1,France,3,2026-08-31,40,MV Sendai / V3404
-HR-V,1,Italy,3,2026-08-31,51,MV Kyushu / V3405
-HR-V,1,Netherlands,3,2026-08-31,34,MV Aomori / V3406
-HR-V,1,Poland,3,2026-08-31,39,MV Nagano / V3407
-Jazz,1,UK,3,2026-08-31,82,MV Iwate / V3408
-Jazz,1,Germany,3,2026-08-31,65,MV Suzuka / V3409
-Jazz,1,France,3,2026-08-31,48,MV Sakura / V3410
-Jazz,1,Italy,3,2026-08-31,61,MV Kanto / V3411
-Jazz,1,Netherlands,3,2026-08-31,41,MV Setouchi / V3412
-Jazz,1,Poland,3,2026-08-31,46,MV Tokaido / V3413
-e:Ny1,1,UK,3,2026-08-31,61,MV Sendai / V3414
-e:Ny1,1,Germany,3,2026-08-31,48,MV Kyushu / V3415
-e:Ny1,1,France,3,2026-08-31,36,MV Aomori / V3416
-e:Ny1,1,Netherlands,3,2026-08-31,31,MV Nagano / V3417
-Civic,2,UK,3,2026-08-31,143,MV Iwate / V3418
-Civic,2,Germany,3,2026-08-31,114,MV Suzuka / V3419
-Civic,2,France,3,2026-08-31,84,MV Sakura / V3420
-Civic,2,Spain,3,2026-08-31,96,MV Kanto / V3421
-Civic,2,Belgium,3,2026-08-31,60,MV Setouchi / V3422
-Civic,2,Nordics,3,2026-08-31,72,MV Tokaido / V3423
-CR-V,2,UK,3,2026-08-31,143,MV Sendai / V3424
-CR-V,2,Germany,3,2026-08-31,114,MV Kyushu / V3425
-CR-V,2,France,3,2026-08-31,84,MV Aomori / V3426
-CR-V,2,Spain,3,2026-08-31,96,MV Nagano / V3427
-CR-V,2,Belgium,3,2026-08-31,60,MV Iwate / V3428
-CR-V,2,Nordics,3,2026-08-31,72,MV Suzuka / V3429
+Civic LHD,-26,Germany,-25,2026-02-16,119,MV Sakura / V2600
+Civic LHD,-26,France,-25,2026-02-16,88,MV Kanto / V2601
+Civic LHD,-26,Italy,-25,2026-02-16,113,MV Setouchi / V2602
+Civic LHD,-26,Spain,-25,2026-02-16,101,MV Tokaido / V2603
+Civic LHD,-26,Netherlands,-25,2026-02-16,75,MV Sendai / V2604
+Civic RHD,-26,UK,-25,2026-02-16,176,MV Kyushu / V2605
+CR-V LHD,-26,Germany,-25,2026-02-16,119,MV Aomori / V2606
+CR-V LHD,-26,France,-25,2026-02-16,88,MV Nagano / V2607
+CR-V LHD,-26,Italy,-25,2026-02-16,113,MV Iwate / V2608
+CR-V LHD,-26,Spain,-25,2026-02-16,101,MV Suzuka / V2609
+CR-V LHD,-26,Netherlands,-25,2026-02-16,75,MV Sakura / V2610
+CR-V RHD,-26,UK,-25,2026-02-16,176,MV Kanto / V2611
+HR-V LHD,-26,Germany,-24,2026-02-23,60,MV Setouchi / V2612
+HR-V LHD,-26,France,-24,2026-02-23,44,MV Tokaido / V2613
+HR-V LHD,-26,Italy,-24,2026-02-23,56,MV Sendai / V2614
+HR-V LHD,-26,Spain,-24,2026-02-23,50,MV Kyushu / V2615
+HR-V LHD,-26,Netherlands,-24,2026-02-23,38,MV Aomori / V2616
+HR-V RHD,-26,UK,-24,2026-02-23,88,MV Nagano / V2617
+Jazz LHD,-26,Germany,-24,2026-02-23,71,MV Iwate / V2618
+Jazz LHD,-26,France,-24,2026-02-23,53,MV Suzuka / V2619
+Jazz LHD,-26,Italy,-24,2026-02-23,68,MV Sakura / V2620
+Jazz LHD,-26,Spain,-24,2026-02-23,60,MV Kanto / V2621
+Jazz LHD,-26,Netherlands,-24,2026-02-23,45,MV Setouchi / V2622
+Jazz RHD,-26,UK,-24,2026-02-23,106,MV Tokaido / V2623
+e:Ny1 LHD,-26,Germany,-24,2026-02-23,34,MV Sendai / V2624
+e:Ny1 LHD,-26,France,-24,2026-02-23,25,MV Kyushu / V2625
+e:Ny1 LHD,-26,Netherlands,-24,2026-02-23,22,MV Aomori / V2626
+e:Ny1 RHD,-26,UK,-24,2026-02-23,44,MV Nagano / V2627
+Civic LHD,-25,Germany,-24,2026-02-23,139,MV Iwate / V2628
+Civic LHD,-25,France,-24,2026-02-23,103,MV Suzuka / V2629
+Civic LHD,-25,Belgium,-24,2026-02-23,73,MV Sakura / V2630
+Civic LHD,-25,Poland,-24,2026-02-23,99,MV Kanto / V2631
+Civic LHD,-25,Nordics,-24,2026-02-23,88,MV Setouchi / V2632
+Civic RHD,-25,UK,-24,2026-02-23,143,MV Tokaido / V2633
+Civic RHD,-25,Ireland,-24,2026-02-23,36,MV Sendai / V2634
+CR-V LHD,-25,Germany,-24,2026-02-23,139,MV Kyushu / V2635
+CR-V LHD,-25,France,-24,2026-02-23,103,MV Aomori / V2636
+CR-V LHD,-25,Belgium,-24,2026-02-23,73,MV Nagano / V2637
+CR-V LHD,-25,Poland,-24,2026-02-23,99,MV Iwate / V2638
+CR-V LHD,-25,Nordics,-24,2026-02-23,88,MV Suzuka / V2639
+CR-V RHD,-25,UK,-24,2026-02-23,143,MV Sakura / V2640
+CR-V RHD,-25,Ireland,-24,2026-02-23,36,MV Kanto / V2641
+HR-V LHD,-25,Germany,-23,2026-03-02,70,MV Setouchi / V2642
+HR-V LHD,-25,France,-23,2026-03-02,51,MV Tokaido / V2643
+HR-V LHD,-25,Belgium,-23,2026-03-02,37,MV Sendai / V2644
+HR-V LHD,-25,Poland,-23,2026-03-02,49,MV Kyushu / V2645
+HR-V LHD,-25,Nordics,-23,2026-03-02,44,MV Aomori / V2646
+HR-V RHD,-25,UK,-23,2026-03-02,71,MV Nagano / V2647
+HR-V RHD,-25,Ireland,-23,2026-03-02,18,MV Iwate / V2648
+Jazz LHD,-25,Germany,-23,2026-03-02,84,MV Suzuka / V2649
+Jazz LHD,-25,France,-23,2026-03-02,62,MV Sakura / V2650
+Jazz LHD,-25,Belgium,-23,2026-03-02,44,MV Kanto / V2651
+Jazz LHD,-25,Poland,-23,2026-03-02,59,MV Setouchi / V2652
+Jazz LHD,-25,Nordics,-23,2026-03-02,53,MV Tokaido / V2653
+Jazz RHD,-25,UK,-23,2026-03-02,86,MV Sendai / V2654
+Jazz RHD,-25,Ireland,-23,2026-03-02,21,MV Kyushu / V2655
+e:Ny1 LHD,-25,Germany,-23,2026-03-02,29,MV Aomori / V2656
+e:Ny1 LHD,-25,France,-23,2026-03-02,22,MV Nagano / V2657
+e:Ny1 LHD,-25,Belgium,-23,2026-03-02,15,MV Iwate / V2658
+e:Ny1 LHD,-25,Nordics,-23,2026-03-02,18,MV Suzuka / V2659
+e:Ny1 RHD,-25,UK,-23,2026-03-02,37,MV Sakura / V2660
+e:Ny1 RHD,-25,Ireland,-23,2026-03-02,9,MV Kanto / V2661
+Civic LHD,-24,Germany,-23,2026-03-02,104,MV Setouchi / V2662
+Civic LHD,-24,France,-23,2026-03-02,77,MV Tokaido / V2663
+Civic LHD,-24,Italy,-23,2026-03-02,99,MV Sendai / V2664
+Civic LHD,-24,Spain,-23,2026-03-02,88,MV Kyushu / V2665
+Civic LHD,-24,Netherlands,-23,2026-03-02,66,MV Aomori / V2666
+Civic LHD,-24,Portugal,-23,2026-03-02,74,MV Nagano / V2667
+Civic RHD,-24,UK,-23,2026-03-02,180,MV Iwate / V2668
+CR-V LHD,-24,Germany,-23,2026-03-02,104,MV Suzuka / V2669
+CR-V LHD,-24,France,-23,2026-03-02,77,MV Sakura / V2670
+CR-V LHD,-24,Italy,-23,2026-03-02,99,MV Kanto / V2671
+CR-V LHD,-24,Spain,-23,2026-03-02,88,MV Setouchi / V2672
+CR-V LHD,-24,Netherlands,-23,2026-03-02,66,MV Tokaido / V2673
+CR-V LHD,-24,Portugal,-23,2026-03-02,74,MV Sendai / V2674
+CR-V RHD,-24,UK,-23,2026-03-02,180,MV Kyushu / V2675
+HR-V LHD,-24,Germany,-22,2026-03-09,52,MV Aomori / V2676
+HR-V LHD,-24,France,-22,2026-03-09,39,MV Nagano / V2677
+HR-V LHD,-24,Italy,-22,2026-03-09,49,MV Iwate / V2678
+HR-V LHD,-24,Spain,-22,2026-03-09,44,MV Suzuka / V2679
+HR-V LHD,-24,Netherlands,-22,2026-03-09,33,MV Sakura / V2680
+HR-V LHD,-24,Portugal,-22,2026-03-09,37,MV Kanto / V2681
+HR-V RHD,-24,UK,-22,2026-03-09,90,MV Setouchi / V2682
+Jazz LHD,-24,Germany,-22,2026-03-09,63,MV Tokaido / V2683
+Jazz LHD,-24,France,-22,2026-03-09,46,MV Sendai / V2684
+Jazz LHD,-24,Italy,-22,2026-03-09,59,MV Kyushu / V2685
+Jazz LHD,-24,Spain,-22,2026-03-09,53,MV Aomori / V2686
+Jazz LHD,-24,Netherlands,-22,2026-03-09,39,MV Nagano / V2687
+Jazz LHD,-24,Portugal,-22,2026-03-09,44,MV Iwate / V2688
+Jazz RHD,-24,UK,-22,2026-03-09,108,MV Suzuka / V2689
+e:Ny1 LHD,-24,Germany,-22,2026-03-09,37,MV Sakura / V2690
+e:Ny1 LHD,-24,France,-22,2026-03-09,27,MV Kanto / V2691
+e:Ny1 LHD,-24,Netherlands,-22,2026-03-09,23,MV Setouchi / V2692
+e:Ny1 RHD,-24,UK,-22,2026-03-09,47,MV Tokaido / V2693
+Civic LHD,-23,Germany,-22,2026-03-09,180,MV Sendai / V2694
+Civic LHD,-23,France,-22,2026-03-09,132,MV Kyushu / V2695
+Civic LHD,-23,Belgium,-22,2026-03-09,95,MV Aomori / V2696
+Civic LHD,-23,Nordics,-22,2026-03-09,113,MV Nagano / V2697
+Civic RHD,-23,UK,-22,2026-03-09,148,MV Iwate / V2698
+Civic RHD,-23,Ireland,-22,2026-03-09,37,MV Suzuka / V2699
+CR-V LHD,-23,Germany,-22,2026-03-09,179,MV Sakura / V2700
+CR-V LHD,-23,France,-22,2026-03-09,132,MV Kanto / V2701
+CR-V LHD,-23,Belgium,-22,2026-03-09,95,MV Setouchi / V2702
+CR-V LHD,-23,Nordics,-22,2026-03-09,113,MV Tokaido / V2703
+CR-V RHD,-23,UK,-22,2026-03-09,148,MV Sendai / V2704
+CR-V RHD,-23,Ireland,-22,2026-03-09,37,MV Kyushu / V2705
+HR-V LHD,-23,Germany,-21,2026-03-16,90,MV Aomori / V2706
+HR-V LHD,-23,France,-21,2026-03-16,66,MV Nagano / V2707
+HR-V LHD,-23,Belgium,-21,2026-03-16,47,MV Iwate / V2708
+HR-V LHD,-23,Nordics,-21,2026-03-16,57,MV Suzuka / V2709
+HR-V RHD,-23,UK,-21,2026-03-16,74,MV Sakura / V2710
+HR-V RHD,-23,Ireland,-21,2026-03-16,18,MV Kanto / V2711
+Jazz LHD,-23,Germany,-21,2026-03-16,108,MV Setouchi / V2712
+Jazz LHD,-23,France,-21,2026-03-16,79,MV Tokaido / V2713
+Jazz LHD,-23,Belgium,-21,2026-03-16,57,MV Sendai / V2714
+Jazz LHD,-23,Nordics,-21,2026-03-16,68,MV Kyushu / V2715
+Jazz RHD,-23,UK,-21,2026-03-16,89,MV Aomori / V2716
+Jazz RHD,-23,Ireland,-21,2026-03-16,22,MV Nagano / V2717
+e:Ny1 LHD,-23,Germany,-21,2026-03-16,31,MV Iwate / V2718
+e:Ny1 LHD,-23,France,-21,2026-03-16,23,MV Suzuka / V2719
+e:Ny1 LHD,-23,Belgium,-21,2026-03-16,17,MV Sakura / V2720
+e:Ny1 LHD,-23,Nordics,-21,2026-03-16,20,MV Kanto / V2721
+e:Ny1 RHD,-23,UK,-21,2026-03-16,39,MV Setouchi / V2722
+e:Ny1 RHD,-23,Ireland,-21,2026-03-16,10,MV Tokaido / V2723
+Civic LHD,-22,Germany,-21,2026-03-16,107,MV Sendai / V2724
+Civic LHD,-22,France,-21,2026-03-16,79,MV Kyushu / V2725
+Civic LHD,-22,Italy,-21,2026-03-16,101,MV Aomori / V2726
+Civic LHD,-22,Spain,-21,2026-03-16,90,MV Nagano / V2727
+Civic LHD,-22,Netherlands,-21,2026-03-16,67,MV Iwate / V2728
+Civic LHD,-22,Poland,-21,2026-03-16,76,MV Suzuka / V2729
+Civic RHD,-22,UK,-21,2026-03-16,185,MV Sakura / V2730
+CR-V LHD,-22,Germany,-21,2026-03-16,107,MV Kanto / V2731
+CR-V LHD,-22,France,-21,2026-03-16,79,MV Setouchi / V2732
+CR-V LHD,-22,Italy,-21,2026-03-16,101,MV Tokaido / V2733
+CR-V LHD,-22,Spain,-21,2026-03-16,90,MV Sendai / V2734
+CR-V LHD,-22,Netherlands,-21,2026-03-16,67,MV Kyushu / V2735
+CR-V LHD,-22,Poland,-21,2026-03-16,76,MV Aomori / V2736
+CR-V RHD,-22,UK,-21,2026-03-16,185,MV Nagano / V2737
+HR-V LHD,-22,Germany,-20,2026-03-23,53,MV Iwate / V2738
+HR-V LHD,-22,France,-20,2026-03-23,39,MV Suzuka / V2739
+HR-V LHD,-22,Italy,-20,2026-03-23,51,MV Sakura / V2740
+HR-V LHD,-22,Spain,-20,2026-03-23,45,MV Kanto / V2741
+HR-V LHD,-22,Netherlands,-20,2026-03-23,34,MV Setouchi / V2742
+HR-V LHD,-22,Poland,-20,2026-03-23,38,MV Tokaido / V2743
+HR-V RHD,-22,UK,-20,2026-03-23,93,MV Sendai / V2744
+Jazz LHD,-22,Germany,-20,2026-03-23,64,MV Kyushu / V2745
+Jazz LHD,-22,France,-20,2026-03-23,47,MV Aomori / V2746
+Jazz LHD,-22,Italy,-20,2026-03-23,61,MV Nagano / V2747
+Jazz LHD,-22,Spain,-20,2026-03-23,54,MV Iwate / V2748
+Jazz LHD,-22,Netherlands,-20,2026-03-23,40,MV Suzuka / V2749
+Jazz LHD,-22,Poland,-20,2026-03-23,46,MV Sakura / V2750
+Jazz RHD,-22,UK,-20,2026-03-23,111,MV Kanto / V2751
+e:Ny1 LHD,-22,Germany,-20,2026-03-23,40,MV Setouchi / V2752
+e:Ny1 LHD,-22,France,-20,2026-03-23,29,MV Tokaido / V2753
+e:Ny1 LHD,-22,Netherlands,-20,2026-03-23,25,MV Sendai / V2754
+e:Ny1 RHD,-22,UK,-20,2026-03-23,50,MV Kyushu / V2755
+Civic LHD,-21,Germany,-20,2026-03-23,149,MV Aomori / V2756
+Civic LHD,-21,France,-20,2026-03-23,109,MV Nagano / V2757
+Civic LHD,-21,Belgium,-20,2026-03-23,78,MV Iwate / V2758
+Civic LHD,-21,Nordics,-20,2026-03-23,94,MV Suzuka / V2759
+Civic LHD,-21,Portugal,-20,2026-03-23,106,MV Sakura / V2760
+Civic RHD,-21,UK,-20,2026-03-23,152,MV Kanto / V2761
+Civic RHD,-21,Ireland,-20,2026-03-23,38,MV Setouchi / V2762
+CR-V LHD,-21,Germany,-20,2026-03-23,149,MV Tokaido / V2763
+CR-V LHD,-21,France,-20,2026-03-23,109,MV Sendai / V2764
+CR-V LHD,-21,Belgium,-20,2026-03-23,78,MV Kyushu / V2765
+CR-V LHD,-21,Nordics,-20,2026-03-23,94,MV Aomori / V2766
+CR-V LHD,-21,Portugal,-20,2026-03-23,106,MV Nagano / V2767
+CR-V RHD,-21,UK,-20,2026-03-23,152,MV Iwate / V2768
+CR-V RHD,-21,Ireland,-20,2026-03-23,38,MV Suzuka / V2769
+HR-V LHD,-21,Germany,-19,2026-03-30,74,MV Sakura / V2770
+HR-V LHD,-21,France,-19,2026-03-30,55,MV Kanto / V2771
+HR-V LHD,-21,Belgium,-19,2026-03-30,39,MV Setouchi / V2772
+HR-V LHD,-21,Nordics,-19,2026-03-30,47,MV Tokaido / V2773
+HR-V LHD,-21,Portugal,-19,2026-03-30,53,MV Sendai / V2774
+HR-V RHD,-21,UK,-19,2026-03-30,76,MV Kyushu / V2775
+HR-V RHD,-21,Ireland,-19,2026-03-30,19,MV Aomori / V2776
+Jazz LHD,-21,Germany,-19,2026-03-30,89,MV Nagano / V2777
+Jazz LHD,-21,France,-19,2026-03-30,66,MV Iwate / V2778
+Jazz LHD,-21,Belgium,-19,2026-03-30,47,MV Suzuka / V2779
+Jazz LHD,-21,Nordics,-19,2026-03-30,56,MV Sakura / V2780
+Jazz LHD,-21,Portugal,-19,2026-03-30,64,MV Kanto / V2781
+Jazz RHD,-21,UK,-19,2026-03-30,91,MV Setouchi / V2782
+Jazz RHD,-21,Ireland,-19,2026-03-30,23,MV Tokaido / V2783
+e:Ny1 LHD,-21,Germany,-19,2026-03-30,34,MV Sendai / V2784
+e:Ny1 LHD,-21,France,-19,2026-03-30,25,MV Kyushu / V2785
+e:Ny1 LHD,-21,Belgium,-19,2026-03-30,18,MV Aomori / V2786
+e:Ny1 LHD,-21,Nordics,-19,2026-03-30,21,MV Nagano / V2787
+e:Ny1 RHD,-21,UK,-19,2026-03-30,42,MV Iwate / V2788
+e:Ny1 RHD,-21,Ireland,-19,2026-03-30,11,MV Suzuka / V2789
+Civic LHD,-20,Germany,-19,2026-03-30,129,MV Sakura / V2790
+Civic LHD,-20,France,-19,2026-03-30,95,MV Kanto / V2791
+Civic LHD,-20,Italy,-19,2026-03-30,123,MV Setouchi / V2792
+Civic LHD,-20,Spain,-19,2026-03-30,109,MV Tokaido / V2793
+Civic LHD,-20,Netherlands,-19,2026-03-30,82,MV Sendai / V2794
+Civic RHD,-20,UK,-19,2026-03-30,191,MV Kyushu / V2795
+CR-V LHD,-20,Germany,-19,2026-03-30,129,MV Aomori / V2796
+CR-V LHD,-20,France,-19,2026-03-30,95,MV Nagano / V2797
+CR-V LHD,-20,Italy,-19,2026-03-30,123,MV Iwate / V2798
+CR-V LHD,-20,Spain,-19,2026-03-30,109,MV Suzuka / V2799
+CR-V LHD,-20,Netherlands,-19,2026-03-30,82,MV Sakura / V2800
+CR-V RHD,-20,UK,-19,2026-03-30,191,MV Kanto / V2801
+HR-V LHD,-20,Germany,-18,2026-04-06,65,MV Setouchi / V2802
+HR-V LHD,-20,France,-18,2026-04-06,48,MV Tokaido / V2803
+HR-V LHD,-20,Italy,-18,2026-04-06,61,MV Sendai / V2804
+HR-V LHD,-20,Spain,-18,2026-04-06,54,MV Kyushu / V2805
+HR-V LHD,-20,Netherlands,-18,2026-04-06,41,MV Aomori / V2806
+HR-V RHD,-20,UK,-18,2026-04-06,96,MV Nagano / V2807
+Jazz LHD,-20,Germany,-18,2026-04-06,78,MV Iwate / V2808
+Jazz LHD,-20,France,-18,2026-04-06,57,MV Suzuka / V2809
+Jazz LHD,-20,Italy,-18,2026-04-06,74,MV Sakura / V2810
+Jazz LHD,-20,Spain,-18,2026-04-06,65,MV Kanto / V2811
+Jazz LHD,-20,Netherlands,-18,2026-04-06,49,MV Setouchi / V2812
+Jazz RHD,-20,UK,-18,2026-04-06,115,MV Tokaido / V2813
+e:Ny1 LHD,-20,Germany,-18,2026-04-06,43,MV Sendai / V2814
+e:Ny1 LHD,-20,France,-18,2026-04-06,31,MV Kyushu / V2815
+e:Ny1 LHD,-20,Netherlands,-18,2026-04-06,27,MV Aomori / V2816
+e:Ny1 RHD,-20,UK,-18,2026-04-06,54,MV Nagano / V2817
+Civic LHD,-19,Germany,-18,2026-04-06,145,MV Iwate / V2818
+Civic LHD,-19,France,-18,2026-04-06,106,MV Suzuka / V2819
+Civic LHD,-19,Belgium,-18,2026-04-06,76,MV Sakura / V2820
+Civic LHD,-19,Poland,-18,2026-04-06,103,MV Kanto / V2821
+Civic LHD,-19,Nordics,-18,2026-04-06,91,MV Setouchi / V2822
+Civic RHD,-19,UK,-18,2026-04-06,148,MV Tokaido / V2823
+Civic RHD,-19,Ireland,-18,2026-04-06,37,MV Sendai / V2824
+CR-V LHD,-19,Germany,-18,2026-04-06,144,MV Kyushu / V2825
+CR-V LHD,-19,France,-18,2026-04-06,106,MV Aomori / V2826
+CR-V LHD,-19,Belgium,-18,2026-04-06,76,MV Nagano / V2827
+CR-V LHD,-19,Poland,-18,2026-04-06,103,MV Iwate / V2828
+CR-V LHD,-19,Nordics,-18,2026-04-06,91,MV Suzuka / V2829
+CR-V RHD,-19,UK,-18,2026-04-06,148,MV Sakura / V2830
+CR-V RHD,-19,Ireland,-18,2026-04-06,37,MV Kanto / V2831
+HR-V LHD,-19,Germany,-17,2026-04-13,72,MV Setouchi / V2832
+HR-V LHD,-19,France,-17,2026-04-13,53,MV Tokaido / V2833
+HR-V LHD,-19,Belgium,-17,2026-04-13,38,MV Sendai / V2834
+HR-V LHD,-19,Poland,-17,2026-04-13,51,MV Kyushu / V2835
+HR-V LHD,-19,Nordics,-17,2026-04-13,46,MV Aomori / V2836
+HR-V RHD,-19,UK,-17,2026-04-13,74,MV Nagano / V2837
+HR-V RHD,-19,Ireland,-17,2026-04-13,19,MV Iwate / V2838
+Jazz LHD,-19,Germany,-17,2026-04-13,86,MV Suzuka / V2839
+Jazz LHD,-19,France,-17,2026-04-13,64,MV Sakura / V2840
+Jazz LHD,-19,Belgium,-17,2026-04-13,46,MV Kanto / V2841
+Jazz LHD,-19,Poland,-17,2026-04-13,61,MV Setouchi / V2842
+Jazz LHD,-19,Nordics,-17,2026-04-13,55,MV Tokaido / V2843
+Jazz RHD,-19,UK,-17,2026-04-13,89,MV Sendai / V2844
+Jazz RHD,-19,Ireland,-17,2026-04-13,22,MV Kyushu / V2845
+e:Ny1 LHD,-19,Germany,-17,2026-04-13,34,MV Aomori / V2846
+e:Ny1 LHD,-19,France,-17,2026-04-13,25,MV Nagano / V2847
+e:Ny1 LHD,-19,Belgium,-17,2026-04-13,18,MV Iwate / V2848
+e:Ny1 LHD,-19,Nordics,-17,2026-04-13,22,MV Suzuka / V2849
+e:Ny1 RHD,-19,UK,-17,2026-04-13,43,MV Sakura / V2850
+e:Ny1 RHD,-19,Ireland,-17,2026-04-13,11,MV Kanto / V2851
+Civic LHD,-18,Germany,-17,2026-04-13,106,MV Setouchi / V2852
+Civic LHD,-18,France,-17,2026-04-13,78,MV Tokaido / V2853
+Civic LHD,-18,Italy,-17,2026-04-13,101,MV Sendai / V2854
+Civic LHD,-18,Spain,-17,2026-04-13,89,MV Kyushu / V2855
+Civic LHD,-18,Netherlands,-17,2026-04-13,67,MV Aomori / V2856
+Civic LHD,-18,Portugal,-17,2026-04-13,76,MV Nagano / V2857
+Civic RHD,-18,UK,-17,2026-04-13,184,MV Iwate / V2858
+CR-V LHD,-18,Germany,-17,2026-04-13,106,MV Suzuka / V2859
+CR-V LHD,-18,France,-17,2026-04-13,78,MV Sakura / V2860
+CR-V LHD,-18,Italy,-17,2026-04-13,101,MV Kanto / V2861
+CR-V LHD,-18,Spain,-17,2026-04-13,89,MV Setouchi / V2862
+CR-V LHD,-18,Netherlands,-17,2026-04-13,67,MV Tokaido / V2863
+CR-V LHD,-18,Portugal,-17,2026-04-13,76,MV Sendai / V2864
+CR-V RHD,-18,UK,-17,2026-04-13,184,MV Kyushu / V2865
+HR-V LHD,-18,Germany,-16,2026-04-20,53,MV Aomori / V2866
+HR-V LHD,-18,France,-16,2026-04-20,39,MV Nagano / V2867
+HR-V LHD,-18,Italy,-16,2026-04-20,50,MV Iwate / V2868
+HR-V LHD,-18,Spain,-16,2026-04-20,45,MV Suzuka / V2869
+HR-V LHD,-18,Netherlands,-16,2026-04-20,33,MV Sakura / V2870
+HR-V LHD,-18,Portugal,-16,2026-04-20,38,MV Kanto / V2871
+HR-V RHD,-18,UK,-16,2026-04-20,92,MV Setouchi / V2872
+Jazz LHD,-18,Germany,-16,2026-04-20,64,MV Tokaido / V2873
+Jazz LHD,-18,France,-16,2026-04-20,47,MV Sendai / V2874
+Jazz LHD,-18,Italy,-16,2026-04-20,60,MV Kyushu / V2875
+Jazz LHD,-18,Spain,-16,2026-04-20,54,MV Aomori / V2876
+Jazz LHD,-18,Netherlands,-16,2026-04-20,40,MV Nagano / V2877
+Jazz LHD,-18,Portugal,-16,2026-04-20,45,MV Iwate / V2878
+Jazz RHD,-18,UK,-16,2026-04-20,110,MV Suzuka / V2879
+e:Ny1 LHD,-18,Germany,-16,2026-04-20,43,MV Sakura / V2880
+e:Ny1 LHD,-18,France,-16,2026-04-20,31,MV Kanto / V2881
+e:Ny1 LHD,-18,Netherlands,-16,2026-04-20,27,MV Setouchi / V2882
+e:Ny1 RHD,-18,UK,-16,2026-04-20,54,MV Tokaido / V2883
+Civic LHD,-17,Germany,-16,2026-04-20,181,MV Sendai / V2884
+Civic LHD,-17,France,-16,2026-04-20,134,MV Kyushu / V2885
+Civic LHD,-17,Belgium,-16,2026-04-20,95,MV Aomori / V2886
+Civic LHD,-17,Nordics,-16,2026-04-20,114,MV Nagano / V2887
+Civic RHD,-17,UK,-16,2026-04-20,149,MV Iwate / V2888
+Civic RHD,-17,Ireland,-16,2026-04-20,37,MV Suzuka / V2889
+CR-V LHD,-17,Germany,-16,2026-04-20,181,MV Sakura / V2890
+CR-V LHD,-17,France,-16,2026-04-20,134,MV Kanto / V2891
+CR-V LHD,-17,Belgium,-16,2026-04-20,95,MV Setouchi / V2892
+CR-V LHD,-17,Nordics,-16,2026-04-20,114,MV Tokaido / V2893
+CR-V RHD,-17,UK,-16,2026-04-20,149,MV Sendai / V2894
+CR-V RHD,-17,Ireland,-16,2026-04-20,37,MV Kyushu / V2895
+HR-V LHD,-17,Germany,-15,2026-04-27,90,MV Aomori / V2896
+HR-V LHD,-17,France,-15,2026-04-27,67,MV Nagano / V2897
+HR-V LHD,-17,Belgium,-15,2026-04-27,48,MV Iwate / V2898
+HR-V LHD,-17,Nordics,-15,2026-04-27,57,MV Suzuka / V2899
+HR-V RHD,-17,UK,-15,2026-04-27,74,MV Sakura / V2900
+HR-V RHD,-17,Ireland,-15,2026-04-27,19,MV Kanto / V2901
+Jazz LHD,-17,Germany,-15,2026-04-27,108,MV Setouchi / V2902
+Jazz LHD,-17,France,-15,2026-04-27,80,MV Tokaido / V2903
+Jazz LHD,-17,Belgium,-15,2026-04-27,57,MV Sendai / V2904
+Jazz LHD,-17,Nordics,-15,2026-04-27,69,MV Kyushu / V2905
+Jazz RHD,-17,UK,-15,2026-04-27,90,MV Aomori / V2906
+Jazz RHD,-17,Ireland,-15,2026-04-27,22,MV Nagano / V2907
+e:Ny1 LHD,-17,Germany,-15,2026-04-27,36,MV Iwate / V2908
+e:Ny1 LHD,-17,France,-15,2026-04-27,27,MV Suzuka / V2909
+e:Ny1 LHD,-17,Belgium,-15,2026-04-27,19,MV Sakura / V2910
+e:Ny1 LHD,-17,Nordics,-15,2026-04-27,23,MV Kanto / V2911
+e:Ny1 RHD,-17,UK,-15,2026-04-27,45,MV Setouchi / V2912
+e:Ny1 RHD,-17,Ireland,-15,2026-04-27,11,MV Tokaido / V2913
+Civic LHD,-16,Germany,-15,2026-04-27,102,MV Sendai / V2914
+Civic LHD,-16,France,-15,2026-04-27,75,MV Kyushu / V2915
+Civic LHD,-16,Italy,-15,2026-04-27,96,MV Aomori / V2916
+Civic LHD,-16,Spain,-15,2026-04-27,85,MV Nagano / V2917
+Civic LHD,-16,Netherlands,-15,2026-04-27,64,MV Iwate / V2918
+Civic LHD,-16,Poland,-15,2026-04-27,72,MV Suzuka / V2919
+Civic RHD,-16,UK,-15,2026-04-27,176,MV Sakura / V2920
+CR-V LHD,-16,Germany,-15,2026-04-27,102,MV Kanto / V2921
+CR-V LHD,-16,France,-15,2026-04-27,75,MV Setouchi / V2922
+CR-V LHD,-16,Italy,-15,2026-04-27,96,MV Tokaido / V2923
+CR-V LHD,-16,Spain,-15,2026-04-27,85,MV Sendai / V2924
+CR-V LHD,-16,Netherlands,-15,2026-04-27,64,MV Kyushu / V2925
+CR-V LHD,-16,Poland,-15,2026-04-27,72,MV Aomori / V2926
+CR-V RHD,-16,UK,-15,2026-04-27,176,MV Nagano / V2927
+HR-V LHD,-16,Germany,-14,2026-05-04,51,MV Iwate / V2928
+HR-V LHD,-16,France,-14,2026-05-04,37,MV Suzuka / V2929
+HR-V LHD,-16,Italy,-14,2026-05-04,48,MV Sakura / V2930
+HR-V LHD,-16,Spain,-14,2026-05-04,43,MV Kanto / V2931
+HR-V LHD,-16,Netherlands,-14,2026-05-04,32,MV Setouchi / V2932
+HR-V LHD,-16,Poland,-14,2026-05-04,36,MV Tokaido / V2933
+HR-V RHD,-16,UK,-14,2026-05-04,88,MV Sendai / V2934
+Jazz LHD,-16,Germany,-14,2026-05-04,61,MV Kyushu / V2935
+Jazz LHD,-16,France,-14,2026-05-04,45,MV Aomori / V2936
+Jazz LHD,-16,Italy,-14,2026-05-04,58,MV Nagano / V2937
+Jazz LHD,-16,Spain,-14,2026-05-04,51,MV Iwate / V2938
+Jazz LHD,-16,Netherlands,-14,2026-05-04,39,MV Suzuka / V2939
+Jazz LHD,-16,Poland,-14,2026-05-04,43,MV Sakura / V2940
+Jazz RHD,-16,UK,-14,2026-05-04,105,MV Kanto / V2941
+e:Ny1 LHD,-16,Germany,-14,2026-05-04,43,MV Setouchi / V2942
+e:Ny1 LHD,-16,France,-14,2026-05-04,31,MV Tokaido / V2943
+e:Ny1 LHD,-16,Netherlands,-14,2026-05-04,27,MV Sendai / V2944
+e:Ny1 RHD,-16,UK,-14,2026-05-04,54,MV Kyushu / V2945
+Civic LHD,-15,Germany,-14,2026-05-04,138,MV Aomori / V2946
+Civic LHD,-15,France,-14,2026-05-04,102,MV Nagano / V2947
+Civic LHD,-15,Belgium,-14,2026-05-04,72,MV Iwate / V2948
+Civic LHD,-15,Nordics,-14,2026-05-04,87,MV Suzuka / V2949
+Civic LHD,-15,Portugal,-14,2026-05-04,98,MV Sakura / V2950
+Civic RHD,-15,UK,-14,2026-05-04,141,MV Kanto / V2951
+Civic RHD,-15,Ireland,-14,2026-05-04,35,MV Setouchi / V2952
+CR-V LHD,-15,Germany,-14,2026-05-04,138,MV Tokaido / V2953
+CR-V LHD,-15,France,-14,2026-05-04,102,MV Sendai / V2954
+CR-V LHD,-15,Belgium,-14,2026-05-04,72,MV Kyushu / V2955
+CR-V LHD,-15,Nordics,-14,2026-05-04,87,MV Aomori / V2956
+CR-V LHD,-15,Portugal,-14,2026-05-04,98,MV Nagano / V2957
+CR-V RHD,-15,UK,-14,2026-05-04,141,MV Iwate / V2958
+CR-V RHD,-15,Ireland,-14,2026-05-04,35,MV Suzuka / V2959
+HR-V LHD,-15,Germany,-13,2026-05-11,69,MV Sakura / V2960
+HR-V LHD,-15,France,-13,2026-05-11,51,MV Kanto / V2961
+HR-V LHD,-15,Belgium,-13,2026-05-11,36,MV Setouchi / V2962
+HR-V LHD,-15,Nordics,-13,2026-05-11,43,MV Tokaido / V2963
+HR-V LHD,-15,Portugal,-13,2026-05-11,49,MV Sendai / V2964
+HR-V RHD,-15,UK,-13,2026-05-11,70,MV Kyushu / V2965
+HR-V RHD,-15,Ireland,-13,2026-05-11,18,MV Aomori / V2966
+Jazz LHD,-15,Germany,-13,2026-05-11,83,MV Nagano / V2967
+Jazz LHD,-15,France,-13,2026-05-11,61,MV Iwate / V2968
+Jazz LHD,-15,Belgium,-13,2026-05-11,43,MV Suzuka / V2969
+Jazz LHD,-15,Nordics,-13,2026-05-11,52,MV Sakura / V2970
+Jazz LHD,-15,Portugal,-13,2026-05-11,59,MV Kanto / V2971
+Jazz RHD,-15,UK,-13,2026-05-11,85,MV Setouchi / V2972
+Jazz RHD,-15,Ireland,-13,2026-05-11,21,MV Tokaido / V2973
+e:Ny1 LHD,-15,Germany,-13,2026-05-11,36,MV Sendai / V2974
+e:Ny1 LHD,-15,France,-13,2026-05-11,26,MV Kyushu / V2975
+e:Ny1 LHD,-15,Belgium,-13,2026-05-11,19,MV Aomori / V2976
+e:Ny1 LHD,-15,Nordics,-13,2026-05-11,22,MV Nagano / V2977
+e:Ny1 RHD,-15,UK,-13,2026-05-11,44,MV Iwate / V2978
+e:Ny1 RHD,-15,Ireland,-13,2026-05-11,11,MV Suzuka / V2979
+Civic LHD,-14,Germany,-13,2026-05-11,123,MV Sakura / V2980
+Civic LHD,-14,France,-13,2026-05-11,91,MV Kanto / V2981
+Civic LHD,-14,Italy,-13,2026-05-11,116,MV Setouchi / V2982
+Civic LHD,-14,Spain,-13,2026-05-11,103,MV Tokaido / V2983
+Civic LHD,-14,Netherlands,-13,2026-05-11,78,MV Sendai / V2984
+Civic RHD,-14,UK,-13,2026-05-11,182,MV Kyushu / V2985
+CR-V LHD,-14,Germany,-13,2026-05-11,123,MV Aomori / V2986
+CR-V LHD,-14,France,-13,2026-05-11,91,MV Nagano / V2987
+CR-V LHD,-14,Italy,-13,2026-05-11,116,MV Iwate / V2988
+CR-V LHD,-14,Spain,-13,2026-05-11,103,MV Suzuka / V2989
+CR-V LHD,-14,Netherlands,-13,2026-05-11,78,MV Sakura / V2990
+CR-V RHD,-14,UK,-13,2026-05-11,182,MV Kanto / V2991
+HR-V LHD,-14,Germany,-12,2026-05-18,61,MV Setouchi / V2992
+HR-V LHD,-14,France,-12,2026-05-18,45,MV Tokaido / V2993
+HR-V LHD,-14,Italy,-12,2026-05-18,58,MV Sendai / V2994
+HR-V LHD,-14,Spain,-12,2026-05-18,52,MV Kyushu / V2995
+HR-V LHD,-14,Netherlands,-12,2026-05-18,39,MV Aomori / V2996
+HR-V RHD,-14,UK,-12,2026-05-18,91,MV Nagano / V2997
+Jazz LHD,-14,Germany,-12,2026-05-18,74,MV Iwate / V2998
+Jazz LHD,-14,France,-12,2026-05-18,54,MV Suzuka / V2999
+Jazz LHD,-14,Italy,-12,2026-05-18,70,MV Sakura / V3000
+Jazz LHD,-14,Spain,-12,2026-05-18,62,MV Kanto / V3001
+Jazz LHD,-14,Netherlands,-12,2026-05-18,47,MV Setouchi / V3002
+Jazz RHD,-14,UK,-12,2026-05-18,109,MV Tokaido / V3003
+e:Ny1 LHD,-14,Germany,-12,2026-05-18,46,MV Sendai / V3004
+e:Ny1 LHD,-14,France,-12,2026-05-18,33,MV Kyushu / V3005
+e:Ny1 LHD,-14,Netherlands,-12,2026-05-18,29,MV Aomori / V3006
+e:Ny1 RHD,-14,UK,-12,2026-05-18,58,MV Nagano / V3007
+Civic LHD,-13,Germany,-12,2026-05-18,137,MV Iwate / V3008
+Civic LHD,-13,France,-12,2026-05-18,101,MV Suzuka / V3009
+Civic LHD,-13,Belgium,-12,2026-05-18,72,MV Sakura / V3010
+Civic LHD,-13,Poland,-12,2026-05-18,97,MV Kanto / V3011
+Civic LHD,-13,Nordics,-12,2026-05-18,87,MV Setouchi / V3012
+Civic RHD,-13,UK,-12,2026-05-18,140,MV Tokaido / V3013
+Civic RHD,-13,Ireland,-12,2026-05-18,35,MV Sendai / V3014
+CR-V LHD,-13,Germany,-12,2026-05-18,137,MV Kyushu / V3015
+CR-V LHD,-13,France,-12,2026-05-18,101,MV Aomori / V3016
+CR-V LHD,-13,Belgium,-12,2026-05-18,72,MV Nagano / V3017
+CR-V LHD,-13,Poland,-12,2026-05-18,97,MV Iwate / V3018
+CR-V LHD,-13,Nordics,-12,2026-05-18,87,MV Suzuka / V3019
+CR-V RHD,-13,UK,-12,2026-05-18,140,MV Sakura / V3020
+CR-V RHD,-13,Ireland,-12,2026-05-18,35,MV Kanto / V3021
+HR-V LHD,-13,Germany,-11,2026-05-25,68,MV Setouchi / V3022
+HR-V LHD,-13,France,-11,2026-05-25,50,MV Tokaido / V3023
+HR-V LHD,-13,Belgium,-11,2026-05-25,36,MV Sendai / V3024
+HR-V LHD,-13,Poland,-11,2026-05-25,49,MV Kyushu / V3025
+HR-V LHD,-13,Nordics,-11,2026-05-25,43,MV Aomori / V3026
+HR-V RHD,-13,UK,-11,2026-05-25,70,MV Nagano / V3027
+HR-V RHD,-13,Ireland,-11,2026-05-25,18,MV Iwate / V3028
+Jazz LHD,-13,Germany,-11,2026-05-25,82,MV Suzuka / V3029
+Jazz LHD,-13,France,-11,2026-05-25,61,MV Sakura / V3030
+Jazz LHD,-13,Belgium,-11,2026-05-25,43,MV Kanto / V3031
+Jazz LHD,-13,Poland,-11,2026-05-25,58,MV Setouchi / V3032
+Jazz LHD,-13,Nordics,-11,2026-05-25,52,MV Tokaido / V3033
+Jazz RHD,-13,UK,-11,2026-05-25,84,MV Sendai / V3034
+Jazz RHD,-13,Ireland,-11,2026-05-25,21,MV Kyushu / V3035
+e:Ny1 LHD,-13,Germany,-11,2026-05-25,37,MV Aomori / V3036
+e:Ny1 LHD,-13,France,-11,2026-05-25,27,MV Nagano / V3037
+e:Ny1 LHD,-13,Belgium,-11,2026-05-25,19,MV Iwate / V3038
+e:Ny1 LHD,-13,Nordics,-11,2026-05-25,23,MV Suzuka / V3039
+e:Ny1 RHD,-13,UK,-11,2026-05-25,46,MV Sakura / V3040
+e:Ny1 RHD,-13,Ireland,-11,2026-05-25,12,MV Kanto / V3041
+Civic LHD,-12,Germany,-11,2026-05-25,102,MV Setouchi / V3042
+Civic LHD,-12,France,-11,2026-05-25,75,MV Tokaido / V3043
+Civic LHD,-12,Italy,-11,2026-05-25,97,MV Sendai / V3044
+Civic LHD,-12,Spain,-11,2026-05-25,86,MV Kyushu / V3045
+Civic LHD,-12,Netherlands,-11,2026-05-25,65,MV Aomori / V3046
+Civic LHD,-12,Portugal,-11,2026-05-25,73,MV Nagano / V3047
+Civic RHD,-12,UK,-11,2026-05-25,177,MV Iwate / V3048
+CR-V LHD,-12,Germany,-11,2026-05-25,102,MV Suzuka / V3049
+CR-V LHD,-12,France,-11,2026-05-25,75,MV Sakura / V3050
+CR-V LHD,-12,Italy,-11,2026-05-25,97,MV Kanto / V3051
+CR-V LHD,-12,Spain,-11,2026-05-25,86,MV Setouchi / V3052
+CR-V LHD,-12,Netherlands,-11,2026-05-25,65,MV Tokaido / V3053
+CR-V LHD,-12,Portugal,-11,2026-05-25,73,MV Sendai / V3054
+CR-V RHD,-12,UK,-11,2026-05-25,177,MV Kyushu / V3055
+HR-V LHD,-12,Germany,-10,2026-06-01,51,MV Aomori / V3056
+HR-V LHD,-12,France,-10,2026-06-01,38,MV Nagano / V3057
+HR-V LHD,-12,Italy,-10,2026-06-01,49,MV Iwate / V3058
+HR-V LHD,-12,Spain,-10,2026-06-01,43,MV Suzuka / V3059
+HR-V LHD,-12,Netherlands,-10,2026-06-01,32,MV Sakura / V3060
+HR-V LHD,-12,Portugal,-10,2026-06-01,36,MV Kanto / V3061
+HR-V RHD,-12,UK,-10,2026-06-01,89,MV Setouchi / V3062
+Jazz LHD,-12,Germany,-10,2026-06-01,61,MV Tokaido / V3063
+Jazz LHD,-12,France,-10,2026-06-01,45,MV Sendai / V3064
+Jazz LHD,-12,Italy,-10,2026-06-01,58,MV Kyushu / V3065
+Jazz LHD,-12,Spain,-10,2026-06-01,52,MV Aomori / V3066
+Jazz LHD,-12,Netherlands,-10,2026-06-01,39,MV Nagano / V3067
+Jazz LHD,-12,Portugal,-10,2026-06-01,44,MV Iwate / V3068
+Jazz RHD,-12,UK,-10,2026-06-01,106,MV Suzuka / V3069
+e:Ny1 LHD,-12,Germany,-10,2026-06-01,46,MV Sakura / V3070
+e:Ny1 LHD,-12,France,-10,2026-06-01,34,MV Kanto / V3071
+e:Ny1 LHD,-12,Netherlands,-10,2026-06-01,29,MV Setouchi / V3072
+e:Ny1 RHD,-12,UK,-10,2026-06-01,59,MV Tokaido / V3073
+Civic LHD,-11,Germany,-10,2026-06-01,167,MV Sendai / V3074
+Civic LHD,-11,France,-10,2026-06-01,123,MV Kyushu / V3075
+Civic LHD,-11,Belgium,-10,2026-06-01,88,MV Aomori / V3076
+Civic LHD,-11,Nordics,-10,2026-06-01,105,MV Nagano / V3077
+Civic RHD,-11,UK,-10,2026-06-01,138,MV Iwate / V3078
+Civic RHD,-11,Ireland,-10,2026-06-01,34,MV Suzuka / V3079
+CR-V LHD,-11,Germany,-10,2026-06-01,167,MV Sakura / V3080
+CR-V LHD,-11,France,-10,2026-06-01,123,MV Kanto / V3081
+CR-V LHD,-11,Belgium,-10,2026-06-01,88,MV Setouchi / V3082
+CR-V LHD,-11,Nordics,-10,2026-06-01,105,MV Tokaido / V3083
+CR-V RHD,-11,UK,-10,2026-06-01,137,MV Sendai / V3084
+CR-V RHD,-11,Ireland,-10,2026-06-01,34,MV Kyushu / V3085
+HR-V LHD,-11,Germany,-9,2026-06-08,83,MV Aomori / V3086
+HR-V LHD,-11,France,-9,2026-06-08,61,MV Nagano / V3087
+HR-V LHD,-11,Belgium,-9,2026-06-08,44,MV Iwate / V3088
+HR-V LHD,-11,Nordics,-9,2026-06-08,53,MV Suzuka / V3089
+HR-V RHD,-11,UK,-9,2026-06-08,69,MV Sakura / V3090
+HR-V RHD,-11,Ireland,-9,2026-06-08,17,MV Kanto / V3091
+Jazz LHD,-11,Germany,-9,2026-06-08,100,MV Setouchi / V3092
+Jazz LHD,-11,France,-9,2026-06-08,74,MV Tokaido / V3093
+Jazz LHD,-11,Belgium,-9,2026-06-08,53,MV Sendai / V3094
+Jazz LHD,-11,Nordics,-9,2026-06-08,63,MV Kyushu / V3095
+Jazz RHD,-11,UK,-9,2026-06-08,82,MV Aomori / V3096
+Jazz RHD,-11,Ireland,-9,2026-06-08,21,MV Nagano / V3097
+e:Ny1 LHD,-11,Germany,-9,2026-06-08,37,MV Iwate / V3098
+e:Ny1 LHD,-11,France,-9,2026-06-08,27,MV Suzuka / V3099
+e:Ny1 LHD,-11,Belgium,-9,2026-06-08,20,MV Sakura / V3100
+e:Ny1 LHD,-11,Nordics,-9,2026-06-08,24,MV Kanto / V3101
+e:Ny1 RHD,-11,UK,-9,2026-06-08,46,MV Setouchi / V3102
+e:Ny1 RHD,-11,Ireland,-9,2026-06-08,12,MV Tokaido / V3103
+Civic LHD,-10,Germany,-9,2026-06-08,103,MV Sendai / V3104
+Civic LHD,-10,France,-9,2026-06-08,76,MV Kyushu / V3105
+Civic LHD,-10,Italy,-9,2026-06-08,97,MV Aomori / V3106
+Civic LHD,-10,Spain,-9,2026-06-08,86,MV Nagano / V3107
+Civic LHD,-10,Netherlands,-9,2026-06-08,65,MV Iwate / V3108
+Civic LHD,-10,Poland,-9,2026-06-08,73,MV Suzuka / V3109
+Civic RHD,-10,UK,-9,2026-06-08,177,MV Sakura / V3110
+CR-V LHD,-10,Germany,-9,2026-06-08,103,MV Kanto / V3111
+CR-V LHD,-10,France,-9,2026-06-08,76,MV Setouchi / V3112
+CR-V LHD,-10,Italy,-9,2026-06-08,97,MV Tokaido / V3113
+CR-V LHD,-10,Spain,-9,2026-06-08,86,MV Sendai / V3114
+CR-V LHD,-10,Netherlands,-9,2026-06-08,65,MV Kyushu / V3115
+CR-V LHD,-10,Poland,-9,2026-06-08,73,MV Aomori / V3116
+CR-V RHD,-10,UK,-9,2026-06-08,177,MV Nagano / V3117
+HR-V LHD,-10,Germany,-8,2026-06-15,51,MV Iwate / V3118
+HR-V LHD,-10,France,-8,2026-06-15,38,MV Suzuka / V3119
+HR-V LHD,-10,Italy,-8,2026-06-15,49,MV Sakura / V3120
+HR-V LHD,-10,Spain,-8,2026-06-15,43,MV Kanto / V3121
+HR-V LHD,-10,Netherlands,-8,2026-06-15,32,MV Setouchi / V3122
+HR-V LHD,-10,Poland,-8,2026-06-15,36,MV Tokaido / V3123
+HR-V RHD,-10,UK,-8,2026-06-15,89,MV Sendai / V3124
+Jazz LHD,-10,Germany,-8,2026-06-15,62,MV Kyushu / V3125
+Jazz LHD,-10,France,-8,2026-06-15,45,MV Aomori / V3126
+Jazz LHD,-10,Italy,-8,2026-06-15,58,MV Nagano / V3127
+Jazz LHD,-10,Spain,-8,2026-06-15,52,MV Iwate / V3128
+Jazz LHD,-10,Netherlands,-8,2026-06-15,39,MV Suzuka / V3129
+Jazz LHD,-10,Poland,-8,2026-06-15,44,MV Sakura / V3130
+Jazz RHD,-10,UK,-8,2026-06-15,106,MV Kanto / V3131
+e:Ny1 LHD,-10,Germany,-8,2026-06-15,48,MV Setouchi / V3132
+e:Ny1 LHD,-10,France,-8,2026-06-15,36,MV Tokaido / V3133
+e:Ny1 LHD,-10,Netherlands,-8,2026-06-15,30,MV Sendai / V3134
+e:Ny1 RHD,-10,UK,-8,2026-06-15,61,MV Kyushu / V3135
+Civic LHD,-9,Germany,-8,2026-06-15,141,MV Aomori / V3136
+Civic LHD,-9,France,-8,2026-06-15,103,MV Nagano / V3137
+Civic LHD,-9,Belgium,-8,2026-06-15,74,MV Iwate / V3138
+Civic LHD,-9,Nordics,-8,2026-06-15,89,MV Suzuka / V3139
+Civic LHD,-9,Portugal,-8,2026-06-15,100,MV Sakura / V3140
+Civic RHD,-9,UK,-8,2026-06-15,144,MV Kanto / V3141
+Civic RHD,-9,Ireland,-8,2026-06-15,36,MV Setouchi / V3142
+CR-V LHD,-9,Germany,-8,2026-06-15,141,MV Tokaido / V3143
+CR-V LHD,-9,France,-8,2026-06-15,103,MV Sendai / V3144
+CR-V LHD,-9,Belgium,-8,2026-06-15,74,MV Kyushu / V3145
+CR-V LHD,-9,Nordics,-8,2026-06-15,89,MV Aomori / V3146
+CR-V LHD,-9,Portugal,-8,2026-06-15,100,MV Nagano / V3147
+CR-V RHD,-9,UK,-8,2026-06-15,144,MV Iwate / V3148
+CR-V RHD,-9,Ireland,-8,2026-06-15,36,MV Suzuka / V3149
+HR-V LHD,-9,Germany,-7,2026-06-22,70,MV Sakura / V3150
+HR-V LHD,-9,France,-7,2026-06-22,52,MV Kanto / V3151
+HR-V LHD,-9,Belgium,-7,2026-06-22,37,MV Setouchi / V3152
+HR-V LHD,-9,Nordics,-7,2026-06-22,44,MV Tokaido / V3153
+HR-V LHD,-9,Portugal,-7,2026-06-22,50,MV Sendai / V3154
+HR-V RHD,-9,UK,-7,2026-06-22,72,MV Kyushu / V3155
+HR-V RHD,-9,Ireland,-7,2026-06-22,18,MV Aomori / V3156
+Jazz LHD,-9,Germany,-7,2026-06-22,84,MV Nagano / V3157
+Jazz LHD,-9,France,-7,2026-06-22,62,MV Iwate / V3158
+Jazz LHD,-9,Belgium,-7,2026-06-22,45,MV Suzuka / V3159
+Jazz LHD,-9,Nordics,-7,2026-06-22,53,MV Sakura / V3160
+Jazz LHD,-9,Portugal,-7,2026-06-22,60,MV Kanto / V3161
+Jazz RHD,-9,UK,-7,2026-06-22,86,MV Setouchi / V3162
+Jazz RHD,-9,Ireland,-7,2026-06-22,22,MV Tokaido / V3163
+e:Ny1 LHD,-9,Germany,-7,2026-06-22,40,MV Sendai / V3164
+e:Ny1 LHD,-9,France,-7,2026-06-22,30,MV Kyushu / V3165
+e:Ny1 LHD,-9,Belgium,-7,2026-06-22,21,MV Aomori / V3166
+e:Ny1 LHD,-9,Nordics,-7,2026-06-22,26,MV Nagano / V3167
+e:Ny1 RHD,-9,UK,-7,2026-06-22,50,MV Iwate / V3168
+e:Ny1 RHD,-9,Ireland,-7,2026-06-22,13,MV Suzuka / V3169
+Civic LHD,-8,Germany,-7,2026-06-22,117,MV Sakura / V3170
+Civic LHD,-8,France,-7,2026-06-22,86,MV Kanto / V3171
+Civic LHD,-8,Italy,-7,2026-06-22,111,MV Setouchi / V3172
+Civic LHD,-8,Spain,-7,2026-06-22,99,MV Tokaido / V3173
+Civic LHD,-8,Netherlands,-7,2026-06-22,74,MV Sendai / V3174
+Civic RHD,-8,UK,-7,2026-06-22,173,MV Kyushu / V3175
+CR-V LHD,-8,Germany,-7,2026-06-22,117,MV Aomori / V3176
+CR-V LHD,-8,France,-7,2026-06-22,86,MV Nagano / V3177
+CR-V LHD,-8,Italy,-7,2026-06-22,111,MV Iwate / V3178
+CR-V LHD,-8,Spain,-7,2026-06-22,99,MV Suzuka / V3179
+CR-V LHD,-8,Netherlands,-7,2026-06-22,74,MV Sakura / V3180
+CR-V RHD,-8,UK,-7,2026-06-22,173,MV Kanto / V3181
+HR-V LHD,-8,Germany,-6,2026-06-29,59,MV Setouchi / V3182
+HR-V LHD,-8,France,-6,2026-06-29,43,MV Tokaido / V3183
+HR-V LHD,-8,Italy,-6,2026-06-29,55,MV Sendai / V3184
+HR-V LHD,-8,Spain,-6,2026-06-29,49,MV Kyushu / V3185
+HR-V LHD,-8,Netherlands,-6,2026-06-29,37,MV Aomori / V3186
+HR-V RHD,-8,UK,-6,2026-06-29,87,MV Nagano / V3187
+Jazz LHD,-8,Germany,-6,2026-06-29,70,MV Iwate / V3188
+Jazz LHD,-8,France,-6,2026-06-29,52,MV Suzuka / V3189
+Jazz LHD,-8,Italy,-6,2026-06-29,67,MV Sakura / V3190
+Jazz LHD,-8,Spain,-6,2026-06-29,59,MV Kanto / V3191
+Jazz LHD,-8,Netherlands,-6,2026-06-29,44,MV Setouchi / V3192
+Jazz RHD,-8,UK,-6,2026-06-29,104,MV Tokaido / V3193
+e:Ny1 LHD,-8,Germany,-6,2026-06-29,48,MV Sendai / V3194
+e:Ny1 LHD,-8,France,-6,2026-06-29,36,MV Kyushu / V3195
+e:Ny1 LHD,-8,Netherlands,-6,2026-06-29,31,MV Aomori / V3196
+e:Ny1 RHD,-8,UK,-6,2026-06-29,62,MV Nagano / V3197
+Civic LHD,-7,Germany,-6,2026-06-29,135,MV Iwate / V3198
+Civic LHD,-7,France,-6,2026-06-29,99,MV Suzuka / V3199
+Civic LHD,-7,Belgium,-6,2026-06-29,71,MV Sakura / V3200
+Civic LHD,-7,Poland,-6,2026-06-29,96,MV Kanto / V3201
+Civic LHD,-7,Nordics,-6,2026-06-29,85,MV Setouchi / V3202
+Civic RHD,-7,UK,-6,2026-06-29,138,MV Tokaido / V3203
+Civic RHD,-7,Ireland,-6,2026-06-29,35,MV Sendai / V3204
+CR-V LHD,-7,Germany,-6,2026-06-29,135,MV Kyushu / V3205
+CR-V LHD,-7,France,-6,2026-06-29,99,MV Aomori / V3206
+CR-V LHD,-7,Belgium,-6,2026-06-29,71,MV Nagano / V3207
+CR-V LHD,-7,Poland,-6,2026-06-29,96,MV Iwate / V3208
+CR-V LHD,-7,Nordics,-6,2026-06-29,85,MV Suzuka / V3209
+CR-V RHD,-7,UK,-6,2026-06-29,138,MV Sakura / V3210
+CR-V RHD,-7,Ireland,-6,2026-06-29,35,MV Kanto / V3211
+HR-V LHD,-7,Germany,-5,2026-07-06,67,MV Setouchi / V3212
+HR-V LHD,-7,France,-5,2026-07-06,50,MV Tokaido / V3213
+HR-V LHD,-7,Belgium,-5,2026-07-06,35,MV Sendai / V3214
+HR-V LHD,-7,Poland,-5,2026-07-06,48,MV Kyushu / V3215
+HR-V LHD,-7,Nordics,-5,2026-07-06,43,MV Aomori / V3216
+HR-V RHD,-7,UK,-5,2026-07-06,70,MV Nagano / V3217
+HR-V RHD,-7,Ireland,-5,2026-07-06,17,MV Iwate / V3218
+Jazz LHD,-7,Germany,-5,2026-07-06,81,MV Suzuka / V3219
+Jazz LHD,-7,France,-5,2026-07-06,60,MV Sakura / V3220
+Jazz LHD,-7,Belgium,-5,2026-07-06,43,MV Kanto / V3221
+Jazz LHD,-7,Poland,-5,2026-07-06,57,MV Setouchi / V3222
+Jazz LHD,-7,Nordics,-5,2026-07-06,51,MV Tokaido / V3223
+Jazz RHD,-7,UK,-5,2026-07-06,83,MV Sendai / V3224
+Jazz RHD,-7,Ireland,-5,2026-07-06,21,MV Kyushu / V3225
+e:Ny1 LHD,-7,Germany,-5,2026-07-06,40,MV Aomori / V3226
+e:Ny1 LHD,-7,France,-5,2026-07-06,30,MV Nagano / V3227
+e:Ny1 LHD,-7,Belgium,-5,2026-07-06,21,MV Iwate / V3228
+e:Ny1 LHD,-7,Nordics,-5,2026-07-06,25,MV Suzuka / V3229
+e:Ny1 RHD,-7,UK,-5,2026-07-06,50,MV Sakura / V3230
+e:Ny1 RHD,-7,Ireland,-5,2026-07-06,13,MV Kanto / V3231
+Civic LHD,-6,Germany,-5,2026-07-06,101,MV Setouchi / V3232
+Civic LHD,-6,France,-5,2026-07-06,74,MV Tokaido / V3233
+Civic LHD,-6,Italy,-5,2026-07-06,95,MV Sendai / V3234
+Civic LHD,-6,Spain,-5,2026-07-06,85,MV Kyushu / V3235
+Civic LHD,-6,Netherlands,-5,2026-07-06,64,MV Aomori / V3236
+Civic LHD,-6,Portugal,-5,2026-07-06,72,MV Nagano / V3237
+Civic RHD,-6,UK,-5,2026-07-06,175,MV Iwate / V3238
+CR-V LHD,-6,Germany,-5,2026-07-06,101,MV Suzuka / V3239
+CR-V LHD,-6,France,-5,2026-07-06,74,MV Sakura / V3240
+CR-V LHD,-6,Italy,-5,2026-07-06,95,MV Kanto / V3241
+CR-V LHD,-6,Spain,-5,2026-07-06,85,MV Setouchi / V3242
+CR-V LHD,-6,Netherlands,-5,2026-07-06,64,MV Tokaido / V3243
+CR-V LHD,-6,Portugal,-5,2026-07-06,72,MV Sendai / V3244
+CR-V RHD,-6,UK,-5,2026-07-06,174,MV Kyushu / V3245
+HR-V LHD,-6,Germany,-4,2026-07-13,50,MV Aomori / V3246
+HR-V LHD,-6,France,-4,2026-07-13,37,MV Nagano / V3247
+HR-V LHD,-6,Italy,-4,2026-07-13,48,MV Iwate / V3248
+HR-V LHD,-6,Spain,-4,2026-07-13,43,MV Suzuka / V3249
+HR-V LHD,-6,Netherlands,-4,2026-07-13,32,MV Sakura / V3250
+HR-V LHD,-6,Portugal,-4,2026-07-13,36,MV Kanto / V3251
+HR-V RHD,-6,UK,-4,2026-07-13,87,MV Setouchi / V3252
+Jazz LHD,-6,Germany,-4,2026-07-13,60,MV Tokaido / V3253
+Jazz LHD,-6,France,-4,2026-07-13,45,MV Sendai / V3254
+Jazz LHD,-6,Italy,-4,2026-07-13,57,MV Kyushu / V3255
+Jazz LHD,-6,Spain,-4,2026-07-13,51,MV Aomori / V3256
+Jazz LHD,-6,Netherlands,-4,2026-07-13,38,MV Nagano / V3257
+Jazz LHD,-6,Portugal,-4,2026-07-13,43,MV Iwate / V3258
+Jazz RHD,-6,UK,-4,2026-07-13,105,MV Suzuka / V3259
+e:Ny1 LHD,-6,Germany,-4,2026-07-13,50,MV Sakura / V3260
+e:Ny1 LHD,-6,France,-4,2026-07-13,37,MV Kanto / V3261
+e:Ny1 LHD,-6,Netherlands,-4,2026-07-13,32,MV Setouchi / V3262
+e:Ny1 RHD,-6,UK,-4,2026-07-13,65,MV Tokaido / V3263
+Civic LHD,-5,Germany,-4,2026-07-13,157,MV Sendai / V3264
+Civic LHD,-5,France,-4,2026-07-13,116,MV Kyushu / V3265
+Civic LHD,-5,Belgium,-4,2026-07-13,82,MV Aomori / V3266
+Civic LHD,-5,Nordics,-4,2026-07-13,99,MV Nagano / V3267
+Civic RHD,-5,UK,-4,2026-07-13,129,MV Iwate / V3268
+Civic RHD,-5,Ireland,-4,2026-07-13,32,MV Suzuka / V3269
+CR-V LHD,-5,Germany,-4,2026-07-13,157,MV Sakura / V3270
+CR-V LHD,-5,France,-4,2026-07-13,115,MV Kanto / V3271
+CR-V LHD,-5,Belgium,-4,2026-07-13,82,MV Setouchi / V3272
+CR-V LHD,-5,Nordics,-4,2026-07-13,99,MV Tokaido / V3273
+CR-V RHD,-5,UK,-4,2026-07-13,129,MV Sendai / V3274
+CR-V RHD,-5,Ireland,-4,2026-07-13,32,MV Kyushu / V3275
+HR-V LHD,-5,Germany,-3,2026-07-20,78,MV Aomori / V3276
+HR-V LHD,-5,France,-3,2026-07-20,58,MV Nagano / V3277
+HR-V LHD,-5,Belgium,-3,2026-07-20,41,MV Iwate / V3278
+HR-V LHD,-5,Nordics,-3,2026-07-20,50,MV Suzuka / V3279
+HR-V RHD,-5,UK,-3,2026-07-20,64,MV Sakura / V3280
+HR-V RHD,-5,Ireland,-3,2026-07-20,16,MV Kanto / V3281
+Jazz LHD,-5,Germany,-3,2026-07-20,94,MV Setouchi / V3282
+Jazz LHD,-5,France,-3,2026-07-20,69,MV Tokaido / V3283
+Jazz LHD,-5,Belgium,-3,2026-07-20,50,MV Sendai / V3284
+Jazz LHD,-5,Nordics,-3,2026-07-20,59,MV Kyushu / V3285
+Jazz RHD,-5,UK,-3,2026-07-20,78,MV Aomori / V3286
+Jazz RHD,-5,Ireland,-3,2026-07-20,19,MV Nagano / V3287
+e:Ny1 LHD,-5,Germany,-3,2026-07-20,39,MV Iwate / V3288
+e:Ny1 LHD,-5,France,-3,2026-07-20,29,MV Suzuka / V3289
+e:Ny1 LHD,-5,Belgium,-3,2026-07-20,20,MV Sakura / V3290
+e:Ny1 LHD,-5,Nordics,-3,2026-07-20,24,MV Kanto / V3291
+e:Ny1 RHD,-5,UK,-3,2026-07-20,48,MV Setouchi / V3292
+e:Ny1 RHD,-5,Ireland,-3,2026-07-20,12,MV Tokaido / V3293
+Civic LHD,-4,Germany,-3,2026-07-20,96,MV Sendai / V3294
+Civic LHD,-4,France,-3,2026-07-20,70,MV Kyushu / V3295
+Civic LHD,-4,Italy,-3,2026-07-20,90,MV Aomori / V3296
+Civic LHD,-4,Spain,-3,2026-07-20,80,MV Nagano / V3297
+Civic LHD,-4,Netherlands,-3,2026-07-20,60,MV Iwate / V3298
+Civic LHD,-4,Poland,-3,2026-07-20,68,MV Suzuka / V3299
+Civic RHD,-4,UK,-3,2026-07-20,165,MV Sakura / V3300
+CR-V LHD,-4,Germany,-3,2026-07-20,96,MV Kanto / V3301
+CR-V LHD,-4,France,-3,2026-07-20,70,MV Setouchi / V3302
+CR-V LHD,-4,Italy,-3,2026-07-20,90,MV Tokaido / V3303
+CR-V LHD,-4,Spain,-3,2026-07-20,80,MV Sendai / V3304
+CR-V LHD,-4,Netherlands,-3,2026-07-20,60,MV Kyushu / V3305
+CR-V LHD,-4,Poland,-3,2026-07-20,68,MV Aomori / V3306
+CR-V RHD,-4,UK,-3,2026-07-20,165,MV Nagano / V3307
+HR-V LHD,-4,Germany,-2,2026-07-27,48,MV Iwate / V3308
+HR-V LHD,-4,France,-2,2026-07-27,35,MV Suzuka / V3309
+HR-V LHD,-4,Italy,-2,2026-07-27,45,MV Sakura / V3310
+HR-V LHD,-4,Spain,-2,2026-07-27,40,MV Kanto / V3311
+HR-V LHD,-4,Netherlands,-2,2026-07-27,30,MV Setouchi / V3312
+HR-V LHD,-4,Poland,-2,2026-07-27,34,MV Tokaido / V3313
+HR-V RHD,-4,UK,-2,2026-07-27,83,MV Sendai / V3314
+Jazz LHD,-4,Germany,-2,2026-07-27,57,MV Kyushu / V3315
+Jazz LHD,-4,France,-2,2026-07-27,42,MV Aomori / V3316
+Jazz LHD,-4,Italy,-2,2026-07-27,54,MV Nagano / V3317
+Jazz LHD,-4,Spain,-2,2026-07-27,48,MV Iwate / V3318
+Jazz LHD,-4,Netherlands,-2,2026-07-27,36,MV Suzuka / V3319
+Jazz LHD,-4,Poland,-2,2026-07-27,41,MV Sakura / V3320
+Jazz RHD,-4,UK,-2,2026-07-27,99,MV Kanto / V3321
+e:Ny1 LHD,-4,Germany,-2,2026-07-27,49,MV Setouchi / V3322
+e:Ny1 LHD,-4,France,-2,2026-07-27,36,MV Tokaido / V3323
+e:Ny1 LHD,-4,Netherlands,-2,2026-07-27,31,MV Sendai / V3324
+e:Ny1 RHD,-4,UK,-2,2026-07-27,63,MV Kyushu / V3325
+Civic LHD,-3,Germany,-2,2026-07-27,129,MV Aomori / V3326
+Civic LHD,-3,France,-2,2026-07-27,95,MV Nagano / V3327
+Civic LHD,-3,Belgium,-2,2026-07-27,68,MV Iwate / V3328
+Civic LHD,-3,Nordics,-2,2026-07-27,82,MV Suzuka / V3329
+Civic LHD,-3,Portugal,-2,2026-07-27,92,MV Sakura / V3330
+Civic RHD,-3,UK,-2,2026-07-27,132,MV Kanto / V3331
+Civic RHD,-3,Ireland,-2,2026-07-27,33,MV Setouchi / V3332
+CR-V LHD,-3,Germany,-2,2026-07-27,129,MV Tokaido / V3333
+CR-V LHD,-3,France,-2,2026-07-27,95,MV Sendai / V3334
+CR-V LHD,-3,Belgium,-2,2026-07-27,68,MV Kyushu / V3335
+CR-V LHD,-3,Nordics,-2,2026-07-27,81,MV Aomori / V3336
+CR-V LHD,-3,Portugal,-2,2026-07-27,92,MV Nagano / V3337
+CR-V RHD,-3,UK,-2,2026-07-27,132,MV Iwate / V3338
+CR-V RHD,-3,Ireland,-2,2026-07-27,33,MV Suzuka / V3339
+HR-V LHD,-3,Germany,-1,2026-08-03,64,MV Sakura / V3340
+HR-V LHD,-3,France,-1,2026-08-03,47,MV Kanto / V3341
+HR-V LHD,-3,Belgium,-1,2026-08-03,34,MV Setouchi / V3342
+HR-V LHD,-3,Nordics,-1,2026-08-03,41,MV Tokaido / V3343
+HR-V LHD,-3,Portugal,-1,2026-08-03,46,MV Sendai / V3344
+HR-V RHD,-3,UK,-1,2026-08-03,66,MV Kyushu / V3345
+HR-V RHD,-3,Ireland,-1,2026-08-03,17,MV Aomori / V3346
+Jazz LHD,-3,Germany,-1,2026-08-03,77,MV Nagano / V3347
+Jazz LHD,-3,France,-1,2026-08-03,57,MV Iwate / V3348
+Jazz LHD,-3,Belgium,-1,2026-08-03,41,MV Suzuka / V3349
+Jazz LHD,-3,Nordics,-1,2026-08-03,49,MV Sakura / V3350
+Jazz LHD,-3,Portugal,-1,2026-08-03,55,MV Kanto / V3351
+Jazz RHD,-3,UK,-1,2026-08-03,79,MV Setouchi / V3352
+Jazz RHD,-3,Ireland,-1,2026-08-03,20,MV Tokaido / V3353
+e:Ny1 LHD,-3,Germany,-1,2026-08-03,41,MV Sendai / V3354
+e:Ny1 LHD,-3,France,-1,2026-08-03,30,MV Kyushu / V3355
+e:Ny1 LHD,-3,Belgium,-1,2026-08-03,22,MV Aomori / V3356
+e:Ny1 LHD,-3,Nordics,-1,2026-08-03,26,MV Nagano / V3357
+e:Ny1 RHD,-3,UK,-1,2026-08-03,51,MV Iwate / V3358
+e:Ny1 RHD,-3,Ireland,-1,2026-08-03,13,MV Suzuka / V3359
+Civic LHD,-2,Germany,-1,2026-08-03,113,MV Sakura / V3360
+Civic LHD,-2,France,-1,2026-08-03,83,MV Kanto / V3361
+Civic LHD,-2,Italy,-1,2026-08-03,107,MV Setouchi / V3362
+Civic LHD,-2,Spain,-1,2026-08-03,95,MV Tokaido / V3363
+Civic LHD,-2,Netherlands,-1,2026-08-03,72,MV Sendai / V3364
+Civic RHD,-2,UK,-1,2026-08-03,167,MV Kyushu / V3365
+CR-V LHD,-2,Germany,-1,2026-08-03,113,MV Aomori / V3366
+CR-V LHD,-2,France,-1,2026-08-03,83,MV Nagano / V3367
+CR-V LHD,-2,Italy,-1,2026-08-03,107,MV Iwate / V3368
+CR-V LHD,-2,Spain,-1,2026-08-03,95,MV Suzuka / V3369
+CR-V LHD,-2,Netherlands,-1,2026-08-03,72,MV Sakura / V3370
+CR-V RHD,-2,UK,-1,2026-08-03,167,MV Kanto / V3371
+HR-V LHD,-2,Germany,0,2026-08-10,56,MV Setouchi / V3372
+HR-V LHD,-2,France,0,2026-08-10,42,MV Tokaido / V3373
+HR-V LHD,-2,Italy,0,2026-08-10,53,MV Sendai / V3374
+HR-V LHD,-2,Spain,0,2026-08-10,48,MV Kyushu / V3375
+HR-V LHD,-2,Netherlands,0,2026-08-10,36,MV Aomori / V3376
+HR-V RHD,-2,UK,0,2026-08-10,84,MV Nagano / V3377
+Jazz LHD,-2,Germany,0,2026-08-10,68,MV Iwate / V3378
+Jazz LHD,-2,France,0,2026-08-10,50,MV Suzuka / V3379
+Jazz LHD,-2,Italy,0,2026-08-10,64,MV Sakura / V3380
+Jazz LHD,-2,Spain,0,2026-08-10,57,MV Kanto / V3381
+Jazz LHD,-2,Netherlands,0,2026-08-10,43,MV Setouchi / V3382
+Jazz RHD,-2,UK,0,2026-08-10,100,MV Tokaido / V3383
+e:Ny1 LHD,-2,Germany,0,2026-08-10,51,MV Sendai / V3384
+e:Ny1 LHD,-2,France,0,2026-08-10,38,MV Kyushu / V3385
+e:Ny1 LHD,-2,Netherlands,0,2026-08-10,32,MV Aomori / V3386
+e:Ny1 RHD,-2,UK,0,2026-08-10,66,MV Nagano / V3387
+Civic LHD,-1,Germany,0,2026-08-10,118,MV Iwate / V3388
+Civic LHD,-1,France,0,2026-08-10,87,MV Suzuka / V3389
+Civic LHD,-1,Belgium,0,2026-08-10,62,MV Sakura / V3390
+Civic LHD,-1,Poland,0,2026-08-10,84,MV Kanto / V3391
+Civic LHD,-1,Nordics,0,2026-08-10,74,MV Setouchi / V3392
+Civic RHD,-1,UK,0,2026-08-10,121,MV Tokaido / V3393
+Civic RHD,-1,Ireland,0,2026-08-10,30,MV Sendai / V3394
+CR-V LHD,-1,Germany,0,2026-08-10,118,MV Kyushu / V3395
+CR-V LHD,-1,France,0,2026-08-10,87,MV Aomori / V3396
+CR-V LHD,-1,Belgium,0,2026-08-10,62,MV Nagano / V3397
+CR-V LHD,-1,Poland,0,2026-08-10,84,MV Iwate / V3398
+CR-V LHD,-1,Nordics,0,2026-08-10,74,MV Suzuka / V3399
+CR-V RHD,-1,UK,0,2026-08-10,121,MV Sakura / V3400
+CR-V RHD,-1,Ireland,0,2026-08-10,30,MV Kanto / V3401
+HR-V LHD,-1,Germany,1,2026-08-17,59,MV Setouchi / V3402
+HR-V LHD,-1,France,1,2026-08-17,44,MV Tokaido / V3403
+HR-V LHD,-1,Belgium,1,2026-08-17,31,MV Sendai / V3404
+HR-V LHD,-1,Poland,1,2026-08-17,42,MV Kyushu / V3405
+HR-V LHD,-1,Nordics,1,2026-08-17,37,MV Aomori / V3406
+HR-V RHD,-1,UK,1,2026-08-17,60,MV Nagano / V3407
+HR-V RHD,-1,Ireland,1,2026-08-17,15,MV Iwate / V3408
+Jazz LHD,-1,Germany,1,2026-08-17,71,MV Suzuka / V3409
+Jazz LHD,-1,France,1,2026-08-17,52,MV Sakura / V3410
+Jazz LHD,-1,Belgium,1,2026-08-17,37,MV Kanto / V3411
+Jazz LHD,-1,Poland,1,2026-08-17,50,MV Setouchi / V3412
+Jazz LHD,-1,Nordics,1,2026-08-17,45,MV Tokaido / V3413
+Jazz RHD,-1,UK,1,2026-08-17,73,MV Sendai / V3414
+Jazz RHD,-1,Ireland,1,2026-08-17,18,MV Kyushu / V3415
+e:Ny1 LHD,-1,Germany,1,2026-08-17,39,MV Aomori / V3416
+e:Ny1 LHD,-1,France,1,2026-08-17,29,MV Nagano / V3417
+e:Ny1 LHD,-1,Belgium,1,2026-08-17,20,MV Iwate / V3418
+e:Ny1 LHD,-1,Nordics,1,2026-08-17,24,MV Suzuka / V3419
+e:Ny1 RHD,-1,UK,1,2026-08-17,48,MV Sakura / V3420
+e:Ny1 RHD,-1,Ireland,1,2026-08-17,12,MV Kanto / V3421
+Civic LHD,0,Germany,1,2026-08-17,87,MV Setouchi / V3422
+Civic LHD,0,France,1,2026-08-17,64,MV Tokaido / V3423
+Civic LHD,0,Italy,1,2026-08-17,82,MV Sendai / V3424
+Civic LHD,0,Spain,1,2026-08-17,73,MV Kyushu / V3425
+Civic LHD,0,Netherlands,1,2026-08-17,55,MV Aomori / V3426
+Civic LHD,0,Portugal,1,2026-08-17,62,MV Nagano / V3427
+Civic RHD,0,UK,1,2026-08-17,150,MV Iwate / V3428
+CR-V LHD,0,Germany,1,2026-08-17,87,MV Suzuka / V3429
+CR-V LHD,0,France,1,2026-08-17,64,MV Sakura / V3430
+CR-V LHD,0,Italy,1,2026-08-17,82,MV Kanto / V3431
+CR-V LHD,0,Spain,1,2026-08-17,73,MV Setouchi / V3432
+CR-V LHD,0,Netherlands,1,2026-08-17,55,MV Tokaido / V3433
+CR-V LHD,0,Portugal,1,2026-08-17,62,MV Sendai / V3434
+CR-V RHD,0,UK,1,2026-08-17,150,MV Kyushu / V3435
+HR-V LHD,0,Germany,2,2026-08-24,43,MV Aomori / V3436
+HR-V LHD,0,France,2,2026-08-24,32,MV Nagano / V3437
+HR-V LHD,0,Italy,2,2026-08-24,41,MV Iwate / V3438
+HR-V LHD,0,Spain,2,2026-08-24,37,MV Suzuka / V3439
+HR-V LHD,0,Netherlands,2,2026-08-24,27,MV Sakura / V3440
+HR-V LHD,0,Portugal,2,2026-08-24,31,MV Kanto / V3441
+HR-V RHD,0,UK,2,2026-08-24,75,MV Setouchi / V3442
+Jazz LHD,0,Germany,2,2026-08-24,52,MV Tokaido / V3443
+Jazz LHD,0,France,2,2026-08-24,39,MV Sendai / V3444
+Jazz LHD,0,Italy,2,2026-08-24,49,MV Kyushu / V3445
+Jazz LHD,0,Spain,2,2026-08-24,44,MV Aomori / V3446
+Jazz LHD,0,Netherlands,2,2026-08-24,33,MV Nagano / V3447
+Jazz LHD,0,Portugal,2,2026-08-24,37,MV Iwate / V3448
+Jazz RHD,0,UK,2,2026-08-24,90,MV Suzuka / V3449
+e:Ny1 LHD,0,Germany,2,2026-08-24,47,MV Sakura / V3450
+e:Ny1 LHD,0,France,2,2026-08-24,35,MV Kanto / V3451
+e:Ny1 LHD,0,Netherlands,2,2026-08-24,30,MV Setouchi / V3452
+e:Ny1 RHD,0,UK,2,2026-08-24,61,MV Tokaido / V3453
+Civic LHD,1,Germany,2,2026-08-24,146,MV Sendai / V3454
+Civic LHD,1,France,2,2026-08-24,108,MV Kyushu / V3455
+Civic LHD,1,Belgium,2,2026-08-24,77,MV Aomori / V3456
+Civic LHD,1,Nordics,2,2026-08-24,92,MV Nagano / V3457
+Civic RHD,1,UK,2,2026-08-24,120,MV Iwate / V3458
+Civic RHD,1,Ireland,2,2026-08-24,30,MV Suzuka / V3459
+CR-V LHD,1,Germany,2,2026-08-24,146,MV Sakura / V3460
+CR-V LHD,1,France,2,2026-08-24,108,MV Kanto / V3461
+CR-V LHD,1,Belgium,2,2026-08-24,77,MV Setouchi / V3462
+CR-V LHD,1,Nordics,2,2026-08-24,92,MV Tokaido / V3463
+CR-V RHD,1,UK,2,2026-08-24,120,MV Sendai / V3464
+CR-V RHD,1,Ireland,2,2026-08-24,30,MV Kyushu / V3465
+HR-V LHD,1,Germany,3,2026-08-31,73,MV Aomori / V3466
+HR-V LHD,1,France,3,2026-08-31,54,MV Nagano / V3467
+HR-V LHD,1,Belgium,3,2026-08-31,38,MV Iwate / V3468
+HR-V LHD,1,Nordics,3,2026-08-31,46,MV Suzuka / V3469
+HR-V RHD,1,UK,3,2026-08-31,60,MV Sakura / V3470
+HR-V RHD,1,Ireland,3,2026-08-31,15,MV Kanto / V3471
+Jazz LHD,1,Germany,3,2026-08-31,88,MV Setouchi / V3472
+Jazz LHD,1,France,3,2026-08-31,64,MV Tokaido / V3473
+Jazz LHD,1,Belgium,3,2026-08-31,46,MV Sendai / V3474
+Jazz LHD,1,Nordics,3,2026-08-31,55,MV Kyushu / V3475
+Jazz RHD,1,UK,3,2026-08-31,72,MV Aomori / V3476
+Jazz RHD,1,Ireland,3,2026-08-31,18,MV Nagano / V3477
+e:Ny1 LHD,1,Germany,3,2026-08-31,39,MV Iwate / V3478
+e:Ny1 LHD,1,France,3,2026-08-31,29,MV Suzuka / V3479
+e:Ny1 LHD,1,Belgium,3,2026-08-31,21,MV Sakura / V3480
+e:Ny1 LHD,1,Nordics,3,2026-08-31,25,MV Kanto / V3481
+e:Ny1 RHD,1,UK,3,2026-08-31,50,MV Setouchi / V3482
+e:Ny1 RHD,1,Ireland,3,2026-08-31,12,MV Tokaido / V3483
+Civic LHD,2,Germany,3,2026-08-31,86,MV Sendai / V3484
+Civic LHD,2,France,3,2026-08-31,64,MV Kyushu / V3485
+Civic LHD,2,Italy,3,2026-08-31,82,MV Aomori / V3486
+Civic LHD,2,Spain,3,2026-08-31,73,MV Nagano / V3487
+Civic LHD,2,Netherlands,3,2026-08-31,54,MV Iwate / V3488
+Civic LHD,2,Poland,3,2026-08-31,61,MV Suzuka / V3489
+Civic RHD,2,UK,3,2026-08-31,149,MV Sakura / V3490
+CR-V LHD,2,Germany,3,2026-08-31,86,MV Kanto / V3491
+CR-V LHD,2,France,3,2026-08-31,64,MV Setouchi / V3492
+CR-V LHD,2,Italy,3,2026-08-31,82,MV Tokaido / V3493
+CR-V LHD,2,Spain,3,2026-08-31,73,MV Sendai / V3494
+CR-V LHD,2,Netherlands,3,2026-08-31,54,MV Kyushu / V3495
+CR-V LHD,2,Poland,3,2026-08-31,61,MV Aomori / V3496
+CR-V RHD,2,UK,3,2026-08-31,149,MV Nagano / V3497

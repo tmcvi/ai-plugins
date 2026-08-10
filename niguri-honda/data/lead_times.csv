@@ -1,10 +1,11 @@
-assumption_type,model,market,offset_week,value
+assumption_type,base_model,market,offset_week,value
 prod_to_ship,Civic,,,1
 prod_to_ship,CR-V,,,1
 prod_to_ship,HR-V,,,2
 prod_to_ship,Jazz,,,2
 prod_to_ship,e:Ny1,,,2
 transit,,UK,,4
+transit,,Ireland,,5
 transit,,Germany,,5
 transit,,France,,6
 transit,,Italy,,10
@@ -15,6 +16,7 @@ transit,,Poland,,7
 transit,,Nordics,,7
 transit,,Portugal,,12
 inbound_lag,,UK,,1
+inbound_lag,,Ireland,,1
 inbound_lag,,Germany,,1
 inbound_lag,,France,,1
 inbound_lag,,Italy,,2
@@ -27,6 +29,9 @@ inbound_lag,,Portugal,,2
 sell_through,,UK,2,0.4
 sell_through,,UK,3,0.4
 sell_through,,UK,4,0.2
+sell_through,,Ireland,2,0.4
+sell_through,,Ireland,3,0.4
+sell_through,,Ireland,4,0.2
 sell_through,,Germany,2,0.4
 sell_through,,Germany,3,0.4
 sell_through,,Germany,4,0.2
