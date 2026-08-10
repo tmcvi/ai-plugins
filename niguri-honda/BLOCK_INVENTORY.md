@@ -117,10 +117,12 @@ These convert per-cohort journey dates into Week items so flows can be projected
 | **Sealed Units Sold** | `c40ee46a` | Decimal | Week × Model × Market | `('Sealed Allocated Units' * 'Sell-Through Weight')[BY: 'Production Week', 'Sell Offset' -> 'Sale Week Ref', Model, Market]` |
 | **Cover Snapshot** | `b1bfb93c` | Decimal | Model × Market | `IF('Demand Rate' > 0, ((CUMULATE('Sealed Units Shipped', Week) - CUMULATE('Sealed Units Sold', Week)) / 'Demand Rate')[SELECT: Week = TIMEDIM(DATE(2026, 8, 17), Week)], BLANK)` |
 | **Unit Gap** | `86fe9d01` | Decimal | Model × Market | `IF('Demand Rate' > 0, MAX(0, ('Target Cover Weeks' + 'Transit Weeks' + 'Inbound Lag Weeks') - 'Cover Snapshot') * 'Demand Rate' * 'Priority Weight', 0)` |
-| **Forward Gap Share** | `e90d2d17` | Decimal | Model × Market | `IF('Unit Gap'[REMOVE: Market] > 0, 'Unit Gap' / 'Unit Gap'[REMOVE: Market], 'Allocation Share')` |
+| **Forward Gap Share** | `e90d2d17` | Decimal | Model × Market | `IF('Demand Rate' > 0, ('Demand Rate' * 'Priority Weight' + 'Unit Gap' / 6) / ('Demand Rate' * 'Priority Weight' + 'Unit Gap' / 6)[REMOVE: Market], 0)` |
 | **Landed Cover** | `eb0613a9` | Decimal | Model × Market | `'Cover Snapshot' - ('Transit Weeks' + 'Inbound Lag Weeks')` |
 
 Cover basis note: `Cover Snapshot` is pipeline-inclusive (shipped − sold) measured one week after W0. `Unit Gap` benchmarks it against a **lead-time-adjusted** target (Target + Transit + Inbound) so long-transit markets aren't structurally starved. `Landed Cover` strips transit + inbound back out for the constraint gauge (bands: constrained < 2 · balanced 2–4 · aging > 5).
+
+Forward allocation basis (revised): `Forward Gap Share` originally distributed **all** forward production by each market's share of the one-time W0 `Unit Gap`. Because that weight was frozen to a single snapshot and carried no run-rate demand term, markets that started at/above their lead-time-adjusted target (zero gap) and held no minimum floor received ~0 forward supply and drained to empty within a few weeks (e.g. Civic LHD Belgium & Nordics), while high-gap markets over-collected far beyond demand. The formula now allocates on **ongoing weekly demand × priority** as the base, with the residual gap healed over ~6 weeks (`Unit Gap / 6`) as a bounded catch-up. Net effect: every market with demand is sustained at its run-rate, initial deficits still close, and no market starves.
 
 ### 5e. Allocation output & conservation
 

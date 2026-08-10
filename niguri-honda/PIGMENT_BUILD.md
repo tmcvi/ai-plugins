@@ -116,7 +116,7 @@ New metrics (folder `3. Calculations`):
 - **Sealed Units Sold** `c40ee46a` · `('Sealed Allocated Units' * 'Sell-Through Weight')[BY: 'Production Week','Sell Offset' -> 'Sale Week Ref', Model, Market]`
 - **Cover Snapshot** `b1bfb93c` — *Model × Market* (pipeline cover @ W+1, sealed only) · `IF('Demand Rate' > 0, ((CUMULATE('Sealed Units Shipped',Week) - CUMULATE('Sealed Units Sold',Week)) / 'Demand Rate')[SELECT: Week = TIMEDIM(DATE(2026,8,17), Week)], BLANK)`
 - **Unit Gap** `86fe9d01` — *Model × Market* (lead-time-adjusted) · `IF('Demand Rate' > 0, MAX(0, ('Target Cover Weeks' + 'Transit Weeks' + 'Inbound Lag Weeks') - 'Cover Snapshot') * 'Demand Rate' * 'Priority Weight', 0)`
-- **Forward Gap Share** `e90d2d17` · `IF('Unit Gap'[REMOVE: Market] > 0, 'Unit Gap' / 'Unit Gap'[REMOVE: Market], 'Allocation Share')`
+- **Forward Gap Share** `e90d2d17` · **revised** to run-rate demand base + bounded gap catch-up (was pure W0 gap-share, which starved zero-gap/no-floor markets like Civic LHD Belgium & Nordics) · `IF('Demand Rate' > 0, ('Demand Rate' * 'Priority Weight' + 'Unit Gap' / 6) / ('Demand Rate' * 'Priority Weight' + 'Unit Gap' / 6)[REMOVE: Market], 0)`
 - **Floor Units** `8f6275c7` · `IF('Demand Rate' > 0, 'Production Plan Units' * 'Min Allocation Pct', 0)`
 - **Landed Cover** `eb0613a9` — *Model × Market* (C3.3 gauge basis) · `'Cover Snapshot' - ('Transit Weeks' + 'Inbound Lag Weeks')`
 - **Allocated Units** `7d84fab0` rewritten · `IF('Production Week'.'Start Date' <= DATE(2026,8,10), 'Sealed Allocated Units', 'Floor Units' + ('Production Plan Units' - 'Floor Units'[REMOVE: Market]) * 'Forward Gap Share')`
