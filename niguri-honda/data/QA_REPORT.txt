@@ -1,0 +1,34 @@
+NIGURI HONDA — DATA GENERATOR QA REPORT
+seed=20260810  anchor(W0)=2026-08-10 (Mon)
+================================================================
+
+Row counts vs build-plan spec
+  production_plan.csv             390   (spec ~390)
+  allocation_actuals.csv         1022   (spec 900-1,200)
+  floating_shipments.csv          830   (spec 800-1,100)
+  registrations_actuals.csv      1196   (spec 1,000-1,300)
+  lead_times.csv                   55   (spec ~55)
+  demand_track.csv               3900   (spec ~3,900)
+  allocation_policy.csv            11   (spec 11)
+
+Conservation (sealed cohorts W-26..W+8): PASS — every cohort sum(slices)==production
+
+Weekly production totals: min=1800  max=2435  (band 1800-2600) -> in band
+
+Hero cohort trace — Civic, Production Week W+6
+  produced W+6 (2026-09-21), 696 units, 7 market slices
+    UK            154u  ship W+7 -> arr W+11 -> stock W+12 -> peak sale W+14 (Nov 16 2026)
+    Germany       122u  ship W+7 -> arr W+12 -> stock W+13 -> peak sale W+15 (Nov 23 2026)
+    France         90u  ship W+7 -> arr W+13 -> stock W+14 -> peak sale W+16 (Nov 30 2026)
+    Spain         103u  ship W+7 -> arr W+16 -> stock W+18 -> peak sale W+21 (Jan 04 2027)
+    Belgium        64u  ship W+7 -> arr W+13 -> stock W+14 -> peak sale W+16 (Nov 30 2026)
+    Nordics        77u  ship W+7 -> arr W+14 -> stock W+15 -> peak sale W+17 (Dec 07 2026)
+    Portugal       86u  ship W+7 -> arr W+19 -> stock W+21 -> peak sale W+24 (Jan 25 2027)
+
+  Narrative check: Germany peak sale November / Portugal peak sale January  (OK)
+
+Observed actuals frontiers
+  registrations: W-26 .. W-1  (frontier W-1)
+  shipments:     W-25 .. W+3  (frontier ~W+3)
+  production firm through W+8, planned after
+

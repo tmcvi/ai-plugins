@@ -1,0 +1,12 @@
+scope,market,priority_weight,min_pct,target_cover_weeks
+market,UK,1.0,0.0,
+market,Germany,1.0,0.0,
+market,France,1.0,0.0,
+market,Italy,1.0,0.0,
+market,Spain,1.0,0.0,
+market,Netherlands,1.0,0.0,
+market,Belgium,1.0,0.0,
+market,Poland,1.0,0.03,
+market,Nordics,1.0,0.0,
+market,Portugal,1.0,0.02,
+global,,,,8
