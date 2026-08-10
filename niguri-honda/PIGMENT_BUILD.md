@@ -125,4 +125,30 @@ Design note: gap benchmarked against **Target + Transit + Inbound** (lead-time-a
 
 C1 checkpoint results: conservation = 0 (±1e-14) on all cohorts; Poland W+6 = 8.6% (≥3% floor ✓); acceptance test — raising Germany demand 120→144 lifted Germany's W+6 share 125.2→140.1 and dropped its Landed Cover 2.48→2.08 (allocation chases demand). Baseline Landed Cover clusters ~2.5–3 across markets (calm opening screen — by design).
 
+**C2 — deferred actuals loaded in strict order (DONE, checkpoint passed).**
+- **C2.1** far-forward production plan extended (W+26→W+51) into `Production Plan Units` `077e6b1b`.
+- **C2.2** sealed **Allocation Actual Units** `ab440bf0` loaded — 854 rows, all Production Week ≤ W0 (2026-08-10). **Sealed Allocated Units** `e9ade3a4` rewritten *actuals-preferred*: `IF('Production Week'.'Start Date' <= DATE(2026,8,10), IF('Allocation Actual Units'[REMOVE: Market] > 0, 'Allocation Actual Units', 'Production Plan Units' * 'Allocation Share'), BLANK)` — real allocations where they exist, policy fallback otherwise.
+- **C2.3** actuals overlays loaded: **Registrations Actual** `6fec17e4` = 1,326 rows (56,499 units); **Floating Shipment Actual** `0b56e3b2` = 898 rows (63,417 units). Dims Model × Market × Week ("WC yyyy-mm-dd").
+
+C2 checkpoint results:
+- Row counts match spec (reg 1,326 · floating 898 · alloc actuals 854, all ≤ W0).
+- **No-seams drill (hero, PASS):** Civic LHD `Allocated Units` = `Production Plan Units` for every cohort straight across the seal boundary (07-13 sealed → 08-10 W0 → 09-07 forward). Sealed (actuals-driven) and forward (model-driven) cohorts both reconcile exactly to production — no discontinuity.
+- **Conservation across sealed cohorts:** clean. Fixed one material seam — `e:Ny1 LHD` @ Prod Week 07-20 was +22 (Belgium/Nordics allocation-actual rows dropped by the generator seed); patched Belgium 10 / Nordics 12 by demand split (15:18). Residual ±1 at 05-18 (+1) / 06-01 (−1) are integer-rounding of actuals (net ≈ 0), left as honest tolerance.
+- Calendar-edge decision: **no extension needed** — all cohort journeys land inside 2027-12-31.
+
+**C3 — pipeline + wholesale/registration layer (DONE).**
+New/changed blocks:
+- **Units Floating** `0626e062` — *Model × Market × Week* · `CUMULATE('Units Shipped', Week) - CUMULATE('Units Arrived', Week)` (modelled in-transit stock; Civic LHD Germany ≈ 630 ≈ 5-wk transit × ship rate ✓).
+- **Registration Lag Weeks** `9e4bd23b` — *Market* input (wk): UK/IE/DE/FR/NL/BE 2, Nordics/PL/ES/IT 3, PT 4.
+- **Registration Week Ref** `f86c4e26` — *Model × Sell Offset × Market × Production Week*, Week-typed · `TIMEDIM('Sale Week Ref'.'Start Date' + 'Registration Lag Weeks' * 7, Week)`.
+- **Units Registered** `f2c83641` — *Model × Market × Week* · `('Allocated Units' * 'Sell-Through Weight')[BY: 'Production Week','Sell Offset' -> 'Registration Week Ref', Model, Market]`. Verified exact per-market lag (Germany 2 wk: Units Sold WC 11-02 = 98.6 → Units Registered WC 11-16 = 98.6).
+- Modelling note (self-remap): shifting a metric already indexed by Week onto Week (`[BY: Week -> ref]`) requires an explicit aggregator; the clean pattern is to remap from the cross-dimension source (Production Week × Sell Offset), exactly as Units Sold does.
+- **Open item for board build:** `Floating Shipment Actual` data reads as a weekly departure *flow* (~100/cell), whereas `Units Floating` is in-transit *stock* (~630) — not co-plottable on one axis. Decision pending: keep Units Floating as modelled pipeline stock and show the actual as its own historical series.
+- Gauge→Landed Cover wiring is a board-widget config (Step 4).
+
+**Step 3 — Target Cover = 3 + C1 re-verification (DONE).**
+- **Target Cover Weeks** `4ad121a1` 8 → **3** (scalar).
+- Gauge bands (for Step-4 widgets): constrained < 2 · balanced 2–4 · aging > 5, on **Landed Cover**.
+- C1 re-verified (Civic LHD): Landed Cover Italy 1.34 / Spain 1.45 / NL 1.77 (constrained) · DE 2.62 / FR 2.67 / PL 2.42 / BE 3.23 / PT 3.75 / Nordics 3.84 (balanced) · none aging. Unit Gap tracks cover ordering — Italy 94.8 > Spain 79.1 > NL 46.6 > DE 45.6 > FR 29.0 > PL 16.2 > BE/Nordics/PT 0; UK/Ireland 0 (LHD model × RHD market drive-hand block ✓). Gaps positive → forward allocation stays gap-driven.
+
 **Remaining:** C2 (far-forward production + calendar-edge guard; sealed allocation actuals + actuals-preferred; registrations/floating splice) · C3 (Units Floating; Wholesale/Registration; wire gauge to Landed Cover) · Boards (B1 hero, B2, B0, B3 static) · C4 polish (weighted sale week). Scenarios out of scope.
