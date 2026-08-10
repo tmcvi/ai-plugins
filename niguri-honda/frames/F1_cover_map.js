@@ -164,8 +164,12 @@
   var sa=bindViz('VA', function(g){ ga=g; }); if(sa)subs.push(sa);
   var sfl=bindViz('VF', function(g){ gf=g; }); if(sfl)subs.push(sfl);
 
+  // Seed the model list so the filters are never empty; refine live from the item feed if it yields names.
+  var SEED_MODELS=['Civic LHD','Civic RHD','CR-V LHD','CR-V RHD','HR-V LHD','HR-V RHD','Jazz LHD','Jazz RHD','e:Ny1 LHD','e:Ny1 RHD'];
+  function itemName(it){ if(it==null)return null; if(typeof it==='string')return it; var nm=it.name||it.label||it.displayName||it.title||it.key||it.id; if(nm)return String(nm); if(it.values&&it.values.length){ var v0=it.values[0]; return String(v0&&typeof v0==='object'?(v0.value!=null?v0.value:''):v0); } return null; }
+  models=SEED_MODELS.slice(); deriveFilters(); fillFilters();
   var itemsSub=null;
-  try { itemsSub=window.PigmentSDK.subscribeToItems('ModelList', { onData:function(d){ var it=(d&&d.items)||[]; var names=[]; for(var i=0;i<it.length;i++){ var nm=it[i]&&(it[i].name||it[i].label||it[i].displayName); if(nm)names.push(String(nm)); } if(names.length){ models=names; deriveFilters(); fillFilters(); } }, onError:function(){} }); } catch(e){}
+  try { itemsSub=window.PigmentSDK.subscribeToItems('ModelList', { onData:function(d){ var it=(d&&d.items)||[]; var names=[]; for(var i=0;i<it.length;i++){ var nm=itemName(it[i]); if(nm)names.push(nm); } if(names.length){ models=names; deriveFilters(); fillFilters(); } }, onError:function(){} }); } catch(e){}
 
   render();
 
