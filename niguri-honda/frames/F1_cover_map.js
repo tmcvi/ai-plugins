@@ -1,13 +1,14 @@
-/* Niguri Honda — Frame F1 · "Cover Map"  (B1 centrepiece, two-panel + filters)
+/* Niguri Honda — Frame F1 · "Cover Map"  (B1 centrepiece: two-panel + filters + what-if flex)
    Live-bound Pigment AI Frame.
-   TOP: genuine IN-COUNTRY weeks of cover per market (Stock On Hand / Demand —
-        excludes units at sea). Red = tight (<2) · near-white = balanced (2–4) ·
-        charcoal = long (>4). Stock line + red ▲ arrival pulses per row.
-   BOTTOM: units AT SEA (shipped, not yet arrived) over the same weeks, stacked
-        by destination market — so the top panel's inventory is genuine.
-   Filters: Base model (Civic, CR-V, …) + Drive hand (LHD/RHD) → resolves the
-        specific Model and re-scopes every subscription live.
-   Bindings: VC in-country cover · VS stock · VA arrived · VF at-sea · ModelList.
+   TOP: genuine IN-COUNTRY weeks of cover per market (Stock On Hand / Demand). Red = tight (<2) ·
+        near-white = balanced (2–4) · charcoal = long (>4). Stock line + red ▲ arrivals per row.
+   BOTTOM: units AT SEA (Units Floating) over the same weeks, stacked by destination market.
+   FILTERS: Base model + Drive hand (LHD/RHD) → resolves Model, re-scopes every subscription.
+   WHAT-IF: Production ±% and Sea-transit ±weeks sliders write back to the live model inputs
+        (Production Plan Units, Transit Weeks); Reset restores captured baselines.
+   Read views: VC in-country cover · VS stock · VA arrived · VF at-sea · VP prod-plan · VT transit.
+   Write metrics: PPU Production Plan Units · TW Transit Weeks. Coordinate lists: ModelList,
+        ProdWeekList (Production Week), MarketList (Market).
 */
 (function () {
   'use strict';
@@ -43,29 +44,32 @@
   function hasLoadingKind(arr){ if(!arr)return false; for(var i=0;i<arr.length;i++){ var it=arr[i]; if(Array.isArray(it)){ if(hasLoadingKind(it))return true; } else if(it&&typeof it==='object'&&it.kind==='loading')return true; } return false; }
   function isReady(d){ if(!d||!d.labels||!d.labels.columns)return false; return !hasLoadingKind(d.labels.rows)&&!hasLoadingKind(d.labels.columns)&&!hasLoadingKind(d.cells); }
   function grid(data){ var out={byMarket:{},weeks:[]}; if(!data||!data.labels)return out; var cols=data.labels.columns||[],rows=data.labels.rows||[],cells=data.cells||[]; var wk=[]; for(var c=0;c<cols.length;c++){ wk.push(weekDate(lastLabel(cols[c]))); } out.weeks=wk; for(var r=0;r<rows.length;r++){ var mkt=lastLabel(rows[r]); var row={}; for(var c2=0;c2<cols.length;c2++){ var w=wk[c2]; if(w==null)continue; row[w]=num(cells[c2]?cells[c2][r]:null); } out.byMarket[mkt]=row; } return out; }
+  function rows1(d){ var out={labels:[],byLabel:{}}; if(!d||!d.labels)return out; var rws=d.labels.rows||[], cells=d.cells||[]; for(var r=0;r<rws.length;r++){ var lb=lastLabel(rws[r]); out.labels.push(lb); out.byLabel[lb]=num(cells[0]?cells[0][r]:null); } return out; }
 
   var state='loading', errMsg='', model=MODEL_DEFAULT;
   var baseModel='Civic', driveHand='LHD';
   var gc=null, gs=null, ga=null, gf=null, models=[];
   var hoverMkt=null, renderMarkets=[], renderN=0;
+  // what-if state
+  var baselineProd={}, capturedProd={}, baselineTransit=null;
+  var prodFactor=1, transitDelta=0, writing=false;
 
   var wrap=h('div','position:absolute;inset:0;display:flex;flex-direction:column;background:'+C.white+';'); root.appendChild(wrap);
-  var header=h('div','flex:0 0 auto;padding:22px 40px 10px 40px;'); wrap.appendChild(header);
+  var header=h('div','flex:0 0 auto;padding:20px 40px 8px 40px;'); wrap.appendChild(header);
   var toprow=h('div','display:flex;justify-content:space-between;align-items:flex-start;gap:24px;'); header.appendChild(toprow);
   var titleBox=h('div',''); toprow.appendChild(titleBox);
   titleBox.appendChild(h('div','font:600 11px/1.2 '+SANS+';letter-spacing:.16em;text-transform:uppercase;color:'+C.grey80+';','Niguri · Honda — cover map'));
-  titleBox.appendChild(h('div','margin-top:6px;font:400 28px/1.15 '+SERIF+';color:'+C.charcoal+';','Where cover runs tight — and where it piles up'));
-  var sub=h('div','margin-top:5px;font:400 13px/1.4 '+SANS+';color:'+C.grey80+';'); titleBox.appendChild(sub);
-
+  titleBox.appendChild(h('div','margin-top:6px;font:400 26px/1.15 '+SERIF+';color:'+C.charcoal+';','Where cover runs tight — and where it piles up'));
+  var sub=h('div','margin-top:4px;font:400 13px/1.4 '+SANS+';color:'+C.grey80+';'); titleBox.appendChild(sub);
   var pickBox=h('div','display:flex;gap:14px;align-items:flex-end;');
   function mkSelect(label){ var box=h('div','display:flex;flex-direction:column;gap:6px;align-items:flex-start;'); box.appendChild(h('div','font:600 10px/1 '+SANS+';letter-spacing:.12em;text-transform:uppercase;color:'+C.grey80+';',label)); var s=document.createElement('select'); s.style.cssText='font:600 14px/1 '+SANS+';color:'+C.charcoal+';background:'+C.white+';border:1px solid '+C.grey60+';border-radius:8px;padding:8px 12px;cursor:pointer;'; box.appendChild(s); pickBox.appendChild(box); return s; }
   var baseSel=mkSelect('Base model'); baseSel.style.minWidth='120px';
   var handSel=mkSelect('Drive'); handSel.style.minWidth='80px';
   toprow.appendChild(pickBox);
-  baseSel.addEventListener('change', function(){ baseModel=baseSel.value; var hs=handsByBase[baseModel]||[]; if(hs.indexOf(driveHand)<0)driveHand=hs[0]||''; resolveModel(); fillFilters(); setLoading(); scopeAll(); });
-  handSel.addEventListener('change', function(){ driveHand=handSel.value; resolveModel(); setLoading(); scopeAll(); });
+  baseSel.addEventListener('change', function(){ baseModel=baseSel.value; var hs=handsByBase[baseModel]||[]; if(hs.indexOf(driveHand)<0)driveHand=hs[0]||''; resolveModel(); fillFilters(); prodFactor=1; if(prodInput){prodInput.value=100; prodVal.textContent='100%';} setLoading(); scopeAll(); });
+  handSel.addEventListener('change', function(){ driveHand=handSel.value; resolveModel(); prodFactor=1; if(prodInput){prodInput.value=100; prodVal.textContent='100%';} setLoading(); scopeAll(); });
 
-  var legend=h('div','display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:10px;font:500 12px/1 '+SANS+';color:'+C.charcoal+';');
+  var legend=h('div','display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:9px;font:500 12px/1 '+SANS+';color:'+C.charcoal+';');
   function sw(color,label,border){ var d=h('div','display:flex;gap:7px;align-items:center;'); var s=h('span','width:14px;height:14px;border-radius:3px;display:inline-block;background:'+color+';'); if(border)s.style.border='1px solid '+C.grey60; d.appendChild(s); d.appendChild(h('span','',label)); return d; }
   legend.appendChild(h('span','font-weight:700;color:'+C.charcoal+';','In-country cover:'));
   legend.appendChild(sw(C.red,'Tight — under 2 weeks'));
@@ -75,8 +79,24 @@
   var lg2=h('div','display:flex;gap:6px;align-items:center;'); lg2.appendChild(h('span','color:'+C.red+';font-size:13px;','▲')); lg2.appendChild(h('span','','shipment lands')); legend.appendChild(lg2);
   header.appendChild(legend);
 
+  // ---- what-if controls ----
+  var controls=h('div','display:flex;flex-wrap:wrap;gap:26px;align-items:center;margin-top:11px;padding-top:10px;border-top:1px solid '+C.grey40+';');
+  function mkSlider(label, min, max, step, val){ var box=h('div','display:flex;flex-direction:column;gap:3px;'); var top=h('div','display:flex;justify-content:space-between;gap:12px;'); top.appendChild(h('span','font:600 10px/1.4 '+SANS+';letter-spacing:.1em;text-transform:uppercase;color:'+C.grey80+';',label)); var vEl=h('span','font:700 12px/1.4 '+SANS+';color:'+C.red+';'); top.appendChild(vEl); box.appendChild(top); var inp=document.createElement('input'); inp.type='range'; inp.min=min; inp.max=max; inp.step=step; inp.value=val; inp.style.cssText='width:190px;accent-color:'+C.red+';cursor:pointer;'; box.appendChild(inp); controls.appendChild(box); return {input:inp, val:vEl}; }
+  var prodS=mkSlider('Production plan', 80, 120, 5, 100); var prodInput=prodS.input, prodVal=prodS.val; prodVal.textContent='100%';
+  var transS=mkSlider('Sea transit', -3, 3, 1, 0); var transInput=transS.input, transVal=transS.val; transVal.textContent='+0 wks';
+  var resetBtn=h('button','font:600 12px/1 '+SANS+';color:'+C.charcoal+';background:'+C.white+';border:1px solid '+C.grey60+';border-radius:8px;padding:9px 14px;cursor:pointer;align-self:flex-end;','Reset to baseline');
+  controls.appendChild(resetBtn);
+  var statusEl=h('span','font:italic 500 12px/1 '+SANS+';color:'+C.grey80+';align-self:flex-end;'); controls.appendChild(statusEl);
+  header.appendChild(controls);
+  function setStatus(t){ statusEl.textContent=t||''; }
+  prodInput.addEventListener('input', function(){ prodVal.textContent=prodInput.value+'%'; });
+  transInput.addEventListener('input', function(){ var v=+transInput.value; transVal.textContent=(v>0?'+':'')+v+' wks'; });
+  prodInput.addEventListener('change', function(){ prodFactor=(+prodInput.value)/100; applyProduction(); });
+  transInput.addEventListener('change', function(){ transitDelta=+transInput.value; applyTransit(); });
+  resetBtn.addEventListener('click', function(){ resetAll(); });
+
   var stage=h('div','position:relative;flex:1 1 auto;min-height:0;'); wrap.appendChild(stage);
-  var footer=h('div','flex:0 0 auto;padding:6px 40px 12px 40px;font:italic 400 12px/1.3 '+SANS+';color:'+C.grey80+';','Illustrative demonstration model — not a solution design. Top: cars actually in each market. Bottom: cars still on the water, headed for each market.'); wrap.appendChild(footer);
+  var footer=h('div','flex:0 0 auto;padding:5px 40px 10px 40px;font:italic 400 12px/1.3 '+SANS+';color:'+C.grey80+';','Illustrative demonstration model — not a solution design. Top: cars actually in each market. Bottom: cars still on the water. Sliders write to the live plan; Reset restores it.'); wrap.appendChild(footer);
 
   var svg=el('svg',{width:'100%',height:'100%'}); svg.style.cssText='position:absolute;inset:0;display:block;'; stage.appendChild(svg);
 
@@ -88,7 +108,7 @@
   function hideTip(){ tip.style.opacity='0'; }
 
   var M={ top:10, bottom:32, left:150, right:120 };
-  function size(){ return { w: stage.clientWidth||window.innerWidth, h: stage.clientHeight||(window.innerHeight-240) }; }
+  function size(){ return { w: stage.clientWidth||window.innerWidth, h: stage.clientHeight||(window.innerHeight-300) }; }
   function windowWeeks(){ var src=gc||gs||gf||ga; var set={}; if(src){ for(var i=0;i<src.weeks.length;i++){ var w=src.weeks[i]; if(w!=null&&w>=WIN_START&&w<=WIN_END)set[w]=1; } } return Object.keys(set).map(Number).sort(function(a,b){return a-b;}); }
   function marketList(){ var g=gc||gs; if(!g)return []; var names=Object.keys(g.byMarket); function tight(m){ var row=gc?gc.byMarket[m]:null; if(!row)return 0; var n=0; for(var k in row){ if(row[k]!=null&&row[k]<2)n++; } return n; } function hasData(m){ var r=(gc&&gc.byMarket[m])||(gs&&gs.byMarket[m])||{}; for(var k in r){ if(r[k]!=null)return true; } return false; } names=names.filter(hasData); names.sort(function(a,b){ var d=tight(b)-tight(a); return d!==0?d:(a<b?-1:1); }); return names; }
   function clearSvg(){ while(svg.firstChild)svg.removeChild(svg.firstChild); }
@@ -98,25 +118,16 @@
     var sz=size(), W=sz.w, H=sz.h;
     if(state==='error'){ var te=el('text',{x:W/2,y:H/2,fill:C.grey80,'font-family':SANS,'font-size':15,'text-anchor':'middle'}); te.textContent='Could not load data — '+errMsg; svg.appendChild(te); return; }
     if(state!=='ready'||!gc){ sub.textContent=model+' · loading…'; for(var i=0;i<8;i++){ var y=M.top+(H-M.top-M.bottom)/8*(i+0.4); var sk=el('rect',{x:M.left,y:y,width:(W-M.left-M.right),height:(H-M.top-M.bottom)/8*0.7,rx:3,fill:C.grey20}); var an=el('animate',{attributeName:'opacity',values:'0.5;1;0.5',dur:'1.3s',repeatCount:'indefinite'}); sk.appendChild(an); svg.appendChild(sk); } return; }
-
-    var weeks=windowWeeks(), markets=marketList();
-    renderMarkets=markets; renderN=markets.length;
+    var weeks=windowWeeks(), markets=marketList(); renderMarkets=markets; renderN=markets.length;
     var nW=weeks.length, nM=markets.length;
     sub.textContent=model+' · in-country cover by market · '+fmtWeek(weeks[0])+' – '+fmtWeek(weeks[nW-1]);
     if(!nW||!nM){ var t0=el('text',{x:W/2,y:H/2,fill:C.grey80,'font-family':SANS,'font-size':15,'text-anchor':'middle'}); t0.textContent='Nothing to show for '+model+' in this window.'; svg.appendChild(t0); return; }
-
-    var plotW=W-M.left-M.right;
-    var areaTop=M.top, areaBot=H-M.bottom, midGap=30;
+    var plotW=W-M.left-M.right; var areaTop=M.top, areaBot=H-M.bottom, midGap=30;
     var topH=(areaBot-areaTop-midGap)*0.62, botH=(areaBot-areaTop-midGap)*0.38;
-    var topTop=areaTop, topBot=areaTop+topH;
-    var botTop=topBot+midGap, botBot=botTop+botH;
-    var cellW=plotW/nW, rowH=topH/nM;
-    function cx(i){ return M.left+i*cellW; }
-
+    var topTop=areaTop, topBot=areaTop+topH; var botTop=topBot+midGap, botBot=botTop+botH;
+    var cellW=plotW/nW, rowH=topH/nM; function cx(i){ return M.left+i*cellW; }
     var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; var seen={};
     for(var wi=0;wi<nW;wi++){ var d=new Date(weeks[wi]); var key=d.getUTCFullYear()+'-'+d.getUTCMonth(); if(!seen[key]){ seen[key]=1; var mx=cx(wi); svg.appendChild(el('line',{x1:mx,y1:topTop,x2:mx,y2:botBot,stroke:C.grey40,'stroke-width':1})); var ml=el('text',{x:mx+4,y:botBot+20,fill:C.grey80,'font-family':SANS,'font-size':11}); ml.textContent=mo[d.getUTCMonth()]+' '+String(d.getUTCFullYear()).slice(2); svg.appendChild(ml); } }
-
-    // TOP: in-country cover heat rows
     for(var mi=0;mi<nM;mi++){
       var mkt=markets[mi], y0=topTop+mi*rowH;
       var covRow=gc.byMarket[mkt]||{}, stRow=(gs&&gs.byMarket[mkt])||{}, arRow=(ga&&ga.byMarket[mkt])||{};
@@ -129,9 +140,7 @@
       var lab=el('text',{x:22,y:y0+rowH/2+4,fill:C.charcoal,'font-family':SANS,'font-size':13,'font-weight':600}); lab.textContent=mkt; svg.appendChild(lab);
       svg.appendChild(el('line',{x1:M.left,y1:y0,x2:M.left+plotW,y2:y0,stroke:C.white,'stroke-width':1}));
     }
-
-    // BOTTOM: at-sea stacked by destination
-    var sh=el('text',{x:22,y:botTop-10,fill:C.charcoal,'font-family':SANS,'font-size':12,'font-weight':700}); sh.textContent='At sea — units in transit, by destination'; svg.appendChild(sh);
+    var shd=el('text',{x:22,y:botTop-10,fill:C.charcoal,'font-family':SANS,'font-size':12,'font-weight':700}); shd.textContent='At sea — units in transit, by destination'; svg.appendChild(shd);
     var maxTot=1; for(var wj=0;wj<nW;wj++){ var tot=0; for(var mj=0;mj<nM;mj++){ var fv=(gf&&gf.byMarket[markets[mj]])?gf.byMarket[markets[mj]][weeks[wj]]:null; if(fv!=null&&fv>0)tot+=fv; } if(tot>maxTot)maxTot=tot; }
     function yTot(v){ return botBot-(v/maxTot)*(botH-6); }
     svg.appendChild(el('line',{x1:M.left,y1:botBot,x2:M.left+plotW,y2:botBot,stroke:C.grey60,'stroke-width':1}));
@@ -140,13 +149,9 @@
     var lastMid={};
     for(var wk2=0;wk2<nW;wk2++){ var baseV=0; for(var mm2=0;mm2<nM;mm2++){ var mk=markets[mm2]; var fv2=(gf&&gf.byMarket[mk])?gf.byMarket[mk][weeks[wk2]]:null; if(fv2==null||fv2<=0)continue; var yA=yTot(baseV+fv2), yB=yTot(baseV); var rc=el('rect',{x:cx(wk2),y:yA,width:Math.ceil(cellW)+0.5,height:Math.max(0,yB-yA),fill:(hoverMkt===mk?C.red:greyRamp(mm2,nM))}); rc.__mkt=mk; (function(mkn,wwn){ rc.addEventListener('mousemove',function(ev){showSea(ev,mkn,wwn);}); rc.addEventListener('mouseleave',hideTip); rc.addEventListener('mouseenter',function(){ hoverMkt=mkn; recolourSea(); }); })(mk,weeks[wk2]); rc.style.cursor='pointer'; svg.appendChild(rc); if(wk2===nW-1)lastMid[mk]=(yA+yB)/2; baseV+=fv2; } }
     for(var mm3=0;mm3<nM;mm3++){ var mk3=markets[mm3]; if(lastMid[mk3]!=null){ var lastV=(gf&&gf.byMarket[mk3])?gf.byMarket[mk3][weeks[nW-1]]:0; if(lastV!=null&&(lastV/maxTot)*(botH-6)>=12){ var tl2=el('text',{x:M.left+plotW+6,y:lastMid[mk3]+3,fill:C.grey80,'font-family':SANS,'font-size':10}); tl2.textContent=mk3; svg.appendChild(tl2); } } }
-
-    // today marker across both panels
     if(W0>=weeks[0]&&W0<=weeks[nW-1]+7*86400000){ var ti=0; while(ti<nW-1&&weeks[ti+1]<=W0)ti++; var tx=cx(ti)+cellW/2; svg.appendChild(el('line',{x1:tx,y1:topTop-2,x2:tx,y2:botBot,stroke:C.red,'stroke-width':1.5,'stroke-dasharray':'3 3'})); var tl=el('text',{x:tx+4,y:topTop+10,fill:C.red,'font-family':SANS,'font-size':10,'font-weight':700}); tl.textContent='today'; svg.appendChild(tl); }
   }
-
   function recolourSea(){ var kids=svg.childNodes; for(var i=0;i<kids.length;i++){ var n=kids[i]; if(n.__mkt!==undefined){ var idx=renderMarkets.indexOf(n.__mkt); n.setAttribute('fill', hoverMkt===n.__mkt?C.red:greyRamp(idx<0?0:idx, renderN)); } } }
-
   function setLoading(){ state='loading'; render(); }
 
   // ---- filters ----
@@ -154,17 +159,27 @@
   function parseModel(name){ var m=String(name).match(/^(.*?)\s+(LHD|RHD)$/); if(m)return {base:m[1],hand:m[2]}; return {base:name,hand:''}; }
   function deriveFilters(){ bases=[]; handsByBase={}; for(var i=0;i<models.length;i++){ var p=parseModel(models[i]); if(bases.indexOf(p.base)<0)bases.push(p.base); if(!handsByBase[p.base])handsByBase[p.base]=[]; if(p.hand&&handsByBase[p.base].indexOf(p.hand)<0)handsByBase[p.base].push(p.hand); } if(bases.indexOf(baseModel)<0)baseModel=bases[0]||baseModel; var hs=handsByBase[baseModel]||[]; if(hs.length&&hs.indexOf(driveHand)<0)driveHand=hs[0]; resolveModel(); }
   function resolveModel(){ var cand=driveHand?(baseModel+' '+driveHand):baseModel; if(models.length&&models.indexOf(cand)<0){ var f=[]; for(var i=0;i<models.length;i++){ if(parseModel(models[i]).base===baseModel)f.push(models[i]); } cand=f[0]||cand; } model=cand; }
-  function fillFilters(){ baseSel.innerHTML=''; for(var i=0;i<bases.length;i++){ var o=document.createElement('option'); o.value=bases[i]; o.textContent=bases[i]; if(bases[i]===baseModel)o.selected=true; baseSel.appendChild(o); } var hs=handsByBase[baseModel]||[]; handSel.innerHTML=''; for(var j=0;j<hs.length;j++){ var o2=document.createElement('option'); o2.value=hs[j]; o2.textContent=hs[j]; if(hs[j]===driveHand)o2.selected=true; handSel.appendChild(o2); } handSel.style.display=hs.length>1?'':'none'; }
+  function fillFilters(){ baseSel.innerHTML=''; for(var i=0;i<bases.length;i++){ var o=document.createElement('option'); o.value=bases[i]; o.textContent=bases[i]; if(bases[i]===baseModel)o.selected=true; baseSel.appendChild(o); } var hs=handsByBase[baseModel]||[]; handSel.innerHTML=''; for(var j=0;j<hs.length;j++){ var o2=document.createElement('option'); o2.value=hs[j]; o2.textContent=hs[j]; if(hs[j]===driveHand)o2.selected=true; handSel.appendChild(o2); } handSel.parentNode.style.display=hs.length>1?'':'none'; }
 
+  // ---- subscriptions ----
   var subs=[];
   function scopeAll(){ var pd=[{alias:'ModelList',selection:[model]}]; for(var i=0;i<subs.length;i++){ try{ subs[i].updatePageDefinitions(pd); }catch(e){} } }
-  function bindViz(alias, assign){ try { return window.PigmentSDK.subscribeToVizualization(alias, { pageDefinitions:[{alias:'ModelList',selection:[model]}], scroll:{offset:0,numberOfRows:50}, onData:function(data){ if(!isReady(data))return; assign(grid(data)); if(gc){ state='ready'; render(); } }, onError:function(err){ state='error'; errMsg=(err&&err.message)||String(err); render(); } }); } catch(e){ state='error'; errMsg=e.message; render(); return null; } }
-  var sc=bindViz('VC', function(g){ gc=g; }); if(sc)subs.push(sc);
-  var ss=bindViz('VS', function(g){ gs=g; }); if(ss)subs.push(ss);
-  var sa=bindViz('VA', function(g){ ga=g; }); if(sa)subs.push(sa);
-  var sfl=bindViz('VF', function(g){ gf=g; }); if(sfl)subs.push(sfl);
+  function bindViz(alias, assign){ try { return window.PigmentSDK.subscribeToVizualization(alias, { pageDefinitions:[{alias:'ModelList',selection:[model]}], scroll:{offset:0,numberOfRows:200}, onData:function(data){ if(!isReady(data))return; assign(data); if(gc){ state='ready'; if(writing){writing=false;setStatus('');} render(); } }, onError:function(err){ state='error'; errMsg=(err&&err.message)||String(err); render(); } }); } catch(e){ state='error'; errMsg=e.message; render(); return null; } }
+  var sc=bindViz('VC', function(d){ gc=grid(d); }); if(sc)subs.push(sc);
+  var ss=bindViz('VS', function(d){ gs=grid(d); }); if(ss)subs.push(ss);
+  var sa=bindViz('VA', function(d){ ga=grid(d); }); if(sa)subs.push(sa);
+  var sfl=bindViz('VF', function(d){ gf=grid(d); }); if(sfl)subs.push(sfl);
+  // production baseline (per model), scoped like the others
+  var vpSub=bindViz('VP', function(d){ var g=rows1(d); if(!capturedProd[model]){ baselineProd[model]=g.byLabel; capturedProd[model]=true; } }); if(vpSub)subs.push(vpSub);
+  // transit baseline (global, market-only, no page)
+  var vtSub=null; try { vtSub=window.PigmentSDK.subscribeToVizualization('VT', { pageDefinitions:[], scroll:{offset:0,numberOfRows:50}, onData:function(data){ if(!isReady(data))return; if(!baselineTransit){ baselineTransit=rows1(data).byLabel; } }, onError:function(){} }); } catch(e){}
 
-  // Seed the model list so the filters are never empty; refine live from the item feed if it yields names.
+  // ---- what-if writes ----
+  function applyProduction(){ var base=baselineProd[model]; if(!base){ setStatus('baseline not ready'); return; } writing=true; setStatus('updating plan…'); for(var lbl in base){ var dt=weekDate(lbl); if(dt!=null&&dt>W0&&dt<=WIN_END){ var v=Math.max(0,Math.round((base[lbl]||0)*prodFactor)); try{ window.PigmentSDK.editValue('PPU', {ModelList:model, ProdWeekList:lbl}, v); }catch(e){} } } }
+  function applyTransit(){ if(!baselineTransit){ setStatus('baseline not ready'); return; } writing=true; setStatus('updating transit…'); for(var mk in baselineTransit){ var b=baselineTransit[mk]; if(b==null)continue; var v=Math.max(0,Math.round(b+transitDelta)); try{ window.PigmentSDK.editValue('TW', {MarketList:mk}, v); }catch(e){} } }
+  function resetAll(){ writing=true; setStatus('restoring baseline…'); prodFactor=1; transitDelta=0; if(prodInput){prodInput.value=100; prodVal.textContent='100%';} if(transInput){transInput.value=0; transVal.textContent='+0 wks';} var base=baselineProd[model]; if(base){ for(var lbl in base){ var dt=weekDate(lbl); if(dt!=null&&dt>W0&&dt<=WIN_END){ try{ window.PigmentSDK.editValue('PPU', {ModelList:model, ProdWeekList:lbl}, Math.max(0,Math.round(base[lbl]||0))); }catch(e){} } } } if(baselineTransit){ for(var mk in baselineTransit){ if(baselineTransit[mk]==null)continue; try{ window.PigmentSDK.editValue('TW', {MarketList:mk}, Math.max(0,Math.round(baselineTransit[mk]))); }catch(e){} } } }
+
+  // ---- model list (seeded, refined live) ----
   var SEED_MODELS=['Civic LHD','Civic RHD','CR-V LHD','CR-V RHD','HR-V LHD','HR-V RHD','Jazz LHD','Jazz RHD','e:Ny1 LHD','e:Ny1 RHD'];
   function itemName(it){ if(it==null)return null; if(typeof it==='string')return it; var nm=it.name||it.label||it.displayName||it.title||it.key||it.id; if(nm)return String(nm); if(it.values&&it.values.length){ var v0=it.values[0]; return String(v0&&typeof v0==='object'?(v0.value!=null?v0.value:''):v0); } return null; }
   models=SEED_MODELS.slice(); deriveFilters(); fillFilters();
@@ -178,5 +193,5 @@
   window.addEventListener('resize',onResize);
   var ro=null; try{ ro=new ResizeObserver(onResize); ro.observe(document.documentElement); }catch(e){}
 
-  root.__cleanup=function(){ for(var i=0;i<subs.length;i++){ try{ subs[i].unsubscribe&&subs[i].unsubscribe(); }catch(e){} } try{ itemsSub&&itemsSub.unsubscribe&&itemsSub.unsubscribe(); }catch(e){} window.removeEventListener('resize',onResize); try{ if(ro)ro.disconnect(); }catch(e){} if(rT)clearTimeout(rT); if(tip&&tip.parentNode)tip.parentNode.removeChild(tip); };
+  root.__cleanup=function(){ for(var i=0;i<subs.length;i++){ try{ subs[i].unsubscribe&&subs[i].unsubscribe(); }catch(e){} } try{ vtSub&&vtSub.unsubscribe&&vtSub.unsubscribe(); }catch(e){} try{ itemsSub&&itemsSub.unsubscribe&&itemsSub.unsubscribe(); }catch(e){} window.removeEventListener('resize',onResize); try{ if(ro)ro.disconnect(); }catch(e){} if(rT)clearTimeout(rT); if(tip&&tip.parentNode)tip.parentNode.removeChild(tip); };
 })();
