@@ -151,4 +151,15 @@ New/changed blocks:
 - Gauge bands (for Step-4 widgets): constrained < 2 · balanced 2–4 · aging > 5, on **Landed Cover**.
 - C1 re-verified (Civic LHD): Landed Cover Italy 1.34 / Spain 1.45 / NL 1.77 (constrained) · DE 2.62 / FR 2.67 / PL 2.42 / BE 3.23 / PT 3.75 / Nordics 3.84 (balanced) · none aging. Unit Gap tracks cover ordering — Italy 94.8 > Spain 79.1 > NL 46.6 > DE 45.6 > FR 29.0 > PL 16.2 > BE/Nordics/PT 0; UK/Ireland 0 (LHD model × RHD market drive-hand block ✓). Gaps positive → forward allocation stays gap-driven.
 
-**Remaining:** C2 (far-forward production + calendar-edge guard; sealed allocation actuals + actuals-preferred; registrations/floating splice) · C3 (Units Floating; Wholesale/Registration; wire gauge to Landed Cover) · Boards (B1 hero, B2, B0, B3 static) · C4 polish (weighted sale week). Scenarios out of scope.
+## 10. Boards (folder root) — Step 4
+
+Four presentation boards, all full-width, Model preselected to **Civic LHD** (B1 also preselects Production Week **W+6 = WC 2026-09-21**). Supporting Table blocks live in `3. Calculations`.
+
+- **B0 · Landing** `c5e67b7b` — exec homepage. Widgets: *Pipeline cascade* line (`1e7db7dd` on table **Pipeline Flow** `e7657451` = Units Shipped/Arrived/Into Stock/Sold, rows Week, page Model) + *Wholesale vs Registration* line (`63ac4670` on table **Wholesale vs Registration** `46deae9e` = Units Sold / Units Registered).
+- **B1 · Cohort Trace** `2b09f743` — the hero. *Cohort journey by market* table (`63d5254a` on table **Cohort Trace** `6923a5c1` = Allocated Units + Slice Ship/Arrival/Stock/Sale Date + Landed Cover; rows Market; pages Model + Production Week). **Filter Allocated Units > 0** (suppresses drive-hand-blocked + zero-gap phantom rows). Verified: Civic LHD W+6 shows 7 markets (Italy 148.7 … Portugal 10.3), UK/Ireland/Belgium/Nordics hidden.
+- **B2 · Supply & Allocation** `ebb00ac6` — *Cover & allocation by market* table (`9c35eec6` on table **Cover & Allocation** `3325e817` = Demand Rate, Allocation Share, Cover Snapshot, Landed Cover, Unit Gap; rows Market **sorted by Landed Cover asc** so constrained markets surface first) + *Allocation share* horizontal bar (`893bc4d6`). Gauge bands (constrained<2 / balanced 2–4 / aging>5) stated in guidance text.
+- **B3 · Compare** `4d575407` — static, no scenarios. *Total unit gap by model* bar (`69ffb65e`) + *Landed cover — model × market* matrix (`e0e087e8`). Verified gap ranking: e:Ny1 LHD 351 > CR-V LHD 312 > Civic LHD 311; RHD variants ~half (2 markets vs 9).
+
+**Known limitations (MCP surface):** per-cell conditional formatting (the Landed-Cover band *colours*) is not exposed via the MCP tool set — bands are conveyed by guidance text + tightest-first sort. Live click-path timing (<2s recalc target) and exported still images require the Pigment UI and can't be driven headlessly; the underlying data for every board has been query-verified instead.
+
+**Remaining:** C4 polish (weighted-average sale week to replace the hardcoded +3 in Slice Sale Peak Date), optional. Scenarios out of scope.
