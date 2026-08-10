@@ -44,8 +44,12 @@ OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 EXPORT_FIRST, EXPORT_LAST = -26, 51   # production_plan / demand_track horizon
 WARMUP_FIRST = -45                    # warm-up cohorts to source reg. history
 
-PROD_FIRM_LAST = 8      # W+1..W+8 firm, W+9.. planned
-ALLOC_FRONTIER = 8      # cohorts sealed through W+8
+PROD_FIRM_LAST = 8      # W+1..W+8 firm production, W+9.. planned
+# Allocation seals only the PAST (<= W0). Forward cohorts (incl. hero W+6) are
+# allocated by the L2 policy in Pigment, so raising W+6 production re-allocates
+# (Beat 3 / the magic moment). This is a deliberate change from the plan's W+8
+# seal, which would otherwise freeze the hero cohort's split.
+ALLOC_FRONTIER = 0
 SHIP_FRONTIER = 3       # ship events actual through ~W+3
 REG_FRONTIER = -1       # registrations actual through W-1
 
@@ -412,7 +416,7 @@ def qa(production, slices, counts):
                      if s["variant"] == v and s["prod_week"] == w)
             if su != pu:
                 bad += 1
-    p(f"Conservation (sealed cohorts W-26..W+8): "
+    p(f"Conservation (sealed cohorts W{EXPORT_FIRST}..W{ALLOC_FRONTIER:+d}): "
       f"{'PASS' if bad == 0 else f'FAIL ({bad})'}")
 
     # Drive-hand integrity: no slice to a mismatched market.

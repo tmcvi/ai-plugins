@@ -4,14 +4,14 @@ seed=20260810  anchor(W0)=2026-08-10 (Mon)  models=10 markets=11
 
 Row counts
   production_plan.csv             780
-  allocation_actuals.csv         1106
+  allocation_actuals.csv          854
   floating_shipments.csv          898
   registrations_actuals.csv      1326
   lead_times.csv                   60
   demand_track.csv               3978
   allocation_policy.csv            12
 
-Conservation (sealed cohorts W-26..W+8): PASS
+Conservation (sealed cohorts W-26..W+0): PASS
 Drive-hand integrity (no RHD->LHD or LHD->RHD slices): PASS
 Weekly production totals: min=1800 max=2435 (band 1800-2600) -> in band
 
