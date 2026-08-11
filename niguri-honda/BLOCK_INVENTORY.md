@@ -164,17 +164,21 @@ Parallel to §5f, but the mapping is **phased, not summed** — each production-
 | **Units Arrived by Cohort** | `ec296ce2` | Decimal | Week × Model × Market × Production Week | `IF('Arrival Week Ref' = Week, 'Allocated Units', BLANK)` |
 | **Units Into Stock by Cohort** | `792e6247` | Decimal | Week × Model × Market × Production Week | `IF('Stock Week Ref' = Week, 'Allocated Units', BLANK)` |
 | **Units Sold by Cohort** | `4b80cd3c` | Decimal | Week × Model × Market × Production Week | `(IF('Sale Week Ref' = Week, 'Allocated Units' * 'Sell-Through Weight', BLANK))[REMOVE: 'Sell Offset']` |
+| **Units Produced by Cohort** | `f753bc27` | Decimal | Week × Model × Market × Production Week | `IF(TIMEDIM('Production Week'.'Start Date', Week) = Week, 'Allocated Units', BLANK)` |
+| **Units Registered by Cohort** | `e6b8bd46` | Decimal | Week × Model × Market × Production Week | `(IF('Registration Week Ref' = Week, 'Allocated Units' * 'Sell-Through Weight', BLANK))[REMOVE: 'Sell Offset']` |
 
-Verified: Civic LHD · Germany · production week WC 2026-09-21 → `Units Into Stock by Cohort` = 117.1 at WC 2026-11-09 only (its stock week), zero elsewhere. Kept separate from the aggregate metrics so the cover map / boards stay lean.
+Verified: Civic LHD · Germany · production week WC 2026-09-21 → `Units Into Stock by Cohort` = 117.1 at WC 2026-11-09 only (its stock week), zero elsewhere. Produced + Registered by Cohort complete the six-event set (origin → terminal) that the §5i ledger is built on.
 
-### 5i. Status funnel (Status × Week × Model) — putting the `Status` dimension to work
+### 5i. Status funnel — double-entry stock/flow ledger, full grain (Market + Production Week retained)
 
-Two metrics on the previously-unused `Status` dimension (7 ordered stages). Each `SWITCH`es on `Status.'Name'`; Market summed out (network / per-model altitude).
+Two metrics on the `Status` dimension (7 ordered stages), built on the §5h cohort flows so **Market and Production Week are retained** — slice or trace any market / cohort. A **`Direction` dimension** (`6ac30dd2`, members In / Out) turns movements into a double-entry ledger.
 
 | Metric | ID | Type | By | What it shows |
 |---|---|---|---|---|
-| **Inventory by Status** | `ef3f2bd5` | Decimal | Status × Week × Model | Conserved **position** decomposition — where cars *sit* each week. Planned Production = produced−shipped, Floating = shipped−arrived, Arrival = arrived−into stock, Stock = into stock−sold, Wholesale = sold−registered, Registration = cumulative registered. `Shipment` member is blank (it is an event, not a state). Verified conserved (sums to cumulative production). |
-| **Movements by Status** | `b7def389` | Decimal | Status × Week × Model | **Flow** / audit trail — units *entering* each stage each week. Planned Production=built, Shipment=shipped, Arrival=arrived, Stock=into stock, Wholesale=sold, Registration=registered. `Floating` member is blank (it is a state, not a movement). |
+| **Inventory by Status** | `ef3f2bd5` | Decimal | Status × Week × Model × Market × Production Week | Conserved **position** decomposition — where cars *sit* each week. `CUMULATE(cohort in) − CUMULATE(cohort out)` per state: Planned Production = produced−shipped … Registration = cumulative registered. `Shipment` member blank (event, not state). Equals `CUMULATE(Movements In − Out)`. |
+| **Movements by Status** | `b7def389` | Decimal | Status × **Direction** × Week × Model × Market × Production Week | Double-entry **flow ledger**. Each movement is booked as an **Out** of the status it leaves and an **In** to the status it enters. `In[Planned Production]`=produced, `In[Floating]`=shipped, … ; `Out` mirrors to the next status; Registration `Out` and the `Shipment` member are blank. |
+
+**Why the ledger design** — because `Out[status s] = In[status s+1]` (same units, same event), you can trace every transition *between* statuses; and `In − Out` per status = the weekly change in `Inventory by Status`. Verified (Civic LHD · Germany, all weeks): `In = Out = 8,806` for every non-terminal status, `In[Floating] = Out[Planned Production] = 8,806`, all tying to the model+market allocation total. Surfaced on **B5 · Supply Trail** (`51baaa33`) with Model / Market / Production Week page selectors: inventory stacked area (aggregate default = network funnel) + movement ledger (Status × In/Out) + one-cohort trace.
 
 Both use `Status.'Name' = "…"` for member tests (the dimension's display is its `Name` text property; `Status.'Floating'` item-ref syntax is invalid). Surfaced on **B5 · Supply Trail** (`51baaa33`): inventory stacked area (journey greys → commercial red) + movement-trail table + a cohort-trace table (production-week traceability via the §5h cohort metrics).
 
