@@ -167,6 +167,17 @@ Parallel to §5f, but the mapping is **phased, not summed** — each production-
 
 Verified: Civic LHD · Germany · production week WC 2026-09-21 → `Units Into Stock by Cohort` = 117.1 at WC 2026-11-09 only (its stock week), zero elsewhere. Kept separate from the aggregate metrics so the cover map / boards stay lean.
 
+### 5i. Status funnel (Status × Week × Model) — putting the `Status` dimension to work
+
+Two metrics on the previously-unused `Status` dimension (7 ordered stages). Each `SWITCH`es on `Status.'Name'`; Market summed out (network / per-model altitude).
+
+| Metric | ID | Type | By | What it shows |
+|---|---|---|---|---|
+| **Inventory by Status** | `ef3f2bd5` | Decimal | Status × Week × Model | Conserved **position** decomposition — where cars *sit* each week. Planned Production = produced−shipped, Floating = shipped−arrived, Arrival = arrived−into stock, Stock = into stock−sold, Wholesale = sold−registered, Registration = cumulative registered. `Shipment` member is blank (it is an event, not a state). Verified conserved (sums to cumulative production). |
+| **Movements by Status** | `b7def389` | Decimal | Status × Week × Model | **Flow** / audit trail — units *entering* each stage each week. Planned Production=built, Shipment=shipped, Arrival=arrived, Stock=into stock, Wholesale=sold, Registration=registered. `Floating` member is blank (it is a state, not a movement). |
+
+Both use `Status.'Name' = "…"` for member tests (the dimension's display is its `Name` text property; `Status.'Floating'` item-ref syntax is invalid). Surfaced on **B5 · Supply Trail** (`51baaa33`): inventory stacked area (journey greys → commercial red) + movement-trail table + a cohort-trace table (production-week traceability via the §5h cohort metrics).
+
 ---
 
 ## 6. Tables (folder `3. Calculations`) — board data sources
