@@ -154,6 +154,19 @@ Past cohorts (≤ W0) are sealed to actuals-preferred allocations; forward cohor
 
 `Units Sold` is the wholesale curve; `Units Registered` is the same volume shifted forward by each market's Registration Lag Weeks (retail). The gap between them is the retail pipeline in dealer hands.
 
+### 5h. Cohort-level pipeline (Week × Model × Market × Production Week)
+
+Parallel to §5f, but the mapping is **phased, not summed** — each production-week cohort's units are placed at the calendar week its ref points to while Production Week is retained as an axis. Lets you trace a single cohort through calendar time, or stack any week's flow by origin production week. Aggregate = these summed over Production Week (equals the §5f metrics).
+
+| Metric | ID | Type | By | Formula |
+|---|---|---|---|---|
+| **Units Shipped by Cohort** | `696e901d` | Decimal | Week × Model × Market × Production Week | `IF('Ship Week Ref' = Week, 'Allocated Units', BLANK)` |
+| **Units Arrived by Cohort** | `ec296ce2` | Decimal | Week × Model × Market × Production Week | `IF('Arrival Week Ref' = Week, 'Allocated Units', BLANK)` |
+| **Units Into Stock by Cohort** | `792e6247` | Decimal | Week × Model × Market × Production Week | `IF('Stock Week Ref' = Week, 'Allocated Units', BLANK)` |
+| **Units Sold by Cohort** | `4b80cd3c` | Decimal | Week × Model × Market × Production Week | `(IF('Sale Week Ref' = Week, 'Allocated Units' * 'Sell-Through Weight', BLANK))[REMOVE: 'Sell Offset']` |
+
+Verified: Civic LHD · Germany · production week WC 2026-09-21 → `Units Into Stock by Cohort` = 117.1 at WC 2026-11-09 only (its stock week), zero elsewhere. Kept separate from the aggregate metrics so the cover map / boards stay lean.
+
 ---
 
 ## 6. Tables (folder `3. Calculations`) — board data sources
@@ -164,6 +177,7 @@ Past cohorts (≤ W0) are sealed to actuals-preferred allocations; forward cohor
 | **Cover & Allocation** | `3325e817` | Demand Rate, Allocation Share, Cover Snapshot, Landed Cover, Unit Gap |
 | **Pipeline Flow** | `e7657451` | Units Shipped, Units Arrived, Units Into Stock, Units Sold |
 | **Wholesale vs Registration** | `46deae9e` | Units Sold, Units Registered |
+| **Cohort Pipeline** | `54dd0c99` | Units Shipped/Arrived/Into Stock/Sold by Cohort (Week × Model × Market × Production Week) |
 
 ---
 
