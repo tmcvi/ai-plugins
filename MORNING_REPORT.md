@@ -66,3 +66,18 @@ In-frame cycle (harness, stubbed SDK with 650ms write latency): drag-release →
 5. **Walk ±Resize/push bar is the residual** (Closing − Opening − Added + Won + Lost = +7.1m); pushed/pulled totals appear in its tooltip as value-neutral timing context.
 6. **Testing without a Pigment browser session** (remote container, MCP-only): frame exercised in a local Chromium harness against a stubbed PigmentSDK loaded with the verified live aggregates — full drag/write/reflow/reset cycle, market filter, FY toggle, sort morph, error path, cleanup; zero console errors. Model-side weight cycle executed via MCP (table above). The screenshot is the harness render; numbers on it are the real aggregates.
 7. **MORNING_REPORT.md created here** — it existed neither in the repo, in project storage (not configured in this container), nor on Drive.
+
+---
+
+## 2026-08-19 · addendum: loading-veil hang fix (frame v2)
+
+**Symptom (reported by Tom):** frame stuck on the "Loading pipeline data…" veil while Zone 3 had visibly rendered behind it — i.e. most feeds were flowing, but the veil waited for *all nine* core feeds to parse and at least one never signalled ready, wedging the whole canvas.
+
+**Fix shipped (frame updated in place, republished):**
+- Veil now lifts as soon as the hero zones (funnel, mix, close, weights) have data, with a **12s failsafe** regardless; remaining panels stream in behind it.
+- The veil message now **names the pending feeds live** ("waiting on: funnel, deals…"), and a notice is posted if any feed is still missing when the veil lifts — so a stall is diagnosable at a glance.
+- A feed that errors or returns an unexpected shape is marked as arrived (with an error toast) and can no longer wedge the veil.
+- Parser hardening: positional fallbacks for funnel/mix/walk column matching (value order is deterministic from view creation), and carry-forward of suppressed parent labels in the deals grouping.
+- Re-verified in the harness incl. a new stall scenario (funnel + deals held back → veil lifts at deadline, names them, Zone 3 renders); zero console errors.
+
+**Gotcha for future edits:** `update_frame` silently flips the frame back to `is_private: true` — always call `publish_frame` again after any update. Done here; frame is live (`is_private: false`).
