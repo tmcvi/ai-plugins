@@ -235,3 +235,30 @@ Re-running `python3 frames/deploy.py` and sending the resulting payload through
 `update_frame` replaces a live body with the full commented build and brings the
 two into exact sync. Nothing was ever edited in the Pigment Frame editor, per
 §7.7.
+
+**Status, 18 Sep.** The three Frames deployed later — **Deals**, **Matching**
+and **Forecast** — carry the *full* `frames/dist/*.js` build, byte for byte, so
+only **New deal**, **Admin** and **Pipeline** are still on compact bodies.
+Re-sending their payloads through `update_frame` brings all six into sync.
+
+---
+
+## D13 — All six Frames are deployed but unpublished
+
+Every Frame in §7.4 is live in the Viridian Deals application and recorded in
+`frames/frame-ids.json`:
+
+| Frame     | Id                                     |
+|-----------|----------------------------------------|
+| Pipeline  | `c211afb6-043f-42ac-a3b1-9a896758b4b0` |
+| Deals     | `6f71fd39-ccd4-4fc0-a9fb-a377aad2bb0e` |
+| New deal  | `b5a8c2e4-93ff-4afc-8d88-36e3515a736e` |
+| Matching  | `b4710c66-abf2-414d-a1de-b105ea16f5c6` |
+| Forecast  | `f58643ec-c5a5-44e3-b34a-d087ddc30555` |
+| Admin     | `3fcfcea9-feba-4b4e-9b0c-4b7ec3b41849` |
+
+They are all `isPrivate: true` — visible to the builder, not yet to the sales
+team. `publish_frame` is deliberately left until Tom has walked each screen,
+because publishing is what puts them in front of users. The brief gives no
+instruction either way (§7.7 covers editing, not publishing), so the safer
+order was chosen: review first, publish second.

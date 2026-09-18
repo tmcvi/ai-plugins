@@ -25,23 +25,18 @@ var state = {
 };
 
 
-function loadDate() {
-  if (!state.importSummary) return null;
-  var d = state.importSummary;
-  for (var r = 0; r < d.labels.rows.length; r++) {
-    if (labelName(d.labels.rows[r]) === 'PIG Latest Load Date') return cell(d, 0, r);
-  }
+function dsValue(d, name) {
+  if (!d) return null;
+  var r = rowByName(d, name);
+  if (r !== -1) return cell(d, 0, r);
+  var idx = columnIndex(d);
+  if (idx[name] !== undefined) return cell(d, idx[name], 0);
   return null;
 }
 
-function summaryValue(name) {
-  var d = state.importSummary;
-  if (!d) return null;
-  for (var r = 0; r < d.labels.rows.length; r++) {
-    if (labelName(d.labels.rows[r]) === name) return cell(d, 0, r);
-  }
-  return null;
-}
+function loadDate() { return dsValue(state.importSummary, 'PIG Latest Load Date'); }
+
+function summaryValue(name) { return dsValue(state.importSummary, name); }
 
 function tabBar() {
   var h = '<div style="display:flex;gap:4px;border-bottom:1px solid ' + T.hairline + ';margin-bottom:18px;">';

@@ -16,14 +16,16 @@ var state = {
   partial: false, error: null
 };
 
-function loadDate() {
-  var d = state.importSummary;
+function dsValue(d, name) {
   if (!d) return null;
-  for (var r = 0; r < d.labels.rows.length; r++) {
-    if (labelName(d.labels.rows[r]) === 'PIG Latest Load Date') return cell(d, 0, r);
-  }
+  var r = rowByName(d, name);
+  if (r !== -1) return cell(d, 0, r);
+  var idx = columnIndex(d);
+  if (idx[name] !== undefined) return cell(d, idx[name], 0);
   return null;
 }
+
+function loadDate() { return dsValue(state.importSummary, 'PIG Latest Load Date'); }
 
 function derivedAccount(name) {
   if (!name) return '';

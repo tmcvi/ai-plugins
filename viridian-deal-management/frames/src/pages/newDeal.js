@@ -15,23 +15,18 @@ var state = {
   error: null
 };
 
-function loadDate() {
-  var d = state.importSummary;
+function dsValue(d, name) {
   if (!d) return null;
-  for (var r = 0; r < d.labels.rows.length; r++) {
-    if (labelName(d.labels.rows[r]) === 'PIG Latest Load Date') return cell(d, 0, r);
-  }
+  var r = rowByName(d, name);
+  if (r !== -1) return cell(d, 0, r);
+  var idx = columnIndex(d);
+  if (idx[name] !== undefined) return cell(d, idx[name], 0);
   return null;
 }
 
-function scalar(name) {
-  var d = state.scalars;
-  if (!d) return null;
-  for (var r = 0; r < d.labels.rows.length; r++) {
-    if (labelName(d.labels.rows[r]) === name) return cell(d, 0, r);
-  }
-  return null;
-}
+function loadDate() { return dsValue(state.importSummary, 'PIG Latest Load Date'); }
+
+function scalar(name) { return dsValue(state.scalars, name); }
 
 function commissionRates() {
   var d = state.commission, out = {};

@@ -118,6 +118,23 @@ def check(body, page):
     return problems
 
 
+def col_alias_map(page):
+    """Binding alias -> metric display name, for every metric the page binds."""
+    ds_path = SRC / "datasources.json"
+    b_path = SRC / "bindings.json"
+    ids_path = HERE.parent / "docs" / "metric-ids.json"
+    if not (ds_path.exists() and b_path.exists() and ids_path.exists()):
+        return {}
+    binds = json.loads(b_path.read_text()).get(page, [])
+    metric_ids = json.loads(ids_path.read_text())
+    by_id = {v: k for k, v in metric_ids.items()}
+    out = {}
+    for b in binds:
+        if b.get("type") == "Metric" and b.get("metricId") in by_id:
+            out[b["name"]] = by_id[b["metricId"]]
+    return out
+
+
 def build(page, logo):
     parts = [
         "(function () {",
@@ -126,6 +143,7 @@ def build(page, logo):
         "if (root.__cleanup) root.__cleanup();",
         "root.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;overflow:hidden;';",
         "var VIRIDIAN_LOGO = " + logo + ";",
+        "var COL_ALIAS = " + json.dumps(col_alias_map(page)) + ";",
     ]
     for name in SHARED:
         f = SRC / "shared" / name
