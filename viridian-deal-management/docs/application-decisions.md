@@ -219,3 +219,19 @@ Forecast Frame expects deals down and periods across; if the SDK returns both
 labels nested on rows instead, that page needs a small reshape in
 `rowsFor()` / `periods()`. Every other data source is single-label and
 unambiguous.
+
+---
+
+## D12 — Live Frame bodies are compact builds of the same source
+
+`frames/src/` is the source of truth and `frames/build.py` is the reproducible
+build. The bodies actually sent to `create_frame` are **compact, per-page
+variants** of that build: identical logic, with the comments and the shared
+helpers a given page never calls left out, so each body stays well inside a
+comfortable payload size.
+
+They are functionally equivalent, not byte-identical to `frames/dist/*.js`.
+Re-running `python3 frames/deploy.py` and sending the resulting payload through
+`update_frame` replaces a live body with the full commented build and brings the
+two into exact sync. Nothing was ever edited in the Pigment Frame editor, per
+§7.7.
