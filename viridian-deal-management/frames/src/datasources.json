@@ -247,23 +247,23 @@
       "selectors": [],
       "values": [
         {
-          "binding": "mOPPLicenceValue",
+          "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPLicenceValue",
+          "binding": "mOPPLicenceValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPCommissionRate",
+          "binding": "mOPPCommissionRatePct",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPCommission",
+          "binding": "mOPPCommissionGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWinRate",
+          "binding": "mOPPWinRatePct",
           "aggregator": "Sum"
         },
         {
@@ -283,23 +283,23 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPEffectiveDayRate",
+          "binding": "mOPPEffectiveDayRateGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPServicesValue",
+          "binding": "mOPPServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPStandardServicesValue",
+          "binding": "mOPPStandardServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWeightedServicesValue",
+          "binding": "mOPPWeightedServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWeightedCommission",
+          "binding": "mOPPWeightedCommissionGbp",
           "aggregator": "Sum"
         },
         {
@@ -359,7 +359,7 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHProfileTotal",
+          "binding": "mPHProfileTotalPct",
           "aggregator": "Sum"
         },
         {
@@ -371,7 +371,7 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHPhasedOutsideCalendar",
+          "binding": "mPHPhasedOutsideCalendarGbp",
           "aggregator": "Sum"
         },
         {
@@ -394,7 +394,7 @@
       ],
       "values": [
         {
-          "binding": "mPHEffectiveProfile",
+          "binding": "mPHEffectiveProfilePct",
           "aggregator": "Sum"
         },
         {
@@ -469,23 +469,23 @@
       "selectors": [],
       "values": [
         {
-          "binding": "mOPPLicenceValue",
+          "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPLicenceValue",
+          "binding": "mOPPLicenceValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPCommissionRate",
+          "binding": "mOPPCommissionRatePct",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPCommission",
+          "binding": "mOPPCommissionGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWinRate",
+          "binding": "mOPPWinRatePct",
           "aggregator": "Sum"
         },
         {
@@ -505,23 +505,23 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPEffectiveDayRate",
+          "binding": "mOPPEffectiveDayRateGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPServicesValue",
+          "binding": "mOPPServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPStandardServicesValue",
+          "binding": "mOPPStandardServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWeightedServicesValue",
+          "binding": "mOPPWeightedServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWeightedCommission",
+          "binding": "mOPPWeightedCommissionGbp",
           "aggregator": "Sum"
         },
         {
@@ -581,7 +581,7 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHProfileTotal",
+          "binding": "mPHProfileTotalPct",
           "aggregator": "Sum"
         },
         {
@@ -593,7 +593,7 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHPhasedOutsideCalendar",
+          "binding": "mPHPhasedOutsideCalendarGbp",
           "aggregator": "Sum"
         },
         {
@@ -616,7 +616,7 @@
       ],
       "values": [
         {
-          "binding": "mPHEffectiveProfile",
+          "binding": "mPHEffectiveProfilePct",
           "aggregator": "Sum"
         },
         {
@@ -691,23 +691,23 @@
       "selectors": [],
       "values": [
         {
-          "binding": "mOPPLicenceValue",
+          "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPLicenceValue",
+          "binding": "mOPPLicenceValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPCommissionRate",
+          "binding": "mOPPCommissionRatePct",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPCommission",
+          "binding": "mOPPCommissionGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWinRate",
+          "binding": "mOPPWinRatePct",
           "aggregator": "Sum"
         },
         {
@@ -727,23 +727,23 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPEffectiveDayRate",
+          "binding": "mOPPEffectiveDayRateGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPServicesValue",
+          "binding": "mOPPServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPStandardServicesValue",
+          "binding": "mOPPStandardServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWeightedServicesValue",
+          "binding": "mOPPWeightedServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWeightedCommission",
+          "binding": "mOPPWeightedCommissionGbp",
           "aggregator": "Sum"
         },
         {
@@ -803,7 +803,7 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHProfileTotal",
+          "binding": "mPHProfileTotalPct",
           "aggregator": "Sum"
         },
         {
@@ -815,7 +815,7 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHPhasedOutsideCalendar",
+          "binding": "mPHPhasedOutsideCalendarGbp",
           "aggregator": "Sum"
         },
         {
@@ -960,11 +960,11 @@
       "selectors": [],
       "values": [
         {
-          "binding": "mPHServicesRevenue",
+          "binding": "mPHServicesRevenueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHCommission",
+          "binding": "mPHCommissionGbp",
           "aggregator": "Sum"
         },
         {
@@ -976,19 +976,19 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHLicenceValue",
+          "binding": "mPHLicenceValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHTotalRevenue",
+          "binding": "mPHTotalRevenueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHWeightedServicesRevenue",
+          "binding": "mPHWeightedServicesRevenueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHWeightedCommission",
+          "binding": "mPHWeightedCommissionGbp",
           "aggregator": "Sum"
         },
         {
@@ -1000,7 +1000,7 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHWeightedTotalRevenue",
+          "binding": "mPHWeightedTotalRevenueGbp",
           "aggregator": "Sum"
         }
       ]
@@ -1018,11 +1018,11 @@
       "selectors": [],
       "values": [
         {
-          "binding": "mPHServicesRevenue",
+          "binding": "mPHServicesRevenueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHCommission",
+          "binding": "mPHCommissionGbp",
           "aggregator": "Sum"
         },
         {
@@ -1034,19 +1034,19 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHLicenceValue",
+          "binding": "mPHLicenceValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHTotalRevenue",
+          "binding": "mPHTotalRevenueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHWeightedServicesRevenue",
+          "binding": "mPHWeightedServicesRevenueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHWeightedCommission",
+          "binding": "mPHWeightedCommissionGbp",
           "aggregator": "Sum"
         },
         {
@@ -1058,7 +1058,7 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHWeightedTotalRevenue",
+          "binding": "mPHWeightedTotalRevenueGbp",
           "aggregator": "Sum"
         }
       ]
@@ -1073,23 +1073,23 @@
       "selectors": [],
       "values": [
         {
-          "binding": "mOPPLicenceValue",
+          "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPLicenceValue",
+          "binding": "mOPPLicenceValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPCommissionRate",
+          "binding": "mOPPCommissionRatePct",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPCommission",
+          "binding": "mOPPCommissionGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWinRate",
+          "binding": "mOPPWinRatePct",
           "aggregator": "Sum"
         },
         {
@@ -1109,23 +1109,23 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPEffectiveDayRate",
+          "binding": "mOPPEffectiveDayRateGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPServicesValue",
+          "binding": "mOPPServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPStandardServicesValue",
+          "binding": "mOPPStandardServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWeightedServicesValue",
+          "binding": "mOPPWeightedServicesValueGbp",
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPWeightedCommission",
+          "binding": "mOPPWeightedCommissionGbp",
           "aggregator": "Sum"
         },
         {
@@ -1185,7 +1185,7 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHProfileTotal",
+          "binding": "mPHProfileTotalPct",
           "aggregator": "Sum"
         },
         {
@@ -1197,7 +1197,7 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHPhasedOutsideCalendar",
+          "binding": "mPHPhasedOutsideCalendarGbp",
           "aggregator": "Sum"
         },
         {

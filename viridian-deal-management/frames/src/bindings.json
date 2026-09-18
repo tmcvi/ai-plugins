@@ -425,28 +425,35 @@
       "canWrite": false
     },
     {
-      "name": "mOPPLicenceValue",
+      "name": "mOPPLicenceValueUsd",
       "type": "Metric",
       "metricId": "c17a1bd7-c851-4f8f-802a-2b3eaa7e939f",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPCommissionRate",
+      "name": "mOPPLicenceValueGbp",
+      "type": "Metric",
+      "metricId": "bd894e7e-0c0e-4b69-adc8-532801b205aa",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommissionRatePct",
       "type": "Metric",
       "metricId": "db8553b4-2f40-46ce-b725-288fcd369cc3",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPCommission",
+      "name": "mOPPCommissionGbp",
       "type": "Metric",
       "metricId": "86081645-ffa7-4d90-88ad-9cc95eeea1de",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWinRate",
+      "name": "mOPPWinRatePct",
       "type": "Metric",
       "metricId": "63546bbb-86e7-456d-ae0b-bf35524b97cd",
       "canRead": true,
@@ -481,35 +488,35 @@
       "canWrite": true
     },
     {
-      "name": "mOPPEffectiveDayRate",
+      "name": "mOPPEffectiveDayRateGbp",
       "type": "Metric",
       "metricId": "a324b9f2-7dbc-4de7-aded-24aea0aa755f",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPServicesValue",
+      "name": "mOPPServicesValueGbp",
       "type": "Metric",
       "metricId": "2b16242d-cc2f-4181-8457-d423c717c0d3",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPStandardServicesValue",
+      "name": "mOPPStandardServicesValueGbp",
       "type": "Metric",
       "metricId": "777ddfa7-5b36-4b6e-a139-e1818be19054",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWeightedServicesValue",
+      "name": "mOPPWeightedServicesValueGbp",
       "type": "Metric",
       "metricId": "4736591a-0379-476e-8e47-33032d9d053a",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWeightedCommission",
+      "name": "mOPPWeightedCommissionGbp",
       "type": "Metric",
       "metricId": "5d9ad5b5-4462-4f31-890f-3384d60498de",
       "canRead": true,
@@ -614,7 +621,7 @@
       "canWrite": false
     },
     {
-      "name": "mPHProfileTotal",
+      "name": "mPHProfileTotalPct",
       "type": "Metric",
       "metricId": "978773b1-4150-4adb-9cd1-d2af30696b8d",
       "canRead": true,
@@ -635,7 +642,7 @@
       "canWrite": false
     },
     {
-      "name": "mPHPhasedOutsideCalendar",
+      "name": "mPHPhasedOutsideCalendarGbp",
       "type": "Metric",
       "metricId": "05486e9d-8316-4b3e-826f-4608c754d16f",
       "canRead": true,
@@ -649,7 +656,7 @@
       "canWrite": false
     },
     {
-      "name": "mPHEffectiveProfile",
+      "name": "mPHEffectiveProfilePct",
       "type": "Metric",
       "metricId": "e26c5fa9-0981-4d17-ac68-668f4a6fe570",
       "canRead": true,
@@ -798,28 +805,35 @@
       "canWrite": false
     },
     {
-      "name": "mOPPLicenceValue",
+      "name": "mOPPLicenceValueUsd",
       "type": "Metric",
       "metricId": "c17a1bd7-c851-4f8f-802a-2b3eaa7e939f",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPCommissionRate",
+      "name": "mOPPLicenceValueGbp",
+      "type": "Metric",
+      "metricId": "bd894e7e-0c0e-4b69-adc8-532801b205aa",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommissionRatePct",
       "type": "Metric",
       "metricId": "db8553b4-2f40-46ce-b725-288fcd369cc3",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPCommission",
+      "name": "mOPPCommissionGbp",
       "type": "Metric",
       "metricId": "86081645-ffa7-4d90-88ad-9cc95eeea1de",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWinRate",
+      "name": "mOPPWinRatePct",
       "type": "Metric",
       "metricId": "63546bbb-86e7-456d-ae0b-bf35524b97cd",
       "canRead": true,
@@ -854,35 +868,35 @@
       "canWrite": true
     },
     {
-      "name": "mOPPEffectiveDayRate",
+      "name": "mOPPEffectiveDayRateGbp",
       "type": "Metric",
       "metricId": "a324b9f2-7dbc-4de7-aded-24aea0aa755f",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPServicesValue",
+      "name": "mOPPServicesValueGbp",
       "type": "Metric",
       "metricId": "2b16242d-cc2f-4181-8457-d423c717c0d3",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPStandardServicesValue",
+      "name": "mOPPStandardServicesValueGbp",
       "type": "Metric",
       "metricId": "777ddfa7-5b36-4b6e-a139-e1818be19054",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWeightedServicesValue",
+      "name": "mOPPWeightedServicesValueGbp",
       "type": "Metric",
       "metricId": "4736591a-0379-476e-8e47-33032d9d053a",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWeightedCommission",
+      "name": "mOPPWeightedCommissionGbp",
       "type": "Metric",
       "metricId": "5d9ad5b5-4462-4f31-890f-3384d60498de",
       "canRead": true,
@@ -987,7 +1001,7 @@
       "canWrite": false
     },
     {
-      "name": "mPHProfileTotal",
+      "name": "mPHProfileTotalPct",
       "type": "Metric",
       "metricId": "978773b1-4150-4adb-9cd1-d2af30696b8d",
       "canRead": true,
@@ -1008,7 +1022,7 @@
       "canWrite": false
     },
     {
-      "name": "mPHPhasedOutsideCalendar",
+      "name": "mPHPhasedOutsideCalendarGbp",
       "type": "Metric",
       "metricId": "05486e9d-8316-4b3e-826f-4608c754d16f",
       "canRead": true,
@@ -1022,7 +1036,7 @@
       "canWrite": false
     },
     {
-      "name": "mPHEffectiveProfile",
+      "name": "mPHEffectiveProfilePct",
       "type": "Metric",
       "metricId": "e26c5fa9-0981-4d17-ac68-668f4a6fe570",
       "canRead": true,
@@ -1178,28 +1192,35 @@
       "canWrite": false
     },
     {
-      "name": "mOPPLicenceValue",
+      "name": "mOPPLicenceValueUsd",
       "type": "Metric",
       "metricId": "c17a1bd7-c851-4f8f-802a-2b3eaa7e939f",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPCommissionRate",
+      "name": "mOPPLicenceValueGbp",
+      "type": "Metric",
+      "metricId": "bd894e7e-0c0e-4b69-adc8-532801b205aa",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommissionRatePct",
       "type": "Metric",
       "metricId": "db8553b4-2f40-46ce-b725-288fcd369cc3",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPCommission",
+      "name": "mOPPCommissionGbp",
       "type": "Metric",
       "metricId": "86081645-ffa7-4d90-88ad-9cc95eeea1de",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWinRate",
+      "name": "mOPPWinRatePct",
       "type": "Metric",
       "metricId": "63546bbb-86e7-456d-ae0b-bf35524b97cd",
       "canRead": true,
@@ -1234,35 +1255,35 @@
       "canWrite": false
     },
     {
-      "name": "mOPPEffectiveDayRate",
+      "name": "mOPPEffectiveDayRateGbp",
       "type": "Metric",
       "metricId": "a324b9f2-7dbc-4de7-aded-24aea0aa755f",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPServicesValue",
+      "name": "mOPPServicesValueGbp",
       "type": "Metric",
       "metricId": "2b16242d-cc2f-4181-8457-d423c717c0d3",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPStandardServicesValue",
+      "name": "mOPPStandardServicesValueGbp",
       "type": "Metric",
       "metricId": "777ddfa7-5b36-4b6e-a139-e1818be19054",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWeightedServicesValue",
+      "name": "mOPPWeightedServicesValueGbp",
       "type": "Metric",
       "metricId": "4736591a-0379-476e-8e47-33032d9d053a",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWeightedCommission",
+      "name": "mOPPWeightedCommissionGbp",
       "type": "Metric",
       "metricId": "5d9ad5b5-4462-4f31-890f-3384d60498de",
       "canRead": true,
@@ -1367,7 +1388,7 @@
       "canWrite": false
     },
     {
-      "name": "mPHProfileTotal",
+      "name": "mPHProfileTotalPct",
       "type": "Metric",
       "metricId": "978773b1-4150-4adb-9cd1-d2af30696b8d",
       "canRead": true,
@@ -1388,7 +1409,7 @@
       "canWrite": false
     },
     {
-      "name": "mPHPhasedOutsideCalendar",
+      "name": "mPHPhasedOutsideCalendarGbp",
       "type": "Metric",
       "metricId": "05486e9d-8316-4b3e-826f-4608c754d16f",
       "canRead": true,
@@ -1614,14 +1635,14 @@
       "canWrite": false
     },
     {
-      "name": "mPHServicesRevenue",
+      "name": "mPHServicesRevenueGbp",
       "type": "Metric",
       "metricId": "ae397565-40a2-46cc-a5ad-8c982166755d",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mPHCommission",
+      "name": "mPHCommissionGbp",
       "type": "Metric",
       "metricId": "195d6025-f42f-4875-adcb-362458cf7b0e",
       "canRead": true,
@@ -1642,28 +1663,28 @@
       "canWrite": false
     },
     {
-      "name": "mPHLicenceValue",
+      "name": "mPHLicenceValueGbp",
       "type": "Metric",
       "metricId": "a6ad1a82-74b5-4412-9aeb-99518a951077",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mPHTotalRevenue",
+      "name": "mPHTotalRevenueGbp",
       "type": "Metric",
       "metricId": "c6cc649a-6c7c-46d8-9c73-67d2703c4333",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mPHWeightedServicesRevenue",
+      "name": "mPHWeightedServicesRevenueGbp",
       "type": "Metric",
       "metricId": "d3f5b5e4-d114-4691-867d-6058ec27e00e",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mPHWeightedCommission",
+      "name": "mPHWeightedCommissionGbp",
       "type": "Metric",
       "metricId": "86db04b6-87fc-4237-b9b6-f35326860b27",
       "canRead": true,
@@ -1684,7 +1705,7 @@
       "canWrite": false
     },
     {
-      "name": "mPHWeightedTotalRevenue",
+      "name": "mPHWeightedTotalRevenueGbp",
       "type": "Metric",
       "metricId": "12494186-e0ec-40fb-8dba-ecd12e44c27b",
       "canRead": true,
@@ -1698,28 +1719,35 @@
       "canWrite": false
     },
     {
-      "name": "mOPPLicenceValue",
+      "name": "mOPPLicenceValueUsd",
       "type": "Metric",
       "metricId": "c17a1bd7-c851-4f8f-802a-2b3eaa7e939f",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPCommissionRate",
+      "name": "mOPPLicenceValueGbp",
+      "type": "Metric",
+      "metricId": "bd894e7e-0c0e-4b69-adc8-532801b205aa",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommissionRatePct",
       "type": "Metric",
       "metricId": "db8553b4-2f40-46ce-b725-288fcd369cc3",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPCommission",
+      "name": "mOPPCommissionGbp",
       "type": "Metric",
       "metricId": "86081645-ffa7-4d90-88ad-9cc95eeea1de",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWinRate",
+      "name": "mOPPWinRatePct",
       "type": "Metric",
       "metricId": "63546bbb-86e7-456d-ae0b-bf35524b97cd",
       "canRead": true,
@@ -1754,35 +1782,35 @@
       "canWrite": false
     },
     {
-      "name": "mOPPEffectiveDayRate",
+      "name": "mOPPEffectiveDayRateGbp",
       "type": "Metric",
       "metricId": "a324b9f2-7dbc-4de7-aded-24aea0aa755f",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPServicesValue",
+      "name": "mOPPServicesValueGbp",
       "type": "Metric",
       "metricId": "2b16242d-cc2f-4181-8457-d423c717c0d3",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPStandardServicesValue",
+      "name": "mOPPStandardServicesValueGbp",
       "type": "Metric",
       "metricId": "777ddfa7-5b36-4b6e-a139-e1818be19054",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWeightedServicesValue",
+      "name": "mOPPWeightedServicesValueGbp",
       "type": "Metric",
       "metricId": "4736591a-0379-476e-8e47-33032d9d053a",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "mOPPWeightedCommission",
+      "name": "mOPPWeightedCommissionGbp",
       "type": "Metric",
       "metricId": "5d9ad5b5-4462-4f31-890f-3384d60498de",
       "canRead": true,
@@ -1887,7 +1915,7 @@
       "canWrite": false
     },
     {
-      "name": "mPHProfileTotal",
+      "name": "mPHProfileTotalPct",
       "type": "Metric",
       "metricId": "978773b1-4150-4adb-9cd1-d2af30696b8d",
       "canRead": true,
@@ -1908,7 +1936,7 @@
       "canWrite": false
     },
     {
-      "name": "mPHPhasedOutsideCalendar",
+      "name": "mPHPhasedOutsideCalendarGbp",
       "type": "Metric",
       "metricId": "05486e9d-8316-4b3e-826f-4608c754d16f",
       "canRead": true,
