@@ -1,0 +1,153 @@
+// PigmentSDK helpers: subscription lifecycle, readiness guards, write wrappers.
+// Every subscription and listener registered here is torn down by disposeAll().
+
+var SDK = window.PigmentSDK;
+var _subs = [];
+var _timers = [];
+var _listeners = [];
+var _observers = [];
+var _bodyNodes = [];
+
+function hasLoadingKind(arr) {
+  for (var i = 0; i < arr.length; i++) {
+    var item = arr[i];
+    if (Array.isArray(item)) { if (hasLoadingKind(item)) return true; }
+    else if (item && typeof item === 'object' && item.kind === 'loading') return true;
+  }
+  return false;
+}
+
+function isReady(data) {
+  if (!data || !data.labels || !data.labels.columns.length) return false;
+  return !hasLoadingKind(data.labels.rows) &&
+         !hasLoadingKind(data.labels.columns) &&
+         !hasLoadingKind(data.cells);
+}
+
+// Last string entry of a label path is the display name.
+function labelName(path) {
+  if (typeof path === 'string') return path;
+  if (!Array.isArray(path)) return '';
+  for (var i = path.length - 1; i >= 0; i--) {
+    if (typeof path[i] === 'string') return path[i];
+  }
+  return '';
+}
+
+function labelAt(path, level) {
+  if (!Array.isArray(path)) return labelName(path);
+  var v = path[level];
+  return typeof v === 'string' ? v : '';
+}
+
+function cell(data, c, r) {
+  if (!data || !data.cells || !data.cells[c]) return null;
+  var v = data.cells[c][r];
+  if (v && typeof v === 'object') return null;
+  return v;
+}
+
+// Index a View's columns by metric display name so pages read by name, not position.
+function columnIndex(data) {
+  var idx = {};
+  if (!data || !data.labels) return idx;
+  for (var c = 0; c < data.labels.columns.length; c++) {
+    idx[labelName(data.labels.columns[c])] = c;
+  }
+  return idx;
+}
+
+function subscribeView(alias, onReady, onErr, pageDefs, scroll) {
+  var opts = {
+    onData: function (data) {
+      if (!isReady(data)) return;
+      onReady(data);
+    },
+    onError: function (err) { if (onErr) onErr(err); },
+    pageDefinitions: pageDefs || []
+  };
+  if (scroll) opts.scroll = scroll;
+  var sub = SDK.subscribeToVizualization(alias, opts);
+  _subs.push(sub);
+  return sub;
+}
+
+function subscribeList(alias, onReady, onErr) {
+  var sub = SDK.subscribeToItems(alias, {
+    onData: function (d) { onReady(d.items || [], !!d.partialResult); },
+    onError: function (err) { if (onErr) onErr(err); }
+  });
+  _subs.push(sub);
+  return sub;
+}
+
+function debounce(fn, ms) {
+  var t = null;
+  function wrapped() {
+    var args = arguments;
+    if (t) clearTimeout(t);
+    t = setTimeout(function () { t = null; fn.apply(null, args); }, ms);
+    _timers.push(t);
+  }
+  return wrapped;
+}
+
+function on(target, type, handler) {
+  target.addEventListener(type, handler);
+  _listeners.push({ target: target, type: type, handler: handler });
+}
+
+function trackObserver(o) { _observers.push(o); return o; }
+function trackBodyNode(n) { _bodyNodes.push(n); return n; }
+
+function disposeAll() {
+  for (var i = 0; i < _subs.length; i++) {
+    try { _subs[i].unsubscribe(); } catch (e) {}
+  }
+  for (var j = 0; j < _timers.length; j++) clearTimeout(_timers[j]);
+  for (var k = 0; k < _listeners.length; k++) {
+    var L = _listeners[k];
+    try { L.target.removeEventListener(L.type, L.handler); } catch (e) {}
+  }
+  for (var m = 0; m < _observers.length; m++) {
+    try { _observers[m].disconnect(); } catch (e) {}
+  }
+  for (var n = 0; n < _bodyNodes.length; n++) {
+    var el = _bodyNodes[n];
+    if (el && el.parentNode) el.parentNode.removeChild(el);
+  }
+  _subs = []; _timers = []; _listeners = []; _observers = []; _bodyNodes = [];
+}
+
+// ---- writes -------------------------------------------------------------
+// Each resolves to {ok:true} or {ok:false, message} so callers can revert the
+// field and surface the SDK's own message rather than a generic failure.
+
+function writeItem(listAlias, itemName, values) {
+  return SDK.editItem(listAlias, itemName, values)
+    .then(function () { toast('Saved'); return { ok: true }; })
+    .catch(function (e) {
+      var msg = (e && e.message) ? e.message : 'Could not save';
+      toast(msg, true);
+      return { ok: false, message: msg };
+    });
+}
+
+function createItem(listAlias, values) {
+  return SDK.addItem(listAlias, values)
+    .then(function () { return { ok: true }; })
+    .catch(function (e) {
+      var msg = (e && e.message) ? e.message : 'Could not create';
+      return { ok: false, message: msg };
+    });
+}
+
+function writeValue(metricAlias, coords, value) {
+  return SDK.editValue(metricAlias, coords, value)
+    .then(function () { toast('Saved'); return { ok: true }; })
+    .catch(function (e) {
+      var msg = (e && e.message) ? e.message : 'Could not save';
+      toast(msg, true);
+      return { ok: false, message: msg };
+    });
+}

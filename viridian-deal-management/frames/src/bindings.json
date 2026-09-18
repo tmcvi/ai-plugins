@@ -1,0 +1,721 @@
+{
+  "admin": [
+    {
+      "name": "vwAssumptions",
+      "type": "View",
+      "viewId": "5f0a1e9b-983f-4ed2-8154-6ac8ce54271a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwScalarAssumptions",
+      "type": "View",
+      "viewId": "1d243546-9946-4c0d-bdf1-8efc28af711a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwCommissionRates",
+      "type": "View",
+      "viewId": "73bb2759-2402-4093-81ee-dca9954f6443",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwWinRates",
+      "type": "View",
+      "viewId": "6898f91c-916d-435d-abf1-5ec7cb7eb365",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwStandardProfiles",
+      "type": "View",
+      "viewId": "e5649621-0995-4db9-b474-af282dda0704",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwImportSummary",
+      "type": "View",
+      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmLicence",
+      "type": "Metric",
+      "metricId": "1f18cfcb-7c4e-44ef-8263-d1de2ee6e5ef",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "asmDays",
+      "type": "Metric",
+      "metricId": "929b0444-343a-47ca-b937-75e097ffcd99",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "asmDuration",
+      "type": "Metric",
+      "metricId": "1c0c2f1c-320c-4de9-826d-c52c3d0db028",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "asmLag",
+      "type": "Metric",
+      "metricId": "a47710b6-ea06-4b8d-8617-e8b8c2d77159",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "asmProfile",
+      "type": "Metric",
+      "metricId": "2fc8cb48-81cf-4b3d-8a98-1718fee1c3db",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "asmRate",
+      "type": "Metric",
+      "metricId": "79f347e9-934e-44e3-99fd-1769475d056a",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "asmHours",
+      "type": "Metric",
+      "metricId": "5e5f5880-7308-4127-a25d-88492c58efdb",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "asmFx",
+      "type": "Metric",
+      "metricId": "eaaded74-fd74-4e01-a675-61bfbffb4b0a",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "asmCommission",
+      "type": "Metric",
+      "metricId": "dab28a94-4149-4584-89a2-04a1597a0660",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "asmWin",
+      "type": "Metric",
+      "metricId": "1b7a20fc-4922-4a85-b1f6-bcc573b72ce1",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "dealSize",
+      "type": "List",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "projectWeek",
+      "type": "List",
+      "listId": "4c6cda7c-24b4-4397-acb9-d9db8e354585",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "salesMotion",
+      "type": "List",
+      "listId": "2760bceb-6823-45da-b988-8e03c6d285f5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stage",
+      "type": "List",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "useCase",
+      "type": "List",
+      "listId": "558e86d9-8014-4f62-afef-0c99e33083ad",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "partnerAttachType",
+      "type": "List",
+      "listId": "48ea294c-5858-4639-bfb1-c7a449f7eb21",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigmentStage",
+      "type": "List",
+      "listId": "6998653c-f99c-4ba4-8c36-68bc620ef681",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "salesPerson",
+      "type": "List",
+      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "pigmentAE",
+      "type": "List",
+      "listId": "987256d7-9b59-48e8-99f9-70b77cf8143c",
+      "canRead": true,
+      "canWrite": true
+    }
+  ],
+  "newDeal": [
+    {
+      "name": "vwPipelineGrid",
+      "type": "View",
+      "viewId": "f8bab7a5-1a49-477b-a371-679c5b57ffd1",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwAssumptions",
+      "type": "View",
+      "viewId": "5f0a1e9b-983f-4ed2-8154-6ac8ce54271a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwStandardProfiles",
+      "type": "View",
+      "viewId": "e5649621-0995-4db9-b474-af282dda0704",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwCommissionRates",
+      "type": "View",
+      "viewId": "73bb2759-2402-4093-81ee-dca9954f6443",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwWinRates",
+      "type": "View",
+      "viewId": "6898f91c-916d-435d-abf1-5ec7cb7eb365",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwImportSummary",
+      "type": "View",
+      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "opportunity",
+      "type": "List",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "salesPerson",
+      "type": "List",
+      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stage",
+      "type": "List",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "useCase",
+      "type": "List",
+      "listId": "558e86d9-8014-4f62-afef-0c99e33083ad",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "salesMotion",
+      "type": "List",
+      "listId": "2760bceb-6823-45da-b988-8e03c6d285f5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "dealSize",
+      "type": "List",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigmentAE",
+      "type": "List",
+      "listId": "987256d7-9b59-48e8-99f9-70b77cf8143c",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "projectWeek",
+      "type": "List",
+      "listId": "4c6cda7c-24b4-4397-acb9-d9db8e354585",
+      "canRead": true,
+      "canWrite": false
+    }
+  ],
+  "pipeline": [
+    {
+      "name": "vwPipelineGrid",
+      "type": "View",
+      "viewId": "f8bab7a5-1a49-477b-a371-679c5b57ffd1",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwForecastMonth",
+      "type": "View",
+      "viewId": "55c7274c-7b5c-4c88-82f8-83c42dd71e2d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwProfileByDeal",
+      "type": "View",
+      "viewId": "5a200f6b-5190-4552-a185-7433fd59d39b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwPigmentGrid",
+      "type": "View",
+      "viewId": "a0480919-4494-47b8-8056-3a37051015d2",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwImportSummary",
+      "type": "View",
+      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwWinRates",
+      "type": "View",
+      "viewId": "6898f91c-916d-435d-abf1-5ec7cb7eb365",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwAssumptions",
+      "type": "View",
+      "viewId": "5f0a1e9b-983f-4ed2-8154-6ac8ce54271a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "opportunity",
+      "type": "List",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "pigmentPipeline",
+      "type": "List",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "salesPerson",
+      "type": "List",
+      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stage",
+      "type": "List",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "useCase",
+      "type": "List",
+      "listId": "558e86d9-8014-4f62-afef-0c99e33083ad",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "salesMotion",
+      "type": "List",
+      "listId": "2760bceb-6823-45da-b988-8e03c6d285f5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "dealSize",
+      "type": "List",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigmentAE",
+      "type": "List",
+      "listId": "987256d7-9b59-48e8-99f9-70b77cf8143c",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "projectWeek",
+      "type": "List",
+      "listId": "4c6cda7c-24b4-4397-acb9-d9db8e354585",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppOverrideDays",
+      "type": "Metric",
+      "metricId": "fecdec7b-5dd3-49c3-aec4-fb16085c4aef",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppOverrideRate",
+      "type": "Metric",
+      "metricId": "2702f75e-0085-4053-94a3-1a2f088e5fea",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "phOverrideProfile",
+      "type": "Metric",
+      "metricId": "0b394b03-3569-4a97-b769-dee02e671124",
+      "canRead": true,
+      "canWrite": true
+    }
+  ],
+  "deal": [
+    {
+      "name": "vwPipelineGrid",
+      "type": "View",
+      "viewId": "f8bab7a5-1a49-477b-a371-679c5b57ffd1",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwForecastMonth",
+      "type": "View",
+      "viewId": "55c7274c-7b5c-4c88-82f8-83c42dd71e2d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwProfileByDeal",
+      "type": "View",
+      "viewId": "5a200f6b-5190-4552-a185-7433fd59d39b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwPigmentGrid",
+      "type": "View",
+      "viewId": "a0480919-4494-47b8-8056-3a37051015d2",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwImportSummary",
+      "type": "View",
+      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwWinRates",
+      "type": "View",
+      "viewId": "6898f91c-916d-435d-abf1-5ec7cb7eb365",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwAssumptions",
+      "type": "View",
+      "viewId": "5f0a1e9b-983f-4ed2-8154-6ac8ce54271a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "opportunity",
+      "type": "List",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "pigmentPipeline",
+      "type": "List",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "salesPerson",
+      "type": "List",
+      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stage",
+      "type": "List",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "useCase",
+      "type": "List",
+      "listId": "558e86d9-8014-4f62-afef-0c99e33083ad",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "salesMotion",
+      "type": "List",
+      "listId": "2760bceb-6823-45da-b988-8e03c6d285f5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "dealSize",
+      "type": "List",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigmentAE",
+      "type": "List",
+      "listId": "987256d7-9b59-48e8-99f9-70b77cf8143c",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "projectWeek",
+      "type": "List",
+      "listId": "4c6cda7c-24b4-4397-acb9-d9db8e354585",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppOverrideDays",
+      "type": "Metric",
+      "metricId": "fecdec7b-5dd3-49c3-aec4-fb16085c4aef",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppOverrideRate",
+      "type": "Metric",
+      "metricId": "2702f75e-0085-4053-94a3-1a2f088e5fea",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "phOverrideProfile",
+      "type": "Metric",
+      "metricId": "0b394b03-3569-4a97-b769-dee02e671124",
+      "canRead": true,
+      "canWrite": true
+    }
+  ],
+  "matching": [
+    {
+      "name": "vwPipelineGrid",
+      "type": "View",
+      "viewId": "f8bab7a5-1a49-477b-a371-679c5b57ffd1",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwPigmentGrid",
+      "type": "View",
+      "viewId": "a0480919-4494-47b8-8056-3a37051015d2",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwImportSummary",
+      "type": "View",
+      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwAssumptions",
+      "type": "View",
+      "viewId": "5f0a1e9b-983f-4ed2-8154-6ac8ce54271a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "opportunity",
+      "type": "List",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "pigmentPipeline",
+      "type": "List",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "salesPerson",
+      "type": "List",
+      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stage",
+      "type": "List",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "useCase",
+      "type": "List",
+      "listId": "558e86d9-8014-4f62-afef-0c99e33083ad",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "salesMotion",
+      "type": "List",
+      "listId": "2760bceb-6823-45da-b988-8e03c6d285f5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "dealSize",
+      "type": "List",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigmentAE",
+      "type": "List",
+      "listId": "987256d7-9b59-48e8-99f9-70b77cf8143c",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigmentStage",
+      "type": "List",
+      "listId": "6998653c-f99c-4ba4-8c36-68bc620ef681",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "partnerAttachType",
+      "type": "List",
+      "listId": "48ea294c-5858-4639-bfb1-c7a449f7eb21",
+      "canRead": true,
+      "canWrite": false
+    }
+  ],
+  "forecast": [
+    {
+      "name": "vwForecastMonth",
+      "type": "View",
+      "viewId": "55c7274c-7b5c-4c88-82f8-83c42dd71e2d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwForecastWeek",
+      "type": "View",
+      "viewId": "44dcde85-0ef4-4554-a0a9-b0f095b5af81",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwPipelineGrid",
+      "type": "View",
+      "viewId": "f8bab7a5-1a49-477b-a371-679c5b57ffd1",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "vwImportSummary",
+      "type": "View",
+      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "opportunity",
+      "type": "List",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stage",
+      "type": "List",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "salesPerson",
+      "type": "List",
+      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "useCase",
+      "type": "List",
+      "listId": "558e86d9-8014-4f62-afef-0c99e33083ad",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "salesMotion",
+      "type": "List",
+      "listId": "2760bceb-6823-45da-b988-8e03c6d285f5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "dealSize",
+      "type": "List",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "canRead": true,
+      "canWrite": false
+    }
+  ]
+}
