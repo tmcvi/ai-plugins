@@ -262,3 +262,39 @@ team. `publish_frame` is deliberately left until Tom has walked each screen,
 because publishing is what puts them in front of users. The brief gives no
 instruction either way (§7.7 covers editing, not publishing), so the safer
 order was chosen: review first, publish second.
+
+---
+
+## D14 — The three fallback Boards, and why they are plain
+
+§7.9 asks for `ADM Assumptions`, `ADM Pigment Pipeline` and `TST Opportunity
+Check` as a safety net. All three are built in the `90 Boards` folder with
+native widgets only — no attempt to restyle them in the brand, because they are
+not the product and a half-branded Board invites people to use it as one:
+
+| Board | Id | Contents |
+| --- | --- | --- |
+| ADM Assumptions | `844cf295-0965-49eb-bfe5-fd4c054d9e97` | scalars, assumptions by size, commission rates, win rates, standard profiles |
+| ADM Pigment Pipeline | `09dd0f23-2935-4c81-b098-02b06cdba535` | import summary beside the imported rows |
+| TST Opportunity Check | `c7c18fc2-d47f-4e2d-a0ce-95d6ff8ac5f4` | `VW Pipeline Grid` beside `VW Forecast Month` |
+
+Each carries a one-paragraph note saying what it is for, so nobody mistakes the
+fallback for the application.
+
+---
+
+## D15 — ⚠️ The saved import configuration has to be made in the Pigment UI
+
+Phase 4 asks for a *saved import configuration* for Tom's weekly CSV. The
+Pigment MCP connector has no tool that creates one: it can add and update list
+items (which is how the sample export was loaded) and it can point an
+Import **action button** at a `configurationId`, but the configuration itself —
+the file-to-property column mapping Pigment stores — can only be created by
+a person in the import dialog.
+
+So this one deliverable is left for Tom. Everything it needs is in place: the
+`Pigment Pipeline` properties are named exactly as the export's column headers
+so the mapping is 1:1, the stage and attach-type lists auto-create unknown
+values, and the Admin Frame's Import tab carries the weekly checklist. Once the
+configuration exists, its id can be dropped into an Import action button on
+`ADM Pigment Pipeline` to give the import operator a one-click run.

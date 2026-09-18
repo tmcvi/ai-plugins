@@ -68,5 +68,18 @@
     "VW Standard Profiles": "e5649621-0995-4db9-b474-af282dda0704",
     "VW Commission Rates": "73bb2759-2402-4093-81ee-dca9954f6443",
     "VW Win Rates": "6898f91c-916d-435d-abf1-5ec7cb7eb365"
+  },
+  "boards": {
+    "ADM Assumptions": "844cf295-0965-49eb-bfe5-fd4c054d9e97",
+    "ADM Pigment Pipeline": "09dd0f23-2935-4c81-b098-02b06cdba535",
+    "TST Opportunity Check": "c7c18fc2-d47f-4e2d-a0ce-95d6ff8ac5f4"
+  },
+  "frames": {
+    "pipeline": "c211afb6-043f-42ac-a3b1-9a896758b4b0",
+    "deal": "6f71fd39-ccd4-4fc0-a9fb-a377aad2bb0e",
+    "newDeal": "b5a8c2e4-93ff-4afc-8d88-36e3515a736e",
+    "matching": "b4710c66-abf2-414d-a1de-b105ea16f5c6",
+    "forecast": "f58643ec-c5a5-44e3-b34a-d087ddc30555",
+    "admin": "3fcfcea9-feba-4b4e-9b0c-4b7ec3b41849"
   }
 }
