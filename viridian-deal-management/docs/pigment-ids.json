@@ -1,0 +1,72 @@
+{
+  "applicationId": "f9996e24-0282-4938-9485-93e613ac91d5",
+  "applicationName": "Viridian Deals",
+  "calendar": {
+    "id": "fce18812-249a-4ef2-8c58-289e16f7d6cd",
+    "range": "2025-01-01 to 2028-12-31",
+    "weekDimensionId": "9782cd08-b98e-44d1-bc61-2c66f6223d19",
+    "monthDimensionId": "3326b72f-9596-48e7-989f-ba2277bce969",
+    "firstDayOfWeek": "Monday"
+  },
+  "folders": {
+    "00 Admin": "6adeedb8-8fea-4e8c-adbb-bb61f0307b33",
+    "10 Reference lists": "ff6ab0ce-b11b-4aac-89e0-85601ed0b134",
+    "20 Opportunities": "f511c859-36cf-45fa-840d-0178809c1db0",
+    "30 Phasing": "bda7d941-492b-4209-89aa-302012b0886e",
+    "40 Pigment pipeline": "daabb18b-875c-4ff6-bc10-910eb3f03ce2",
+    "50 Alignment": "e8e5fbef-9a38-4dd0-aa3b-d341ce9b6254",
+    "90 Test": "ad3fa76f-e3fd-4b17-b5b8-3477448e64f3",
+    "90 Boards": "8a50cec7-5d72-4e3a-9a50-865c056249f7"
+  },
+  "lists": {
+    "Sales Person": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+    "Stage": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+    "Use Case": "558e86d9-8014-4f62-afef-0c99e33083ad",
+    "Sales Motion": "2760bceb-6823-45da-b988-8e03c6d285f5",
+    "Deal Size": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+    "Pigment AE": "987256d7-9b59-48e8-99f9-70b77cf8143c",
+    "Pigment Stage": "6998653c-f99c-4ba4-8c36-68bc620ef681",
+    "Partner Attach Type": "48ea294c-5858-4639-bfb1-c7a449f7eb21",
+    "Project Week": "4c6cda7c-24b4-4397-acb9-d9db8e354585",
+    "Opportunity": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+    "Pigment Pipeline": "0fc2c43e-8371-45ed-99b9-3dd09147918a"
+  },
+  "metrics": {
+    "ASM Licence ARR $": "1f18cfcb-7c4e-44ef-8263-d1de2ee6e5ef",
+    "ASM Standard Days": "929b0444-343a-47ca-b937-75e097ffcd99",
+    "ASM Project Duration Weeks": "1c0c2f1c-320c-4de9-826d-c52c3d0db028",
+    "ASM Start Lag Weeks": "a47710b6-ea06-4b8d-8617-e8b8c2d77159",
+    "ASM Standard Profile %": "2fc8cb48-81cf-4b3d-8a98-1718fee1c3db",
+    "ASM Standard Day Rate GBP": "79f347e9-934e-44e3-99fd-1769475d056a",
+    "ASM Hours per Day": "5e5f5880-7308-4127-a25d-88492c58efdb",
+    "ASM FX Rate USD to GBP": "eaaded74-fd74-4e01-a675-61bfbffb4b0a",
+    "ASM Commission Rate %": "dab28a94-4149-4584-89a2-04a1597a0660",
+    "ASM Win Rate %": "1b7a20fc-4922-4a85-b1f6-bcc573b72ce1",
+    "OPP Override Days": "fecdec7b-5dd3-49c3-aec4-fb16085c4aef",
+    "OPP Override Day Rate GBP": "2702f75e-0085-4053-94a3-1a2f088e5fea",
+    "PH Override Profile %": "0b394b03-3569-4a97-b769-dee02e671124",
+    "PIG Latest Load Date": "6f44a34d-363e-422d-a598-f8fec9c640d4"
+  },
+  "tables": {
+    "TBL Opportunity": "3230334c-7697-4b1a-8bd0-1d2d8c844518",
+    "TBL Pigment Pipeline": "f387e931-4eff-4c92-aac4-fb5c61249ebf",
+    "TBL Forecast": "886f99c0-bd37-417d-a961-30452325c507",
+    "TBL Profile by Deal": "1eedbb19-95b5-469e-9123-a4a00a541d0f",
+    "TBL Assumptions": "6fa04712-f501-44d8-8f72-75dff5584457",
+    "TBL Scalar Assumptions": "15d7fea2-12ea-42c0-ac3c-918e6e79ae81",
+    "TBL Import Summary": "16275a99-c6bc-4841-9fcb-6ca1bcda4245"
+  },
+  "views": {
+    "VW Pipeline Grid": "f8bab7a5-1a49-477b-a371-679c5b57ffd1",
+    "VW Pigment Grid": "a0480919-4494-47b8-8056-3a37051015d2",
+    "VW Profile by Deal": "5a200f6b-5190-4552-a185-7433fd59d39b",
+    "VW Forecast Week": "44dcde85-0ef4-4554-a0a9-b0f095b5af81",
+    "VW Forecast Month": "55c7274c-7b5c-4c88-82f8-83c42dd71e2d",
+    "VW Assumptions": "5f0a1e9b-983f-4ed2-8154-6ac8ce54271a",
+    "VW Scalar Assumptions": "1d243546-9946-4c0d-bdf1-8efc28af711a",
+    "VW Import Summary": "2358f175-d712-4c1b-8128-c7582cbded96",
+    "VW Standard Profiles": "e5649621-0995-4db9-b474-af282dda0704",
+    "VW Commission Rates": "73bb2759-2402-4093-81ee-dca9954f6443",
+    "VW Win Rates": "6898f91c-916d-435d-abf1-5ec7cb7eb365"
+  }
+}
