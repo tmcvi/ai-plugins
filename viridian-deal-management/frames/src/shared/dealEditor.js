@@ -35,9 +35,17 @@ function openDealEditor(dealName, onChange) {
       DE.profile = d;
       if (onChange) onChange();
     }, function () {}, [{ alias: 'opportunity', selection: [dealName] }]);
-  } else {
+  } else if (typeof DE.profileSub.updatePageDefinitions === 'function') {
     DE.profile = null;
     DE.profileSub.updatePageDefinitions([{ alias: 'opportunity', selection: [dealName] }]);
+  } else {
+    // No repaging on this subscription: drop it and take a fresh one.
+    DE.profile = null;
+    stopSub(DE.profileSub);
+    DE.profileSub = subscribeView('vwProfileByDeal', function (d) {
+      DE.profile = d;
+      if (onChange) onChange();
+    }, function () {}, [{ alias: 'opportunity', selection: [dealName] }]);
   }
   if (onChange) onChange();
 }

@@ -298,3 +298,38 @@ so the mapping is 1:1, the stage and attach-type lists auto-create unknown
 values, and the Admin Frame's Import tab carries the weekly checklist. Once the
 configuration exists, its id can be dropped into an Import action button on
 `ADM Pigment Pipeline` to give the import operator a one-click run.
+
+---
+
+## D16 — ⚠️ `subscribeToVizualization` is gone; the SDK call is resolved at runtime
+
+Every Frame failed with *"The subscribeToVizualization operation is no longer
+supported. Use useSubscribeToDataSource instead."* The rename is the other half
+of the change behind D11: Frames stopped binding Views and started declaring
+data sources, and the subscription was renamed to match. The
+`building-pigment-frames` skill in this environment still documents the old
+name, so the brief's §7.1 constraints are out of date on this point.
+
+Rather than pin the new name, `frames/src/shared/sdk.js` now resolves whichever
+the workspace exposes — `useSubscribeToDataSource`, `subscribeToDataSource` or
+`subscribeToVizualization` — and the same for `subscribeToItems`. A build that
+has none of them reports the SDK's actual method list in the error, so the next
+rename is one message to diagnose rather than a guess.
+
+Two related defences came with it: a subscription is torn down through
+`stopSub()`, which accepts either an object with `unsubscribe()` or a bare
+unsubscribe function; and the Deal editor only calls
+`updatePageDefinitions()` when the subscription offers it, otherwise it drops
+the subscription and takes a fresh one for the newly selected deal.
+
+**Still unverified:** whether the new call keeps the `(alias, { onData, onError,
+pageDefinitions })` shape and returns the same `{ labels, cells }` payload. If
+it does, the rename is the whole fix. If it does not, the Frames will sit on
+"Loading" instead of erroring, and the payload shape is the next thing to
+change.
+
+**Deployment note.** Deals, Matching and Forecast took the full patch. Pipeline,
+Admin and New deal are still on the compact bodies (D12), so they took a
+narrower edit — the call expression is swapped in place, without the diagnostic
+message. They are due a full re-deploy from `frames/dist` to bring every Frame
+back to one source.

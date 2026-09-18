@@ -2,6 +2,34 @@
 // Every subscription and listener registered here is torn down by disposeAll().
 
 var SDK = window.PigmentSDK;
+
+// The SDK renamed the view subscription: data sources replaced vizualizations
+// when Frames moved from View bindings to inline data sources, and calling the
+// old name now throws. Resolve whichever name this workspace exposes rather
+// than pinning one, so the same body runs on either build.
+function sdkMethod(names) {
+  for (var i = 0; i < names.length; i++) {
+    if (SDK && typeof SDK[names[i]] === 'function') return names[i];
+  }
+  return null;
+}
+
+// Every callable on the SDK, for the error message when nothing matches.
+function sdkSurface() {
+  if (!SDK) return 'window.PigmentSDK is missing';
+  var seen = {}, out = [], k, i;
+  for (k in SDK) { if (typeof SDK[k] === 'function' && !seen[k]) { seen[k] = 1; out.push(k); } }
+  var own = Object.getOwnPropertyNames(SDK);
+  for (i = 0; i < own.length; i++) {
+    k = own[i];
+    if (typeof SDK[k] === 'function' && !seen[k]) { seen[k] = 1; out.push(k); }
+  }
+  return out.length ? out.join(', ') : 'no callable methods';
+}
+
+var SUB_DATA = sdkMethod(['useSubscribeToDataSource', 'subscribeToDataSource', 'subscribeToVizualization']);
+var SUB_ITEMS = sdkMethod(['useSubscribeToItems', 'subscribeToItems']);
+
 var _subs = [];
 var _timers = [];
 var _listeners = [];
@@ -86,18 +114,48 @@ function subscribeView(alias, onReady, onErr, pageDefs, scroll) {
     pageDefinitions: pageDefs || []
   };
   if (scroll) opts.scroll = scroll;
-  var sub = SDK.subscribeToVizualization(alias, opts);
-  _subs.push(sub);
+  if (!SUB_DATA) {
+    if (onErr) onErr(new Error('This Pigment build has no data-source subscription. SDK methods: ' + sdkSurface()));
+    return null;
+  }
+  var sub;
+  try {
+    sub = SDK[SUB_DATA](alias, opts);
+  } catch (e) {
+    if (onErr) onErr(new Error((e && e.message ? e.message : 'Subscription failed') + ' (' + SUB_DATA + ' "' + alias + '")'));
+    return null;
+  }
+  if (sub) _subs.push(sub);
   return sub;
 }
 
 function subscribeList(alias, onReady, onErr) {
-  var sub = SDK.subscribeToItems(alias, {
-    onData: function (d) { onReady(d.items || [], !!d.partialResult); },
-    onError: function (err) { if (onErr) onErr(err); }
-  });
-  _subs.push(sub);
+  if (!SUB_ITEMS) {
+    if (onErr) onErr(new Error('This Pigment build has no item subscription. SDK methods: ' + sdkSurface()));
+    return null;
+  }
+  var sub;
+  try {
+    sub = SDK[SUB_ITEMS](alias, {
+      onData: function (d) { onReady((d && d.items) || [], !!(d && d.partialResult)); },
+      onError: function (err) { if (onErr) onErr(err); }
+    });
+  } catch (e) {
+    if (onErr) onErr(new Error((e && e.message ? e.message : 'Subscription failed') + ' (' + SUB_ITEMS + ' "' + alias + '")'));
+    return null;
+  }
+  if (sub) _subs.push(sub);
   return sub;
+}
+
+// A subscription may come back as an object with unsubscribe() or as the
+// unsubscribe function itself; repaging may not be offered at all.
+function stopSub(sub) {
+  if (!sub) return;
+  try {
+    if (typeof sub === 'function') sub();
+    else if (typeof sub.unsubscribe === 'function') sub.unsubscribe();
+  } catch (e) {}
 }
 
 function debounce(fn, ms) {
@@ -120,9 +178,7 @@ function trackObserver(o) { _observers.push(o); return o; }
 function trackBodyNode(n) { _bodyNodes.push(n); return n; }
 
 function disposeAll() {
-  for (var i = 0; i < _subs.length; i++) {
-    try { _subs[i].unsubscribe(); } catch (e) {}
-  }
+  for (var i = 0; i < _subs.length; i++) stopSub(_subs[i]);
   for (var j = 0; j < _timers.length; j++) clearTimeout(_timers[j]);
   for (var k = 0; k < _listeners.length; k++) {
     var L = _listeners[k];
