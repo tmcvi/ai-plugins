@@ -1,46 +1,67 @@
 {
   "admin": [
     {
-      "name": "vwAssumptions",
-      "type": "View",
-      "viewId": "5f0a1e9b-983f-4ed2-8154-6ac8ce54271a",
+      "name": "dealSize",
+      "type": "List",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "vwScalarAssumptions",
-      "type": "View",
-      "viewId": "1d243546-9946-4c0d-bdf1-8efc28af711a",
+      "name": "projectWeek",
+      "type": "List",
+      "listId": "4c6cda7c-24b4-4397-acb9-d9db8e354585",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "vwCommissionRates",
-      "type": "View",
-      "viewId": "73bb2759-2402-4093-81ee-dca9954f6443",
+      "name": "salesMotion",
+      "type": "List",
+      "listId": "2760bceb-6823-45da-b988-8e03c6d285f5",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "vwWinRates",
-      "type": "View",
-      "viewId": "6898f91c-916d-435d-abf1-5ec7cb7eb365",
+      "name": "stage",
+      "type": "List",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "vwStandardProfiles",
-      "type": "View",
-      "viewId": "e5649621-0995-4db9-b474-af282dda0704",
+      "name": "useCase",
+      "type": "List",
+      "listId": "558e86d9-8014-4f62-afef-0c99e33083ad",
       "canRead": true,
       "canWrite": false
     },
     {
-      "name": "vwImportSummary",
-      "type": "View",
-      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
+      "name": "partnerAttachType",
+      "type": "List",
+      "listId": "48ea294c-5858-4639-bfb1-c7a449f7eb21",
       "canRead": true,
       "canWrite": false
+    },
+    {
+      "name": "pigmentStage",
+      "type": "List",
+      "listId": "6998653c-f99c-4ba4-8c36-68bc620ef681",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "salesPerson",
+      "type": "List",
+      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "pigmentAE",
+      "type": "List",
+      "listId": "987256d7-9b59-48e8-99f9-70b77cf8143c",
+      "canRead": true,
+      "canWrite": true
     },
     {
       "name": "asmLicence",
@@ -71,11 +92,18 @@
       "canWrite": true
     },
     {
-      "name": "asmProfile",
+      "name": "mTSTProfileSums",
       "type": "Metric",
-      "metricId": "2fc8cb48-81cf-4b3d-8a98-1718fee1c3db",
+      "metricId": "cdda47f2-394a-4e92-8ff0-feee3b526c23",
       "canRead": true,
-      "canWrite": true
+      "canWrite": false
+    },
+    {
+      "name": "mTSTProfileZeroBeyondDuration",
+      "type": "Metric",
+      "metricId": "43fcc046-dd96-481d-b615-18619b8aa388",
+      "canRead": true,
+      "canWrite": false
     },
     {
       "name": "asmRate",
@@ -113,112 +141,56 @@
       "canWrite": true
     },
     {
-      "name": "dealSize",
-      "type": "List",
-      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "projectWeek",
-      "type": "List",
-      "listId": "4c6cda7c-24b4-4397-acb9-d9db8e354585",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "salesMotion",
-      "type": "List",
-      "listId": "2760bceb-6823-45da-b988-8e03c6d285f5",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "stage",
-      "type": "List",
-      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "useCase",
-      "type": "List",
-      "listId": "558e86d9-8014-4f62-afef-0c99e33083ad",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "partnerAttachType",
-      "type": "List",
-      "listId": "48ea294c-5858-4639-bfb1-c7a449f7eb21",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "pigmentStage",
-      "type": "List",
-      "listId": "6998653c-f99c-4ba4-8c36-68bc620ef681",
+      "name": "asmProfile",
+      "type": "Metric",
+      "metricId": "2fc8cb48-81cf-4b3d-8a98-1718fee1c3db",
       "canRead": true,
       "canWrite": true
     },
     {
-      "name": "salesPerson",
-      "type": "List",
-      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "name": "mPIGLatestLoadDate",
+      "type": "Metric",
+      "metricId": "6f44a34d-363e-422d-a598-f8fec9c640d4",
       "canRead": true,
-      "canWrite": true
+      "canWrite": false
     },
     {
-      "name": "pigmentAE",
-      "type": "List",
-      "listId": "987256d7-9b59-48e8-99f9-70b77cf8143c",
+      "name": "mPIGRowsTotal",
+      "type": "Metric",
+      "metricId": "198aad73-fcbe-4f33-a401-421cb25d1f38",
       "canRead": true,
-      "canWrite": true
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsInLatestLoad",
+      "type": "Metric",
+      "metricId": "a15adb3d-3134-4021-ba44-06706bfc9def",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsDropped",
+      "type": "Metric",
+      "metricId": "c1cca45c-6aca-4369-9619-80cc3105e7bf",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGUnmappedStages",
+      "type": "Metric",
+      "metricId": "354807db-024b-4a0d-b017-cbf281036603",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTPhasingReconcilesAll",
+      "type": "Metric",
+      "metricId": "df8b98d7-4134-4056-b802-6c5490be292a",
+      "canRead": true,
+      "canWrite": false
     }
   ],
   "newDeal": [
-    {
-      "name": "vwPipelineGrid",
-      "type": "View",
-      "viewId": "f8bab7a5-1a49-477b-a371-679c5b57ffd1",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwAssumptions",
-      "type": "View",
-      "viewId": "5f0a1e9b-983f-4ed2-8154-6ac8ce54271a",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwStandardProfiles",
-      "type": "View",
-      "viewId": "e5649621-0995-4db9-b474-af282dda0704",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwCommissionRates",
-      "type": "View",
-      "viewId": "73bb2759-2402-4093-81ee-dca9954f6443",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwWinRates",
-      "type": "View",
-      "viewId": "6898f91c-916d-435d-abf1-5ec7cb7eb365",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwImportSummary",
-      "type": "View",
-      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
-      "canRead": true,
-      "canWrite": false
-    },
     {
       "name": "opportunity",
       "type": "List",
@@ -272,61 +244,124 @@
       "name": "projectWeek",
       "type": "List",
       "listId": "4c6cda7c-24b4-4397-acb9-d9db8e354585",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmLicence",
+      "type": "Metric",
+      "metricId": "1f18cfcb-7c4e-44ef-8263-d1de2ee6e5ef",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmDays",
+      "type": "Metric",
+      "metricId": "929b0444-343a-47ca-b937-75e097ffcd99",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmDuration",
+      "type": "Metric",
+      "metricId": "1c0c2f1c-320c-4de9-826d-c52c3d0db028",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmLag",
+      "type": "Metric",
+      "metricId": "a47710b6-ea06-4b8d-8617-e8b8c2d77159",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTProfileSums",
+      "type": "Metric",
+      "metricId": "cdda47f2-394a-4e92-8ff0-feee3b526c23",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTProfileZeroBeyondDuration",
+      "type": "Metric",
+      "metricId": "43fcc046-dd96-481d-b615-18619b8aa388",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmRate",
+      "type": "Metric",
+      "metricId": "79f347e9-934e-44e3-99fd-1769475d056a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmHours",
+      "type": "Metric",
+      "metricId": "5e5f5880-7308-4127-a25d-88492c58efdb",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmFx",
+      "type": "Metric",
+      "metricId": "eaaded74-fd74-4e01-a675-61bfbffb4b0a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmCommission",
+      "type": "Metric",
+      "metricId": "dab28a94-4149-4584-89a2-04a1597a0660",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGLatestLoadDate",
+      "type": "Metric",
+      "metricId": "6f44a34d-363e-422d-a598-f8fec9c640d4",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsTotal",
+      "type": "Metric",
+      "metricId": "198aad73-fcbe-4f33-a401-421cb25d1f38",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsInLatestLoad",
+      "type": "Metric",
+      "metricId": "a15adb3d-3134-4021-ba44-06706bfc9def",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsDropped",
+      "type": "Metric",
+      "metricId": "c1cca45c-6aca-4369-9619-80cc3105e7bf",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGUnmappedStages",
+      "type": "Metric",
+      "metricId": "354807db-024b-4a0d-b017-cbf281036603",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTPhasingReconcilesAll",
+      "type": "Metric",
+      "metricId": "df8b98d7-4134-4056-b802-6c5490be292a",
       "canRead": true,
       "canWrite": false
     }
   ],
   "pipeline": [
     {
-      "name": "vwPipelineGrid",
-      "type": "View",
-      "viewId": "f8bab7a5-1a49-477b-a371-679c5b57ffd1",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwForecastMonth",
-      "type": "View",
-      "viewId": "55c7274c-7b5c-4c88-82f8-83c42dd71e2d",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwProfileByDeal",
-      "type": "View",
-      "viewId": "5a200f6b-5190-4552-a185-7433fd59d39b",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwPigmentGrid",
-      "type": "View",
-      "viewId": "a0480919-4494-47b8-8056-3a37051015d2",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwImportSummary",
-      "type": "View",
-      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwWinRates",
-      "type": "View",
-      "viewId": "6898f91c-916d-435d-abf1-5ec7cb7eb365",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwAssumptions",
-      "type": "View",
-      "viewId": "5f0a1e9b-983f-4ed2-8154-6ac8ce54271a",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
       "name": "opportunity",
       "type": "List",
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
@@ -390,11 +425,53 @@
       "canWrite": false
     },
     {
+      "name": "mOPPLicenceValue",
+      "type": "Metric",
+      "metricId": "c17a1bd7-c851-4f8f-802a-2b3eaa7e939f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommissionRate",
+      "type": "Metric",
+      "metricId": "db8553b4-2f40-46ce-b725-288fcd369cc3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommission",
+      "type": "Metric",
+      "metricId": "86081645-ffa7-4d90-88ad-9cc95eeea1de",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWinRate",
+      "type": "Metric",
+      "metricId": "63546bbb-86e7-456d-ae0b-bf35524b97cd",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPStandardDays",
+      "type": "Metric",
+      "metricId": "f74f2bff-828f-4629-b209-babb52fedc3d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
       "name": "oppOverrideDays",
       "type": "Metric",
       "metricId": "fecdec7b-5dd3-49c3-aec4-fb16085c4aef",
       "canRead": true,
       "canWrite": true
+    },
+    {
+      "name": "mOPPEffectiveDays",
+      "type": "Metric",
+      "metricId": "2d99f23f-6a75-470a-963f-b71a616b9f3f",
+      "canRead": true,
+      "canWrite": false
     },
     {
       "name": "oppOverrideRate",
@@ -404,64 +481,260 @@
       "canWrite": true
     },
     {
+      "name": "mOPPEffectiveDayRate",
+      "type": "Metric",
+      "metricId": "a324b9f2-7dbc-4de7-aded-24aea0aa755f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPServicesValue",
+      "type": "Metric",
+      "metricId": "2b16242d-cc2f-4181-8457-d423c717c0d3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPStandardServicesValue",
+      "type": "Metric",
+      "metricId": "777ddfa7-5b36-4b6e-a139-e1818be19054",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWeightedServicesValue",
+      "type": "Metric",
+      "metricId": "4736591a-0379-476e-8e47-33032d9d053a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWeightedCommission",
+      "type": "Metric",
+      "metricId": "5d9ad5b5-4462-4f31-890f-3384d60498de",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsDaysOverridden",
+      "type": "Metric",
+      "metricId": "a8925a39-8971-4d25-b820-66f09893b05d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsRateOverridden",
+      "type": "Metric",
+      "metricId": "e9b36bc5-9d9e-4f08-9d67-2c8f48bca636",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsOpen",
+      "type": "Metric",
+      "metricId": "0eac0e82-1a67-4d9d-977c-b96625a3a34e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsWon",
+      "type": "Metric",
+      "metricId": "62508181-74bd-405e-a441-00708745e0bd",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsLost",
+      "type": "Metric",
+      "metricId": "47f232f9-2a90-46af-bf31-dd4ee7f1a62c",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPInForecast",
+      "type": "Metric",
+      "metricId": "a48a7a81-c4af-4286-bb6b-58f64fade42e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPDurationWeeks",
+      "type": "Metric",
+      "metricId": "18c8f92d-038d-40c7-a99c-442f28f1a208",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMatchStatus",
+      "type": "Metric",
+      "metricId": "c1ad01cc-95a9-4e0e-9597-fd1945407a38",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNStageGap",
+      "type": "Metric",
+      "metricId": "2e5831c3-89f9-467e-a8fb-ee00a6c2d084",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNStageAlignment",
+      "type": "Metric",
+      "metricId": "704b4a4e-06c1-4477-b2f3-d7680888c808",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNCloseDateGapDays",
+      "type": "Metric",
+      "metricId": "02680ae9-0c95-4c35-80b7-cf242e7dd172",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMotionConsistent",
+      "type": "Metric",
+      "metricId": "7b4b8c1f-723a-46ce-978c-7c16be35a176",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMatchedRowDropped",
+      "type": "Metric",
+      "metricId": "97da510a-4d75-46a5-91d6-577f1f8bb29e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentClosed",
+      "type": "Metric",
+      "metricId": "e58da02e-acac-4819-a3b7-6f5777146c88",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHProfileTotal",
+      "type": "Metric",
+      "metricId": "978773b1-4150-4adb-9cd1-d2af30696b8d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHProfileIsValid",
+      "type": "Metric",
+      "metricId": "b8e7eb92-0109-41be-8d19-f8aff909d40d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHHasOverrideProfile",
+      "type": "Metric",
+      "metricId": "6c516e9a-e7fd-460c-934a-2259115e78aa",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHPhasedOutsideCalendar",
+      "type": "Metric",
+      "metricId": "05486e9d-8316-4b3e-826f-4608c754d16f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTPhasingReconciles",
+      "type": "Metric",
+      "metricId": "78eddde5-ede6-4cf0-9446-f18e8596450a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHEffectiveProfile",
+      "type": "Metric",
+      "metricId": "e26c5fa9-0981-4d17-ac68-668f4a6fe570",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
       "name": "phOverrideProfile",
       "type": "Metric",
       "metricId": "0b394b03-3569-4a97-b769-dee02e671124",
       "canRead": true,
       "canWrite": true
+    },
+    {
+      "name": "mPHCalendarWeek",
+      "type": "Metric",
+      "metricId": "71d39d41-9bad-4d6f-88a0-fc6e2b4cfcc8",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmRate",
+      "type": "Metric",
+      "metricId": "79f347e9-934e-44e3-99fd-1769475d056a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmHours",
+      "type": "Metric",
+      "metricId": "5e5f5880-7308-4127-a25d-88492c58efdb",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmFx",
+      "type": "Metric",
+      "metricId": "eaaded74-fd74-4e01-a675-61bfbffb4b0a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGLatestLoadDate",
+      "type": "Metric",
+      "metricId": "6f44a34d-363e-422d-a598-f8fec9c640d4",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsTotal",
+      "type": "Metric",
+      "metricId": "198aad73-fcbe-4f33-a401-421cb25d1f38",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsInLatestLoad",
+      "type": "Metric",
+      "metricId": "a15adb3d-3134-4021-ba44-06706bfc9def",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsDropped",
+      "type": "Metric",
+      "metricId": "c1cca45c-6aca-4369-9619-80cc3105e7bf",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGUnmappedStages",
+      "type": "Metric",
+      "metricId": "354807db-024b-4a0d-b017-cbf281036603",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTPhasingReconcilesAll",
+      "type": "Metric",
+      "metricId": "df8b98d7-4134-4056-b802-6c5490be292a",
+      "canRead": true,
+      "canWrite": false
     }
   ],
   "deal": [
     {
-      "name": "vwPipelineGrid",
-      "type": "View",
-      "viewId": "f8bab7a5-1a49-477b-a371-679c5b57ffd1",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwForecastMonth",
-      "type": "View",
-      "viewId": "55c7274c-7b5c-4c88-82f8-83c42dd71e2d",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwProfileByDeal",
-      "type": "View",
-      "viewId": "5a200f6b-5190-4552-a185-7433fd59d39b",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwPigmentGrid",
-      "type": "View",
-      "viewId": "a0480919-4494-47b8-8056-3a37051015d2",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwImportSummary",
-      "type": "View",
-      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwWinRates",
-      "type": "View",
-      "viewId": "6898f91c-916d-435d-abf1-5ec7cb7eb365",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwAssumptions",
-      "type": "View",
-      "viewId": "5f0a1e9b-983f-4ed2-8154-6ac8ce54271a",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
       "name": "opportunity",
       "type": "List",
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
@@ -525,11 +798,53 @@
       "canWrite": false
     },
     {
+      "name": "mOPPLicenceValue",
+      "type": "Metric",
+      "metricId": "c17a1bd7-c851-4f8f-802a-2b3eaa7e939f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommissionRate",
+      "type": "Metric",
+      "metricId": "db8553b4-2f40-46ce-b725-288fcd369cc3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommission",
+      "type": "Metric",
+      "metricId": "86081645-ffa7-4d90-88ad-9cc95eeea1de",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWinRate",
+      "type": "Metric",
+      "metricId": "63546bbb-86e7-456d-ae0b-bf35524b97cd",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPStandardDays",
+      "type": "Metric",
+      "metricId": "f74f2bff-828f-4629-b209-babb52fedc3d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
       "name": "oppOverrideDays",
       "type": "Metric",
       "metricId": "fecdec7b-5dd3-49c3-aec4-fb16085c4aef",
       "canRead": true,
       "canWrite": true
+    },
+    {
+      "name": "mOPPEffectiveDays",
+      "type": "Metric",
+      "metricId": "2d99f23f-6a75-470a-963f-b71a616b9f3f",
+      "canRead": true,
+      "canWrite": false
     },
     {
       "name": "oppOverrideRate",
@@ -539,42 +854,259 @@
       "canWrite": true
     },
     {
+      "name": "mOPPEffectiveDayRate",
+      "type": "Metric",
+      "metricId": "a324b9f2-7dbc-4de7-aded-24aea0aa755f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPServicesValue",
+      "type": "Metric",
+      "metricId": "2b16242d-cc2f-4181-8457-d423c717c0d3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPStandardServicesValue",
+      "type": "Metric",
+      "metricId": "777ddfa7-5b36-4b6e-a139-e1818be19054",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWeightedServicesValue",
+      "type": "Metric",
+      "metricId": "4736591a-0379-476e-8e47-33032d9d053a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWeightedCommission",
+      "type": "Metric",
+      "metricId": "5d9ad5b5-4462-4f31-890f-3384d60498de",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsDaysOverridden",
+      "type": "Metric",
+      "metricId": "a8925a39-8971-4d25-b820-66f09893b05d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsRateOverridden",
+      "type": "Metric",
+      "metricId": "e9b36bc5-9d9e-4f08-9d67-2c8f48bca636",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsOpen",
+      "type": "Metric",
+      "metricId": "0eac0e82-1a67-4d9d-977c-b96625a3a34e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsWon",
+      "type": "Metric",
+      "metricId": "62508181-74bd-405e-a441-00708745e0bd",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsLost",
+      "type": "Metric",
+      "metricId": "47f232f9-2a90-46af-bf31-dd4ee7f1a62c",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPInForecast",
+      "type": "Metric",
+      "metricId": "a48a7a81-c4af-4286-bb6b-58f64fade42e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPDurationWeeks",
+      "type": "Metric",
+      "metricId": "18c8f92d-038d-40c7-a99c-442f28f1a208",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMatchStatus",
+      "type": "Metric",
+      "metricId": "c1ad01cc-95a9-4e0e-9597-fd1945407a38",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNStageGap",
+      "type": "Metric",
+      "metricId": "2e5831c3-89f9-467e-a8fb-ee00a6c2d084",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNStageAlignment",
+      "type": "Metric",
+      "metricId": "704b4a4e-06c1-4477-b2f3-d7680888c808",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNCloseDateGapDays",
+      "type": "Metric",
+      "metricId": "02680ae9-0c95-4c35-80b7-cf242e7dd172",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMotionConsistent",
+      "type": "Metric",
+      "metricId": "7b4b8c1f-723a-46ce-978c-7c16be35a176",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMatchedRowDropped",
+      "type": "Metric",
+      "metricId": "97da510a-4d75-46a5-91d6-577f1f8bb29e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentClosed",
+      "type": "Metric",
+      "metricId": "e58da02e-acac-4819-a3b7-6f5777146c88",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHProfileTotal",
+      "type": "Metric",
+      "metricId": "978773b1-4150-4adb-9cd1-d2af30696b8d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHProfileIsValid",
+      "type": "Metric",
+      "metricId": "b8e7eb92-0109-41be-8d19-f8aff909d40d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHHasOverrideProfile",
+      "type": "Metric",
+      "metricId": "6c516e9a-e7fd-460c-934a-2259115e78aa",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHPhasedOutsideCalendar",
+      "type": "Metric",
+      "metricId": "05486e9d-8316-4b3e-826f-4608c754d16f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTPhasingReconciles",
+      "type": "Metric",
+      "metricId": "78eddde5-ede6-4cf0-9446-f18e8596450a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHEffectiveProfile",
+      "type": "Metric",
+      "metricId": "e26c5fa9-0981-4d17-ac68-668f4a6fe570",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
       "name": "phOverrideProfile",
       "type": "Metric",
       "metricId": "0b394b03-3569-4a97-b769-dee02e671124",
       "canRead": true,
       "canWrite": true
+    },
+    {
+      "name": "mPHCalendarWeek",
+      "type": "Metric",
+      "metricId": "71d39d41-9bad-4d6f-88a0-fc6e2b4cfcc8",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmRate",
+      "type": "Metric",
+      "metricId": "79f347e9-934e-44e3-99fd-1769475d056a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmHours",
+      "type": "Metric",
+      "metricId": "5e5f5880-7308-4127-a25d-88492c58efdb",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmFx",
+      "type": "Metric",
+      "metricId": "eaaded74-fd74-4e01-a675-61bfbffb4b0a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGLatestLoadDate",
+      "type": "Metric",
+      "metricId": "6f44a34d-363e-422d-a598-f8fec9c640d4",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsTotal",
+      "type": "Metric",
+      "metricId": "198aad73-fcbe-4f33-a401-421cb25d1f38",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsInLatestLoad",
+      "type": "Metric",
+      "metricId": "a15adb3d-3134-4021-ba44-06706bfc9def",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsDropped",
+      "type": "Metric",
+      "metricId": "c1cca45c-6aca-4369-9619-80cc3105e7bf",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGUnmappedStages",
+      "type": "Metric",
+      "metricId": "354807db-024b-4a0d-b017-cbf281036603",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTPhasingReconcilesAll",
+      "type": "Metric",
+      "metricId": "df8b98d7-4134-4056-b802-6c5490be292a",
+      "canRead": true,
+      "canWrite": false
     }
   ],
   "matching": [
-    {
-      "name": "vwPipelineGrid",
-      "type": "View",
-      "viewId": "f8bab7a5-1a49-477b-a371-679c5b57ffd1",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwPigmentGrid",
-      "type": "View",
-      "viewId": "a0480919-4494-47b8-8056-3a37051015d2",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwImportSummary",
-      "type": "View",
-      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwAssumptions",
-      "type": "View",
-      "viewId": "5f0a1e9b-983f-4ed2-8154-6ac8ce54271a",
-      "canRead": true,
-      "canWrite": false
-    },
     {
       "name": "opportunity",
       "type": "List",
@@ -644,37 +1176,394 @@
       "listId": "48ea294c-5858-4639-bfb1-c7a449f7eb21",
       "canRead": true,
       "canWrite": false
+    },
+    {
+      "name": "mOPPLicenceValue",
+      "type": "Metric",
+      "metricId": "c17a1bd7-c851-4f8f-802a-2b3eaa7e939f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommissionRate",
+      "type": "Metric",
+      "metricId": "db8553b4-2f40-46ce-b725-288fcd369cc3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommission",
+      "type": "Metric",
+      "metricId": "86081645-ffa7-4d90-88ad-9cc95eeea1de",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWinRate",
+      "type": "Metric",
+      "metricId": "63546bbb-86e7-456d-ae0b-bf35524b97cd",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPStandardDays",
+      "type": "Metric",
+      "metricId": "f74f2bff-828f-4629-b209-babb52fedc3d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppOverrideDays",
+      "type": "Metric",
+      "metricId": "fecdec7b-5dd3-49c3-aec4-fb16085c4aef",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPEffectiveDays",
+      "type": "Metric",
+      "metricId": "2d99f23f-6a75-470a-963f-b71a616b9f3f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppOverrideRate",
+      "type": "Metric",
+      "metricId": "2702f75e-0085-4053-94a3-1a2f088e5fea",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPEffectiveDayRate",
+      "type": "Metric",
+      "metricId": "a324b9f2-7dbc-4de7-aded-24aea0aa755f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPServicesValue",
+      "type": "Metric",
+      "metricId": "2b16242d-cc2f-4181-8457-d423c717c0d3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPStandardServicesValue",
+      "type": "Metric",
+      "metricId": "777ddfa7-5b36-4b6e-a139-e1818be19054",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWeightedServicesValue",
+      "type": "Metric",
+      "metricId": "4736591a-0379-476e-8e47-33032d9d053a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWeightedCommission",
+      "type": "Metric",
+      "metricId": "5d9ad5b5-4462-4f31-890f-3384d60498de",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsDaysOverridden",
+      "type": "Metric",
+      "metricId": "a8925a39-8971-4d25-b820-66f09893b05d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsRateOverridden",
+      "type": "Metric",
+      "metricId": "e9b36bc5-9d9e-4f08-9d67-2c8f48bca636",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsOpen",
+      "type": "Metric",
+      "metricId": "0eac0e82-1a67-4d9d-977c-b96625a3a34e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsWon",
+      "type": "Metric",
+      "metricId": "62508181-74bd-405e-a441-00708745e0bd",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsLost",
+      "type": "Metric",
+      "metricId": "47f232f9-2a90-46af-bf31-dd4ee7f1a62c",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPInForecast",
+      "type": "Metric",
+      "metricId": "a48a7a81-c4af-4286-bb6b-58f64fade42e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPDurationWeeks",
+      "type": "Metric",
+      "metricId": "18c8f92d-038d-40c7-a99c-442f28f1a208",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMatchStatus",
+      "type": "Metric",
+      "metricId": "c1ad01cc-95a9-4e0e-9597-fd1945407a38",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNStageGap",
+      "type": "Metric",
+      "metricId": "2e5831c3-89f9-467e-a8fb-ee00a6c2d084",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNStageAlignment",
+      "type": "Metric",
+      "metricId": "704b4a4e-06c1-4477-b2f3-d7680888c808",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNCloseDateGapDays",
+      "type": "Metric",
+      "metricId": "02680ae9-0c95-4c35-80b7-cf242e7dd172",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMotionConsistent",
+      "type": "Metric",
+      "metricId": "7b4b8c1f-723a-46ce-978c-7c16be35a176",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMatchedRowDropped",
+      "type": "Metric",
+      "metricId": "97da510a-4d75-46a5-91d6-577f1f8bb29e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentClosed",
+      "type": "Metric",
+      "metricId": "e58da02e-acac-4819-a3b7-6f5777146c88",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHProfileTotal",
+      "type": "Metric",
+      "metricId": "978773b1-4150-4adb-9cd1-d2af30696b8d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHProfileIsValid",
+      "type": "Metric",
+      "metricId": "b8e7eb92-0109-41be-8d19-f8aff909d40d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHHasOverrideProfile",
+      "type": "Metric",
+      "metricId": "6c516e9a-e7fd-460c-934a-2259115e78aa",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHPhasedOutsideCalendar",
+      "type": "Metric",
+      "metricId": "05486e9d-8316-4b3e-826f-4608c754d16f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTPhasingReconciles",
+      "type": "Metric",
+      "metricId": "78eddde5-ede6-4cf0-9446-f18e8596450a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGInLatestLoad",
+      "type": "Metric",
+      "metricId": "4a8cecec-7817-4c2f-8f54-23d1d2e6082d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedAccount",
+      "type": "Metric",
+      "metricId": "b63fbee8-8a5d-4212-b05c-e6554744e7a5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedUseCaseCodes",
+      "type": "Metric",
+      "metricId": "3838b87e-d340-41a5-bc74-90bfc2e9910b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedCloseMonth",
+      "type": "Metric",
+      "metricId": "a728af43-2194-46b8-a9b7-98cf69266b49",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedDealType",
+      "type": "Metric",
+      "metricId": "4b4237a0-90da-4e6c-b650-6d4d19703850",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGCloseMonthMismatch",
+      "type": "Metric",
+      "metricId": "fc186fe6-9215-48a5-afab-159f3a9e940a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentMatchStatus",
+      "type": "Metric",
+      "metricId": "b8a9f857-c752-499d-b345-22ee5c56c93f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMatchedDealCount",
+      "type": "Metric",
+      "metricId": "354b0b8b-6667-46b8-98b3-b32c4821dff1",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentMappedStageOrder",
+      "type": "Metric",
+      "metricId": "b213bf8c-3439-414c-a59a-e9315c727803",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentRowClosed",
+      "type": "Metric",
+      "metricId": "04c89c06-2c75-428c-90e4-9d1681ee1d72",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGFirstSeenCalc",
+      "type": "Metric",
+      "metricId": "cbc294c8-21f1-4c92-949c-81af9f7ce1d8",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGLatestLoadDate",
+      "type": "Metric",
+      "metricId": "6f44a34d-363e-422d-a598-f8fec9c640d4",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsTotal",
+      "type": "Metric",
+      "metricId": "198aad73-fcbe-4f33-a401-421cb25d1f38",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsInLatestLoad",
+      "type": "Metric",
+      "metricId": "a15adb3d-3134-4021-ba44-06706bfc9def",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsDropped",
+      "type": "Metric",
+      "metricId": "c1cca45c-6aca-4369-9619-80cc3105e7bf",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGUnmappedStages",
+      "type": "Metric",
+      "metricId": "354807db-024b-4a0d-b017-cbf281036603",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTPhasingReconcilesAll",
+      "type": "Metric",
+      "metricId": "df8b98d7-4134-4056-b802-6c5490be292a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmLicence",
+      "type": "Metric",
+      "metricId": "1f18cfcb-7c4e-44ef-8263-d1de2ee6e5ef",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmDays",
+      "type": "Metric",
+      "metricId": "929b0444-343a-47ca-b937-75e097ffcd99",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmDuration",
+      "type": "Metric",
+      "metricId": "1c0c2f1c-320c-4de9-826d-c52c3d0db028",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "asmLag",
+      "type": "Metric",
+      "metricId": "a47710b6-ea06-4b8d-8617-e8b8c2d77159",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTProfileSums",
+      "type": "Metric",
+      "metricId": "cdda47f2-394a-4e92-8ff0-feee3b526c23",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTProfileZeroBeyondDuration",
+      "type": "Metric",
+      "metricId": "43fcc046-dd96-481d-b615-18619b8aa388",
+      "canRead": true,
+      "canWrite": false
     }
   ],
   "forecast": [
-    {
-      "name": "vwForecastMonth",
-      "type": "View",
-      "viewId": "55c7274c-7b5c-4c88-82f8-83c42dd71e2d",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwForecastWeek",
-      "type": "View",
-      "viewId": "44dcde85-0ef4-4554-a0a9-b0f095b5af81",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwPipelineGrid",
-      "type": "View",
-      "viewId": "f8bab7a5-1a49-477b-a371-679c5b57ffd1",
-      "canRead": true,
-      "canWrite": false
-    },
-    {
-      "name": "vwImportSummary",
-      "type": "View",
-      "viewId": "2358f175-d712-4c1b-8128-c7582cbded96",
-      "canRead": true,
-      "canWrite": false
-    },
     {
       "name": "opportunity",
       "type": "List",
@@ -714,6 +1603,363 @@
       "name": "dealSize",
       "type": "List",
       "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "month",
+      "type": "List",
+      "listId": "3326b72f-9596-48e7-989f-ba2277bce969",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHServicesRevenue",
+      "type": "Metric",
+      "metricId": "ae397565-40a2-46cc-a5ad-8c982166755d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHCommission",
+      "type": "Metric",
+      "metricId": "195d6025-f42f-4875-adcb-362458cf7b0e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHDays",
+      "type": "Metric",
+      "metricId": "70e7903d-deb7-48c2-bdaa-dc1f74310f34",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHHours",
+      "type": "Metric",
+      "metricId": "34f100a1-3b30-4bdb-94a5-7803ffc398f0",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHLicenceValue",
+      "type": "Metric",
+      "metricId": "a6ad1a82-74b5-4412-9aeb-99518a951077",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHTotalRevenue",
+      "type": "Metric",
+      "metricId": "c6cc649a-6c7c-46d8-9c73-67d2703c4333",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHWeightedServicesRevenue",
+      "type": "Metric",
+      "metricId": "d3f5b5e4-d114-4691-867d-6058ec27e00e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHWeightedCommission",
+      "type": "Metric",
+      "metricId": "86db04b6-87fc-4237-b9b6-f35326860b27",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHWeightedDays",
+      "type": "Metric",
+      "metricId": "f4a4aec5-9ff2-47f9-af7f-54daf9d49840",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHWeightedHours",
+      "type": "Metric",
+      "metricId": "02448394-ffdf-44ae-a17d-bcb93aca0bd4",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHWeightedTotalRevenue",
+      "type": "Metric",
+      "metricId": "12494186-e0ec-40fb-8dba-ecd12e44c27b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "week",
+      "type": "List",
+      "listId": "9782cd08-b98e-44d1-bc61-2c66f6223d19",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPLicenceValue",
+      "type": "Metric",
+      "metricId": "c17a1bd7-c851-4f8f-802a-2b3eaa7e939f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommissionRate",
+      "type": "Metric",
+      "metricId": "db8553b4-2f40-46ce-b725-288fcd369cc3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPCommission",
+      "type": "Metric",
+      "metricId": "86081645-ffa7-4d90-88ad-9cc95eeea1de",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWinRate",
+      "type": "Metric",
+      "metricId": "63546bbb-86e7-456d-ae0b-bf35524b97cd",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPStandardDays",
+      "type": "Metric",
+      "metricId": "f74f2bff-828f-4629-b209-babb52fedc3d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppOverrideDays",
+      "type": "Metric",
+      "metricId": "fecdec7b-5dd3-49c3-aec4-fb16085c4aef",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPEffectiveDays",
+      "type": "Metric",
+      "metricId": "2d99f23f-6a75-470a-963f-b71a616b9f3f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppOverrideRate",
+      "type": "Metric",
+      "metricId": "2702f75e-0085-4053-94a3-1a2f088e5fea",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPEffectiveDayRate",
+      "type": "Metric",
+      "metricId": "a324b9f2-7dbc-4de7-aded-24aea0aa755f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPServicesValue",
+      "type": "Metric",
+      "metricId": "2b16242d-cc2f-4181-8457-d423c717c0d3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPStandardServicesValue",
+      "type": "Metric",
+      "metricId": "777ddfa7-5b36-4b6e-a139-e1818be19054",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWeightedServicesValue",
+      "type": "Metric",
+      "metricId": "4736591a-0379-476e-8e47-33032d9d053a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPWeightedCommission",
+      "type": "Metric",
+      "metricId": "5d9ad5b5-4462-4f31-890f-3384d60498de",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsDaysOverridden",
+      "type": "Metric",
+      "metricId": "a8925a39-8971-4d25-b820-66f09893b05d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsRateOverridden",
+      "type": "Metric",
+      "metricId": "e9b36bc5-9d9e-4f08-9d67-2c8f48bca636",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsOpen",
+      "type": "Metric",
+      "metricId": "0eac0e82-1a67-4d9d-977c-b96625a3a34e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsWon",
+      "type": "Metric",
+      "metricId": "62508181-74bd-405e-a441-00708745e0bd",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPIsLost",
+      "type": "Metric",
+      "metricId": "47f232f9-2a90-46af-bf31-dd4ee7f1a62c",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPInForecast",
+      "type": "Metric",
+      "metricId": "a48a7a81-c4af-4286-bb6b-58f64fade42e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mOPPDurationWeeks",
+      "type": "Metric",
+      "metricId": "18c8f92d-038d-40c7-a99c-442f28f1a208",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMatchStatus",
+      "type": "Metric",
+      "metricId": "c1ad01cc-95a9-4e0e-9597-fd1945407a38",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNStageGap",
+      "type": "Metric",
+      "metricId": "2e5831c3-89f9-467e-a8fb-ee00a6c2d084",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNStageAlignment",
+      "type": "Metric",
+      "metricId": "704b4a4e-06c1-4477-b2f3-d7680888c808",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNCloseDateGapDays",
+      "type": "Metric",
+      "metricId": "02680ae9-0c95-4c35-80b7-cf242e7dd172",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMotionConsistent",
+      "type": "Metric",
+      "metricId": "7b4b8c1f-723a-46ce-978c-7c16be35a176",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMatchedRowDropped",
+      "type": "Metric",
+      "metricId": "97da510a-4d75-46a5-91d6-577f1f8bb29e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentClosed",
+      "type": "Metric",
+      "metricId": "e58da02e-acac-4819-a3b7-6f5777146c88",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHProfileTotal",
+      "type": "Metric",
+      "metricId": "978773b1-4150-4adb-9cd1-d2af30696b8d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHProfileIsValid",
+      "type": "Metric",
+      "metricId": "b8e7eb92-0109-41be-8d19-f8aff909d40d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHHasOverrideProfile",
+      "type": "Metric",
+      "metricId": "6c516e9a-e7fd-460c-934a-2259115e78aa",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPHPhasedOutsideCalendar",
+      "type": "Metric",
+      "metricId": "05486e9d-8316-4b3e-826f-4608c754d16f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTPhasingReconciles",
+      "type": "Metric",
+      "metricId": "78eddde5-ede6-4cf0-9446-f18e8596450a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGLatestLoadDate",
+      "type": "Metric",
+      "metricId": "6f44a34d-363e-422d-a598-f8fec9c640d4",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsTotal",
+      "type": "Metric",
+      "metricId": "198aad73-fcbe-4f33-a401-421cb25d1f38",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsInLatestLoad",
+      "type": "Metric",
+      "metricId": "a15adb3d-3134-4021-ba44-06706bfc9def",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGRowsDropped",
+      "type": "Metric",
+      "metricId": "c1cca45c-6aca-4369-9619-80cc3105e7bf",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGUnmappedStages",
+      "type": "Metric",
+      "metricId": "354807db-024b-4a0d-b017-cbf281036603",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mTSTPhasingReconcilesAll",
+      "type": "Metric",
+      "metricId": "df8b98d7-4134-4056-b802-6c5490be292a",
       "canRead": true,
       "canWrite": false
     }

@@ -1,0 +1,1241 @@
+{
+  "admin": [
+    {
+      "name": "vwAssumptions",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "asmLicence",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmDuration",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmLag",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTProfileSums",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTProfileZeroBeyondDuration",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwScalarAssumptions",
+      "labels": [],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "asmRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmHours",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmFx",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwCommissionRates",
+      "labels": [
+        {
+          "binding": "salesMotion"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "asmCommission",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwWinRates",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "asmWin",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwStandardProfiles",
+      "labels": [
+        {
+          "binding": "projectWeek"
+        },
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "asmProfile",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary",
+      "labels": [],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPIGLatestLoadDate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsTotal",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsDropped",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGUnmappedStages",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTPhasingReconcilesAll",
+          "aggregator": "Sum"
+        }
+      ]
+    }
+  ],
+  "newDeal": [
+    {
+      "name": "vwAssumptions",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "asmLicence",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmDuration",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmLag",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTProfileSums",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTProfileZeroBeyondDuration",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwScalarAssumptions",
+      "labels": [],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "asmRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmHours",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmFx",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwCommissionRates",
+      "labels": [
+        {
+          "binding": "salesMotion"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "asmCommission",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary",
+      "labels": [],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPIGLatestLoadDate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsTotal",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsDropped",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGUnmappedStages",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTPhasingReconcilesAll",
+          "aggregator": "Sum"
+        }
+      ]
+    }
+  ],
+  "pipeline": [
+    {
+      "name": "vwPipelineGrid",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mOPPLicenceValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPLicenceValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPCommissionRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWinRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPStandardDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "oppOverrideDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPEffectiveDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "oppOverrideRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPEffectiveDayRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPStandardServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWeightedServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWeightedCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsDaysOverridden",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsRateOverridden",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsOpen",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsWon",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsLost",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPInForecast",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPDurationWeeks",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMatchStatus",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageGap",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageAlignment",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNCloseDateGapDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMotionConsistent",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMatchedRowDropped",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentClosed",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHProfileTotal",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHProfileIsValid",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHHasOverrideProfile",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHPhasedOutsideCalendar",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTPhasingReconciles",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwProfileByDeal",
+      "labels": [
+        {
+          "binding": "projectWeek"
+        }
+      ],
+      "selectors": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "values": [
+        {
+          "binding": "mPHEffectiveProfile",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "phOverrideProfile",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHCalendarWeek",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwScalarAssumptions",
+      "labels": [],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "asmRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmHours",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmFx",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary",
+      "labels": [],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPIGLatestLoadDate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsTotal",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsDropped",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGUnmappedStages",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTPhasingReconcilesAll",
+          "aggregator": "Sum"
+        }
+      ]
+    }
+  ],
+  "deal": [
+    {
+      "name": "vwPipelineGrid",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mOPPLicenceValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPLicenceValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPCommissionRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWinRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPStandardDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "oppOverrideDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPEffectiveDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "oppOverrideRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPEffectiveDayRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPStandardServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWeightedServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWeightedCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsDaysOverridden",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsRateOverridden",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsOpen",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsWon",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsLost",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPInForecast",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPDurationWeeks",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMatchStatus",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageGap",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageAlignment",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNCloseDateGapDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMotionConsistent",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMatchedRowDropped",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentClosed",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHProfileTotal",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHProfileIsValid",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHHasOverrideProfile",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHPhasedOutsideCalendar",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTPhasingReconciles",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwProfileByDeal",
+      "labels": [
+        {
+          "binding": "projectWeek"
+        }
+      ],
+      "selectors": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "values": [
+        {
+          "binding": "mPHEffectiveProfile",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "phOverrideProfile",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHCalendarWeek",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwScalarAssumptions",
+      "labels": [],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "asmRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmHours",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmFx",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary",
+      "labels": [],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPIGLatestLoadDate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsTotal",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsDropped",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGUnmappedStages",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTPhasingReconcilesAll",
+          "aggregator": "Sum"
+        }
+      ]
+    }
+  ],
+  "matching": [
+    {
+      "name": "vwPipelineGrid",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mOPPLicenceValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPLicenceValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPCommissionRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWinRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPStandardDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "oppOverrideDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPEffectiveDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "oppOverrideRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPEffectiveDayRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPStandardServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWeightedServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWeightedCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsDaysOverridden",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsRateOverridden",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsOpen",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsWon",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsLost",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPInForecast",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPDurationWeeks",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMatchStatus",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageGap",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageAlignment",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNCloseDateGapDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMotionConsistent",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMatchedRowDropped",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentClosed",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHProfileTotal",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHProfileIsValid",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHHasOverrideProfile",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHPhasedOutsideCalendar",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTPhasingReconciles",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPIGInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedAccount",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedUseCaseCodes",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedCloseMonth",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedDealType",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGCloseMonthMismatch",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentMatchStatus",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMatchedDealCount",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentMappedStageOrder",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentRowClosed",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGFirstSeenCalc",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary",
+      "labels": [],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPIGLatestLoadDate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsTotal",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsDropped",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGUnmappedStages",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTPhasingReconcilesAll",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwAssumptions",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "asmLicence",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmDuration",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "asmLag",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTProfileSums",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTProfileZeroBeyondDuration",
+          "aggregator": "Sum"
+        }
+      ]
+    }
+  ],
+  "forecast": [
+    {
+      "name": "vwForecastMonth",
+      "labels": [
+        {
+          "binding": "opportunity"
+        },
+        {
+          "binding": "month"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPHServicesRevenue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHHours",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHLicenceValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHTotalRevenue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHWeightedServicesRevenue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHWeightedCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHWeightedDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHWeightedHours",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHWeightedTotalRevenue",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwForecastWeek",
+      "labels": [
+        {
+          "binding": "opportunity"
+        },
+        {
+          "binding": "week"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPHServicesRevenue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHHours",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHLicenceValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHTotalRevenue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHWeightedServicesRevenue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHWeightedCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHWeightedDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHWeightedHours",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHWeightedTotalRevenue",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mOPPLicenceValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPLicenceValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPCommissionRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWinRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPStandardDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "oppOverrideDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPEffectiveDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "oppOverrideRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPEffectiveDayRate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPStandardServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWeightedServicesValue",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPWeightedCommission",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsDaysOverridden",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsRateOverridden",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsOpen",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsWon",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPIsLost",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPInForecast",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mOPPDurationWeeks",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMatchStatus",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageGap",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageAlignment",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNCloseDateGapDays",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMotionConsistent",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMatchedRowDropped",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentClosed",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHProfileTotal",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHProfileIsValid",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHHasOverrideProfile",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHPhasedOutsideCalendar",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTPhasingReconciles",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary",
+      "labels": [],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPIGLatestLoadDate",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsTotal",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGRowsDropped",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGUnmappedStages",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mTSTPhasingReconcilesAll",
+          "aggregator": "Sum"
+        }
+      ]
+    }
+  ]
+}

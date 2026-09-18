@@ -184,3 +184,38 @@ to watch). `PIG Rows Total`, `PIG Rows In Latest Load`, `PIG Rows Dropped` and
 "close quarter" filter on the Pipeline Frame (§7.4) and the Forecast date-range
 filter are computed client-side from the close date. Say the word if a native
 Quarter dimension would be more useful for Board reporting later.
+
+---
+
+## D11 — Frames bind Metrics and data sources, not Views  ⚠️ differs from the skill
+
+**Brief / skill:** §7.5 lists a `View` binding per Frame, and the
+`building-pigment-frames` skill documents `subscribeToVizualization` over
+**View** bindings.
+
+**What this Pigment instance actually does:** `create_frame` rejects them
+outright —
+
+    Frame bindings with type View are not supported
+
+**Decision:** the Frames bind **Lists and Metrics**, and each former View is
+re-expressed as an inline **`dataSource`**: `labels` are the dimensions that
+become rows, `selectors` are the page-selector dimensions, and `values` are the
+metrics that become columns. That is the same row/column shape the Views
+produced, so **no page code changed** — each data source is deliberately named
+with the alias the page already subscribes to (`vwPipelineGrid`,
+`vwAssumptions`, and so on), which keeps the brief's §7.5 vocabulary intact.
+
+Verified against the live API: a probe Frame carrying the full Admin binding set
+(27 bindings, 6 data sources) was accepted, then deleted.
+
+The Views built in Phase 3 are **not** wasted — they remain the human-facing
+read surface in Pigment itself and back the §7.9 Boards. `frames/src/bindings.json`
+and `frames/src/datasources.json` are generated together so the two stay in step.
+
+**Still to verify in a browser:** the exact runtime shape a multi-label data
+source returns (`vwForecastMonth` uses `labels: [opportunity, month]`). The
+Forecast Frame expects deals down and periods across; if the SDK returns both
+labels nested on rows instead, that page needs a small reshape in
+`rowsFor()` / `periods()`. Every other data source is single-label and
+unambiguous.

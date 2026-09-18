@@ -149,6 +149,8 @@ def main():
 
     bindings_path = SRC / "bindings.json"
     all_bindings = json.loads(bindings_path.read_text()) if bindings_path.exists() else {}
+    ds_path = SRC / "datasources.json"
+    all_ds = json.loads(ds_path.read_text()) if ds_path.exists() else {}
 
     failures = []
     for page in wanted:
@@ -167,8 +169,12 @@ def main():
         if page in all_bindings:
             (DIST / (page + ".bindings.json")).write_text(
                 json.dumps(all_bindings[page], indent=2))
-        print("  + %-9s %6d bytes, %d bindings"
-              % (page, len(body), len(all_bindings.get(page, []))))
+        if page in all_ds:
+            (DIST / (page + ".datasources.json")).write_text(
+                json.dumps(all_ds[page], indent=2))
+        print("  + %-9s %6d bytes, %2d bindings, %d data sources"
+              % (page, len(body), len(all_bindings.get(page, [])),
+                 len(all_ds.get(page, []))))
 
     if failures:
         print("\nBuild failed: %d problem(s)." % len(failures))
