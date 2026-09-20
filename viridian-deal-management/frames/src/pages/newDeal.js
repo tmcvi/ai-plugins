@@ -122,21 +122,19 @@ function boot() {
   var redraw = debounce(function () { render(true); }, 16);
   function fail(e) { state.error = (e && e.message) ? e.message : 'Subscription failed'; render(false); }
 
-  var listAliases = ['salesPerson', 'stage', 'useCase', 'salesMotion', 'dealSize', 'pigmentAE'];
-  for (var i = 0; i < listAliases.length; i++) {
-    (function (alias) {
-      subscribeList(alias, function (items) {
-        if (alias === 'stage') items.sort(function (a, b) { return (a.Order || 0) - (b.Order || 0); });
-        if (alias === 'dealSize') items.sort(function (a, b) { return (a.Order || 0) - (b.Order || 0); });
-        state.lists[alias] = items;
-        redraw();
-      }, fail);
-    })(listAliases[i]);
-  }
+  // Stage and Deal Size need their Order property to sort, so they come
+  // through their property data sources; the rest only need names (D17).
+  subscribeRefLists(state.lists, [
+    { alias: 'stage', ds: 'vwStageProps' },
+    { alias: 'dealSize', ds: 'vwDealSizeProps' },
+    { alias: 'salesPerson' }, { alias: 'useCase' },
+    { alias: 'salesMotion' }, { alias: 'pigmentAE' }
+  ], redraw, fail);
 
+  // Only the names matter here: they are what the duplicate check compares.
   subscribeList('opportunity', function (items) {
     var names = [];
-    for (var j = 0; j < items.length; j++) names.push(items[j]['Opportunity Name']);
+    for (var j = 0; j < items.length; j++) names.push(items[j].Name);
     state.existingNames = names;
   }, fail);
 

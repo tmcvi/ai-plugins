@@ -132,6 +132,139 @@
           "aggregator": "Sum"
         }
       ]
+    },
+    {
+      "name": "vwStageProps",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "stageOrder",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsOpen",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsWon",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsLost",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageGroup",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwDealSizeProps",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "sizeOrder",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentStageProps",
+      "labels": [
+        {
+          "binding": "pigmentStage"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigStageOrder",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigStageTrack",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigStageMapsTo",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwAttachProps",
+      "labels": [
+        {
+          "binding": "partnerAttachType"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "attachMapsTo",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwSalesPersonProps",
+      "labels": [
+        {
+          "binding": "salesPerson"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "personCrmName",
+          "aggregator": "First"
+        },
+        {
+          "binding": "personEmail",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwUseCaseProps",
+      "labels": [
+        {
+          "binding": "useCase"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "useCaseCodes",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentAEProps",
+      "labels": [
+        {
+          "binding": "pigmentAE"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "aeActive",
+          "aggregator": "First"
+        }
+      ]
     }
   ],
   "newDeal": [
@@ -234,6 +367,52 @@
           "aggregator": "Sum"
         }
       ]
+    },
+    {
+      "name": "vwStageProps",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "stageOrder",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsOpen",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsWon",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsLost",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageGroup",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwDealSizeProps",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "sizeOrder",
+          "aggregator": "First"
+        }
+      ]
     }
   ],
   "pipeline": [
@@ -246,6 +425,54 @@
       ],
       "selectors": [],
       "values": [
+        {
+          "binding": "oppSalesPerson",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppStage",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCloseDate",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUseCase",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppSalesMotion",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppDealSize",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppPigmentAE",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppNotes",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppMatched",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCreatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUpdatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppClosedOn",
+          "aggregator": "First"
+        },
         {
           "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
@@ -384,14 +611,13 @@
       "name": "vwProfileByDeal",
       "labels": [
         {
+          "binding": "opportunity"
+        },
+        {
           "binding": "projectWeek"
         }
       ],
-      "selectors": [
-        {
-          "binding": "opportunity"
-        }
-      ],
+      "selectors": [],
       "values": [
         {
           "binding": "mPHEffectiveProfilePct",
@@ -453,6 +679,163 @@
         },
         {
           "binding": "mTSTPhasingReconcilesAll",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "stageOrder",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsOpen",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsWon",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsLost",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageGroup",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwDealSizeProps",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "sizeOrder",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigStage",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigCloseDate",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigCreateDate",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigAE",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigContact",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigAttach",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigSegment",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigIndustry",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigAcv",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigDelivery",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigForecastCat",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigInfluence",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigFirstSeen",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigLastSeen",
+          "aggregator": "First"
+        },
+        {
+          "binding": "mPIGInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedAccount",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedUseCaseCodes",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedCloseMonth",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedDealType",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGCloseMonthMismatch",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentMatchStatus",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMatchedDealCount",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentMappedStageOrder",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentRowClosed",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGFirstSeenCalc",
           "aggregator": "Sum"
         }
       ]
@@ -469,6 +852,54 @@
       "selectors": [],
       "values": [
         {
+          "binding": "oppSalesPerson",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppStage",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCloseDate",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUseCase",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppSalesMotion",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppDealSize",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppPigmentAE",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppNotes",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppMatched",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCreatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUpdatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppClosedOn",
+          "aggregator": "First"
+        },
+        {
           "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
         },
@@ -606,14 +1037,13 @@
       "name": "vwProfileByDeal",
       "labels": [
         {
+          "binding": "opportunity"
+        },
+        {
           "binding": "projectWeek"
         }
       ],
-      "selectors": [
-        {
-          "binding": "opportunity"
-        }
-      ],
+      "selectors": [],
       "values": [
         {
           "binding": "mPHEffectiveProfilePct",
@@ -678,6 +1108,163 @@
           "aggregator": "Sum"
         }
       ]
+    },
+    {
+      "name": "vwStageProps",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "stageOrder",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsOpen",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsWon",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsLost",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageGroup",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwDealSizeProps",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "sizeOrder",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigStage",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigCloseDate",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigCreateDate",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigAE",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigContact",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigAttach",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigSegment",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigIndustry",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigAcv",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigDelivery",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigForecastCat",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigInfluence",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigFirstSeen",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigLastSeen",
+          "aggregator": "First"
+        },
+        {
+          "binding": "mPIGInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedAccount",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedUseCaseCodes",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedCloseMonth",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGDerivedDealType",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGCloseMonthMismatch",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentMatchStatus",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNMatchedDealCount",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentMappedStageOrder",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNPigmentRowClosed",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPIGFirstSeenCalc",
+          "aggregator": "Sum"
+        }
+      ]
     }
   ],
   "matching": [
@@ -690,6 +1277,54 @@
       ],
       "selectors": [],
       "values": [
+        {
+          "binding": "oppSalesPerson",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppStage",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCloseDate",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUseCase",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppSalesMotion",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppDealSize",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppPigmentAE",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppNotes",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppMatched",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCreatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUpdatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppClosedOn",
+          "aggregator": "First"
+        },
         {
           "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
@@ -834,6 +1469,62 @@
       "selectors": [],
       "values": [
         {
+          "binding": "pigStage",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigCloseDate",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigCreateDate",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigAE",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigContact",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigAttach",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigSegment",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigIndustry",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigAcv",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigDelivery",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigForecastCat",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigInfluence",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigFirstSeen",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigLastSeen",
+          "aggregator": "First"
+        },
+        {
           "binding": "mPIGInLatestLoad",
           "aggregator": "Sum"
         },
@@ -944,69 +1635,91 @@
           "aggregator": "Sum"
         }
       ]
-    }
-  ],
-  "forecast": [
+    },
     {
-      "name": "vwForecastMonth",
+      "name": "vwStageProps",
       "labels": [
         {
-          "binding": "opportunity"
-        },
-        {
-          "binding": "month"
+          "binding": "stage"
         }
       ],
       "selectors": [],
       "values": [
         {
-          "binding": "mPHServicesRevenueGbp",
-          "aggregator": "Sum"
+          "binding": "stageOrder",
+          "aggregator": "First"
         },
         {
-          "binding": "mPHCommissionGbp",
-          "aggregator": "Sum"
+          "binding": "stageIsOpen",
+          "aggregator": "First"
         },
         {
-          "binding": "mPHDays",
-          "aggregator": "Sum"
+          "binding": "stageIsWon",
+          "aggregator": "First"
         },
         {
-          "binding": "mPHHours",
-          "aggregator": "Sum"
+          "binding": "stageIsLost",
+          "aggregator": "First"
         },
         {
-          "binding": "mPHLicenceValueGbp",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPHTotalRevenueGbp",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPHWeightedServicesRevenueGbp",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPHWeightedCommissionGbp",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPHWeightedDays",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPHWeightedHours",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPHWeightedTotalRevenueGbp",
-          "aggregator": "Sum"
+          "binding": "stageGroup",
+          "aggregator": "First"
         }
       ]
     },
     {
-      "name": "vwForecastWeek",
+      "name": "vwUseCaseProps",
+      "labels": [
+        {
+          "binding": "useCase"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "useCaseCodes",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwSalesPersonProps",
+      "labels": [
+        {
+          "binding": "salesPerson"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "personCrmName",
+          "aggregator": "First"
+        },
+        {
+          "binding": "personEmail",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwDealSizeProps",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "sizeOrder",
+          "aggregator": "First"
+        }
+      ]
+    }
+  ],
+  "forecast": [
+    {
+      "name": "vwForecast",
       "labels": [
         {
           "binding": "opportunity"
@@ -1072,6 +1785,54 @@
       ],
       "selectors": [],
       "values": [
+        {
+          "binding": "oppSalesPerson",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppStage",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCloseDate",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUseCase",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppSalesMotion",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppDealSize",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppPigmentAE",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppNotes",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppMatched",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCreatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUpdatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppClosedOn",
+          "aggregator": "First"
+        },
         {
           "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
@@ -1234,6 +1995,37 @@
         {
           "binding": "mTSTPhasingReconcilesAll",
           "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "stageOrder",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsOpen",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsWon",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageIsLost",
+          "aggregator": "First"
+        },
+        {
+          "binding": "stageGroup",
+          "aggregator": "First"
         }
       ]
     }

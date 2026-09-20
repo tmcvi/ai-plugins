@@ -517,16 +517,28 @@ function boot() {
   subscribeView('vwStandardProfiles', function (d) { state.profiles = d; redraw(); }, fail);
   subscribeView('vwImportSummary', function (d) { state.importSummary = d; redraw(); }, fail);
 
-  subscribeList('pigmentStage', function (items, partial) {
-    state.pigmentStages = items; state.partial = state.partial || partial; redraw();
+  // The mapping tabs read Order, Track, Maps To Stage and Maps To Sales
+  // Motion, so those lists arrive through their property data sources; item
+  // subscriptions carry names only (D17).
+  subscribeView('vwPigmentStageProps', function (d) {
+    state.pigmentStages = sortByOrder(listFromProps(d));
+    state.partial = state.partial || !!d.truncated;
+    redraw();
   }, fail);
-  subscribeList('partnerAttachType', function (items) { state.attachTypes = items; redraw(); }, fail);
-  subscribeList('useCase', function (items) { state.useCases = items; redraw(); }, fail);
-  subscribeList('salesPerson', function (items) { state.people = items; redraw(); }, fail);
-  subscribeList('pigmentAE', function (items) { state.aes = items; redraw(); }, fail);
-  subscribeList('stage', function (items) {
-    items.sort(function (a, b) { return (a.Order || 0) - (b.Order || 0); });
-    state.stages = items; redraw();
+  subscribeView('vwAttachProps', function (d) {
+    state.attachTypes = listFromProps(d); redraw();
+  }, fail);
+  subscribeView('vwStageProps', function (d) {
+    state.stages = sortByOrder(listFromProps(d)); redraw();
+  }, fail);
+  subscribeView('vwUseCaseProps', function (d) {
+    state.useCases = listFromProps(d); redraw();
+  }, fail);
+  subscribeView('vwSalesPersonProps', function (d) {
+    state.people = listFromProps(d); redraw();
+  }, fail);
+  subscribeView('vwPigmentAEProps', function (d) {
+    state.aes = listFromProps(d); redraw();
   }, fail);
 
   var onResize = debounce(render, 120);

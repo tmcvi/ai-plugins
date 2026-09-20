@@ -135,6 +135,21 @@ def col_alias_map(page):
     return out
 
 
+def ds_columns_map(page):
+    """Data source -> the column names its values arrive in, for this page.
+
+    The new payload is row-major and carries no column labels, so the Frame
+    cannot name its own columns without this (decision D17).
+    """
+    cols_path = SRC / "dscolumns.json"
+    ds_path = SRC / "datasources.json"
+    if not (cols_path.exists() and ds_path.exists()):
+        return {}
+    all_cols = json.loads(cols_path.read_text())
+    mine = json.loads(ds_path.read_text()).get(page, [])
+    return {ds["name"]: all_cols.get(ds["name"], []) for ds in mine}
+
+
 def build(page, logo):
     parts = [
         "(function () {",
@@ -144,6 +159,7 @@ def build(page, logo):
         "root.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;overflow:hidden;';",
         "var VIRIDIAN_LOGO = " + logo + ";",
         "var COL_ALIAS = " + json.dumps(col_alias_map(page)) + ";",
+        "var DS_COLUMNS = " + json.dumps(ds_columns_map(page)) + ";",
     ]
     for name in SHARED:
         f = SRC / "shared" / name

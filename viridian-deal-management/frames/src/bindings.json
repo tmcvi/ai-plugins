@@ -188,6 +188,118 @@
       "metricId": "df8b98d7-4134-4056-b802-6c5490be292a",
       "canRead": true,
       "canWrite": false
+    },
+    {
+      "name": "stageOrder",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "_order_XMZILT",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsOpen",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_open_1TYBBM",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsWon",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_won_0Q2X2I",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsLost",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_lost_1PJNNH",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageGroup",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "pipeline_group_ATQ04P",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "sizeOrder",
+      "type": "ListProperty",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "listPropertyTechnicalName": "_order_XA1UNE",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigStageOrder",
+      "type": "ListProperty",
+      "listId": "6998653c-f99c-4ba4-8c36-68bc620ef681",
+      "listPropertyTechnicalName": "_order_1W8SME",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigStageTrack",
+      "type": "ListProperty",
+      "listId": "6998653c-f99c-4ba4-8c36-68bc620ef681",
+      "listPropertyTechnicalName": "track_A6QJ12",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigStageMapsTo",
+      "type": "ListProperty",
+      "listId": "6998653c-f99c-4ba4-8c36-68bc620ef681",
+      "listPropertyTechnicalName": "maps_to_stage_ERVXPC",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "attachMapsTo",
+      "type": "ListProperty",
+      "listId": "48ea294c-5858-4639-bfb1-c7a449f7eb21",
+      "listPropertyTechnicalName": "maps_to_sales_motion_YRSF3X",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "personCrmName",
+      "type": "ListProperty",
+      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "listPropertyTechnicalName": "crm_name_D5SKRA",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "personEmail",
+      "type": "ListProperty",
+      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "listPropertyTechnicalName": "email_WZ7QF1",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "useCaseCodes",
+      "type": "ListProperty",
+      "listId": "558e86d9-8014-4f62-afef-0c99e33083ad",
+      "listPropertyTechnicalName": "crm_codes_KIZEWS",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "aeActive",
+      "type": "ListProperty",
+      "listId": "987256d7-9b59-48e8-99f9-70b77cf8143c",
+      "listPropertyTechnicalName": "active_QXZ85V",
+      "canRead": true,
+      "canWrite": false
     }
   ],
   "newDeal": [
@@ -358,6 +470,54 @@
       "metricId": "df8b98d7-4134-4056-b802-6c5490be292a",
       "canRead": true,
       "canWrite": false
+    },
+    {
+      "name": "stageOrder",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "_order_XMZILT",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsOpen",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_open_1TYBBM",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsWon",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_won_0Q2X2I",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsLost",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_lost_1PJNNH",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageGroup",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "pipeline_group_ATQ04P",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "sizeOrder",
+      "type": "ListProperty",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "listPropertyTechnicalName": "_order_XA1UNE",
+      "canRead": true,
+      "canWrite": false
     }
   ],
   "pipeline": [
@@ -421,6 +581,102 @@
       "name": "projectWeek",
       "type": "List",
       "listId": "4c6cda7c-24b4-4397-acb9-d9db8e354585",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppSalesPerson",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "sales_person_TANUAJ",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppStage",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "stage_T28KCI",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppCloseDate",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "expected_close_date_10AJNG",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppUseCase",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "use_case_2FFYNB",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppSalesMotion",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "sales_motion_MN98AU",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppDealSize",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "deal_size_NWXWWW",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppPigmentAE",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "pigment_ae_RDLDT8",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppNotes",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "notes_AV0MTG",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppMatched",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "matched_pigment_opportunity_8CRBB3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppCreatedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "created_on_H6YAOP",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppUpdatedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "last_updated_on_QTQWWX",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppClosedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "closed_on_V8DFEL",
       "canRead": true,
       "canWrite": false
     },
@@ -736,6 +992,243 @@
       "name": "mTSTPhasingReconcilesAll",
       "type": "Metric",
       "metricId": "df8b98d7-4134-4056-b802-6c5490be292a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageOrder",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "_order_XMZILT",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsOpen",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_open_1TYBBM",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsWon",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_won_0Q2X2I",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsLost",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_lost_1PJNNH",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageGroup",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "pipeline_group_ATQ04P",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "sizeOrder",
+      "type": "ListProperty",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "listPropertyTechnicalName": "_order_XA1UNE",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigStage",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "pigment_stage_K38I0J",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigCloseDate",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "close_date_VE8VFG",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigCreateDate",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "create_date_HH2KVO",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigAE",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "pigment_ae_A7P23V",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigContact",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "partner_sales_contact_4NRZMZ",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigAttach",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "partner_attach_type_V3DX5V",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigSegment",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "segment_7D9WDC",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigIndustry",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "industry_5QVQEB",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigAcv",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "acv_usd_N7DE94",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigDelivery",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "delivery_approach_VSUTR5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigForecastCat",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "forecast_category_X21MLK",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigInfluence",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "influence___QIV162",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigFirstSeen",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "first_seen_RDDBXB",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigLastSeen",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "last_seen_8X6JHH",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGInLatestLoad",
+      "type": "Metric",
+      "metricId": "4a8cecec-7817-4c2f-8f54-23d1d2e6082d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedAccount",
+      "type": "Metric",
+      "metricId": "b63fbee8-8a5d-4212-b05c-e6554744e7a5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedUseCaseCodes",
+      "type": "Metric",
+      "metricId": "3838b87e-d340-41a5-bc74-90bfc2e9910b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedCloseMonth",
+      "type": "Metric",
+      "metricId": "a728af43-2194-46b8-a9b7-98cf69266b49",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedDealType",
+      "type": "Metric",
+      "metricId": "4b4237a0-90da-4e6c-b650-6d4d19703850",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGCloseMonthMismatch",
+      "type": "Metric",
+      "metricId": "fc186fe6-9215-48a5-afab-159f3a9e940a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentMatchStatus",
+      "type": "Metric",
+      "metricId": "b8a9f857-c752-499d-b345-22ee5c56c93f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMatchedDealCount",
+      "type": "Metric",
+      "metricId": "354b0b8b-6667-46b8-98b3-b32c4821dff1",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentMappedStageOrder",
+      "type": "Metric",
+      "metricId": "b213bf8c-3439-414c-a59a-e9315c727803",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentRowClosed",
+      "type": "Metric",
+      "metricId": "04c89c06-2c75-428c-90e4-9d1681ee1d72",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGFirstSeenCalc",
+      "type": "Metric",
+      "metricId": "cbc294c8-21f1-4c92-949c-81af9f7ce1d8",
       "canRead": true,
       "canWrite": false
     }
@@ -805,6 +1298,102 @@
       "canWrite": false
     },
     {
+      "name": "oppSalesPerson",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "sales_person_TANUAJ",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppStage",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "stage_T28KCI",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppCloseDate",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "expected_close_date_10AJNG",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppUseCase",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "use_case_2FFYNB",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppSalesMotion",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "sales_motion_MN98AU",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppDealSize",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "deal_size_NWXWWW",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppPigmentAE",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "pigment_ae_RDLDT8",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppNotes",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "notes_AV0MTG",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppMatched",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "matched_pigment_opportunity_8CRBB3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppCreatedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "created_on_H6YAOP",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppUpdatedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "last_updated_on_QTQWWX",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppClosedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "closed_on_V8DFEL",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
       "name": "mOPPLicenceValueUsd",
       "type": "Metric",
       "metricId": "c17a1bd7-c851-4f8f-802a-2b3eaa7e939f",
@@ -1116,6 +1705,243 @@
       "name": "mTSTPhasingReconcilesAll",
       "type": "Metric",
       "metricId": "df8b98d7-4134-4056-b802-6c5490be292a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageOrder",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "_order_XMZILT",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsOpen",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_open_1TYBBM",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsWon",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_won_0Q2X2I",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsLost",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_lost_1PJNNH",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageGroup",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "pipeline_group_ATQ04P",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "sizeOrder",
+      "type": "ListProperty",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "listPropertyTechnicalName": "_order_XA1UNE",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigStage",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "pigment_stage_K38I0J",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigCloseDate",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "close_date_VE8VFG",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigCreateDate",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "create_date_HH2KVO",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigAE",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "pigment_ae_A7P23V",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigContact",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "partner_sales_contact_4NRZMZ",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigAttach",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "partner_attach_type_V3DX5V",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigSegment",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "segment_7D9WDC",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigIndustry",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "industry_5QVQEB",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigAcv",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "acv_usd_N7DE94",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigDelivery",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "delivery_approach_VSUTR5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigForecastCat",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "forecast_category_X21MLK",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigInfluence",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "influence___QIV162",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigFirstSeen",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "first_seen_RDDBXB",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigLastSeen",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "last_seen_8X6JHH",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGInLatestLoad",
+      "type": "Metric",
+      "metricId": "4a8cecec-7817-4c2f-8f54-23d1d2e6082d",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedAccount",
+      "type": "Metric",
+      "metricId": "b63fbee8-8a5d-4212-b05c-e6554744e7a5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedUseCaseCodes",
+      "type": "Metric",
+      "metricId": "3838b87e-d340-41a5-bc74-90bfc2e9910b",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedCloseMonth",
+      "type": "Metric",
+      "metricId": "a728af43-2194-46b8-a9b7-98cf69266b49",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGDerivedDealType",
+      "type": "Metric",
+      "metricId": "4b4237a0-90da-4e6c-b650-6d4d19703850",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGCloseMonthMismatch",
+      "type": "Metric",
+      "metricId": "fc186fe6-9215-48a5-afab-159f3a9e940a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentMatchStatus",
+      "type": "Metric",
+      "metricId": "b8a9f857-c752-499d-b345-22ee5c56c93f",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNMatchedDealCount",
+      "type": "Metric",
+      "metricId": "354b0b8b-6667-46b8-98b3-b32c4821dff1",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentMappedStageOrder",
+      "type": "Metric",
+      "metricId": "b213bf8c-3439-414c-a59a-e9315c727803",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mALNPigmentRowClosed",
+      "type": "Metric",
+      "metricId": "04c89c06-2c75-428c-90e4-9d1681ee1d72",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "mPIGFirstSeenCalc",
+      "type": "Metric",
+      "metricId": "cbc294c8-21f1-4c92-949c-81af9f7ce1d8",
       "canRead": true,
       "canWrite": false
     }
@@ -1192,6 +2018,102 @@
       "canWrite": false
     },
     {
+      "name": "oppSalesPerson",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "sales_person_TANUAJ",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppStage",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "stage_T28KCI",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppCloseDate",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "expected_close_date_10AJNG",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppUseCase",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "use_case_2FFYNB",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppSalesMotion",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "sales_motion_MN98AU",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppDealSize",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "deal_size_NWXWWW",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppPigmentAE",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "pigment_ae_RDLDT8",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppNotes",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "notes_AV0MTG",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppMatched",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "matched_pigment_opportunity_8CRBB3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppCreatedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "created_on_H6YAOP",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppUpdatedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "last_updated_on_QTQWWX",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppClosedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "closed_on_V8DFEL",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
       "name": "mOPPLicenceValueUsd",
       "type": "Metric",
       "metricId": "c17a1bd7-c851-4f8f-802a-2b3eaa7e939f",
@@ -1419,6 +2341,118 @@
       "name": "mTSTPhasingReconciles",
       "type": "Metric",
       "metricId": "78eddde5-ede6-4cf0-9446-f18e8596450a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigStage",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "pigment_stage_K38I0J",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigCloseDate",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "close_date_VE8VFG",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigCreateDate",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "create_date_HH2KVO",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigAE",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "pigment_ae_A7P23V",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigContact",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "partner_sales_contact_4NRZMZ",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigAttach",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "partner_attach_type_V3DX5V",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigSegment",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "segment_7D9WDC",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigIndustry",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "industry_5QVQEB",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigAcv",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "acv_usd_N7DE94",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigDelivery",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "delivery_approach_VSUTR5",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigForecastCat",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "forecast_category_X21MLK",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigInfluence",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "influence___QIV162",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigFirstSeen",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "first_seen_RDDBXB",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "pigLastSeen",
+      "type": "ListProperty",
+      "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
+      "listPropertyTechnicalName": "last_seen_8X6JHH",
       "canRead": true,
       "canWrite": false
     },
@@ -1582,6 +2616,78 @@
       "metricId": "43fcc046-dd96-481d-b615-18619b8aa388",
       "canRead": true,
       "canWrite": false
+    },
+    {
+      "name": "stageOrder",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "_order_XMZILT",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsOpen",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_open_1TYBBM",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsWon",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_won_0Q2X2I",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsLost",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_lost_1PJNNH",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageGroup",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "pipeline_group_ATQ04P",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "useCaseCodes",
+      "type": "ListProperty",
+      "listId": "558e86d9-8014-4f62-afef-0c99e33083ad",
+      "listPropertyTechnicalName": "crm_codes_KIZEWS",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "personCrmName",
+      "type": "ListProperty",
+      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "listPropertyTechnicalName": "crm_name_D5SKRA",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "personEmail",
+      "type": "ListProperty",
+      "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
+      "listPropertyTechnicalName": "email_WZ7QF1",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "sizeOrder",
+      "type": "ListProperty",
+      "listId": "c84a71da-9e7a-4272-8f46-c1622757de0b",
+      "listPropertyTechnicalName": "_order_XA1UNE",
+      "canRead": true,
+      "canWrite": false
     }
   ],
   "forecast": [
@@ -1628,9 +2734,9 @@
       "canWrite": false
     },
     {
-      "name": "month",
+      "name": "week",
       "type": "List",
-      "listId": "3326b72f-9596-48e7-989f-ba2277bce969",
+      "listId": "9782cd08-b98e-44d1-bc61-2c66f6223d19",
       "canRead": true,
       "canWrite": false
     },
@@ -1712,9 +2818,98 @@
       "canWrite": false
     },
     {
-      "name": "week",
-      "type": "List",
-      "listId": "9782cd08-b98e-44d1-bc61-2c66f6223d19",
+      "name": "oppSalesPerson",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "sales_person_TANUAJ",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppStage",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "stage_T28KCI",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppCloseDate",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "expected_close_date_10AJNG",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppUseCase",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "use_case_2FFYNB",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppSalesMotion",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "sales_motion_MN98AU",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppDealSize",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "deal_size_NWXWWW",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppPigmentAE",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "pigment_ae_RDLDT8",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppNotes",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "notes_AV0MTG",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppMatched",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "matched_pigment_opportunity_8CRBB3",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppCreatedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "created_on_H6YAOP",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppUpdatedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "last_updated_on_QTQWWX",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppClosedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "closed_on_V8DFEL",
       "canRead": true,
       "canWrite": false
     },
@@ -1988,6 +3183,46 @@
       "name": "mTSTPhasingReconcilesAll",
       "type": "Metric",
       "metricId": "df8b98d7-4134-4056-b802-6c5490be292a",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageOrder",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "_order_XMZILT",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsOpen",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_open_1TYBBM",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsWon",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_won_0Q2X2I",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageIsLost",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "is_lost_1PJNNH",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "stageGroup",
+      "type": "ListProperty",
+      "listId": "9c332a4a-0de8-4c49-a3ce-62baa17930e2",
+      "listPropertyTechnicalName": "pipeline_group_ATQ04P",
       "canRead": true,
       "canWrite": false
     }

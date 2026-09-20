@@ -485,31 +485,29 @@ function boot() {
   var redraw = debounce(render, 16);
   function fail(e) { state.error = (e && e.message) ? e.message : 'Subscription failed'; render(); }
 
+  // Both sides of the match come from their grids, which carry the list
+  // properties as columns; item subscriptions return names only (D17).
   subscribeView('vwPipelineGrid', function (d) {
-    state.grid = d; state.idx = columnIndex(d); redraw();
+    state.grid = d;
+    state.idx = columnIndex(d);
+    state.items = rowsAsItems(d, 'Opportunity Name');
+    state.partial = state.partial || !!d.truncated;
+    redraw();
+  }, fail);
+  subscribeView('vwPigmentGrid', function (d) {
+    state.pigment = rowsAsItems(d, 'Pigment Opportunity Name');
+    state.partial = state.partial || !!d.truncated;
+    redraw();
   }, fail);
   subscribeView('vwImportSummary', function (d) { state.importSummary = d; redraw(); }, fail);
   subscribeView('vwAssumptions', function (d) { state.assumptions = d; redraw(); }, fail);
 
-  subscribeList('opportunity', function (items, partial) {
-    state.items = items; state.partial = state.partial || partial; redraw();
-  }, fail);
-  subscribeList('pigmentPipeline', function (items, partial) {
-    state.pigment = items; state.partial = state.partial || partial; redraw();
-  }, fail);
-
-  var listAliases = ['salesPerson', 'stage', 'useCase', 'salesMotion', 'dealSize', 'pigmentAE'];
-  for (var i = 0; i < listAliases.length; i++) {
-    (function (alias) {
-      subscribeList(alias, function (items) {
-        if (alias === 'stage' || alias === 'dealSize') {
-          items.sort(function (a, b) { return (a.Order || 0) - (b.Order || 0); });
-        }
-        state.lists[alias] = items;
-        redraw();
-      }, fail);
-    })(listAliases[i]);
-  }
+  subscribeRefLists(state.lists, [
+    { alias: 'stage', ds: 'vwStageProps' },
+    { alias: 'useCase', ds: 'vwUseCaseProps' },
+    { alias: 'salesPerson', ds: 'vwSalesPersonProps' },
+    { alias: 'salesMotion' }, { alias: 'dealSize' }, { alias: 'pigmentAE' }
+  ], redraw, fail);
 
   on(window, 'resize', debounce(render, 120));
 }

@@ -15,7 +15,7 @@ var MEASURES = [
 var STACKS = ['Stage group', 'Sales person', 'Use case', 'Sales motion'];
 
 var state = {
-  month: null, week: null, grid: null, idx: {},
+  fc: null, fcIdx: {}, grid: null, idx: {},
   items: [], stages: [], importSummary: null,
   measure: MEASURES[0].key, weighted: false, stackBy: 'Stage group',
   granularity: 'Month',
@@ -48,29 +48,43 @@ function fmtMeasure(v) {
   return money(v);
 }
 
-function source() { return state.granularity === 'Month' ? state.month : state.week; }
-
-// The forecast Views put metrics on Rows nested under Opportunity, and periods
-// on Columns, so a row is one (deal, metric) pair.
-function rowsFor(metricName) {
-  var d = source();
-  var out = [];
-  if (!d) return out;
-  for (var r = 0; r < d.labels.rows.length; r++) {
-    var path = d.labels.rows[r];
-    var deal = labelAt(path, 0);
-    var metric = labelName(path);
-    if (metric !== metricName) continue;
-    out.push({ deal: deal, row: r });
-  }
-  return out;
+// Month is a property of Week, not a dimension of the PH metrics, so Pigment
+// refuses it as a data-source label (D17). One weekly source arrives instead,
+// a row per (deal, week), and the months are rolled up here.
+function weekStart(weekLabel) {
+  return parseDate(String(weekLabel).replace('WC ', ''));
 }
 
+function periodOf(weekLabel) {
+  if (state.granularity === 'Week') return weekLabel;
+  var d = weekStart(weekLabel);
+  if (!d) return weekLabel;
+  return MONTHS[d.getUTCMonth()] + ' ' + String(d.getUTCFullYear()).slice(2);
+}
+
+// Sorting periods by name would put Apr before Jan, so order on the week each
+// period starts in.
+function periodSort(weekLabel) {
+  var d = weekStart(weekLabel);
+  return d ? d.getTime() : 0;
+}
+
+// Every period present in the data, chronological, ignoring the deal filters
+// so the from/to selectors do not jump around as filters change.
 function periods() {
-  var d = source();
-  var out = [];
-  if (!d) return out;
-  for (var c = 0; c < d.labels.columns.length; c++) out.push(labelName(d.labels.columns[c]));
+  var g = state.fc;
+  if (!g) return [];
+  var seen = {}, out = [];
+  for (var r = 0; r < g.labels.rows.length; r++) {
+    var week = labelAt(g.labels.rows[r], 1);
+    if (!week) continue;
+    var key = periodOf(week);
+    if (seen[key] === undefined) {
+      seen[key] = periodSort(week);
+      out.push(key);
+    }
+  }
+  out.sort(function (a, b) { return seen[a] - seen[b]; });
   return out;
 }
 
@@ -121,40 +135,59 @@ function seriesKeyFor(name) {
   return it['Sales Motion'] || 'Other';
 }
 
+// Walks the weekly rows once, adding each into its period bucket.
+// cb(deal, periodIndex, value) is called for every value inside the range.
+function eachValue(metricName, cb) {
+  var g = state.fc;
+  if (!g) return;
+  var col = state.fcIdx[metricName];
+  if (col === undefined) return;
+  var cols = periods();
+  var at = {};
+  for (var p = 0; p < cols.length; p++) at[cols[p]] = p;
+
+  for (var r = 0; r < g.labels.rows.length; r++) {
+    var path = g.labels.rows[r];
+    var deal = labelAt(path, 0), week = labelAt(path, 1);
+    if (!deal || !week) continue;
+    if (!dealPasses(deal)) continue;
+    var idx = at[periodOf(week)];
+    if (idx === undefined || idx < state.fromIdx || idx > state.toIdx) continue;
+    var v = cell(g, col, r);
+    if (!isNum(v) || v === 0) continue;
+    cb(deal, idx - state.fromIdx, v);
+  }
+}
+
 // Returns {periods, series:[{key, values[]}], dealRows:[{name, values[], total}]}
 function buildData() {
-  var d = source();
-  if (!d) return null;
+  if (!state.fc) return null;
   var def = measureDef();
   var metricName = state.weighted ? def.w : def.un;
-  var rows = rowsFor(metricName);
-  var cols = periods();
-  var from = state.fromIdx, to = state.toIdx;
+  var cols = periods().slice(state.fromIdx, state.toIdx + 1);
+  var width = cols.length;
 
+  var byDeal = {}, dealOrder = [];
   var seriesMap = {}, seriesOrder = [];
-  var dealRows = [];
 
-  for (var i = 0; i < rows.length; i++) {
-    var name = rows[i].deal;
-    if (!dealPasses(name)) continue;
-    var vals = [], total = 0;
-    for (var c = from; c <= to && c < cols.length; c++) {
-      var v = cell(d, c, rows[i].row);
-      var n = isNum(v) ? v : 0;
-      vals.push(n); total += n;
-    }
-    if (total === 0) continue;
-    dealRows.push({ name: name, values: vals, total: total });
-
-    var key = seriesKeyFor(name);
-    if (!seriesMap[key]) {
-      seriesMap[key] = { key: key, values: [] };
-      for (var z = 0; z < vals.length; z++) seriesMap[key].values.push(0);
-      seriesOrder.push(key);
-    }
-    for (var j = 0; j < vals.length; j++) seriesMap[key].values[j] += vals[j];
+  function blank() {
+    var a = [];
+    for (var i = 0; i < width; i++) a.push(0);
+    return a;
   }
 
+  eachValue(metricName, function (deal, i, v) {
+    if (!byDeal[deal]) { byDeal[deal] = { name: deal, values: blank(), total: 0 }; dealOrder.push(deal); }
+    byDeal[deal].values[i] += v;
+    byDeal[deal].total += v;
+
+    var key = seriesKeyFor(deal);
+    if (!seriesMap[key]) { seriesMap[key] = { key: key, values: blank() }; seriesOrder.push(key); }
+    seriesMap[key].values[i] += v;
+  });
+
+  var dealRows = [];
+  for (var d = 0; d < dealOrder.length; d++) dealRows.push(byDeal[dealOrder[d]]);
   dealRows.sort(function (a, b) {
     var ia = itemByName(a.name), ib = itemByName(b.name);
     var da = ia ? ia['Expected Close Date'] || '' : '';
@@ -166,21 +199,12 @@ function buildData() {
   seriesOrder.sort();
   for (var s = 0; s < seriesOrder.length; s++) series.push(seriesMap[seriesOrder[s]]);
 
-  return { periods: cols.slice(from, to + 1), series: series, dealRows: dealRows };
+  return { periods: cols, series: series, dealRows: dealRows };
 }
 
 function unweightedTotal() {
-  var d = source();
-  if (!d) return 0;
-  var rows = rowsFor(measureDef().un);
   var t = 0;
-  for (var i = 0; i < rows.length; i++) {
-    if (!dealPasses(rows[i].deal)) continue;
-    for (var c = state.fromIdx; c <= state.toIdx && c < d.labels.columns.length; c++) {
-      var v = cell(d, c, rows[i].row);
-      if (isNum(v)) t += v;
-    }
-  }
+  eachValue(measureDef().un, function (deal, i, v) { t += v; });
   return t;
 }
 
@@ -194,7 +218,7 @@ function palette(n) {
 
 function render() {
   if (state.error) { root.innerHTML = shellHtml(SCREEN, null, errorBlock(state.error)); return; }
-  if (!source() || !state.grid) { root.innerHTML = shellHtml(SCREEN, loadDate(), loadingBlock()); return; }
+  if (!state.fc || !state.grid) { root.innerHTML = shellHtml(SCREEN, loadDate(), loadingBlock()); return; }
 
   initRange();
   var data = buildData();
@@ -558,19 +582,21 @@ function boot() {
   var redraw = debounce(render, 16);
   function fail(e) { state.error = (e && e.message) ? e.message : 'Subscription failed'; render(); }
 
-  subscribeView('vwForecastMonth', function (d) { state.month = d; redraw(); }, fail);
-  subscribeView('vwForecastWeek', function (d) { state.week = d; redraw(); }, fail);
+  subscribeView('vwForecast', function (d) {
+    state.fc = d;
+    state.fcIdx = columnIndex(d);
+    state.partial = state.partial || !!d.truncated;
+    redraw();
+  }, fail);
   subscribeView('vwPipelineGrid', function (d) {
-    state.grid = d; state.idx = columnIndex(d); redraw();
+    state.grid = d;
+    state.idx = columnIndex(d);
+    state.items = rowsAsItems(d, 'Opportunity Name');
+    redraw();
   }, fail);
   subscribeView('vwImportSummary', function (d) { state.importSummary = d; redraw(); }, fail);
-
-  subscribeList('opportunity', function (items, partial) {
-    state.items = items; state.partial = state.partial || partial; redraw();
-  }, fail);
-  subscribeList('stage', function (items) {
-    items.sort(function (a, b) { return (a.Order || 0) - (b.Order || 0); });
-    state.stages = items; redraw();
+  subscribeView('vwStageProps', function (d) {
+    state.stages = sortByOrder(listFromProps(d)); redraw();
   }, fail);
 
   on(window, 'resize', debounce(render, 120));

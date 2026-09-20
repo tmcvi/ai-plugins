@@ -158,29 +158,28 @@ function boot() {
   var redraw = debounce(render, 16);
   function fail(e) { state.error = (e && e.message) ? e.message : 'Subscription failed'; render(); }
 
+  // The deal grid carries the Opportunity properties as columns, so the deal
+  // records come from it rather than from the item subscription (D17).
   subscribeView('vwPipelineGrid', function (d) {
-    state.grid = d; state.idx = columnIndex(d); redraw();
+    state.grid = d;
+    state.idx = columnIndex(d);
+    state.items = rowsAsItems(d, 'Opportunity Name');
+    state.partial = state.partial || !!d.truncated;
+    redraw();
+  }, fail);
+  subscribeView('vwPigmentGrid', function (d) {
+    state.pigment = rowsAsItems(d, 'Pigment Opportunity Name');
+    redraw();
   }, fail);
   subscribeView('vwScalarAssumptions', function (d) { state.scalars = d; redraw(); }, fail);
   subscribeView('vwImportSummary', function (d) { state.importSummary = d; redraw(); }, fail);
 
-  subscribeList('opportunity', function (items, partial) {
-    state.items = items; state.partial = state.partial || partial; redraw();
-  }, fail);
-  subscribeList('pigmentPipeline', function (items) { state.pigment = items; redraw(); }, fail);
-
-  var listAliases = ['salesPerson', 'stage', 'useCase', 'salesMotion', 'dealSize', 'pigmentAE'];
-  for (var i = 0; i < listAliases.length; i++) {
-    (function (alias) {
-      subscribeList(alias, function (items) {
-        if (alias === 'stage' || alias === 'dealSize') {
-          items.sort(function (a, b) { return (a.Order || 0) - (b.Order || 0); });
-        }
-        state.lists[alias] = items;
-        redraw();
-      }, fail);
-    })(listAliases[i]);
-  }
+  subscribeRefLists(state.lists, [
+    { alias: 'stage', ds: 'vwStageProps' },
+    { alias: 'dealSize', ds: 'vwDealSizeProps' },
+    { alias: 'salesPerson' }, { alias: 'useCase' },
+    { alias: 'salesMotion' }, { alias: 'pigmentAE' }
+  ], redraw, fail);
 
   on(window, 'resize', debounce(render, 120));
 }

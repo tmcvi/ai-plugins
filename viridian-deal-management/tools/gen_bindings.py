@@ -36,6 +36,62 @@ L["month"] = IDS["calendar"]["monthDimensionId"]
 
 M = json.loads((HERE / "docs" / "metric-ids.json").read_text())
 
+# List properties read through data sources (decision D17). subscribeToItems
+# now returns item *names* only, so every property a Frame shows has to come
+# back as a data-source value. Technical names are the slugged ids Pigment
+# assigns; read them with get_list_items, never guess them.
+#   alias: (list alias, technical name, the column name the pages read)
+PROPS = {
+    # Opportunity - the nine sales fields plus the system dates and the match.
+    "oppSalesPerson":  ("opportunity", "sales_person_TANUAJ", "Sales Person"),
+    "oppStage":        ("opportunity", "stage_T28KCI", "Stage"),
+    "oppCloseDate":    ("opportunity", "expected_close_date_10AJNG", "Expected Close Date"),
+    "oppUseCase":      ("opportunity", "use_case_2FFYNB", "Use Case"),
+    "oppSalesMotion":  ("opportunity", "sales_motion_MN98AU", "Sales Motion"),
+    "oppDealSize":     ("opportunity", "deal_size_NWXWWW", "Deal Size"),
+    "oppPigmentAE":    ("opportunity", "pigment_ae_RDLDT8", "Pigment AE"),
+    "oppNotes":        ("opportunity", "notes_AV0MTG", "Notes"),
+    "oppMatched":      ("opportunity", "matched_pigment_opportunity_8CRBB3",
+                        "Matched Pigment Opportunity"),
+    "oppCreatedOn":    ("opportunity", "created_on_H6YAOP", "Created On"),
+    "oppUpdatedOn":    ("opportunity", "last_updated_on_QTQWWX", "Last Updated On"),
+    "oppClosedOn":     ("opportunity", "closed_on_V8DFEL", "Closed On"),
+    # Pigment Pipeline - everything the Matching and Deal screens show.
+    "pigStage":        ("pigmentPipeline", "pigment_stage_K38I0J", "Pigment Stage"),
+    "pigCloseDate":    ("pigmentPipeline", "close_date_VE8VFG", "Close Date"),
+    "pigCreateDate":   ("pigmentPipeline", "create_date_HH2KVO", "Create Date"),
+    "pigAE":           ("pigmentPipeline", "pigment_ae_A7P23V", "Pigment AE"),
+    "pigContact":      ("pigmentPipeline", "partner_sales_contact_4NRZMZ",
+                        "Partner Sales Contact"),
+    "pigAttach":       ("pigmentPipeline", "partner_attach_type_V3DX5V",
+                        "Partner Attach Type"),
+    "pigSegment":      ("pigmentPipeline", "segment_7D9WDC", "Segment"),
+    "pigIndustry":     ("pigmentPipeline", "industry_5QVQEB", "Industry"),
+    "pigAcv":          ("pigmentPipeline", "acv_usd_N7DE94", "ACV USD"),
+    "pigDelivery":     ("pigmentPipeline", "delivery_approach_VSUTR5", "Delivery Approach"),
+    "pigForecastCat":  ("pigmentPipeline", "forecast_category_X21MLK", "Forecast Category"),
+    "pigInfluence":    ("pigmentPipeline", "influence___QIV162", "Influence %"),
+    "pigFirstSeen":    ("pigmentPipeline", "first_seen_RDDBXB", "First Seen"),
+    "pigLastSeen":     ("pigmentPipeline", "last_seen_8X6JHH", "Last Seen"),
+    # Reference lists - the properties that drive sort order and matching.
+    "stageOrder":      ("stage", "_order_XMZILT", "Order"),
+    "stageIsOpen":     ("stage", "is_open_1TYBBM", "Is Open"),
+    "stageIsWon":      ("stage", "is_won_0Q2X2I", "Is Won"),
+    "stageIsLost":     ("stage", "is_lost_1PJNNH", "Is Lost"),
+    "stageGroup":      ("stage", "pipeline_group_ATQ04P", "Pipeline Group"),
+    "sizeOrder":       ("dealSize", "_order_XA1UNE", "Order"),
+    "useCaseCodes":    ("useCase", "crm_codes_KIZEWS", "CRM Codes"),
+    "personCrmName":   ("salesPerson", "crm_name_D5SKRA", "CRM Name"),
+    "personEmail":     ("salesPerson", "email_WZ7QF1", "Email"),
+    "pigStageOrder":   ("pigmentStage", "_order_1W8SME", "Order"),
+    "pigStageTrack":   ("pigmentStage", "track_A6QJ12", "Track"),
+    "pigStageMapsTo":  ("pigmentStage", "maps_to_stage_ERVXPC", "Maps To Stage"),
+    "attachMapsTo":    ("partnerAttachType", "maps_to_sales_motion_YRSF3X",
+                        "Maps To Sales Motion"),
+    "aeActive":        ("pigmentAE", "active_QXZ85V", "Active"),
+    "weekOffset":      ("projectWeek", "_offset_MUHMXV", "Offset"),
+}
+
 # Metric aliases the page modules use directly with editValue.
 WRITE_ALIAS = {
     "oppOverrideDays": "OPP Override Days",
@@ -102,6 +158,18 @@ FORECAST_VALUES = [
     "PH Weighted Days", "PH Weighted Hours", "PH Weighted Total Revenue £",
 ]
 PROFILE_VALUES = ["PH Effective Profile %", "PH Override Profile %", "PH Calendar Week"]
+
+# Property values, in the order the pages expect to find them.
+OPP_PROPS = [
+    "oppSalesPerson", "oppStage", "oppCloseDate", "oppUseCase", "oppSalesMotion",
+    "oppDealSize", "oppPigmentAE", "oppNotes", "oppMatched", "oppCreatedOn",
+    "oppUpdatedOn", "oppClosedOn",
+]
+PIG_PROPS = [
+    "pigStage", "pigCloseDate", "pigCreateDate", "pigAE", "pigContact", "pigAttach",
+    "pigSegment", "pigIndustry", "pigAcv", "pigDelivery", "pigForecastCat",
+    "pigInfluence", "pigFirstSeen", "pigLastSeen",
+]
 ASSUMPTION_VALUES = [
     "ASM Licence ARR $", "ASM Standard Days", "ASM Project Duration Weeks",
     "ASM Start Lag Weeks", "TST Profile Sums", "TST Profile Zero Beyond Duration",
@@ -113,11 +181,24 @@ SUMMARY_VALUES = [
 SCALAR_VALUES = ["ASM Standard Day Rate £", "ASM Hours per Day", "ASM FX Rate USD to GBP"]
 
 DS = {
-    "vwPipelineGrid":      (["opportunity"], [], PIPELINE_VALUES),
-    "vwPigmentGrid":       (["pigmentPipeline"], [], PIGMENT_VALUES),
-    "vwProfileByDeal":     (["projectWeek"], ["opportunity"], PROFILE_VALUES),
-    "vwForecastMonth":     (["opportunity", "month"], [], FORECAST_VALUES),
-    "vwForecastWeek":      (["opportunity", "week"], [], FORECAST_VALUES),
+    "vwPipelineGrid":      (["opportunity"], [], OPP_PROPS + PIPELINE_VALUES),
+    "vwPigmentGrid":       (["pigmentPipeline"], [], PIG_PROPS + PIGMENT_VALUES),
+    # Selectors are gone: the profile source carries every deal and the editor
+    # filters client-side, so no dynamic filter has to be maintained (D17).
+    "vwProfileByDeal":     (["opportunity", "projectWeek"], [], PROFILE_VALUES),
+    # One weekly source. Month is a property of Week, not a dimension of the PH
+    # metrics, so Pigment rejects it as a label; the page rolls weeks up (D17).
+    "vwForecast":          (["opportunity", "week"], [], FORECAST_VALUES),
+    "vwStageProps":        (["stage"], [],
+                            ["stageOrder", "stageIsOpen", "stageIsWon", "stageIsLost",
+                             "stageGroup"]),
+    "vwDealSizeProps":     (["dealSize"], [], ["sizeOrder"]),
+    "vwUseCaseProps":      (["useCase"], [], ["useCaseCodes"]),
+    "vwSalesPersonProps":  (["salesPerson"], [], ["personCrmName", "personEmail"]),
+    "vwPigmentStageProps": (["pigmentStage"], [],
+                            ["pigStageOrder", "pigStageTrack", "pigStageMapsTo"]),
+    "vwAttachProps":       (["partnerAttachType"], [], ["attachMapsTo"]),
+    "vwPigmentAEProps":    (["pigmentAE"], [], ["aeActive"]),
     "vwAssumptions":       (["dealSize"], [], ASSUMPTION_VALUES),
     "vwScalarAssumptions": ([], [], SCALAR_VALUES),
     "vwCommissionRates":   (["salesMotion"], [], ["ASM Commission Rate %"]),
@@ -128,12 +209,19 @@ DS = {
 
 PAGE_DS = {
     "admin":    ["vwAssumptions", "vwScalarAssumptions", "vwCommissionRates", "vwWinRates",
-                 "vwStandardProfiles", "vwImportSummary"],
-    "newDeal":  ["vwAssumptions", "vwScalarAssumptions", "vwCommissionRates", "vwImportSummary"],
-    "pipeline": ["vwPipelineGrid", "vwProfileByDeal", "vwScalarAssumptions", "vwImportSummary"],
-    "deal":     ["vwPipelineGrid", "vwProfileByDeal", "vwScalarAssumptions", "vwImportSummary"],
-    "matching": ["vwPipelineGrid", "vwPigmentGrid", "vwImportSummary", "vwAssumptions"],
-    "forecast": ["vwForecastMonth", "vwForecastWeek", "vwPipelineGrid", "vwImportSummary"],
+                 "vwStandardProfiles", "vwImportSummary", "vwStageProps", "vwDealSizeProps",
+                 "vwPigmentStageProps", "vwAttachProps", "vwSalesPersonProps",
+                 "vwUseCaseProps", "vwPigmentAEProps"],
+    "newDeal":  ["vwAssumptions", "vwScalarAssumptions", "vwCommissionRates", "vwImportSummary",
+                 "vwStageProps", "vwDealSizeProps"],
+    "pipeline": ["vwPipelineGrid", "vwProfileByDeal", "vwScalarAssumptions", "vwImportSummary",
+                 "vwStageProps", "vwDealSizeProps", "vwPigmentGrid"],
+    "deal":     ["vwPipelineGrid", "vwProfileByDeal", "vwScalarAssumptions", "vwImportSummary",
+                 "vwStageProps", "vwDealSizeProps", "vwPigmentGrid"],
+    "matching": ["vwPipelineGrid", "vwPigmentGrid", "vwImportSummary", "vwAssumptions",
+                 "vwStageProps", "vwUseCaseProps", "vwSalesPersonProps",
+                 "vwDealSizeProps"],
+    "forecast": ["vwForecast", "vwPipelineGrid", "vwImportSummary", "vwStageProps"],
 }
 PAGE_LISTS = {
     "admin":    [("dealSize", 0), ("projectWeek", 0), ("salesMotion", 0), ("stage", 0),
@@ -165,6 +253,10 @@ PAGES = ["admin", "newDeal", "pipeline", "deal", "matching", "forecast"]
 
 def main():
     bindings, datasources, problems = {}, {}, []
+    # dsName -> the column names, in the order the data source returns values.
+    # The Frames need this because the new payload is row-major: each row is
+    # {labels, values} with no column labels of its own (D17).
+    ds_columns = {}
 
     # Guard the invariant that broke once: two metrics must never share an alias.
     seen_alias = {}
@@ -191,6 +283,15 @@ def main():
             binds.append({"name": al, "type": "Metric", "metricId": mid,
                           "canRead": True, "canWrite": bool(write)})
 
+        def add_prop(al):
+            if al in seen:
+                return
+            seen.add(al)
+            list_alias, technical, _display = PROPS[al]
+            binds.append({"name": al, "type": "ListProperty", "listId": L[list_alias],
+                          "listPropertyTechnicalName": technical,
+                          "canRead": True, "canWrite": False})
+
         for al, w in PAGE_LISTS[page]:
             add_list(al, w)
 
@@ -199,11 +300,22 @@ def main():
             labels, selectors, values = DS[ds_name]
             for dim in labels + selectors:
                 add_list(dim, 0)
-            vals = []
-            for mname in values:
-                a = alias(mname)
-                add_metric(a, M[mname], a in PAGE_WRITES[page])
-                vals.append({"binding": a, "aggregator": "Sum"})
+            vals, columns = [], []
+            for value in values:
+                if value in PROPS:
+                    # A list property: one value per item, so no aggregation is
+                    # meaningful; First is the only honest choice.
+                    add_prop(value)
+                    list_alias, _technical, display = PROPS[value]
+                    vals.append({"binding": value, "aggregator": "First"})
+                    columns.append(display)
+                    add_list(list_alias, 0)
+                else:
+                    a = alias(value)
+                    add_metric(a, M[value], a in PAGE_WRITES[page])
+                    vals.append({"binding": a, "aggregator": "Sum"})
+                    columns.append(value)
+            ds_columns[ds_name] = columns
             ds_list.append({
                 "name": ds_name,
                 "labels": [{"binding": d} for d in labels],
@@ -240,6 +352,7 @@ def main():
 
     (HERE / "frames" / "src" / "bindings.json").write_text(json.dumps(bindings, indent=2))
     (HERE / "frames" / "src" / "datasources.json").write_text(json.dumps(datasources, indent=2))
+    (HERE / "frames" / "src" / "dscolumns.json").write_text(json.dumps(ds_columns, indent=2))
     for p in PAGES:
         print("  + %-9s %2d bindings, %d data sources" % (p, len(bindings[p]), len(datasources[p])))
     print("\nNo alias collisions, no duplicate bindings, every data source resolves.")

@@ -30,22 +30,13 @@ function openDealEditor(dealName, onChange) {
   DE.open = true;
   DE.dealName = dealName;
   DE.showCustom = false;
+  // The profile source carries every deal and the editor picks its own rows
+  // out, so the subscription is taken once and never repaged (D17).
   if (!DE.profileSub) {
     DE.profileSub = subscribeView('vwProfileByDeal', function (d) {
       DE.profile = d;
       if (onChange) onChange();
-    }, function () {}, [{ alias: 'opportunity', selection: [dealName] }]);
-  } else if (typeof DE.profileSub.updatePageDefinitions === 'function') {
-    DE.profile = null;
-    DE.profileSub.updatePageDefinitions([{ alias: 'opportunity', selection: [dealName] }]);
-  } else {
-    // No repaging on this subscription: drop it and take a fresh one.
-    DE.profile = null;
-    stopSub(DE.profileSub);
-    DE.profileSub = subscribeView('vwProfileByDeal', function (d) {
-      DE.profile = d;
-      if (onChange) onChange();
-    }, function () {}, [{ alias: 'opportunity', selection: [dealName] }]);
+    }, function () {});
   }
   if (onChange) onChange();
 }
@@ -218,14 +209,16 @@ function profileSection(v) {
   var ovrCol = idx['PH Override Profile %'];
   var wkCol = idx['PH Calendar Week'];
 
+  // Rows are (deal, project week) pairs across every deal; take this one's.
   var vals = [], weeks = [], overrides = [], names = [], lastNonZero = 0;
   for (var r = 0; r < d.labels.rows.length; r++) {
+    if (labelAt(d.labels.rows[r], 0) !== DE.dealName) continue;
     var val = effCol === undefined ? null : cell(d, effCol, r);
     vals.push(isNum(val) ? val : 0);
     overrides.push(ovrCol === undefined ? null : cell(d, ovrCol, r));
     weeks.push(wkCol === undefined ? null : cell(d, wkCol, r));
-    names.push(labelName(d.labels.rows[r]));
-    if (isNum(val) && val > 0) lastNonZero = r + 1;
+    names.push(labelAt(d.labels.rows[r], 1));
+    if (isNum(val) && val > 0) lastNonZero = vals.length;
   }
   var show = Math.max(lastNonZero, 1);
 

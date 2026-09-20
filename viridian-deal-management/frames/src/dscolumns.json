@@ -1,0 +1,152 @@
+{
+  "vwAssumptions": [
+    "ASM Licence ARR $",
+    "ASM Standard Days",
+    "ASM Project Duration Weeks",
+    "ASM Start Lag Weeks",
+    "TST Profile Sums",
+    "TST Profile Zero Beyond Duration"
+  ],
+  "vwScalarAssumptions": [
+    "ASM Standard Day Rate \u00a3",
+    "ASM Hours per Day",
+    "ASM FX Rate USD to GBP"
+  ],
+  "vwCommissionRates": [
+    "ASM Commission Rate %"
+  ],
+  "vwWinRates": [
+    "ASM Win Rate %"
+  ],
+  "vwStandardProfiles": [
+    "ASM Standard Profile %"
+  ],
+  "vwImportSummary": [
+    "PIG Latest Load Date",
+    "PIG Rows Total",
+    "PIG Rows In Latest Load",
+    "PIG Rows Dropped",
+    "PIG Unmapped Stages",
+    "TST Phasing Reconciles All"
+  ],
+  "vwStageProps": [
+    "Order",
+    "Is Open",
+    "Is Won",
+    "Is Lost",
+    "Pipeline Group"
+  ],
+  "vwDealSizeProps": [
+    "Order"
+  ],
+  "vwPigmentStageProps": [
+    "Order",
+    "Track",
+    "Maps To Stage"
+  ],
+  "vwAttachProps": [
+    "Maps To Sales Motion"
+  ],
+  "vwSalesPersonProps": [
+    "CRM Name",
+    "Email"
+  ],
+  "vwUseCaseProps": [
+    "CRM Codes"
+  ],
+  "vwPigmentAEProps": [
+    "Active"
+  ],
+  "vwPipelineGrid": [
+    "Sales Person",
+    "Stage",
+    "Expected Close Date",
+    "Use Case",
+    "Sales Motion",
+    "Deal Size",
+    "Pigment AE",
+    "Notes",
+    "Matched Pigment Opportunity",
+    "Created On",
+    "Last Updated On",
+    "Closed On",
+    "OPP Licence Value $",
+    "OPP Licence Value \u00a3",
+    "OPP Commission Rate %",
+    "OPP Commission \u00a3",
+    "OPP Win Rate %",
+    "OPP Standard Days",
+    "OPP Override Days",
+    "OPP Effective Days",
+    "OPP Override Day Rate \u00a3",
+    "OPP Effective Day Rate \u00a3",
+    "OPP Services Value \u00a3",
+    "OPP Standard Services Value \u00a3",
+    "OPP Weighted Services Value \u00a3",
+    "OPP Weighted Commission \u00a3",
+    "OPP Is Days Overridden",
+    "OPP Is Rate Overridden",
+    "OPP Is Open",
+    "OPP Is Won",
+    "OPP Is Lost",
+    "OPP In Forecast",
+    "OPP Duration Weeks",
+    "ALN Match Status",
+    "ALN Stage Gap",
+    "ALN Stage Alignment",
+    "ALN Close Date Gap Days",
+    "ALN Motion Consistent",
+    "ALN Matched Row Dropped",
+    "ALN Pigment Closed",
+    "PH Profile Total %",
+    "PH Profile Is Valid",
+    "PH Has Override Profile",
+    "PH Phased Outside Calendar \u00a3",
+    "TST Phasing Reconciles"
+  ],
+  "vwProfileByDeal": [
+    "PH Effective Profile %",
+    "PH Override Profile %",
+    "PH Calendar Week"
+  ],
+  "vwPigmentGrid": [
+    "Pigment Stage",
+    "Close Date",
+    "Create Date",
+    "Pigment AE",
+    "Partner Sales Contact",
+    "Partner Attach Type",
+    "Segment",
+    "Industry",
+    "ACV USD",
+    "Delivery Approach",
+    "Forecast Category",
+    "Influence %",
+    "First Seen",
+    "Last Seen",
+    "PIG In Latest Load",
+    "PIG Derived Account",
+    "PIG Derived Use Case Codes",
+    "PIG Derived Close Month",
+    "PIG Derived Deal Type",
+    "PIG Close Month Mismatch",
+    "ALN Pigment Match Status",
+    "ALN Matched Deal Count",
+    "ALN Pigment Mapped Stage Order",
+    "ALN Pigment Row Closed",
+    "PIG First Seen Calc"
+  ],
+  "vwForecast": [
+    "PH Services Revenue \u00a3",
+    "PH Commission \u00a3",
+    "PH Days",
+    "PH Hours",
+    "PH Licence Value \u00a3",
+    "PH Total Revenue \u00a3",
+    "PH Weighted Services Revenue \u00a3",
+    "PH Weighted Commission \u00a3",
+    "PH Weighted Days",
+    "PH Weighted Hours",
+    "PH Weighted Total Revenue \u00a3"
+  ]
+}
