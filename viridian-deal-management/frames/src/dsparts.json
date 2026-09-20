@@ -1,0 +1,72 @@
+{
+  "vwAssumptions": [
+    "vwAssumptions__Decimal",
+    "vwAssumptions__Integer",
+    "vwAssumptions__Boolean"
+  ],
+  "vwScalarAssumptions": [
+    "vwScalarAssumptions__Decimal"
+  ],
+  "vwCommissionRates": [
+    "vwCommissionRates__Decimal"
+  ],
+  "vwWinRates": [
+    "vwWinRates__Decimal"
+  ],
+  "vwStandardProfiles": [
+    "vwStandardProfiles__Decimal"
+  ],
+  "vwImportSummary": [
+    "vwImportSummary__Date",
+    "vwImportSummary__Integer",
+    "vwImportSummary__Boolean"
+  ],
+  "vwStageProps": [
+    "vwStageProps__Integer",
+    "vwStageProps__Boolean",
+    "vwStageProps__Text"
+  ],
+  "vwDealSizeProps": [
+    "vwDealSizeProps__Integer"
+  ],
+  "vwPigmentStageProps": [
+    "vwPigmentStageProps__Integer",
+    "vwPigmentStageProps__Text",
+    "vwPigmentStageProps__Dimension"
+  ],
+  "vwAttachProps": [
+    "vwAttachProps__Dimension"
+  ],
+  "vwSalesPersonProps": [
+    "vwSalesPersonProps__Text"
+  ],
+  "vwUseCaseProps": [
+    "vwUseCaseProps__Text"
+  ],
+  "vwPigmentAEProps": [
+    "vwPigmentAEProps__Boolean"
+  ],
+  "vwPipelineGrid": [
+    "vwPipelineGrid__Dimension",
+    "vwPipelineGrid__Date",
+    "vwPipelineGrid__Text",
+    "vwPipelineGrid__Decimal",
+    "vwPipelineGrid__Boolean",
+    "vwPipelineGrid__Integer"
+  ],
+  "vwProfileByDeal": [
+    "vwProfileByDeal__Decimal",
+    "vwProfileByDeal__Dimension"
+  ],
+  "vwPigmentGrid": [
+    "vwPigmentGrid__Dimension",
+    "vwPigmentGrid__Date",
+    "vwPigmentGrid__Text",
+    "vwPigmentGrid__Decimal",
+    "vwPigmentGrid__Boolean",
+    "vwPigmentGrid__Integer"
+  ],
+  "vwForecast": [
+    "vwForecast__Decimal"
+  ]
+}

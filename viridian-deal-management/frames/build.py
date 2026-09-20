@@ -150,6 +150,18 @@ def ds_columns_map(page):
     return {ds["name"]: all_cols.get(ds["name"], []) for ds in mine}
 
 
+def ds_parts_map(page):
+    """Logical data source -> its per-type parts, for this page (D18)."""
+    parts_path = SRC / "dsparts.json"
+    ds_path = SRC / "datasources.json"
+    if not (parts_path.exists() and ds_path.exists()):
+        return {}
+    all_parts = json.loads(parts_path.read_text())
+    mine = set(ds["name"] for ds in json.loads(ds_path.read_text()).get(page, []))
+    return {logical: parts for logical, parts in all_parts.items()
+            if parts and set(parts) <= mine}
+
+
 def build(page, logo):
     parts = [
         "(function () {",
@@ -160,6 +172,7 @@ def build(page, logo):
         "var VIRIDIAN_LOGO = " + logo + ";",
         "var COL_ALIAS = " + json.dumps(col_alias_map(page)) + ";",
         "var DS_COLUMNS = " + json.dumps(ds_columns_map(page)) + ";",
+        "var DS_PARTS = " + json.dumps(ds_parts_map(page)) + ";",
     ]
     for name in SHARED:
         f = SRC / "shared" / name

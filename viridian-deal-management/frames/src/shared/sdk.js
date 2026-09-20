@@ -190,7 +190,65 @@ function subscribeRefLists(lists, spec, redraw, fail) {
   }
 }
 
+// A data source carries one value type, so each logical source is stored as
+// several per-type parts (D18). They share their labels, so the parts are
+// joined back into one grid on the row labels before a page ever sees them.
+function labelKey(lab) {
+  return typeof lab === 'string' ? lab : (lab || []).join('\u0001');
+}
+
+function mergeParts(parts, store) {
+  var out = { labels: { rows: [], columns: [] }, cells: [], rowOffset: 0,
+              totalRowCount: 0, truncated: false };
+  var index = {}, p, r, c, g;
+
+  for (p = 0; p < parts.length; p++) {
+    g = store[parts[p]];
+    if (!g) continue;
+    out.truncated = out.truncated || !!g.truncated;
+    if (g.totalRowCount > out.totalRowCount) out.totalRowCount = g.totalRowCount;
+    for (r = 0; r < g.labels.rows.length; r++) {
+      var k = labelKey(g.labels.rows[r]);
+      if (index[k] === undefined) {
+        index[k] = out.labels.rows.length;
+        out.labels.rows.push(g.labels.rows[r]);
+      }
+    }
+  }
+
+  for (p = 0; p < parts.length; p++) {
+    g = store[parts[p]];
+    if (!g) continue;
+    for (c = 0; c < g.labels.columns.length; c++) {
+      var col = [];
+      for (var n = 0; n < out.labels.rows.length; n++) col.push(null);
+      for (r = 0; r < g.labels.rows.length; r++) {
+        col[index[labelKey(g.labels.rows[r])]] = cell(g, c, r);
+      }
+      out.labels.columns.push(g.labels.columns[c]);
+      out.cells.push(col);
+    }
+  }
+  return out;
+}
+
 function subscribeView(alias, onReady, onErr, pageDefs, scroll) {
+  var parts = (typeof DS_PARTS !== 'undefined' && DS_PARTS[alias]) || [alias];
+  var store = {}, arrived = 0;
+  for (var i = 0; i < parts.length; i++) {
+    (function (part) {
+      subscribePart(part, function (grid) {
+        if (!store[part]) arrived++;
+        store[part] = grid;
+        // Wait for every part, otherwise a page would render against half its
+        // columns and then flicker as the rest land.
+        if (arrived === parts.length) onReady(mergeParts(parts, store));
+      }, onErr, scroll);
+    })(parts[i]);
+  }
+}
+
+function subscribePart(alias, onReady, onErr, scroll) {
   var opts = {
     onData: function (data) {
       var grid = adaptGrid(alias, data);

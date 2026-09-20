@@ -1,7 +1,7 @@
 {
   "admin": [
     {
-      "name": "vwAssumptions",
+      "name": "vwAssumptions__Decimal",
       "labels": [
         {
           "binding": "dealSize"
@@ -16,7 +16,18 @@
         {
           "binding": "asmDays",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwAssumptions__Integer",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "asmDuration",
           "aggregator": "Sum"
@@ -24,7 +35,18 @@
         {
           "binding": "asmLag",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwAssumptions__Boolean",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mTSTProfileSums",
           "aggregator": "Sum"
@@ -36,7 +58,7 @@
       ]
     },
     {
-      "name": "vwScalarAssumptions",
+      "name": "vwScalarAssumptions__Decimal",
       "labels": [],
       "selectors": [],
       "values": [
@@ -55,7 +77,7 @@
       ]
     },
     {
-      "name": "vwCommissionRates",
+      "name": "vwCommissionRates__Decimal",
       "labels": [
         {
           "binding": "salesMotion"
@@ -70,7 +92,7 @@
       ]
     },
     {
-      "name": "vwWinRates",
+      "name": "vwWinRates__Decimal",
       "labels": [
         {
           "binding": "stage"
@@ -85,7 +107,7 @@
       ]
     },
     {
-      "name": "vwStandardProfiles",
+      "name": "vwStandardProfiles__Decimal",
       "labels": [
         {
           "binding": "projectWeek"
@@ -103,14 +125,21 @@
       ]
     },
     {
-      "name": "vwImportSummary",
+      "name": "vwImportSummary__Date",
       "labels": [],
       "selectors": [],
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Integer",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mPIGRowsTotal",
           "aggregator": "Sum"
@@ -126,7 +155,14 @@
         {
           "binding": "mPIGUnmappedStages",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Boolean",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
           "aggregator": "Sum"
@@ -134,7 +170,7 @@
       ]
     },
     {
-      "name": "vwStageProps",
+      "name": "vwStageProps__Integer",
       "labels": [
         {
           "binding": "stage"
@@ -145,7 +181,18 @@
         {
           "binding": "stageOrder",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Boolean",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageIsOpen",
           "aggregator": "First"
@@ -157,7 +204,18 @@
         {
           "binding": "stageIsLost",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Text",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageGroup",
           "aggregator": "First"
@@ -165,7 +223,7 @@
       ]
     },
     {
-      "name": "vwDealSizeProps",
+      "name": "vwDealSizeProps__Integer",
       "labels": [
         {
           "binding": "dealSize"
@@ -180,7 +238,7 @@
       ]
     },
     {
-      "name": "vwPigmentStageProps",
+      "name": "vwPigmentStageProps__Integer",
       "labels": [
         {
           "binding": "pigmentStage"
@@ -191,11 +249,33 @@
         {
           "binding": "pigStageOrder",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentStageProps__Text",
+      "labels": [
+        {
+          "binding": "pigmentStage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "pigStageTrack",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentStageProps__Dimension",
+      "labels": [
+        {
+          "binding": "pigmentStage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "pigStageMapsTo",
           "aggregator": "First"
@@ -203,7 +283,7 @@
       ]
     },
     {
-      "name": "vwAttachProps",
+      "name": "vwAttachProps__Dimension",
       "labels": [
         {
           "binding": "partnerAttachType"
@@ -218,7 +298,7 @@
       ]
     },
     {
-      "name": "vwSalesPersonProps",
+      "name": "vwSalesPersonProps__Text",
       "labels": [
         {
           "binding": "salesPerson"
@@ -237,7 +317,7 @@
       ]
     },
     {
-      "name": "vwUseCaseProps",
+      "name": "vwUseCaseProps__Text",
       "labels": [
         {
           "binding": "useCase"
@@ -252,7 +332,7 @@
       ]
     },
     {
-      "name": "vwPigmentAEProps",
+      "name": "vwPigmentAEProps__Boolean",
       "labels": [
         {
           "binding": "pigmentAE"
@@ -269,7 +349,7 @@
   ],
   "newDeal": [
     {
-      "name": "vwAssumptions",
+      "name": "vwAssumptions__Decimal",
       "labels": [
         {
           "binding": "dealSize"
@@ -284,7 +364,18 @@
         {
           "binding": "asmDays",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwAssumptions__Integer",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "asmDuration",
           "aggregator": "Sum"
@@ -292,7 +383,18 @@
         {
           "binding": "asmLag",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwAssumptions__Boolean",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mTSTProfileSums",
           "aggregator": "Sum"
@@ -304,7 +406,7 @@
       ]
     },
     {
-      "name": "vwScalarAssumptions",
+      "name": "vwScalarAssumptions__Decimal",
       "labels": [],
       "selectors": [],
       "values": [
@@ -323,7 +425,7 @@
       ]
     },
     {
-      "name": "vwCommissionRates",
+      "name": "vwCommissionRates__Decimal",
       "labels": [
         {
           "binding": "salesMotion"
@@ -338,14 +440,21 @@
       ]
     },
     {
-      "name": "vwImportSummary",
+      "name": "vwImportSummary__Date",
       "labels": [],
       "selectors": [],
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Integer",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mPIGRowsTotal",
           "aggregator": "Sum"
@@ -361,7 +470,14 @@
         {
           "binding": "mPIGUnmappedStages",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Boolean",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
           "aggregator": "Sum"
@@ -369,7 +485,7 @@
       ]
     },
     {
-      "name": "vwStageProps",
+      "name": "vwStageProps__Integer",
       "labels": [
         {
           "binding": "stage"
@@ -380,7 +496,18 @@
         {
           "binding": "stageOrder",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Boolean",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageIsOpen",
           "aggregator": "First"
@@ -392,7 +519,18 @@
         {
           "binding": "stageIsLost",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Text",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageGroup",
           "aggregator": "First"
@@ -400,7 +538,7 @@
       ]
     },
     {
-      "name": "vwDealSizeProps",
+      "name": "vwDealSizeProps__Integer",
       "labels": [
         {
           "binding": "dealSize"
@@ -417,7 +555,7 @@
   ],
   "pipeline": [
     {
-      "name": "vwPipelineGrid",
+      "name": "vwPipelineGrid__Dimension",
       "labels": [
         {
           "binding": "opportunity"
@@ -431,10 +569,6 @@
         },
         {
           "binding": "oppStage",
-          "aggregator": "First"
-        },
-        {
-          "binding": "oppCloseDate",
           "aggregator": "First"
         },
         {
@@ -454,11 +588,22 @@
           "aggregator": "First"
         },
         {
-          "binding": "oppNotes",
-          "aggregator": "First"
-        },
-        {
           "binding": "oppMatched",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Date",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "oppCloseDate",
           "aggregator": "First"
         },
         {
@@ -472,7 +617,41 @@
         {
           "binding": "oppClosedOn",
           "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Text",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "oppNotes",
+          "aggregator": "First"
         },
+        {
+          "binding": "mALNMatchStatus",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageAlignment",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Decimal",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
@@ -530,6 +709,25 @@
           "aggregator": "Sum"
         },
         {
+          "binding": "mPHProfileTotalPct",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHPhasedOutsideCalendarGbp",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Boolean",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
           "binding": "mOPPIsDaysOverridden",
           "aggregator": "Sum"
         },
@@ -554,26 +752,6 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPDurationWeeks",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNMatchStatus",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNStageGap",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNStageAlignment",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNCloseDateGapDays",
-          "aggregator": "Sum"
-        },
-        {
           "binding": "mALNMotionConsistent",
           "aggregator": "Sum"
         },
@@ -586,19 +764,11 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHProfileTotalPct",
-          "aggregator": "Sum"
-        },
-        {
           "binding": "mPHProfileIsValid",
           "aggregator": "Sum"
         },
         {
           "binding": "mPHHasOverrideProfile",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPHPhasedOutsideCalendarGbp",
           "aggregator": "Sum"
         },
         {
@@ -608,7 +778,30 @@
       ]
     },
     {
-      "name": "vwProfileByDeal",
+      "name": "vwPipelineGrid__Integer",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mOPPDurationWeeks",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageGap",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNCloseDateGapDays",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwProfileByDeal__Decimal",
       "labels": [
         {
           "binding": "opportunity"
@@ -626,7 +819,21 @@
         {
           "binding": "phOverrideProfile",
           "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwProfileByDeal__Dimension",
+      "labels": [
+        {
+          "binding": "opportunity"
         },
+        {
+          "binding": "projectWeek"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mPHCalendarWeek",
           "aggregator": "Sum"
@@ -634,7 +841,7 @@
       ]
     },
     {
-      "name": "vwScalarAssumptions",
+      "name": "vwScalarAssumptions__Decimal",
       "labels": [],
       "selectors": [],
       "values": [
@@ -653,14 +860,21 @@
       ]
     },
     {
-      "name": "vwImportSummary",
+      "name": "vwImportSummary__Date",
       "labels": [],
       "selectors": [],
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Integer",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mPIGRowsTotal",
           "aggregator": "Sum"
@@ -676,7 +890,14 @@
         {
           "binding": "mPIGUnmappedStages",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Boolean",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
           "aggregator": "Sum"
@@ -684,7 +905,7 @@
       ]
     },
     {
-      "name": "vwStageProps",
+      "name": "vwStageProps__Integer",
       "labels": [
         {
           "binding": "stage"
@@ -695,7 +916,18 @@
         {
           "binding": "stageOrder",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Boolean",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageIsOpen",
           "aggregator": "First"
@@ -707,7 +939,18 @@
         {
           "binding": "stageIsLost",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Text",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageGroup",
           "aggregator": "First"
@@ -715,7 +958,7 @@
       ]
     },
     {
-      "name": "vwDealSizeProps",
+      "name": "vwDealSizeProps__Integer",
       "labels": [
         {
           "binding": "dealSize"
@@ -730,7 +973,7 @@
       ]
     },
     {
-      "name": "vwPigmentGrid",
+      "name": "vwPigmentGrid__Dimension",
       "labels": [
         {
           "binding": "pigmentPipeline"
@@ -740,14 +983,6 @@
       "values": [
         {
           "binding": "pigStage",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigCloseDate",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigCreateDate",
           "aggregator": "First"
         },
         {
@@ -761,29 +996,24 @@
         {
           "binding": "pigAttach",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Date",
+      "labels": [
         {
-          "binding": "pigSegment",
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigCloseDate",
           "aggregator": "First"
         },
         {
-          "binding": "pigIndustry",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigAcv",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigDelivery",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigForecastCat",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigInfluence",
+          "binding": "pigCreateDate",
           "aggregator": "First"
         },
         {
@@ -795,8 +1025,35 @@
           "aggregator": "First"
         },
         {
-          "binding": "mPIGInLatestLoad",
+          "binding": "mPIGFirstSeenCalc",
           "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Text",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigSegment",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigIndustry",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigDelivery",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigForecastCat",
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedAccount",
@@ -815,27 +1072,68 @@
           "aggregator": "Sum"
         },
         {
+          "binding": "mALNPigmentMatchStatus",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Decimal",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigAcv",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigInfluence",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Boolean",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPIGInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
           "binding": "mPIGCloseMonthMismatch",
           "aggregator": "Sum"
         },
         {
-          "binding": "mALNPigmentMatchStatus",
+          "binding": "mALNPigmentRowClosed",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Integer",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mALNMatchedDealCount",
           "aggregator": "Sum"
         },
         {
           "binding": "mALNPigmentMappedStageOrder",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNPigmentRowClosed",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPIGFirstSeenCalc",
           "aggregator": "Sum"
         }
       ]
@@ -843,7 +1141,7 @@
   ],
   "deal": [
     {
-      "name": "vwPipelineGrid",
+      "name": "vwPipelineGrid__Dimension",
       "labels": [
         {
           "binding": "opportunity"
@@ -857,10 +1155,6 @@
         },
         {
           "binding": "oppStage",
-          "aggregator": "First"
-        },
-        {
-          "binding": "oppCloseDate",
           "aggregator": "First"
         },
         {
@@ -880,11 +1174,22 @@
           "aggregator": "First"
         },
         {
-          "binding": "oppNotes",
-          "aggregator": "First"
-        },
-        {
           "binding": "oppMatched",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Date",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "oppCloseDate",
           "aggregator": "First"
         },
         {
@@ -898,7 +1203,41 @@
         {
           "binding": "oppClosedOn",
           "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Text",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "oppNotes",
+          "aggregator": "First"
         },
+        {
+          "binding": "mALNMatchStatus",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageAlignment",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Decimal",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
@@ -956,6 +1295,25 @@
           "aggregator": "Sum"
         },
         {
+          "binding": "mPHProfileTotalPct",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHPhasedOutsideCalendarGbp",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Boolean",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
           "binding": "mOPPIsDaysOverridden",
           "aggregator": "Sum"
         },
@@ -980,26 +1338,6 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPDurationWeeks",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNMatchStatus",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNStageGap",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNStageAlignment",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNCloseDateGapDays",
-          "aggregator": "Sum"
-        },
-        {
           "binding": "mALNMotionConsistent",
           "aggregator": "Sum"
         },
@@ -1012,19 +1350,11 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHProfileTotalPct",
-          "aggregator": "Sum"
-        },
-        {
           "binding": "mPHProfileIsValid",
           "aggregator": "Sum"
         },
         {
           "binding": "mPHHasOverrideProfile",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPHPhasedOutsideCalendarGbp",
           "aggregator": "Sum"
         },
         {
@@ -1034,7 +1364,30 @@
       ]
     },
     {
-      "name": "vwProfileByDeal",
+      "name": "vwPipelineGrid__Integer",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mOPPDurationWeeks",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageGap",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNCloseDateGapDays",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwProfileByDeal__Decimal",
       "labels": [
         {
           "binding": "opportunity"
@@ -1052,7 +1405,21 @@
         {
           "binding": "phOverrideProfile",
           "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwProfileByDeal__Dimension",
+      "labels": [
+        {
+          "binding": "opportunity"
         },
+        {
+          "binding": "projectWeek"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mPHCalendarWeek",
           "aggregator": "Sum"
@@ -1060,7 +1427,7 @@
       ]
     },
     {
-      "name": "vwScalarAssumptions",
+      "name": "vwScalarAssumptions__Decimal",
       "labels": [],
       "selectors": [],
       "values": [
@@ -1079,14 +1446,21 @@
       ]
     },
     {
-      "name": "vwImportSummary",
+      "name": "vwImportSummary__Date",
       "labels": [],
       "selectors": [],
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Integer",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mPIGRowsTotal",
           "aggregator": "Sum"
@@ -1102,7 +1476,14 @@
         {
           "binding": "mPIGUnmappedStages",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Boolean",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
           "aggregator": "Sum"
@@ -1110,7 +1491,7 @@
       ]
     },
     {
-      "name": "vwStageProps",
+      "name": "vwStageProps__Integer",
       "labels": [
         {
           "binding": "stage"
@@ -1121,7 +1502,18 @@
         {
           "binding": "stageOrder",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Boolean",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageIsOpen",
           "aggregator": "First"
@@ -1133,7 +1525,18 @@
         {
           "binding": "stageIsLost",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Text",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageGroup",
           "aggregator": "First"
@@ -1141,7 +1544,7 @@
       ]
     },
     {
-      "name": "vwDealSizeProps",
+      "name": "vwDealSizeProps__Integer",
       "labels": [
         {
           "binding": "dealSize"
@@ -1156,7 +1559,7 @@
       ]
     },
     {
-      "name": "vwPigmentGrid",
+      "name": "vwPigmentGrid__Dimension",
       "labels": [
         {
           "binding": "pigmentPipeline"
@@ -1166,14 +1569,6 @@
       "values": [
         {
           "binding": "pigStage",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigCloseDate",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigCreateDate",
           "aggregator": "First"
         },
         {
@@ -1187,29 +1582,24 @@
         {
           "binding": "pigAttach",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Date",
+      "labels": [
         {
-          "binding": "pigSegment",
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigCloseDate",
           "aggregator": "First"
         },
         {
-          "binding": "pigIndustry",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigAcv",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigDelivery",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigForecastCat",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigInfluence",
+          "binding": "pigCreateDate",
           "aggregator": "First"
         },
         {
@@ -1221,8 +1611,35 @@
           "aggregator": "First"
         },
         {
-          "binding": "mPIGInLatestLoad",
+          "binding": "mPIGFirstSeenCalc",
           "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Text",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigSegment",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigIndustry",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigDelivery",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigForecastCat",
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedAccount",
@@ -1241,13 +1658,62 @@
           "aggregator": "Sum"
         },
         {
+          "binding": "mALNPigmentMatchStatus",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Decimal",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigAcv",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigInfluence",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Boolean",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPIGInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
           "binding": "mPIGCloseMonthMismatch",
           "aggregator": "Sum"
         },
         {
-          "binding": "mALNPigmentMatchStatus",
+          "binding": "mALNPigmentRowClosed",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Integer",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mALNMatchedDealCount",
           "aggregator": "Sum"
@@ -1255,21 +1721,13 @@
         {
           "binding": "mALNPigmentMappedStageOrder",
           "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNPigmentRowClosed",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPIGFirstSeenCalc",
-          "aggregator": "Sum"
         }
       ]
     }
   ],
   "matching": [
     {
-      "name": "vwPipelineGrid",
+      "name": "vwPipelineGrid__Dimension",
       "labels": [
         {
           "binding": "opportunity"
@@ -1283,10 +1741,6 @@
         },
         {
           "binding": "oppStage",
-          "aggregator": "First"
-        },
-        {
-          "binding": "oppCloseDate",
           "aggregator": "First"
         },
         {
@@ -1306,11 +1760,22 @@
           "aggregator": "First"
         },
         {
-          "binding": "oppNotes",
-          "aggregator": "First"
-        },
-        {
           "binding": "oppMatched",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Date",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "oppCloseDate",
           "aggregator": "First"
         },
         {
@@ -1324,7 +1789,41 @@
         {
           "binding": "oppClosedOn",
           "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Text",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "oppNotes",
+          "aggregator": "First"
         },
+        {
+          "binding": "mALNMatchStatus",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageAlignment",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Decimal",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
@@ -1382,6 +1881,25 @@
           "aggregator": "Sum"
         },
         {
+          "binding": "mPHProfileTotalPct",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHPhasedOutsideCalendarGbp",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Boolean",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
           "binding": "mOPPIsDaysOverridden",
           "aggregator": "Sum"
         },
@@ -1406,26 +1924,6 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPDurationWeeks",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNMatchStatus",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNStageGap",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNStageAlignment",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNCloseDateGapDays",
-          "aggregator": "Sum"
-        },
-        {
           "binding": "mALNMotionConsistent",
           "aggregator": "Sum"
         },
@@ -1438,19 +1936,11 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHProfileTotalPct",
-          "aggregator": "Sum"
-        },
-        {
           "binding": "mPHProfileIsValid",
           "aggregator": "Sum"
         },
         {
           "binding": "mPHHasOverrideProfile",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPHPhasedOutsideCalendarGbp",
           "aggregator": "Sum"
         },
         {
@@ -1460,7 +1950,30 @@
       ]
     },
     {
-      "name": "vwPigmentGrid",
+      "name": "vwPipelineGrid__Integer",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mOPPDurationWeeks",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageGap",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNCloseDateGapDays",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Dimension",
       "labels": [
         {
           "binding": "pigmentPipeline"
@@ -1470,14 +1983,6 @@
       "values": [
         {
           "binding": "pigStage",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigCloseDate",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigCreateDate",
           "aggregator": "First"
         },
         {
@@ -1491,29 +1996,24 @@
         {
           "binding": "pigAttach",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Date",
+      "labels": [
         {
-          "binding": "pigSegment",
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigCloseDate",
           "aggregator": "First"
         },
         {
-          "binding": "pigIndustry",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigAcv",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigDelivery",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigForecastCat",
-          "aggregator": "First"
-        },
-        {
-          "binding": "pigInfluence",
+          "binding": "pigCreateDate",
           "aggregator": "First"
         },
         {
@@ -1525,8 +2025,35 @@
           "aggregator": "First"
         },
         {
-          "binding": "mPIGInLatestLoad",
+          "binding": "mPIGFirstSeenCalc",
           "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Text",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigSegment",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigIndustry",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigDelivery",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigForecastCat",
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedAccount",
@@ -1545,13 +2072,62 @@
           "aggregator": "Sum"
         },
         {
+          "binding": "mALNPigmentMatchStatus",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Decimal",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "pigAcv",
+          "aggregator": "First"
+        },
+        {
+          "binding": "pigInfluence",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Boolean",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mPIGInLatestLoad",
+          "aggregator": "Sum"
+        },
+        {
           "binding": "mPIGCloseMonthMismatch",
           "aggregator": "Sum"
         },
         {
-          "binding": "mALNPigmentMatchStatus",
+          "binding": "mALNPigmentRowClosed",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwPigmentGrid__Integer",
+      "labels": [
+        {
+          "binding": "pigmentPipeline"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mALNMatchedDealCount",
           "aggregator": "Sum"
@@ -1559,26 +2135,25 @@
         {
           "binding": "mALNPigmentMappedStageOrder",
           "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNPigmentRowClosed",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPIGFirstSeenCalc",
-          "aggregator": "Sum"
         }
       ]
     },
     {
-      "name": "vwImportSummary",
+      "name": "vwImportSummary__Date",
       "labels": [],
       "selectors": [],
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Integer",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mPIGRowsTotal",
           "aggregator": "Sum"
@@ -1594,7 +2169,14 @@
         {
           "binding": "mPIGUnmappedStages",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Boolean",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
           "aggregator": "Sum"
@@ -1602,7 +2184,7 @@
       ]
     },
     {
-      "name": "vwAssumptions",
+      "name": "vwAssumptions__Decimal",
       "labels": [
         {
           "binding": "dealSize"
@@ -1617,7 +2199,18 @@
         {
           "binding": "asmDays",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwAssumptions__Integer",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "asmDuration",
           "aggregator": "Sum"
@@ -1625,7 +2218,18 @@
         {
           "binding": "asmLag",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwAssumptions__Boolean",
+      "labels": [
+        {
+          "binding": "dealSize"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mTSTProfileSums",
           "aggregator": "Sum"
@@ -1637,7 +2241,7 @@
       ]
     },
     {
-      "name": "vwStageProps",
+      "name": "vwStageProps__Integer",
       "labels": [
         {
           "binding": "stage"
@@ -1648,7 +2252,18 @@
         {
           "binding": "stageOrder",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Boolean",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageIsOpen",
           "aggregator": "First"
@@ -1660,7 +2275,18 @@
         {
           "binding": "stageIsLost",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Text",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageGroup",
           "aggregator": "First"
@@ -1668,7 +2294,7 @@
       ]
     },
     {
-      "name": "vwUseCaseProps",
+      "name": "vwUseCaseProps__Text",
       "labels": [
         {
           "binding": "useCase"
@@ -1683,7 +2309,7 @@
       ]
     },
     {
-      "name": "vwSalesPersonProps",
+      "name": "vwSalesPersonProps__Text",
       "labels": [
         {
           "binding": "salesPerson"
@@ -1702,7 +2328,7 @@
       ]
     },
     {
-      "name": "vwDealSizeProps",
+      "name": "vwDealSizeProps__Integer",
       "labels": [
         {
           "binding": "dealSize"
@@ -1719,7 +2345,7 @@
   ],
   "forecast": [
     {
-      "name": "vwForecast",
+      "name": "vwForecast__Decimal",
       "labels": [
         {
           "binding": "opportunity"
@@ -1777,7 +2403,7 @@
       ]
     },
     {
-      "name": "vwPipelineGrid",
+      "name": "vwPipelineGrid__Dimension",
       "labels": [
         {
           "binding": "opportunity"
@@ -1791,10 +2417,6 @@
         },
         {
           "binding": "oppStage",
-          "aggregator": "First"
-        },
-        {
-          "binding": "oppCloseDate",
           "aggregator": "First"
         },
         {
@@ -1814,11 +2436,22 @@
           "aggregator": "First"
         },
         {
-          "binding": "oppNotes",
-          "aggregator": "First"
-        },
-        {
           "binding": "oppMatched",
+          "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Date",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "oppCloseDate",
           "aggregator": "First"
         },
         {
@@ -1832,7 +2465,41 @@
         {
           "binding": "oppClosedOn",
           "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Text",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "oppNotes",
+          "aggregator": "First"
         },
+        {
+          "binding": "mALNMatchStatus",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageAlignment",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Decimal",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "mOPPLicenceValueUsd",
           "aggregator": "Sum"
@@ -1890,6 +2557,25 @@
           "aggregator": "Sum"
         },
         {
+          "binding": "mPHProfileTotalPct",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mPHPhasedOutsideCalendarGbp",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwPipelineGrid__Boolean",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
           "binding": "mOPPIsDaysOverridden",
           "aggregator": "Sum"
         },
@@ -1914,26 +2600,6 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mOPPDurationWeeks",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNMatchStatus",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNStageGap",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNStageAlignment",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mALNCloseDateGapDays",
-          "aggregator": "Sum"
-        },
-        {
           "binding": "mALNMotionConsistent",
           "aggregator": "Sum"
         },
@@ -1946,19 +2612,11 @@
           "aggregator": "Sum"
         },
         {
-          "binding": "mPHProfileTotalPct",
-          "aggregator": "Sum"
-        },
-        {
           "binding": "mPHProfileIsValid",
           "aggregator": "Sum"
         },
         {
           "binding": "mPHHasOverrideProfile",
-          "aggregator": "Sum"
-        },
-        {
-          "binding": "mPHPhasedOutsideCalendarGbp",
           "aggregator": "Sum"
         },
         {
@@ -1968,14 +2626,44 @@
       ]
     },
     {
-      "name": "vwImportSummary",
+      "name": "vwPipelineGrid__Integer",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mOPPDurationWeeks",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNStageGap",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "mALNCloseDateGapDays",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Date",
       "labels": [],
       "selectors": [],
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Integer",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mPIGRowsTotal",
           "aggregator": "Sum"
@@ -1991,7 +2679,14 @@
         {
           "binding": "mPIGUnmappedStages",
           "aggregator": "Sum"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwImportSummary__Boolean",
+      "labels": [],
+      "selectors": [],
+      "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
           "aggregator": "Sum"
@@ -1999,7 +2694,7 @@
       ]
     },
     {
-      "name": "vwStageProps",
+      "name": "vwStageProps__Integer",
       "labels": [
         {
           "binding": "stage"
@@ -2010,7 +2705,18 @@
         {
           "binding": "stageOrder",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Boolean",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageIsOpen",
           "aggregator": "First"
@@ -2022,7 +2728,18 @@
         {
           "binding": "stageIsLost",
           "aggregator": "First"
-        },
+        }
+      ]
+    },
+    {
+      "name": "vwStageProps__Text",
+      "labels": [
+        {
+          "binding": "stage"
+        }
+      ],
+      "selectors": [],
+      "values": [
         {
           "binding": "stageGroup",
           "aggregator": "First"

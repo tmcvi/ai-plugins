@@ -92,6 +92,61 @@ PROPS = {
     "weekOffset":      ("projectWeek", "_offset_MUHMXV", "Offset"),
 }
 
+# A data source carries one value type only - Pigment refuses to mix them
+# (decision D18) - so every source is split by the type of its values. These
+# are the types Pigment reports; anything not listed here is Decimal.
+METRIC_TYPE = {}
+for _name in [
+    "ALN Pigment Row Closed", "OPP Is Open", "TST Profile Zero Beyond Duration",
+    "OPP Is Lost", "PIG In Latest Load", "OPP Is Won", "PH Has Override Profile",
+    "TST Phasing Reconciles", "ALN Motion Consistent", "ALN Matched Row Dropped",
+    "OPP In Forecast", "OPP Is Days Overridden", "PH Profile Is Valid",
+    "TST Profile Sums", "TST Phasing Reconciles All", "ALN Pigment Closed",
+    "OPP Is Rate Overridden", "PIG Close Month Mismatch",
+]:
+    METRIC_TYPE[_name] = "Boolean"
+for _name in [
+    "PIG Derived Use Case Codes", "PIG Derived Deal Type", "ALN Stage Alignment",
+    "PIG Derived Close Month", "PIG Derived Account", "ALN Pigment Match Status",
+    "ALN Match Status",
+]:
+    METRIC_TYPE[_name] = "Text"
+for _name in ["OPP Start Date", "PIG Latest Load Date", "PIG First Seen Calc"]:
+    METRIC_TYPE[_name] = "Date"
+for _name in ["OPP Close Week", "OPP Start Week", "PH Calendar Week", "OPP Close Month"]:
+    METRIC_TYPE[_name] = "Dimension"
+for _name in [
+    "ALN Close Date Gap Days", "OPP Duration Weeks", "PIG Rows Total",
+    "ASM Project Duration Weeks", "ALN Stage Gap", "PIG Unmapped Stages",
+    "ALN Matched Deal Count", "ASM Start Lag Weeks", "ALN Pigment Mapped Stage Order",
+    "PIG Rows Dropped", "PIG Rows In Latest Load",
+]:
+    METRIC_TYPE[_name] = "Integer"
+
+PROP_TYPE = {
+    "oppSalesPerson": "Dimension", "oppStage": "Dimension", "oppCloseDate": "Date",
+    "oppUseCase": "Dimension", "oppSalesMotion": "Dimension", "oppDealSize": "Dimension",
+    "oppPigmentAE": "Dimension", "oppNotes": "Text", "oppMatched": "Dimension",
+    "oppCreatedOn": "Date", "oppUpdatedOn": "Date", "oppClosedOn": "Date",
+    "pigStage": "Dimension", "pigCloseDate": "Date", "pigCreateDate": "Date",
+    "pigAE": "Dimension", "pigContact": "Dimension", "pigAttach": "Dimension",
+    "pigSegment": "Text", "pigIndustry": "Text", "pigAcv": "Decimal",
+    "pigDelivery": "Text", "pigForecastCat": "Text", "pigInfluence": "Decimal",
+    "pigFirstSeen": "Date", "pigLastSeen": "Date",
+    "stageOrder": "Integer", "stageIsOpen": "Boolean", "stageIsWon": "Boolean",
+    "stageIsLost": "Boolean", "stageGroup": "Text", "sizeOrder": "Integer",
+    "useCaseCodes": "Text", "personCrmName": "Text", "personEmail": "Text",
+    "pigStageOrder": "Integer", "pigStageTrack": "Text", "pigStageMapsTo": "Dimension",
+    "attachMapsTo": "Dimension", "aeActive": "Boolean", "weekOffset": "Integer",
+}
+
+
+def value_type(value):
+    if value in PROPS:
+        return PROP_TYPE[value]
+    return METRIC_TYPE.get(value, "Decimal")
+
+
 # Metric aliases the page modules use directly with editValue.
 WRITE_ALIAS = {
     "oppOverrideDays": "OPP Override Days",
@@ -257,6 +312,8 @@ def main():
     # The Frames need this because the new payload is row-major: each row is
     # {labels, values} with no column labels of its own (D17).
     ds_columns = {}
+    # logical data source -> its physical per-type parts
+    ds_parts = {}
 
     # Guard the invariant that broke once: two metrics must never share an alias.
     seen_alias = {}
@@ -300,28 +357,36 @@ def main():
             labels, selectors, values = DS[ds_name]
             for dim in labels + selectors:
                 add_list(dim, 0)
-            vals, columns = [], []
+            # One physical source per value type; the Frame subscribes to the
+            # logical name and the shared layer joins the parts on their row
+            # labels (D18).
+            by_type = collections.OrderedDict()
             for value in values:
                 if value in PROPS:
                     # A list property: one value per item, so no aggregation is
                     # meaningful; First is the only honest choice.
                     add_prop(value)
                     list_alias, _technical, display = PROPS[value]
-                    vals.append({"binding": value, "aggregator": "First"})
-                    columns.append(display)
+                    entry = ({"binding": value, "aggregator": "First"}, display)
                     add_list(list_alias, 0)
                 else:
                     a = alias(value)
                     add_metric(a, M[value], a in PAGE_WRITES[page])
-                    vals.append({"binding": a, "aggregator": "Sum"})
-                    columns.append(value)
-            ds_columns[ds_name] = columns
-            ds_list.append({
-                "name": ds_name,
-                "labels": [{"binding": d} for d in labels],
-                "selectors": [{"binding": d} for d in selectors],
-                "values": vals,
-            })
+                    entry = ({"binding": a, "aggregator": "Sum"}, value)
+                by_type.setdefault(value_type(value), []).append(entry)
+
+            parts = []
+            for vtype, entries in by_type.items():
+                part_name = ds_name + "__" + vtype
+                ds_columns[part_name] = [display for _v, display in entries]
+                parts.append(part_name)
+                ds_list.append({
+                    "name": part_name,
+                    "labels": [{"binding": d} for d in labels],
+                    "selectors": [{"binding": d} for d in selectors],
+                    "values": [v for v, _display in entries],
+                })
+            ds_parts[ds_name] = parts
 
         for wa in PAGE_WRITES[page]:
             add_metric(wa, M[WRITE_ALIAS[wa]], True)
@@ -353,6 +418,7 @@ def main():
     (HERE / "frames" / "src" / "bindings.json").write_text(json.dumps(bindings, indent=2))
     (HERE / "frames" / "src" / "datasources.json").write_text(json.dumps(datasources, indent=2))
     (HERE / "frames" / "src" / "dscolumns.json").write_text(json.dumps(ds_columns, indent=2))
+    (HERE / "frames" / "src" / "dsparts.json").write_text(json.dumps(ds_parts, indent=2))
     for p in PAGES:
         print("  + %-9s %2d bindings, %d data sources" % (p, len(bindings[p]), len(datasources[p])))
     print("\nNo alias collisions, no duplicate bindings, every data source resolves.")
