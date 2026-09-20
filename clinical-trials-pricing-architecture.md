@@ -854,9 +854,9 @@ Six alternative "how much driver volume does this task see" calculations, one pe
 | `Total Hours Estimate` | `2730b643-4c41-4ecf-bf30-bf27e0e99f57` | PV × TD × Country × RR | Same expression **plus `[BY SUM: -> 'Adjust Responsible Role']`** — re-attributes hours to the adjusted role |
 | `Total Hours Estimate Region for Pricing` | `64c02e59-4667-406f-bbf9-676a297fafcf` | PV × TD × **Region** × RR | Same logic at Region grain (`'Country Driver Data Aggregated_Hours_Adjustment' [remove sum: Country]` / `[BY: Country.Region]`), then `[BY SUM: -> 'Adjust Responsible Role']` |
 | `Total Hours Estimate Region for Pricing Mapped to Options` ("Hours Estimate") | `5c4f4232-a9b8-4e53-ab71-835b6305c478` | PV × TD × **OP** × Region × RR | `IFDEFINED('Task - Option Price', 'Total Hours Estimate Region for Pricing' [BY: -> 'Task - Option Price'], 'Total Hours Estimate Region for Pricing' [BY: 'Option Price'."2"])` — tasks with no option assignment default to Option Price **Name = 2 = Main Scope** |
-| `Total Hours Estimate phased` | `391902e0-d75c-4d1f-a879-6d49befe4994` | PV × TD × Country × **TPO** × **Month** × RR | `'Total Hours Estimate' [BY: -> 'Task Phase'] * (Resource_Selector_Milestone_Periods / Resource_Selector_Milestone_Periods [remove sum: Month])` — spreads total hours over the months of the task's phase |
+| `Total Hours Estimate phased` | `391902e0-d75c-4d1f-a879-6d49befe4994` | PV × TD × Country × **TPO** × **Month** × RR | `'Total Hours Estimate' [BY: -> 'Task Phase' [remove lastnonblank: 'Responsible Role']] * (Resource_Selector_Milestone_Periods / Resource_Selector_Milestone_Periods [remove sum: Month])` — spreads total hours over the months of the task's phase. *The `remove lastnonblank` was added 20 Sep 2026: without it, hours moved by an `Adjust Responsible Role` override were silently dropped; see §9.2* |
 | `Total Days Estimate phased` | `acd6a173-e790-48bc-a0ae-bc2b855319ba` | same | `'Total Hours Estimate phased' / 8` |
-| `Total Hours Estimate Study Phases` | `21d0c1e4-0f7e-4013-8811-2657bde4c03a` | **TS** × PV × TD × Country × Month × RR | `'Total Hours Estimate phased' [remove sum: 'Task/Phase Options'] * (Milestone_Period / Milestone_Period [REMOVE SUM: 'Task Stage'])` — re-introduces `Task Stage` as each stage's **share** of the month (see §9.1). *Was* `* IFDEFINED(Milestone_Period, 1)`, which flagged every stage live in that month; corrected 20 Sep 2026.* |
+| `Total Hours Estimate Study Phases` | `21d0c1e4-0f7e-4013-8811-2657bde4c03a` | **TS** × PV × TD × Country × Month × RR | `'Total Hours Estimate phased' [remove sum: 'Task/Phase Options'] * (Milestone_Period / Milestone_Period [REMOVE SUM: 'Task Stage'])` — re-introduces `Task Stage` as each stage's **share** of the month (see §9.1). *Was `* IFDEFINED(Milestone_Period, 1)`, which flagged every stage live in that month; corrected 20 Sep 2026. Also inherits the §9.2 phase-lookup fix through `Total Hours Estimate phased`.* |
 | `Rate Per Task` ("Avg Rate Per Task") | `b835e2b3-399d-4565-b1b2-6d94e451cb42` | PV × TD × OP × Region × RR | `'Price (with Tasks)' / 'Total Hours Estimate Region for Pricing Mapped to Options'` |
 
 ### 4.5 `/8. Rate Cards`
@@ -935,8 +935,8 @@ Six alternative "how much driver volume does this task see" calculations, one pe
 | `Milestone_Acheivement` ("Milestone Achievement") | `d274cd5b-8ede-4885-a0cc-c1e6d671cab2` | Dim → **`Month`** | TS × PV | F | `TIMEDIM('Milestone - To', Month)` — the month each milestone completes |
 | `Milestone Amount` | `361a6727-69c9-431d-8ccc-fac2f4c383b2` | Decimal | TS × PV | F | `'Phased Earnt Revenue' [remove sum: OP, Region, RR, TD, Month, 'Task Stage'] * 'Milestone Payments'` ⚠️ see §9 |
 | `Milestone Billed Amounts` | `15db7f05-0df8-4bf3-b9ae-32187bcdc1a6` | Decimal | TS × PV × Month | F | `'Milestone Amount' [BY: -> Milestone_Acheivement]` — posts the amount into its achievement month |
-| `Phased Earnt Revenue` | `a517cd23-9a7c-4c40-9565-02887b0a691e` | Decimal | **TS × PV × TD × OP × Region × Month × RR** | F | `('Price (with Tasks)' [BY: -> 'Task Phase'] * (Resource_Selector_Milestone_Periods / Resource_Selector_Milestone_Periods [remove sum: Month])) [remove sum: 'Task/Phase Options'] * (Milestone_Period / Milestone_Period [REMOVE SUM: 'Task Stage'])` — *final term corrected 20 Sep 2026, was `IFDEFINED(Milestone_Period, 1)`; see §9.1* |
-| `Phased Cost` ("Cash Payments") | `78ea54a9-6001-4d52-9262-2fcc0a0a02f5` | Decimal | same | F | Same expression on `Cost (with Tasks)` |
+| `Phased Earnt Revenue` | `a517cd23-9a7c-4c40-9565-02887b0a691e` | Decimal | **TS × PV × TD × OP × Region × Month × RR** | F | `('Price (with Tasks)' [BY: -> 'Task Phase' [remove lastnonblank: 'Responsible Role']] * (Resource_Selector_Milestone_Periods / Resource_Selector_Milestone_Periods [remove sum: Month])) [remove sum: 'Task/Phase Options'] * (Milestone_Period / Milestone_Period [REMOVE SUM: 'Task Stage'])` — *two corrections on 20 Sep 2026: the final term was `IFDEFINED(Milestone_Period, 1)` (§9.1), and the phase lookup was `[BY: -> 'Task Phase']` (§9.2)* |
+| `Phased Cost` ("Cash Payments") | `78ea54a9-6001-4d52-9262-2fcc0a0a02f5` | Decimal | same | F | Same expression on `Cost (with Tasks)`, including both 20 Sep 2026 corrections |
 | `Cash Receipts` ("Cash Position") | `8535c37a-42ea-495c-ac97-2d7ec1e243ed` | Decimal | PV × Month | F | `IF(Project_Billing_Type="Monthly Billing", 'Phased Earnt Revenue'[remove sum: TS, RR, OP, TD, Region][BY CONSTANT: Shift(Month,-Payment_Months)], 'Milestone Billed Amounts'[remove sum: TS][BY CONSTANT: Shift(Month,-Payment_Months)])` |
 | `Peak_Cash_Position` | `99d5f206-15f9-4864-b1bf-5fd56663cb87` | Decimal | PV | F | `(CUMULATE(('Cash Receipts' - 'Phased Cost'[remove sum: OP, Region, RR, TD, TS]), Month)) [remove Min: Month]` — the most negative point of the cumulative cash curve |
 | `Month_Filter_Cashflow` | `0ab55441-cfbc-432c-9aab-7992a975fe4e` | Boolean | PV × Month | F | TRUE where any of Cash Receipts / Phased Earnt Revenue / Phased Cost is defined — used to clip the chart's x-axis |
@@ -1071,7 +1071,7 @@ Rates come from a single global card entered by currency × region × role, norm
 1. **Milestone percentages.** `Standard Milestone Payments` (`f2478498-…`) is a global input by `Task Stage` **with no Project Version dimension**. `Milestone Payments` (`7813a1b0-…`) = `'Standard Milestone Payments' [by constant: 'Project Version']` copies it onto every version, where it can be overridden.
 2. **Milestone amount.** `Milestone Amount` (`361a6727-…`) = `'Phased Earnt Revenue' [remove sum: OP, Region, RR, TD, Month, 'Task Stage'] × 'Milestone Payments'`. Note the `remove sum` **includes `Task Stage`** — so the left-hand factor is the *whole project's* revenue, not that stage's, and the percentage is applied to it.
 3. **Achievement month.** `Milestone_Acheivement` (`d274cd5b-…`) = `TIMEDIM('Milestone - To', Month)` — the calendar month in which each phase ends. `Milestone Billed Amounts` (`15db7f05-…`) = `'Milestone Amount' [BY: -> Milestone_Acheivement]` posts each amount into that month.
-4. **Earnt revenue.** `Phased Earnt Revenue` (`a517cd23-…`) takes `Price (with Tasks)`, moves it onto `Task/Phase Options` via each task's `Task Phase`, spreads it across months in proportion to `Resource_Selector_Milestone_Periods`, collapses `Task/Phase Options`, then multiplies by `(Milestone_Period / Milestone_Period [REMOVE SUM: 'Task Stage'])` — which *re-introduces* the `Task Stage` dimension by splitting each month's revenue between the stages live in it, in proportion to how much of the month each occupies. The shares sum to exactly 1 in every live month, so the total is preserved. *Until 20 Sep 2026 this term was `IFDEFINED(Milestone_Period, 1)`, which wrote the month's revenue in full against **every** live stage; see §9.1.*
+4. **Earnt revenue.** `Phased Earnt Revenue` (`a517cd23-…`) takes `Price (with Tasks)`, moves it onto `Task/Phase Options` via each task's `Task Phase` (collapsed over `Responsible Role` — see §9.2), spreads it across months in proportion to `Resource_Selector_Milestone_Periods`, collapses `Task/Phase Options`, then multiplies by `(Milestone_Period / Milestone_Period [REMOVE SUM: 'Task Stage'])` — which *re-introduces* the `Task Stage` dimension by splitting each month's revenue between the stages live in it, in proportion to how much of the month each occupies. The shares sum to exactly 1 in every live month, so the total is preserved. *Until 20 Sep 2026 this term was `IFDEFINED(Milestone_Period, 1)`, which wrote the month's revenue in full against **every** live stage; see §9.1.*
 5. **Cash receipts.** `Cash Receipts` (`8535c37a-…`) switches on `Project_Billing_Type`: *Monthly Billing* shifts `Phased Earnt Revenue` forward by `Payment_Months` (= `Payment Terms` ÷ 30, default 45 days → 1.5); *Milestones* shifts `Milestone Billed Amounts` instead.
 6. **Cash payments.** `Phased Cost` (`78ea54a9-…`) is the same phasing applied to `Cost (with Tasks)`, and is labelled "Cash Payments" on the chart — i.e. **cost is assumed to be paid in the month it is incurred, with no supplier payment terms**.
 7. **Cash position.** The chart view `55be5e8a-…` does the arithmetic in the *view*, not in a metric: it shows `Cash Receipts` cumulated over Month, `Phased Cost` cumulated, and a third series — `Cash Receipts` again, renamed **"Cash Position"**, displayed as *Difference from another metric* against the cumulated `Phased Cost`. There is no `Cash Position` metric to bind a Frame to.
@@ -1269,9 +1269,9 @@ Six of eight now reconcile to the penny. The two that do not are a **separate, p
 3. **Fix §9.2** before any cashflow figure is trusted for Projects 5 and 7.
 4. `Cash Receipts` reads `Phased Earnt Revenue` (Monthly Billing) or `Milestone Billed Amounts` (Milestones), and `Peak_Cash_Position` reads both, so every figure on the Cashflow Profile board and the cashflow chart on the Executive Summary depends on all three.
 
-### 9.2 Phased hours, cost and revenue are silently dropped when `Adjust Responsible Role` is overridden
+### 9.2 Phased hours, cost and revenue were silently dropped when `Adjust Responsible Role` is overridden — ✅ fixed 20 Sep 2026
 
-The two versions that fail to reconcile in §9.1 fail for a reason that has nothing to do with milestones.
+The two versions that failed to reconcile in §9.1 failed for a reason that has nothing to do with milestones.
 
 #### Mechanism
 
@@ -1300,19 +1300,48 @@ The implied rates check out: 120,663.63 ÷ 2,304 h ≈ 52.4/h (Junior Monitor on
 | A blank `Phase` on the `Task Defintion` library | All 34 rows carry a `Phase` GUID |
 | Introduced by the §9.1 `IFDEFINED` correction | The drop happens at `Total Hours Estimate phased`, which is upstream of `Milestone_Period` entirely. It was happening before the correction too |
 
-#### Severity
+#### Severity before the fix
 
-10.3% of Project 7's revenue and 0.018% of Project 5's, today. The magnitude is **unbounded** — it scales with how many tasks a planner has reassigned, and nothing in either UI shows that it has happened.
+10.3% of Project 7's revenue and 0.018% of Project 5's. The magnitude was **unbounded** — it scaled with how many tasks a planner had reassigned, and nothing in either UI showed that it had happened.
 
-#### Candidate fixes — none applied
+#### Fix applied
 
-| | Change | Risk |
+The phase is now resolved at **task level** rather than per (task × role): `'Task Phase'` is collapsed over `Responsible Role` before it is used as a mapping target, so the hours find a phase wherever they land.
+
+| Metric | Id | Change |
 | --- | --- | --- |
-| **A (recommended)** | Resolve the phase at task level inside `Total Hours Estimate phased`, e.g. `'Total Hours Estimate' [BY: -> 'Task Phase' [BY LASTNONBLANK: 'Project Version', 'Task Defintion', 'Task Phase']]` | Lowest. One formula; no input metric touched; no seeded default changes. Needs validating that the collapse picks the right phase where one task legitimately spans roles with different phases |
-| B | Remove the `IF('Task Role Defined …')` gate from `Task Phase` so it is defined for every (task × role) cell on an active service | Touches a `FormulaWithManualInput` metric with overrides live across eight versions. Existing overrides persist; seeded defaults change everywhere |
-| C | Constrain the override so `Adjust Responsible Role` cannot name a role outside Role One–Five | Changes planner behaviour and does not repair existing data |
+| `Total Hours Estimate phased` | `391902e0-…` | `[BY: -> 'Task Phase']` → `[BY: -> 'Task Phase' [remove lastnonblank: 'Responsible Role']]` |
+| `Phased Earnt Revenue` | `a517cd23-…` | same substitution on the `'Price (with Tasks)'` term |
+| `Phased Cost` | `78ea54a9-…` | same substitution on the `'Cost (with Tasks)'` term |
 
-Whichever is chosen, add a **validation metric** — `Price (with Tasks) [remove sum: all] − Phased Earnt Revenue [remove sum: all]` per `Project Version` — and surface it on the Cashflow board, so the next leak is visible rather than silent.
+`Total Hours Estimate Study Phases` (`21d0c1e4-…`) reads `Total Hours Estimate phased` and inherits the fix; `Milestone Amount`, `Cash Receipts` and `Peak_Cash_Position` inherit it through `Phased Earnt Revenue`.
+
+**The six `Country Driver Data *` metrics and `Workload Duration Period` also contain `[BY: -> 'Task Phase']` and were deliberately left alone.** They sit *upstream* of the reassignment — `Total Hours Estimate` applies `[BY SUM: -> 'Adjust Responsible Role']` as its final step, so everything feeding it is still on the original role, where `Task Phase` is correctly defined. Changing them would alter the task hours themselves.
+
+Each formula was checked with `validate_formula` against its target metric first; all three returned `isValid: true` with dimension sets identical to the metric's existing dimensions.
+
+*Caveat.* `lastnonblank` picks one phase where a task's roles disagree. Today they cannot: the library's `Phase` is a single value per `Task Defintion`, so every role of a task resolves to the same phase. The only way to create a disagreement is a manual override on `Task Phase` itself, which is `FormulaWithManualInput` with overrides enabled. If that becomes a real pattern, revisit.
+
+#### Verification (live, after the fix)
+
+| Check | Before | After |
+| --- | --- | --- |
+| Project 7 (v1) `Total Hours Estimate` vs `… phased` | 15,774.99 h vs 13,470.99 h | **15,774.98617511545 vs 15,774.98617511522** ✓ |
+| Project 7 (v1) `Total Hours Estimate Study Phases` | — | **15,774.98617511545** ✓ (FTE chain conserved) |
+| `Phased Earnt Revenue` vs `Price (with Tasks)`, all versions | 6 of 8 tied | **8 of 8 tie** — Project 5 5,049,159.789 ✓, Project 7 1,173,432.626 ✓ |
+| `Phased Cost` vs `Cost (with Tasks)`, all versions | — | **8 of 8 tie** — Project 7 737,176.4567 ✓ |
+| `Milestone Amount` summed over `Task Stage` vs `Price (with Tasks)` | 6 of 8 tied | **8 of 8 tie** ✓ |
+
+(Project 2 (v1) and Project 1 (v2) hold no estimate at all — versions start empty, §4.9.)
+
+#### Still outstanding — the validation guard
+
+A guard metric was designed but **could not be created over MCP** (the create call was refused by a permission policy), so it must be added in the Pigment UI:
+
+- **Name:** `Phasing Leak Check` · **Type:** Decimal · **Dimension:** `Project Version` only · **Folder:** `/14. Cashflow`
+- **Formula:** `'Price (with Tasks)' [REMOVE SUM: 'Task Defintion', 'Option Price', Region, 'Responsible Role'] - 'Phased Earnt Revenue' [REMOVE SUM: 'Task Stage', 'Task Defintion', 'Option Price', Region, Month, 'Responsible Role']`
+- Validated: `isValid: true`, resolves to `Project Version` alone.
+- Expected 0 on every version. Surface it on `8. Cashflow Profile` with a conditional format on non-zero, so the next leak announces itself.
 
 ### 9.3 Other anomalies
 
