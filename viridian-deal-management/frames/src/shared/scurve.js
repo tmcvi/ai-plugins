@@ -18,3 +18,24 @@ function sCurve(nWeeks, steepness, maxWeeks) {
   for (i = nWeeks; i < maxWeeks; i++) out.push(0);
   return out;
 }
+
+// Bar sparkline for a profile. Shared: the Admin S-curve tab and the New deal
+// economics preview both draw one, and the preview lives in shared code, so
+// this cannot sit in a page module.
+function barsSvg(vals, w, hgt) {
+  var max = 0, i;
+  for (i = 0; i < vals.length; i++) if (vals[i] > max) max = vals[i];
+  if (max <= 0) max = 1;
+  var n = 0;
+  for (i = 0; i < vals.length; i++) if (vals[i] > 0) n = i + 1;
+  if (n === 0) n = 1;
+  var bw = w / n;
+  var s = '<svg width="100%" viewBox="0 0 ' + w + ' ' + hgt + '" preserveAspectRatio="none" style="display:block;">';
+  for (i = 0; i < n; i++) {
+    var bh = (vals[i] / max) * (hgt - 2);
+    s += '<rect x="' + (i * bw + 0.5) + '" y="' + (hgt - bh) + '" width="' + Math.max(1, bw - 1) +
+      '" height="' + bh + '" fill="' + T.violet + '"></rect>';
+  }
+  s += '</svg>';
+  return s;
+}
