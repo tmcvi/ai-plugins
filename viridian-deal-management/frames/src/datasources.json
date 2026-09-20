@@ -49,11 +49,11 @@
       "values": [
         {
           "binding": "mTSTProfileSums",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mTSTProfileZeroBeyondDuration",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -131,7 +131,7 @@
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -165,7 +165,7 @@
       "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -397,11 +397,11 @@
       "values": [
         {
           "binding": "mTSTProfileSums",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mTSTProfileZeroBeyondDuration",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -446,7 +446,7 @@
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -480,7 +480,7 @@
       "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -635,11 +635,11 @@
         },
         {
           "binding": "mALNMatchStatus",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNStageAlignment",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -729,51 +729,51 @@
       "values": [
         {
           "binding": "mOPPIsDaysOverridden",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsRateOverridden",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsOpen",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsWon",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsLost",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPInForecast",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNMotionConsistent",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNMatchedRowDropped",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNPigmentClosed",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPHProfileIsValid",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPHHasOverrideProfile",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mTSTPhasingReconciles",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -836,7 +836,7 @@
       "values": [
         {
           "binding": "mPHCalendarWeek",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -866,7 +866,7 @@
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -900,7 +900,7 @@
       "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1026,7 +1026,7 @@
         },
         {
           "binding": "mPIGFirstSeenCalc",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1057,23 +1057,23 @@
         },
         {
           "binding": "mPIGDerivedAccount",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedUseCaseCodes",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedCloseMonth",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedDealType",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNPigmentMatchStatus",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1107,15 +1107,15 @@
       "values": [
         {
           "binding": "mPIGInLatestLoad",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGCloseMonthMismatch",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNPigmentRowClosed",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1221,11 +1221,11 @@
         },
         {
           "binding": "mALNMatchStatus",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNStageAlignment",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1315,51 +1315,51 @@
       "values": [
         {
           "binding": "mOPPIsDaysOverridden",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsRateOverridden",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsOpen",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsWon",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsLost",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPInForecast",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNMotionConsistent",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNMatchedRowDropped",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNPigmentClosed",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPHProfileIsValid",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPHHasOverrideProfile",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mTSTPhasingReconciles",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1422,7 +1422,7 @@
       "values": [
         {
           "binding": "mPHCalendarWeek",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1452,7 +1452,7 @@
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1486,7 +1486,7 @@
       "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1612,7 +1612,7 @@
         },
         {
           "binding": "mPIGFirstSeenCalc",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1643,23 +1643,23 @@
         },
         {
           "binding": "mPIGDerivedAccount",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedUseCaseCodes",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedCloseMonth",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedDealType",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNPigmentMatchStatus",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1693,15 +1693,15 @@
       "values": [
         {
           "binding": "mPIGInLatestLoad",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGCloseMonthMismatch",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNPigmentRowClosed",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1807,11 +1807,11 @@
         },
         {
           "binding": "mALNMatchStatus",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNStageAlignment",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -1901,51 +1901,51 @@
       "values": [
         {
           "binding": "mOPPIsDaysOverridden",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsRateOverridden",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsOpen",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsWon",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsLost",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPInForecast",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNMotionConsistent",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNMatchedRowDropped",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNPigmentClosed",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPHProfileIsValid",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPHHasOverrideProfile",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mTSTPhasingReconciles",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -2026,7 +2026,7 @@
         },
         {
           "binding": "mPIGFirstSeenCalc",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -2057,23 +2057,23 @@
         },
         {
           "binding": "mPIGDerivedAccount",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedUseCaseCodes",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedCloseMonth",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGDerivedDealType",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNPigmentMatchStatus",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -2107,15 +2107,15 @@
       "values": [
         {
           "binding": "mPIGInLatestLoad",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPIGCloseMonthMismatch",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNPigmentRowClosed",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -2145,7 +2145,7 @@
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -2179,7 +2179,7 @@
       "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -2232,11 +2232,11 @@
       "values": [
         {
           "binding": "mTSTProfileSums",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mTSTProfileZeroBeyondDuration",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -2483,11 +2483,11 @@
         },
         {
           "binding": "mALNMatchStatus",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNStageAlignment",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -2577,51 +2577,51 @@
       "values": [
         {
           "binding": "mOPPIsDaysOverridden",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsRateOverridden",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsOpen",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsWon",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPIsLost",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mOPPInForecast",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNMotionConsistent",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNMatchedRowDropped",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mALNPigmentClosed",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPHProfileIsValid",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mPHHasOverrideProfile",
-          "aggregator": "Sum"
+          "aggregator": "First"
         },
         {
           "binding": "mTSTPhasingReconciles",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -2655,7 +2655,7 @@
       "values": [
         {
           "binding": "mPIGLatestLoadDate",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },
@@ -2689,7 +2689,7 @@
       "values": [
         {
           "binding": "mTSTPhasingReconcilesAll",
-          "aggregator": "Sum"
+          "aggregator": "First"
         }
       ]
     },

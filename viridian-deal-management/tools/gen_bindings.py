@@ -372,7 +372,10 @@ def main():
                 else:
                     a = alias(value)
                     add_metric(a, M[value], a in PAGE_WRITES[page])
-                    entry = ({"binding": a, "aggregator": "Sum"}, value)
+                    # Summing a text, date, dimension or boolean means nothing;
+                    # one value per row is what these carry, so take the first.
+                    agg = "Sum" if value_type(value) in ("Decimal", "Integer") else "First"
+                    entry = ({"binding": a, "aggregator": agg}, value)
                 by_type.setdefault(value_type(value), []).append(entry)
 
             parts = []
