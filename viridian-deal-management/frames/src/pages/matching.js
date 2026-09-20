@@ -286,9 +286,9 @@ function pairsStrip(allDeals) {
 
   h += '<div style="max-height:26vh;overflow:auto;margin-top:8px;">';
   h += '<table style="width:100%;border-collapse:collapse;font:12px ' + FONT.body + ';">';
-  h += '<tr><th style="' + LABEL_CSS + 'text-align:left;">Viridian</th><th style="' + LABEL_CSS + 'text-align:left;">Pigment</th>' +
-    '<th style="' + LABEL_CSS + 'text-align:left;">Stage gap</th><th style="' + LABEL_CSS + 'text-align:left;">Close gap</th>' +
-    '<th style="' + LABEL_CSS + 'text-align:left;">Motion</th><th></th></tr>';
+  h += '<tr><th style="' + TH_LABEL_CSS + 'text-align:left;">Viridian</th><th style="' + TH_LABEL_CSS + 'text-align:left;">Pigment</th>' +
+    '<th style="' + TH_LABEL_CSS + 'text-align:left;">Stage gap</th><th style="' + TH_LABEL_CSS + 'text-align:left;">Close gap</th>' +
+    '<th style="' + TH_LABEL_CSS + 'text-align:left;">Motion</th><th></th></tr>';
   for (var p = 0; p < pairs.length; p++) {
     var d = pairs[p];
     var align = gridVal(d.name, 'ALN Stage Alignment');

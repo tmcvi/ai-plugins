@@ -70,6 +70,9 @@ function render(keepValues) {
     pageTitle('New deal', 'Nine fields. Everything else is derived and can be overridden later.') + body);
   attach();
   if (keepValues) restore(sel);
+  // The selects carry their defaults on first paint, so read them back rather
+  // than leaving the preview on "Pick a deal size".
+  refreshPreview();
 }
 
 function restore(sel) {

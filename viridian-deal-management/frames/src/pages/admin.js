@@ -83,11 +83,11 @@ function renderAssumptions() {
   var h = '<div style="' + cardStyle() + 'margin-bottom:16px;">';
   h += '<div style="font:700 15px ' + FONT.display + ';color:' + T.ink + ';margin-bottom:12px;">By deal size</div>';
   h += '<table style="border-collapse:collapse;font:13px ' + FONT.body + ';">';
-  h += '<tr><th style="text-align:left;padding:6px 12px 6px 0;' + LABEL_CSS + '">Deal size</th>';
+  h += '<tr><th style="text-align:left;padding:6px 12px 6px 0;' + TH_LABEL_CSS + '">Deal size</th>';
   for (var c = 0; c < cols.length; c++) {
-    h += '<th style="text-align:right;padding:6px 12px;' + LABEL_CSS + '">' + esc(cols[c].label) + '</th>';
+    h += '<th style="text-align:right;padding:6px 12px;' + TH_LABEL_CSS + '">' + esc(cols[c].label) + '</th>';
   }
-  h += '<th style="text-align:left;padding:6px 12px;' + LABEL_CSS + '">Profile check</th></tr>';
+  h += '<th style="text-align:left;padding:6px 12px;' + TH_LABEL_CSS + '">Profile check</th></tr>';
 
   for (var r = 0; r < sizes.length; r++) {
     h += '<tr><td style="padding:5px 12px 5px 0;font-weight:600;color:' + T.ink + ';">' + esc(sizes[r]) + '</td>';
@@ -115,12 +115,9 @@ function renderAssumptions() {
     { key: 'ASM FX Rate USD to GBP', label: 'FX rate USD to GBP', alias: 'asmFx' }
   ];
   for (var s = 0; s < scalarDefs.length; s++) {
-    var val = null;
-    if (sc) {
-      for (var rr = 0; rr < sc.labels.rows.length; rr++) {
-        if (labelName(sc.labels.rows[rr]) === scalarDefs[s].key) val = cell(sc, 0, rr);
-      }
-    }
+    // One row, one column per metric (D18), so read it the way every other
+    // scalar reader does rather than scanning the row labels.
+    var val = dsValue(sc, scalarDefs[s].key);
     h += '<div><label style="' + LABEL_CSS + '">' + esc(scalarDefs[s].label) + '</label>' +
       inputCell(scalarDefs[s].alias, '{}', val, 'num', 130) +
       '<div style="' + MONO_CSS + 'margin-top:4px;">applies to every deal</div></div>';
@@ -267,8 +264,8 @@ function renderReference() {
   h += '<div style="font:12px ' + FONT.body + ';color:' + T.secondary + ';margin-bottom:12px;">' +
     'Email maps the person to their Pigment login. CRM name is the spelling Pigment uses in its export.</div>';
   h += '<table style="width:100%;border-collapse:collapse;font:13px ' + FONT.body + ';">';
-  h += '<tr><th style="' + LABEL_CSS + 'text-align:left;">Name</th><th style="' + LABEL_CSS + 'text-align:left;">Email</th>' +
-    '<th style="' + LABEL_CSS + 'text-align:left;">CRM name</th></tr>';
+  h += '<tr><th style="' + TH_LABEL_CSS + 'text-align:left;">Name</th><th style="' + TH_LABEL_CSS + 'text-align:left;">Email</th>' +
+    '<th style="' + TH_LABEL_CSS + 'text-align:left;">CRM name</th></tr>';
   for (var p = 0; p < state.people.length; p++) {
     var pr = state.people[p];
     h += '<tr><td style="padding:4px 8px 4px 0;color:' + T.bodyInk + ';">' + esc(pr.Name) + '</td>' +

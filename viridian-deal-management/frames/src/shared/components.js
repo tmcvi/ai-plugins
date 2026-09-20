@@ -40,6 +40,10 @@ var INPUT_CSS = 'font:14px ' + FONT.body + ';color:' + T.ink + ';background:' + 
 var LABEL_CSS = 'display:block;font:600 11px ' + FONT.body + ';letter-spacing:.06em' +
   ';text-transform:uppercase;color:' + T.goldText + ';margin:0 0 5px;';
 
+// LABEL_CSS is display:block, which takes a <th> out of the row and stacks the
+// headers vertically, so table headers get the same look with table-cell back.
+var TH_LABEL_CSS = LABEL_CSS + 'display:table-cell;';
+
 var BTN_PRIMARY = 'font:600 13px ' + FONT.body + ';color:' + T.cream + ';background:' + T.violet +
   ';border:1px solid ' + T.violet + ';border-radius:' + RADIUS.input +
   ';padding:8px 16px;cursor:pointer;outline:none;';
