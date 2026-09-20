@@ -856,7 +856,7 @@ Six alternative "how much driver volume does this task see" calculations, one pe
 | `Total Hours Estimate Region for Pricing Mapped to Options` ("Hours Estimate") | `5c4f4232-a9b8-4e53-ab71-835b6305c478` | PV × TD × **OP** × Region × RR | `IFDEFINED('Task - Option Price', 'Total Hours Estimate Region for Pricing' [BY: -> 'Task - Option Price'], 'Total Hours Estimate Region for Pricing' [BY: 'Option Price'."2"])` — tasks with no option assignment default to Option Price **Name = 2 = Main Scope** |
 | `Total Hours Estimate phased` | `391902e0-d75c-4d1f-a879-6d49befe4994` | PV × TD × Country × **TPO** × **Month** × RR | `'Total Hours Estimate' [BY: -> 'Task Phase'] * (Resource_Selector_Milestone_Periods / Resource_Selector_Milestone_Periods [remove sum: Month])` — spreads total hours over the months of the task's phase |
 | `Total Days Estimate phased` | `acd6a173-e790-48bc-a0ae-bc2b855319ba` | same | `'Total Hours Estimate phased' / 8` |
-| `Total Hours Estimate Study Phases` | `21d0c1e4-0f7e-4013-8811-2657bde4c03a` | **TS** × PV × TD × Country × Month × RR | `'Total Hours Estimate phased' [remove sum: 'Task/Phase Options'] * IFDEFINED(Milestone_Period, 1)` — **re-introduces `Task Stage` by flagging every stage live in that month** (see §9) |
+| `Total Hours Estimate Study Phases` | `21d0c1e4-0f7e-4013-8811-2657bde4c03a` | **TS** × PV × TD × Country × Month × RR | `'Total Hours Estimate phased' [remove sum: 'Task/Phase Options'] * (Milestone_Period / Milestone_Period [REMOVE SUM: 'Task Stage'])` — re-introduces `Task Stage` as each stage's **share** of the month (see §9.1). *Was* `* IFDEFINED(Milestone_Period, 1)`, which flagged every stage live in that month; corrected 20 Sep 2026.* |
 | `Rate Per Task` ("Avg Rate Per Task") | `b835e2b3-399d-4565-b1b2-6d94e451cb42` | PV × TD × OP × Region × RR | `'Price (with Tasks)' / 'Total Hours Estimate Region for Pricing Mapped to Options'` |
 
 ### 4.5 `/8. Rate Cards`
@@ -935,7 +935,7 @@ Six alternative "how much driver volume does this task see" calculations, one pe
 | `Milestone_Acheivement` ("Milestone Achievement") | `d274cd5b-8ede-4885-a0cc-c1e6d671cab2` | Dim → **`Month`** | TS × PV | F | `TIMEDIM('Milestone - To', Month)` — the month each milestone completes |
 | `Milestone Amount` | `361a6727-69c9-431d-8ccc-fac2f4c383b2` | Decimal | TS × PV | F | `'Phased Earnt Revenue' [remove sum: OP, Region, RR, TD, Month, 'Task Stage'] * 'Milestone Payments'` ⚠️ see §9 |
 | `Milestone Billed Amounts` | `15db7f05-0df8-4bf3-b9ae-32187bcdc1a6` | Decimal | TS × PV × Month | F | `'Milestone Amount' [BY: -> Milestone_Acheivement]` — posts the amount into its achievement month |
-| `Phased Earnt Revenue` | `a517cd23-9a7c-4c40-9565-02887b0a691e` | Decimal | **TS × PV × TD × OP × Region × Month × RR** | F | `('Price (with Tasks)' [BY: -> 'Task Phase'] * (Resource_Selector_Milestone_Periods / Resource_Selector_Milestone_Periods [remove sum: Month])) [remove sum: 'Task/Phase Options'] * IFDEFINED(Milestone_Period, 1)` |
+| `Phased Earnt Revenue` | `a517cd23-9a7c-4c40-9565-02887b0a691e` | Decimal | **TS × PV × TD × OP × Region × Month × RR** | F | `('Price (with Tasks)' [BY: -> 'Task Phase'] * (Resource_Selector_Milestone_Periods / Resource_Selector_Milestone_Periods [remove sum: Month])) [remove sum: 'Task/Phase Options'] * (Milestone_Period / Milestone_Period [REMOVE SUM: 'Task Stage'])` — *final term corrected 20 Sep 2026, was `IFDEFINED(Milestone_Period, 1)`; see §9.1* |
 | `Phased Cost` ("Cash Payments") | `78ea54a9-6001-4d52-9262-2fcc0a0a02f5` | Decimal | same | F | Same expression on `Cost (with Tasks)` |
 | `Cash Receipts` ("Cash Position") | `8535c37a-42ea-495c-ac97-2d7ec1e243ed` | Decimal | PV × Month | F | `IF(Project_Billing_Type="Monthly Billing", 'Phased Earnt Revenue'[remove sum: TS, RR, OP, TD, Region][BY CONSTANT: Shift(Month,-Payment_Months)], 'Milestone Billed Amounts'[remove sum: TS][BY CONSTANT: Shift(Month,-Payment_Months)])` |
 | `Peak_Cash_Position` | `99d5f206-15f9-4864-b1bf-5fd56663cb87` | Decimal | PV | F | `(CUMULATE(('Cash Receipts' - 'Phased Cost'[remove sum: OP, Region, RR, TD, TS]), Month)) [remove Min: Month]` — the most negative point of the cumulative cash curve |
@@ -1071,7 +1071,7 @@ Rates come from a single global card entered by currency × region × role, norm
 1. **Milestone percentages.** `Standard Milestone Payments` (`f2478498-…`) is a global input by `Task Stage` **with no Project Version dimension**. `Milestone Payments` (`7813a1b0-…`) = `'Standard Milestone Payments' [by constant: 'Project Version']` copies it onto every version, where it can be overridden.
 2. **Milestone amount.** `Milestone Amount` (`361a6727-…`) = `'Phased Earnt Revenue' [remove sum: OP, Region, RR, TD, Month, 'Task Stage'] × 'Milestone Payments'`. Note the `remove sum` **includes `Task Stage`** — so the left-hand factor is the *whole project's* revenue, not that stage's, and the percentage is applied to it.
 3. **Achievement month.** `Milestone_Acheivement` (`d274cd5b-…`) = `TIMEDIM('Milestone - To', Month)` — the calendar month in which each phase ends. `Milestone Billed Amounts` (`15db7f05-…`) = `'Milestone Amount' [BY: -> Milestone_Acheivement]` posts each amount into that month.
-4. **Earnt revenue.** `Phased Earnt Revenue` (`a517cd23-…`) takes `Price (with Tasks)`, moves it onto `Task/Phase Options` via each task's `Task Phase`, spreads it across months in proportion to `Resource_Selector_Milestone_Periods`, collapses `Task/Phase Options`, then multiplies by `IFDEFINED(Milestone_Period, 1)` — which *re-introduces* the `Task Stage` dimension by putting a 1 against every stage whose window touches that month.
+4. **Earnt revenue.** `Phased Earnt Revenue` (`a517cd23-…`) takes `Price (with Tasks)`, moves it onto `Task/Phase Options` via each task's `Task Phase`, spreads it across months in proportion to `Resource_Selector_Milestone_Periods`, collapses `Task/Phase Options`, then multiplies by `(Milestone_Period / Milestone_Period [REMOVE SUM: 'Task Stage'])` — which *re-introduces* the `Task Stage` dimension by splitting each month's revenue between the stages live in it, in proportion to how much of the month each occupies. The shares sum to exactly 1 in every live month, so the total is preserved. *Until 20 Sep 2026 this term was `IFDEFINED(Milestone_Period, 1)`, which wrote the month's revenue in full against **every** live stage; see §9.1.*
 5. **Cash receipts.** `Cash Receipts` (`8535c37a-…`) switches on `Project_Billing_Type`: *Monthly Billing* shifts `Phased Earnt Revenue` forward by `Payment_Months` (= `Payment Terms` ÷ 30, default 45 days → 1.5); *Milestones* shifts `Milestone Billed Amounts` instead.
 6. **Cash payments.** `Phased Cost` (`78ea54a9-…`) is the same phasing applied to `Cost (with Tasks)`, and is labelled "Cash Payments" on the chart — i.e. **cost is assumed to be paid in the month it is incurred, with no supplier payment terms**.
 7. **Cash position.** The chart view `55be5e8a-…` does the arithmetic in the *view*, not in a metric: it shows `Cash Receipts` cumulated over Month, `Phased Cost` cumulated, and a third series — `Cash Receipts` again, renamed **"Cash Position"**, displayed as *Difference from another metric* against the cumulated `Phased Cost`. There is no `Cash Position` metric to bind a Frame to.
@@ -1195,74 +1195,131 @@ Any metric with `inputSettings` of `ManualInput` or `FormulaWithManualInput` is 
 
 ### 9.1 The Cashflow Profile figures — Milestone Payments = 800%, Milestone Amount = 10,582,413 vs a Summary Budget of 553,616
 
-This is not one bug but **three compounding defects**. Taken together they fully account for a Milestone Amount an order of magnitude above the budget.
+> **Rewritten 20 Sep 2026 against live data.** The first pass of this document was written with no AI-visible metric (Gap 1), so this section was derived from formulas and dimensionality alone. AI visibility has since been switched on and every figure below is a `query_data` read. Two assertions in the derived version were **wrong** and have been withdrawn: that the eight milestone percentages had been entered as eight 100%s, and that `Milestone Amount` was therefore structurally 8× too large. Neither is true. The corrected account follows.
 
-#### Defect 1 — the milestone percentages are not a schedule, they are eight 100%s
+#### What the live numbers are
 
-`Standard Milestone Payments` (`f2478498-05ec-482f-8966-f877e2415aa1`) is a `ManualInput` metric dimensioned by **`Task Stage` only**. There are 8 Task Stages. `Milestone Payments` (`7813a1b0-…`) is `'Standard Milestone Payments' [by constant: 'Project Version']`, which copies each stage's value unchanged onto every project version.
+| Read | Value |
+| --- | --- |
+| `Standard Milestone Payments` by `Task Stage` | `0.05, 0.05, 0.05, 0.25, 0.15, 0.25, 0.10, 0.10` — **sums to exactly 1.00** |
+| `Milestone Payments` by `Project Version` | **1.00 on all eight versions** — no version carries an override |
+| `Price (with Tasks)`, Project 1 (v1) | **553,615.782246770750** |
+| `Milestone Amount` across all eight versions (before the `IFDEFINED` correction) | ≈ **10,582,413** |
+| `Milestone Amount` across all eight versions (after it) | ≈ **10,421,570** |
 
-A column total of **800% across 8 stages is exactly 100% per stage**. The intended semantics — a payment schedule whose parts sum to 100% of the contract — are nowhere enforced: there is no normalisation in the formula, no validation metric, and no conditional format flagging a total ≠ 100%. Someone has entered `1` (100%) in each of the eight rows, probably reading the cell as "this milestone is 100% complete" rather than "this milestone releases 100% of the fee".
+#### Cause 1 — the two boards are not scoped to the same population (dominant)
 
-**Effect:** the milestone schedule bills the whole contract eight times over.
+`00. Executive Summary` has `Project Version` as a page dimension with `singleModality: **true**` — exactly one version, and 553,616 is Project 1 (v1)'s `Price (with Tasks)` to the penny.
 
-#### Defect 2 — `Milestone Amount` multiplies the *whole project's* revenue by a *per-stage* percentage
+`8. Cashflow Profile` has `Project Version` with `singleModality: **false**`, so the board can sit on *All* and sum every version. Eight versions × 100% each is the **800%** on the Milestone Payments column: the percentages were never wrong, they were simply added up eight times. The same page scope is most of the gap between 10.4 m and 554 k.
 
-```
-Milestone Amount =
-  'Phased Earnt Revenue' [remove sum: 'Option Price', Region, 'Responsible Role',
-                          'Task Defintion', Month, 'Task Stage']
-  * 'Milestone Payments'
-```
+`Milestone Amount` also has no `Option Price` page at all (its formula removes the dimension with `remove sum`), so every option is always included, while the Exec Summary lets the user narrow to Main Scope. And as established in §4.9, nothing filters on `Version Type`, so *All* also double-counts Project 1 (v1 Superseded **and** v2 Current) and includes the `Example X-Region 500 Patient Study` template.
 
-The `remove sum` list **includes `Task Stage`**. The left-hand factor is therefore a single scalar per project version: total earnt revenue across all phases and all months. It is then multiplied by each stage's percentage.
-
-That is the correct construction *if and only if* the percentages sum to 100%. With Defect 1 in play, every one of the 8 rows equals the whole project's revenue, and the column totals **8 × total revenue**.
-
-`10,582,413 ÷ 8 = 1,322,802` — so the underlying `Phased Earnt Revenue` grand total on that page is about **1.32 m**, against a Summary Budget of **553,616**, a further factor of ~2.4. Defects 3 and 4 explain that residual.
-
-#### Defect 3 — the two figures are not measured over the same population
-
-`Summary Budget` on `00. Executive Summary` (view `20a39aff-…`) and `Milestone Amount` on `8. Cashflow Profile` (view `fd51bda3-…`) are scoped differently by their **boards**, not by their formulas:
-
-| | `00. Executive Summary` | `8. Cashflow Profile` |
-|---|---|---|
-| `Project Version` page | `singleModality: **true**` — exactly one version | `singleModality: **false**` — many versions or *All* |
-| `Option Price` page | present (a page dimension the user can narrow) | **not a page dimension at all** — `Milestone Amount` removes it with `remove sum`, so *all* options are always included |
-| `Region`, `Responsible Role`, `L1`, `Task Defintion` pages | present (hidden, but narrowable) | not present |
-
-So 553,616 is one project version (and possibly one option) of `Price (with Tasks)`, whereas 10,582,413 can legitimately be **the sum across several — or all eight — project versions**, with every option included. As established in §4.9, nothing filters on `Version Type`, so "All" also double-counts Project 1 (v1 Superseded **and** v2 Current) and includes the `Example X-Region 500 Patient Study` template.
-
-**This is the largest single contributor to the residual 2.4×** and the first thing to check: set the Cashflow board's `Project Version` page to the same single version as the Exec Summary and re-read both numbers.
-
-#### Defect 4 — `Phased Earnt Revenue` itself exceeds `Price (with Tasks)` when summed over `Task Stage`
+#### Cause 2 — `IFDEFINED(Milestone_Period, 1)` double-booked boundary months (secondary, now corrected)
 
 ```
-Phased Earnt Revenue =
+Phased Earnt Revenue (as built) =
   ('Price (with Tasks)' [BY: -> 'Task Phase']
    * (Resource_Selector_Milestone_Periods / Resource_Selector_Milestone_Periods [remove sum: Month]))
   [remove sum: 'Task/Phase Options']
   * IFDEFINED(Milestone_Period, 1)
 ```
 
-Up to `[remove sum: 'Task/Phase Options']` this is a clean allocation: total price, spread over months, summing back to total price. The final term is the problem. `Milestone_Period` is `PRORATA(Month, From, To+1)` at `Task Stage × Month` grain, so in a month where one phase ends and the next begins **both stages have a non-blank (fractional) value**. `IFDEFINED(…, 1)` collapses any non-blank to **1**, so that month's revenue is written in full against *both* stages. With 8 phases there are 7 such boundary months, and any phase whose `Milestone - Months` produces an overlapping window adds more.
+Up to `[remove sum: 'Task/Phase Options']` this is a clean allocation: total price, spread over months, summing back to total price. The final term was the problem. `Milestone_Period` is `PRORATA(Month, From, To+1)` at `Task Stage × Month` grain, so in a month where one phase ends and the next begins **both stages hold a non-blank fraction**. `IFDEFINED(…, 1)` collapsed any non-blank to **1**, writing that month's revenue in full against *both* stages. With eight phases there are seven such boundary months.
 
-Consequently **any total that aggregates `Phased Earnt Revenue` over `Task Stage` is larger than `Price (with Tasks)`** — and `Milestone Amount`'s `[remove sum: … 'Task Stage']` does exactly that. `Phased Cost`, `Total Hours Estimate Study Phases` and therefore the whole `/13. Resourcing` FTE chain share the identical `IFDEFINED(Milestone_Period, 1)` construction and the identical inflation.
+`Milestone Amount` aggregates `Phased Earnt Revenue` over `Task Stage` (`[remove sum: … 'Task Stage']`), so it picked the inflation up directly. `Phased Cost` and `Total Hours Estimate Study Phases` — and therefore the whole `/13. Resourcing` FTE chain — carried the identical construction.
 
-The intended construction is a *weight*, not a flag — `Milestone_Period` itself (the PRORATA fraction, which sums to 1 across stages within a month), not `IFDEFINED(…,1)`.
+**Correction applied 20 Sep 2026.** The final term in all three metrics is now the normalised share
 
-#### Recommended checks, in order
+```
+(Milestone_Period / Milestone_Period [REMOVE SUM: 'Task Stage'])
+```
 
-1. Pin both boards to the same single `Project Version` and re-read. If 10,582,413 collapses to roughly `8 × 553,616 = 4.43 m`, Defect 3 is the residual and Defects 1–2 are the 8×.
-2. Sum `Milestone Payments` down the Task Stage column: it should be 100%, it is 800%. Fix `Standard Milestone Payments` (or normalise it in `Milestone Payments`).
-3. Compare `Phased Earnt Revenue [remove sum: everything]` against `Price (with Tasks) [remove sum: everything]` for one version. Any gap is Defect 4.
-4. Because `Cash Receipts` reads `Phased Earnt Revenue` (Monthly Billing) or `Milestone Billed Amounts` (Milestones), and `Peak_Cash_Position` reads both, **every figure on the Cashflow Profile board and the cashflow chart on the Executive Summary is affected by Defects 1, 2 and 4.** The cashflow section of the redesign should be treated as unvalidated.
+which is each live stage's fraction of the month and sums to exactly 1 in every live month, so the stage split no longer changes the total. Bare `Milestone_Period` would *not* have worked: `Milestone - From` is `('Start Date' - 1) - (Months × 30.4)`, which lands mid-month, so the first and last months of a study are only partially covered and bare `Milestone_Period` leaks revenue at both ends. The normalised form is the same pattern the model already uses for `Patient Split %`.
 
-### 9.2 Other anomalies
+This cause was worth ≈ 160,000 across all eight versions — real, but an order of magnitude smaller than Cause 1.
+
+#### What was *not* wrong
+
+- **The milestone percentages.** `Standard Milestone Payments` is a proper schedule summing to 100%, and no project version overrides it. The withdrawn "eight 100%s" reading was an artefact of reading an 800% column total on a multi-version page.
+- **`Milestone Amount`'s construction.** Multiplying whole-project revenue by a per-stage percentage is correct *given* percentages that sum to 100% — which they do.
+
+That said, nothing **enforces** the 100%: there is no normalisation in `Milestone Payments`, no validation metric and no conditional format flagging a total ≠ 100%, and the metric is `FormulaWithManualInput` with override enabled on every version. A planner can break it silently at any time. A guard is still worth adding.
+
+#### Post-correction reconciliation, per version
+
+`Milestone Payments` = 1.00 everywhere, so `Milestone Amount` summed over `Task Stage` should equal `Price (with Tasks)` exactly.
+
+| Project Version | `Price (with Tasks)` | `Milestone Amount` | Delta |
+| --- | --- | --- | --- |
+| Project 1 (v1) | 553,615.78 | 553,615.78 | ✓ 0 |
+| Project 4 (v1) | 1,397,831.50 | 1,397,831.50 | ✓ 0 |
+| Example X-Region 500 Patient Study (v1) | 1,079,531.28 | 1,079,531.28 | ✓ 0 |
+| Project 6 (v1) | 1,289,581.66 | 1,289,581.66 | ✓ 0 |
+| Project 5 (v1) | 5,049,159.79 | 5,048,241.22 | **−918.57 (0.018%)** |
+| Project 7 (v1) | 1,173,432.63 | 1,052,768.99 | **−120,663.63 (10.3%)** |
+| Project 2 (v1), Project 1 (v2) | no estimate | — | versions start empty (§4.9) |
+
+Six of eight now reconcile to the penny. The two that do not are a **separate, pre-existing defect** — see §9.2.
+
+#### Recommended fixes on the native boards
+
+1. **Set `8. Cashflow Profile`'s `Project Version` page to `singleModality: true`**, matching `00. Executive Summary`. This is the single change that makes the two boards comparable and is the dominant cause of the reported figures. Board `fd51bda3-…`.
+2. **Add a 100% guard on `Milestone Payments`** — either normalise in the formula or add a validation Boolean and a conditional format on the Milestone Schedule table.
+3. **Fix §9.2** before any cashflow figure is trusted for Projects 5 and 7.
+4. `Cash Receipts` reads `Phased Earnt Revenue` (Monthly Billing) or `Milestone Billed Amounts` (Milestones), and `Peak_Cash_Position` reads both, so every figure on the Cashflow Profile board and the cashflow chart on the Executive Summary depends on all three.
+
+### 9.2 Phased hours, cost and revenue are silently dropped when `Adjust Responsible Role` is overridden
+
+The two versions that fail to reconcile in §9.1 fail for a reason that has nothing to do with milestones.
+
+#### Mechanism
+
+- `Total Hours Estimate` (`2730b643-…`) ends with `[BY SUM: -> 'Adjust Responsible Role']`. It moves each task's hours off the role that earned them and onto whatever role `Adjust Responsible Role` names.
+- `Adjust Responsible Role` (`ce745b81-…`, `FormulaWithManualInput`, **override enabled**) = `IF('Task Role Defined - General Tasks' OR 'Task Role Defined - Specific Tasks', 'Responsible Role')`. It is the identity by default, but a planner can type any role into the cell.
+- `Task Phase` (`15c055dd-…`) is gated by the **same two Booleans**, which are TRUE only where the `Responsible Role` is one of that task's `Role One … Role Five` on the `Task Defintion` library.
+- So the moment a planner reassigns a task to a role outside its Role One–Five, the hours land on a (`Task Defintion` × `Responsible Role`) cell where `Task Phase` is **blank**.
+- `Total Hours Estimate phased` (`391902e0-…`) = `'Total Hours Estimate' [BY: -> 'Task Phase'] * …`. A blank mapping target means the row has nowhere to go: **the hours are dropped**, with no error, no warning and no residual bucket.
+
+`Phased Cost`, `Phased Earnt Revenue`, `Milestone Amount`, `Cash Receipts`, `Peak_Cash_Position` and the whole `/13. Resourcing` FTE chain inherit the loss. `Price (with Tasks)` and `Summary Budget` do **not**, because they never route through `Task Phase` — which is precisely why the two disagree.
+
+#### Evidence
+
+**Project 7 (v1).** `Total Hours Estimate` = 15,774.99 h; `Total Hours Estimate phased` = 13,470.99 h — **exactly 2,304.00 h** lost. Broken down by `Task Defintion`, one task is present in the unphased metric and **absent entirely** from the phased one: `Co-Monitoring Visit (On-Site)` (`f4416d85-…`), 2,304.00 h. Its hours sit on **`Junior Monitor`**. Its sibling `Site Monitoring Visits (On-Site) - including Preparation and Report` (`14f259cd-…`) is identical on the library — same `Phase` (`213ee106-…`, Treatment/Follow-Up Period), same `Role One` (`91ca769f-…`), same Associated Service, same 2,304.00 h — sits on **`Monitor`**, and phases correctly.
+
+**Project 5 (v1).** Same pattern, smaller: `Attendance at Investigator Meeting - Monitors (F2F)` (`656be1d1-…`), 12.00 h, also reassigned to **`Junior Monitor`**, absent from the phased metric.
+
+The implied rates check out: 120,663.63 ÷ 2,304 h ≈ 52.4/h (Junior Monitor on Project 7), 918.57 ÷ 12 h ≈ 76.5/h (Project 5).
+
+#### Hypotheses eliminated
+
+| Ruled out | Evidence |
+| --- | --- |
+| Incomplete timeline on the affected version | All eight `Milestone - Months` are populated for Project 7 (2, 3, 4, 6, 3, 3, 2, 1 = 24 months) |
+| An unresolvable `Task/Phase Options` span (blank denominator) | All **19** items of `Task/Phase Options` return a non-blank `Resource_Selector_Milestone_Periods` for Project 7 |
+| A blank `Phase` on the `Task Defintion` library | All 34 rows carry a `Phase` GUID |
+| Introduced by the §9.1 `IFDEFINED` correction | The drop happens at `Total Hours Estimate phased`, which is upstream of `Milestone_Period` entirely. It was happening before the correction too |
+
+#### Severity
+
+10.3% of Project 7's revenue and 0.018% of Project 5's, today. The magnitude is **unbounded** — it scales with how many tasks a planner has reassigned, and nothing in either UI shows that it has happened.
+
+#### Candidate fixes — none applied
+
+| | Change | Risk |
+| --- | --- | --- |
+| **A (recommended)** | Resolve the phase at task level inside `Total Hours Estimate phased`, e.g. `'Total Hours Estimate' [BY: -> 'Task Phase' [BY LASTNONBLANK: 'Project Version', 'Task Defintion', 'Task Phase']]` | Lowest. One formula; no input metric touched; no seeded default changes. Needs validating that the collapse picks the right phase where one task legitimately spans roles with different phases |
+| B | Remove the `IF('Task Role Defined …')` gate from `Task Phase` so it is defined for every (task × role) cell on an active service | Touches a `FormulaWithManualInput` metric with overrides live across eight versions. Existing overrides persist; seeded defaults change everywhere |
+| C | Constrain the override so `Adjust Responsible Role` cannot name a role outside Role One–Five | Changes planner behaviour and does not repair existing data |
+
+Whichever is chosen, add a **validation metric** — `Price (with Tasks) [remove sum: all] − Phased Earnt Revenue [remove sum: all]` per `Project Version` — and surface it on the Cashflow board, so the next leak is visible rather than silent.
+
+### 9.3 Other anomalies
 
 | # | Finding | Evidence |
 |---|---|---|
-| 1 | **`5. Timeline Planning` lives in the `Not in Use` board folder** yet is linked from `0. INTRO` and `0. Summary Overview` and hosts the only editable view of `Milestone - Months` outside `4. Assumptions`. Either the folder is wrong or the board is orphaned. | Board `fec768c2-…`, `folderId: 951c318c-…` (`/Not in Use`); nav cards `2968be4c-…` on both intro boards point at it |
-| 2 | **A text widget links to a different application.** The instructions panel on `5. Timeline Planning` hyperlinks to `pigment.app/w/viridian/application/d5972b94-df7a-4417-b43a-9865cc1dee45/boards/8cd1ea81-…`, which is the retired `[OLD] Clinical Trial Commercial Finance` app, labelled "4. Assumptions". Users following it leave this application. | Widget `590c7f6e-37c4-4b23-bddf-c40b8f54f233` |
+| 1 | ✅ **Fixed 20 Sep 2026** — moved to `/Demo/01 Budget Setup` (`3397d657-…`). **`5. Timeline Planning` lived in the `Not in Use` board folder** yet is linked from `0. INTRO` and `0. Summary Overview` and hosts the only editable view of `Milestone - Months` outside `4. Assumptions`. Either the folder is wrong or the board is orphaned. | Board `fec768c2-…`, was `folderId: 951c318c-…` (`/Not in Use`); nav cards `2968be4c-…` on both intro boards point at it |
+| 2 | ✅ **Fixed 20 Sep 2026** — repointed to this application's `4. Assumptions` (`f42e443e-…`). **A text widget linked to a different application.** The instructions panel on `5. Timeline Planning` hyperlinked to `pigment.app/w/viridian/application/d5972b94-df7a-4417-b43a-9865cc1dee45/boards/8cd1ea81-…`, the retired `[OLD] Clinical Trial Commercial Finance` app, labelled "4. Assumptions". Users following it left this application. | Widget `590c7f6e-37c4-4b23-bddf-c40b8f54f233` |
 | 3 | **`0. Summary Overview` has a mis-targeted navigation card.** Its "Workflow Management and Assignment of Approvals" card (`3038288b-…`) points at `3. Central Rates Management` (`0900a49b-…`); the same card on `0. INTRO` correctly points at `Team Assignment` (`91b9b3e3-…`). Its "Manage Budget Approvals" card also points at `00. Executive Summary` rather than `9. Department Review`. | Board `7251dc86-…` |
 | 4 | **Two near-identical landing boards.** `0. INTRO` and `0. Summary Overview` are both in `/Demo` and duplicate 16 nav cards. Only one should survive the redesign. | Boards `59b5b677-…`, `7251dc86-…` |
 | 5 | **The Cashflow chart view is shared by two boards.** View `55be5e8a-…` is the widget source on both `8. Cashflow Profile` and `00. Executive Summary`. Any formatting or pivot change on one silently changes the other. | `search_views` → `referringVisibleBoardNames: ["8. Cashflow Profile","00. Executive Summary"]` |
@@ -1300,11 +1357,11 @@ Everything requested was retrievable except the following.
 
 | # | Gap | Why | Impact |
 |---|---|---|---|
-| 1 | **No cell values could be read.** `query_data` failed with `NoAiVisibleMetric`, and `get_ai_metrics` confirms **zero** metrics are flagged AI-visible in this application. | The MCP data-read surface requires at least one AI-visible metric. | §9.1 is a derivation from formulas and dimensionality, not an arithmetic reconciliation against live cells. The three recommended checks at the end of §9.1 need to be run in the UI. Item counts and list-item property values *were* readable via `get_list_items` and are exact. |
+| 1 | ~~**No cell values could be read.**~~ **Closed 20 Sep 2026.** At the time of the first pass `query_data` failed with `NoAiVisibleMetric` and `get_ai_metrics` returned zero AI-visible metrics, so §9 was derived from formulas and dimensionality alone. AI visibility has since been enabled. | — | §9.1 and §9.2 have been **rewritten against live cell values**, and two assertions in the derived version were withdrawn as wrong (see the note at the head of §9.1). Sections other than §9 were not re-derived; they describe structure, which `query_data` does not affect. |
 | 2 | **The three blocks protected by `Lock invalid inputs` could not be identified.** `get_metric_dependencies` returns ARM ids `0f1c6f58-5ba9-4112-8c92-63e4a462b7d5`, `dcfb4190-fbbb-469c-b43f-ddf6f72eacad`, `f2176388-f8bf-42dc-9316-ab2ed9cc89e7`; none resolve through `search_metrics_and_lists` (they are security-scoped records). | Security blocks are not exposed by the search tools. | §8.2 infers the targets from the metric's dimensionality. Confirm in the Pigment UI under the block's Access Rights tab. |
 | 3 | **The `/Security` folder's full contents are not enumerable.** `search_folders` excludes security folders by design; the folder id (`846cbddd-743c-4edf-b446-41a1c7db9248`) was recovered from block metadata and three objects were found by other means (`Role`, `Users roles`, `Lock invalid inputs`). | Documented tool behaviour. | There may be further security objects not listed in §8. |
 | 4 | **`Role.Access Rights` and `Role.Permissions` values were not read.** `get_list_items` returns the display property and requested scalar properties; `AccessRight` and `Permission`-typed property values are not returned. | Tool limitation. | §8.1 records that the properties exist but not what each of the five roles actually grants. |
-| 5 | **Orphaned views were not enumerated in full.** `search_views` with `usedInBoards: false` returns 3 pages; only page 1 (100 rows) was read. | Volume; they are bound to no board and therefore out of scope for the redesign. | The "~200–300 orphaned views" figure in §1.1 and §9.2 #6 is a range, not an exact count. |
+| 5 | **Orphaned views were not enumerated in full.** `search_views` with `usedInBoards: false` returns 3 pages; only page 1 (100 rows) was read. | Volume; they are bound to no board and therefore out of scope for the redesign. | The "~200–300 orphaned views" figure in §1.1 and §9.3 #6 is a range, not an exact count. |
 | 6 | **`Country` (46 items) and `Client Facing Task Definition` (96 items) item lists were not extracted**, and `Task Defintion` (34), `Task Hrs Driver` (26) and `Country` property values were only sampled. | Over the 50-item threshold set for "small lists" in the brief, or not board-bound. | Structure and property definitions for all of them are complete in §3; only the item values are omitted. |
 | 7 | **Widget pixel geometry is recorded only for the eight primary boards.** | Volume. | `widgetPosition` (`x`, `y`, `width`, `height` on a 12-column grid) is available from `get_board` for every board if the redesign needs to reproduce layouts. |
 
