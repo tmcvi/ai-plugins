@@ -1334,14 +1334,18 @@ Each formula was checked with `validate_formula` against its target metric first
 
 (Project 2 (v1) and Project 1 (v2) hold no estimate at all — versions start empty, §4.9.)
 
-#### Still outstanding — the validation guard
+#### The validation guard — ✅ live
 
-A guard metric was designed but **could not be created over MCP** (the create call was refused by a permission policy), so it must be added in the Pigment UI:
+`Phasing Leak Check` (`b0bc4d81-594a-4f64-9e43-1f67c0309ddd`), Decimal, dimensioned by `Project Version` only, in `/14. Cashflow`:
 
-- **Name:** `Phasing Leak Check` · **Type:** Decimal · **Dimension:** `Project Version` only · **Folder:** `/14. Cashflow`
-- **Formula:** `'Price (with Tasks)' [REMOVE SUM: 'Task Defintion', 'Option Price', Region, 'Responsible Role'] - 'Phased Earnt Revenue' [REMOVE SUM: 'Task Stage', 'Task Defintion', 'Option Price', Region, Month, 'Responsible Role']`
-- Validated: `isValid: true`, resolves to `Project Version` alone.
-- Expected 0 on every version. Surface it on `8. Cashflow Profile` with a conditional format on non-zero, so the next leak announces itself.
+```
+ROUND('Price (with Tasks)' [REMOVE SUM: 'Task Defintion', 'Option Price', Region, 'Responsible Role']
+      - 'Phased Earnt Revenue' [REMOVE SUM: 'Task Stage', 'Task Defintion', 'Option Price', Region, Month, 'Responsible Role'], 2)
+```
+
+Created in the Pigment UI (the MCP `create_metric` call was refused by a permission policy). The `ROUND(…, 2)` was added afterwards over MCP: without it the metric returned float tails of 1e-8 to 1e-7 on every version, so a conditional format on "non-zero" would have flagged all six as leaking and the guard would have been useless. It now reads **exactly 0.00 on all six populated versions**.
+
+Still to do: put it on `8. Cashflow Profile` with a conditional format on non-zero, so the next leak announces itself.
 
 ### 9.3 Other anomalies
 
