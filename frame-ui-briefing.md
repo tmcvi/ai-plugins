@@ -209,6 +209,8 @@ The Frame counterpart to `00. Executive Summary` (`f9577b65-…`); the native bo
 
 Every View a Frame subscribes to should be a Frame-owned copy named `[FRM] …`, even where an identical board view exists, so a board edit never breaks a Frame and vice versa (the shared `55be5e8a-…` view is the cautionary case). Pivot layout is fixed at creation; the Frame selects pages via `updatePageDefinitions`.
 
+> ✅ **All seventeen were created on 20 Sep 2026.** Their ids, the two corrections this table needed, and the scope decisions applied at creation are in **`frame-view-register.md`** — bind Frames to the ids there, not to this table. Two things this table got wrong: `[FRM] Budget by L1` groups `Task Defintion` by its `L1 Task` property rather than using the `L1` dimension, and two of the table-backed views seeded extra metrics that had to be trimmed. Every view with a `Project Version` page was created with `singleModality: true`, so a Frame cannot render a multi-version total even if its code forgets to set the page.
+
 | View | Block | Rows | Columns | Pages | Frames |
 | --- | --- | --- | --- | --- | --- |
 | `[FRM] PV Value` | `Price (with Tasks)` `61bc84a1-…` | Project Version | — (sum over all other dims; Option Price scope per §11 decision) | — | 1 |
@@ -274,7 +276,7 @@ About 14 consultant-days for the four Frames plus the remaining model fixes and 
 | --- | --- | --- | --- |
 | 0a | SDK prototype: the three checks in §9 (list properties, Dimension-metric write, ActionButton → Frame) on a throwaway Frame | 1 | Each answered yes/no with a code snippet; Frame 1 and step 6 design confirmed or revised |
 | 0b | Model fixes from §11. **Applied already: F1b, F1c, most of F4** — the reconciliation exit criterion below is already met. Remaining: F1 board scope, F3, the Change Log display property, and putting the `Phasing Leak Check` guard on the Cashflow board; F5 decided | 1 | ✅ `Phased Earnt Revenue` = `Price (with Tasks)` and `Phased Cost` = `Cost (with Tasks)` on all eight versions; `Phasing Leak Check` reads 0.00 everywhere; Cashflow figures reconcile to Summary Budget for Project 4 (v1). Remaining: guard visible on the Cashflow board, F3 twins built |
-| 1 | Create the 17 `[FRM]` views; shared module (tokens, layout, `isReady`, canvas helpers, version switcher, tooltip, states, cleanup) | 2 | Empty Frame renders header + version switcher on all four pages |
+| 1 | ~~Create the 17 `[FRM]` views~~ ✅ **done 20 Sep 2026** (see `frame-view-register.md`); shared module (tokens, layout, `isReady`, canvas helpers, version switcher, tooltip, states, cleanup) still to write | 1 | Empty Frame renders header + version switcher on all four pages |
 | 2 | Frame 4 Cockpit (read-only first, notes write last) | 2 | Matches `00. Executive Summary` figures for Project 4 (v1) to the unit; prints to one page |
 | 3 | Frame 2 Timeline with drag write-back | 2.5 | Dragging a phase edge updates `Milestone - Months` and downstream dates redraw within one subscription cycle |
 | 4 | Frame 1 Portfolio with forms | 2 | New project + new version + changelog entry created from the Frame appear correctly on native boards |
