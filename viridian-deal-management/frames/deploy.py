@@ -69,7 +69,10 @@ def main():
         }
         existing = ids.get(page)
         if existing:
-            payload["frameId"] = existing
+            # update_frame carries the Frame id inside the request, not beside
+            # it: FrameUpdateRequest requires id, name, body, bindings and
+            # dataSources, and rejects the payload outright if any is missing.
+            payload["request"]["id"] = existing
             verb = "update_frame"
         else:
             verb = "create_frame"
