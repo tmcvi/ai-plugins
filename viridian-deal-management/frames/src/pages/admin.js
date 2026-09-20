@@ -520,6 +520,5 @@ function boot() {
     state.aes = listFromProps(d); redraw();
   }, fail);
 
-  var onResize = debounce(render, 120);
-  on(window, 'resize', onResize);
+  onViewportResize(render);
 }

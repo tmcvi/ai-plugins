@@ -454,5 +454,5 @@ function boot() {
     { alias: 'salesMotion' }, { alias: 'pigmentAE' }
   ], redraw, fail);
 
-  on(window, 'resize', debounce(render, 120));
+  onViewportResize(render);
 }

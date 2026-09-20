@@ -146,5 +146,5 @@ function boot() {
   subscribeView('vwCommissionRates', function (d) { state.commission = d; redraw(); }, fail);
   subscribeView('vwImportSummary', function (d) { state.importSummary = d; redraw(); }, fail);
 
-  on(window, 'resize', debounce(function () { render(true); }, 120));
+  onViewportResize(function () { render(true); });
 }

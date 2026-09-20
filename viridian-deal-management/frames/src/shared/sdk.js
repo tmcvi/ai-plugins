@@ -248,14 +248,92 @@ function subscribeView(alias, onReady, onErr, pageDefs, scroll) {
   }
 }
 
+// The host sizes the Frame with an AutoSizer, so a window resize event is not
+// the only way the viewport changes. The skill calls for both; only the window
+// listener was wired, which left the layout stale on a host-driven resize.
+function onViewportResize(fn) {
+  var debounced = debounce(fn, 120);
+  on(window, 'resize', debounced);
+  if (typeof ResizeObserver === 'function') {
+    var ro = new ResizeObserver(debounced);
+    ro.observe(document.documentElement);
+    trackObserver(ro);
+  }
+}
+
+// ---- self-diagnosis ------------------------------------------------------
+// Pigment is not reachable from the build environment and the Frames sandbox
+// gives no console, so a failure used to surface as one error message with no
+// way to tell which of a page's ~20 sources caused it. Every part now records
+// its own outcome, and if anything is still pending or has failed 8 seconds in,
+// the page replaces itself with the whole picture rather than a single line.
+
+var DIAG = { parts: {}, order: [], armed: false };
+
+function diagNote(name, state, detail) {
+  if (!DIAG.parts[name]) DIAG.order.push(name);
+  DIAG.parts[name] = { state: state, detail: detail === undefined ? '' : String(detail) };
+}
+
+function diagCounts() {
+  var c = { ok: 0, pending: 0, error: 0 };
+  for (var i = 0; i < DIAG.order.length; i++) c[DIAG.parts[DIAG.order[i]].state]++;
+  return c;
+}
+
+function diagHtml() {
+  var c = diagCounts();
+  var h = '<div style="padding:16px 24px;font:13px ' + FONT.body + ';color:' + T.bodyInk + ';">';
+  h += '<div style="font:700 20px ' + FONT.display + ';color:' + T.ink + ';">Data source report</div>';
+  h += '<div style="color:' + T.secondary + ';margin:4px 0 14px;">' +
+    c.ok + ' returned data, ' + c.error + ' failed, ' + c.pending + ' never answered. ' +
+    'SDK: ' + esc(SUB_DATA || 'none') + ' / ' + esc(SUB_ITEMS || 'none') + '.</div>';
+  h += '<table style="border-collapse:collapse;font:12px ' + FONT.mono + ';">';
+  for (var i = 0; i < DIAG.order.length; i++) {
+    var name = DIAG.order[i], d = DIAG.parts[name];
+    var colour = d.state === 'ok' ? T.green : (d.state === 'error' ? T.red : T.copperText);
+    h += '<tr><td style="padding:3px 14px 3px 0;color:' + T.ink + ';white-space:nowrap;">' + esc(name) + '</td>' +
+      '<td style="padding:3px 14px 3px 0;color:' + colour + ';font-weight:600;">' + d.state + '</td>' +
+      '<td style="padding:3px 0;color:' + T.secondary + ';">' + esc(d.detail) + '</td></tr>';
+  }
+  h += '</table>';
+  h += '<div style="margin-top:14px;color:' + T.muted + ';font:12px ' + FONT.body + ';">' +
+    'Copy this table into the build session - it names every source Pigment rejected.</div>';
+  h += '</div>';
+  return h;
+}
+
+// Shown only when something is actually wrong, so a healthy page never sees it.
+function diagArm() {
+  if (DIAG.armed) return;
+  DIAG.armed = true;
+  var t = setTimeout(function () {
+    var c = diagCounts();
+    if (!c.error && !c.pending) return;
+    var host = document.getElementById('app');
+    if (host) host.innerHTML = diagHtml();
+  }, 8000);
+  _timers.push(t);
+}
+
 function subscribePart(alias, onReady, onErr, scroll) {
+  diagNote(alias, 'pending', 'subscribed, no response yet');
+  diagArm();
   var opts = {
     onData: function (data) {
       var grid = adaptGrid(alias, data);
-      if (!isReady(grid)) return;
+      if (!isReady(grid)) {
+        diagNote(alias, 'pending', 'payload arrived but was still loading');
+        return;
+      }
+      diagNote(alias, 'ok', grid.labels.rows.length + ' rows x ' +
+               grid.labels.columns.length + ' cols' + (grid.truncated ? ', truncated' : ''));
       onReady(grid);
     },
-    onError: function (err) { if (onErr) onErr(err); },
+    onError: function (err) {
+      diagNote(alias, 'error', (err && err.message) ? err.message : String(err));
+      if (onErr) onErr(err);
+    },
     dynamicFilters: []
   };
   // 1,000 rows is the ceiling the SDK allows in one window. Sources return
@@ -270,6 +348,7 @@ function subscribePart(alias, onReady, onErr, scroll) {
   try {
     sub = SDK[SUB_DATA](alias, opts);
   } catch (e) {
+    diagNote(alias, 'error', 'threw on subscribe: ' + (e && e.message ? e.message : e));
     if (onErr) onErr(new Error((e && e.message ? e.message : 'Subscription failed') + ' (' + SUB_DATA + ' "' + alias + '")'));
     return null;
   }
@@ -286,9 +365,18 @@ function subscribeList(alias, onReady, onErr) {
   try {
     // Items are plain item names now, not objects: anything else a Frame shows
     // has to come from a data source over list properties (D17).
+    diagNote('items:' + alias, 'pending', 'subscribed, no response yet');
+    diagArm();
     sub = SDK[SUB_ITEMS](alias, {
-      onData: function (d) { onReady(listFromNames((d && d.items) || []), !!(d && d.partialResult)); },
-      onError: function (err) { if (onErr) onErr(err); }
+      onData: function (d) {
+        var names = (d && d.items) || [];
+        diagNote('items:' + alias, 'ok', names.length + ' items');
+        onReady(listFromNames(names), !!(d && d.partialResult));
+      },
+      onError: function (err) {
+        diagNote('items:' + alias, 'error', (err && err.message) ? err.message : String(err));
+        if (onErr) onErr(err);
+      }
     });
   } catch (e) {
     if (onErr) onErr(new Error((e && e.message ? e.message : 'Subscription failed') + ' (' + SUB_ITEMS + ' "' + alias + '")'));

@@ -599,5 +599,5 @@ function boot() {
     state.stages = sortByOrder(listFromProps(d)); redraw();
   }, fail);
 
-  on(window, 'resize', debounce(render, 120));
+  onViewportResize(render);
 }
