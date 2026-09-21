@@ -45,9 +45,41 @@ That is why `create_frame` rejects `type: "View"` bindings. **Views cannot feed 
 2. **The pivot moves server-side into the manifest.** A dataSource declares `labels` (dimension bindings that come back as labels), `selectors` (dimension bindings used to choose what to fetch) and `values` (metric bindings, each with an aggregator). What used to be a view's Rows / Columns / Pages is now this declaration, so each panel needs its own dataSource rather than its own view.
 3. **Writes are unaffected.** `editValue(metricAlias, coordinates, value)` is exactly as documented, so the preparer note in Frame 4 and the milestone and timeline writes in Frames 2 and 3 need no change.
 
+### The payload shape (probed, probe v2)
+
+`subscribeToDataSource` returns **row-major and sparse**, nothing like the documented `cells[c][r]`:
+
+```json
+{ "rows": [ { "labels": ["Project 1 (v1)"], "values": [-46695.33103840492] },
+            { "labels": ["Project 4 (v1)"], "values": [-430930.956920461] } ],
+  "rowOffset": 0, "totalRowCount": 6 }
+```
+
+- One row per live combination. `labels` holds one string per `labels` binding in manifest order; `values` one number per `values` entry in manifest order.
+- **Blank rows are omitted.** The `src` probe returned 6 rows, not 8, because Project 2 (v1) and Project 1 (v2) hold no estimate. A Frame must not assume a row exists for every item.
+- `rowOffset` / `totalRowCount` drive `updateScroll`, same windowing idea as before.
+- A **selector does not appear in `labels`** — it is the axis you filter on. Left unfiltered it aggregates across everything: the `grid` probe's eight stage values were `Milestone_Period` summed over every month *and* every version.
+- Any dimension absent from the manifest is silently aggregated away. `grid` declared no `month`, so the phase values came back summed over all months. **The manifest is the pivot** — there is no view to lean on.
+
+`subscribeToItems` returns:
+
+```json
+{ "items": ["Project 1 (v1)", "Project 2 (v1)", ...], "partialResult": false }
+```
+
+### ⚠️ `subscribeToItems` gives plain strings, not objects
+
+`items` is an array of display names with **no properties attached**. So the version switcher in section 3 of the briefing cannot filter to `Version Type = Current` from a list subscription — the property is not there to read. Options, cheapest first:
+
+1. A dataSource with `labels: [versions]` and a value metric carrying the version type, aggregated `LastNonBlank`. Needs a Text or Dimension metric on `Project Version` exposing `Version Type`; the model has no such metric today, so this is one small new metric.
+2. A `ListProperty` binding (`type: "ListProperty"` with `listId` + `listPropertyTechnicalName`) as a dataSource value — supported by the tool schema, unverified at runtime.
+3. Show every version and mark none as superseded — loses a stated requirement.
+
+Option 1 is the one to take, and it is blocked by the same permission policy that refused `Phasing Leak Check`, so that metric has to be created in the UI.
+
 ### Still unknown
 
-The payload shape from `subscribeToDataSource` — whether it is still column-major `cells[c][r]` with `labels.rows` / `labels.columns`, or something shaped around `labels` and `selectors`. And the `dynamicFilters` shape. `apiprobe2.js` is deployed to `[FRM] ZZ API probe` to answer both; it subscribes to a one-dimension dataSource and a two-dimension one with a selector, and prints the raw payloads.
+The `dynamicFilters` shape, which version selection now depends on. `apiprobe3.js` is deployed to `[FRM] ZZ API probe` and tries eight candidate shapes against the `grid` dataSource, plus two new dataSources (`cash` with a `month` label axis, `stageMonth` with two label axes) to confirm multi-dimension rows.
 
 ### Tool quirks worth knowing
 
