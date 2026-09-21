@@ -4,10 +4,20 @@ Source of truth for the four Frames. **Edit these files, never a Frame body in P
 
 ```
 _shared.js          tokens, SDK helpers, lifecycle, canvas, states, version switcher
-cockpit.js          Frame 4 - Executive Summary cockpit (section 7 of the briefing)
-build.py            _shared.js + <frame>.js -> build/<frame>.frame.js, with a lint pass
+cockpit.js          Frame 4, full version - NOT deployed (56 KB; see below)
+cockpit1.js         Frame 4 as deployed  -> Executive Summary (Frame)  ddaf6ce8
+timeline1.js        Frame 2 as deployed  -> Timeline (Frame)           d383328a
+apiprobe2/3.js      throwaway API diagnostics; delete the probe Frame when done
+build.py            assembles a body, lints it, and emits a deploy twin
 build/              generated; safe to delete
 ```
+
+| Frame | Source | Live id | Writes |
+| --- | --- | --- | --- |
+| 4 Executive Summary | `cockpit1.js` | `ddaf6ce8-6230-4f60-ae84-30791528026c` | preparer note |
+| 2 Timeline | `timeline1.js` | `d383328a-c555-43db-b8ca-fda335bf1d77` | `Milestone - Months`, `Start Date` |
+| 1 Portfolio | not built | | |
+| 3 Cashflow | not built | | |
 
 ```
 python3 frames/build.py --all      # or: python3 frames/build.py cockpit
@@ -17,7 +27,9 @@ python3 frames/build.py --all      # or: python3 frames/build.py cockpit
 
 `cockpit1.js` is **live on Frame `ddaf6ce8` (Executive Summary) and byte-identical to it** — 28,354 bytes both sides. It carries no header comment for that reason; its purpose is documented here instead.
 
-Pushing a body means retyping it into a JSON tool argument, which is why `build.py` forbids double quotes and backslashes: newlines become the only escaping, and the risk of a corruption that still parses drops sharply. It does not reach zero. The first push of this file silently lost its comment header, one unused constant and five section comments — caught only by comparing `bodySizeBytes` against the local build.
+Pushing a body means retyping it into a JSON tool argument, which is why `build.py` forbids double quotes and backslashes: newlines become the only escaping, and the risk of a corruption that still parses drops sharply. It does not reach zero.
+
+**The drift is systematic, not random: comment blocks get dropped.** It happened on the first push of `cockpit1` (819 bytes) and again on `timeline1` (861 bytes) — both times comments and nothing else, both times caught by comparing `bodySizeBytes` against the local build. So `build.py` now also emits `build/<name>.deploy.js`, a comment-free twin, and **that** is what you transcribe into `create_frame` / `update_frame`. Nothing left to drop removes the failure class; the rationale stays here in the repo. `update_frame_body` needs none of this, because it validates every anchor against the live body before writing.
 
 So, after any push:
 

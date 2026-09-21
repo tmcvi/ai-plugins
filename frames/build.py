@@ -138,7 +138,7 @@ def strip_comments(src):
 
 
 # Frames built without the shared module prepended: self-contained diagnostics.
-BARE = {'apiprobe2', 'apiprobe3', 'cockpit1'}
+BARE = {'apiprobe2', 'apiprobe3', 'cockpit1', 'timeline1'}
 
 
 def frames():
@@ -195,9 +195,30 @@ def build(name):
     dest = os.path.join(OUT, name + '.frame.js')
     with open(dest, 'w', encoding='utf-8') as fh:
         fh.write(assembled)
-    print('%s: ok  %d lines, %d bytes -> %s'
+
+    # A comment-free twin, and the one to transcribe when pushing a whole body
+    # through create_frame / update_frame.
+    #
+    # Pushing a body means retyping it into a JSON tool argument, and the
+    # failure mode is consistent rather than random: comment blocks get
+    # dropped. It happened on the first push of both cockpit1 (819 bytes) and
+    # timeline1 (861 bytes), each time comments only, each time caught by
+    # comparing bodySizeBytes against the local build. Transcribing a source
+    # with no comments removes the entire failure class - there is nothing
+    # left to drop - while the rationale stays here in the repo.
+    #
+    # update_frame_body does not need this: it validates every anchor against
+    # the live body first, so a comment added that way is safe.
+    stripped = strip_comments(assembled)
+    keep = [ln.rstrip() for ln in stripped.split('\n')]
+    deploy = '\n'.join([ln for ln in keep if ln.strip()]) + '\n'
+    ddest = os.path.join(OUT, name + '.deploy.js')
+    with open(ddest, 'w', encoding='utf-8') as fh:
+        fh.write(deploy)
+
+    print('%s: ok  %d lines, %d bytes  (deploy twin: %d bytes)'
           % (name, assembled.count('\n') + 1, len(assembled.encode('utf-8')),
-             os.path.relpath(dest, os.path.dirname(HERE))))
+             len(deploy.encode('utf-8'))))
     return dest
 
 
