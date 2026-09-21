@@ -77,9 +77,17 @@ That is why `create_frame` rejects `type: "View"` bindings. **Views cannot feed 
 
 Option 1 is the one to take, and it is blocked by the same permission policy that refused `Phasing Leak Check`, so that metric has to be created in the UI.
 
-### Still unknown
+### The `dynamicFilters` shape is negotiated at runtime, not guessed
 
-The `dynamicFilters` shape, which version selection now depends on. `apiprobe3.js` is deployed to `[FRM] ZZ API probe` and tries eight candidate shapes against the `grid` dataSource, plus two new dataSources (`cash` with a `month` label axis, `stageMonth` with two label axes) to confirm multi-dimension rows.
+Its shape is undocumented, so `PF.negotiate` works it out in the Frame: fetch a baseline unfiltered, then try each candidate and accept the first whose payload **actually differs**. A shape that is silently accepted-and-ignored returns the baseline, which is the failure mode an error check alone would miss.
+
+Nothing waits on the result. Every dataSource puts `versions` first in `labels` and each panel narrows client-side, so the Cockpit is correct with no filter at all; a negotiated filter only stops the two month-grained sources fetching all eight versions. If negotiation fails, they fall back to a 1,000-row window and the Frame shows a banner if that window truncates.
+
+### Confirmed accepted by the manifest
+
+- A **`ListProperty` binding used as a `labels` dimension** — `taskL1` (`Task Defintion` / `l1_task_CZQIV1`). This is what makes budget-by-department possible: there is no L1-dimensioned price metric in the model, and the native board only gets it by grouping `Task Defintion` on its `L1 Task` property. The dataSource does the same grouping server-side.
+- The same binding as **both a label and a selector** (`versions` on `gantt` and `cash`), so client-side narrowing stays correct whether or not the filter works.
+- `Any` as an aggregator for Text and Dimension metrics, and `TextList` for the services strings.
 
 ### Tool quirks worth knowing
 

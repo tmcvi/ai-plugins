@@ -36,6 +36,15 @@ BANNED = [
     (r'<script',                'the body is pure JS, not HTML'),
 ]
 
+# A deployable Frame body travels as a JSON tool argument, so hand-escaping it
+# is a silent-corruption risk. Keeping these two characters out of the source
+# means the only escape needed is the newline. Checked against the RAW source,
+# comments included - a backslash in a comment is still a backslash.
+DEPLOY_SAFE = [
+    ('"',  'double quote'),
+    ('\\', 'backslash'),
+]
+
 # Things the body must contain, so a refactor cannot quietly drop them.
 REQUIRED = [
     (r"getElementById\('app'\)", 'the body must populate #app'),
@@ -129,7 +138,7 @@ def strip_comments(src):
 
 
 # Frames built without the shared module prepended: self-contained diagnostics.
-BARE = {'apiprobe', 'apiprobe2', 'apiprobe3'}
+BARE = {'apiprobe2', 'apiprobe3'}
 
 
 def frames():
@@ -167,6 +176,12 @@ def build(name):
     for pattern, why in REQUIRED:
         if not re.search(pattern, code):
             problems.append('missing: %s' % why)
+
+    for ch, what in DEPLOY_SAFE:
+        at = assembled.find(ch)
+        if at >= 0:
+            line = assembled.count('\n', 0, at) + 1
+            problems.append('line %d: %s - not deploy-safe, see DEPLOY_SAFE' % (line, what))
 
     if problems:
         print('%s: FAILED' % name)
