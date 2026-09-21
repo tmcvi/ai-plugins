@@ -107,6 +107,11 @@
     var n = num(v); if (n === null) return DASH;
     return (n * 100).toFixed(dp == null ? 1 : dp) + '%';
   }
+  function pctTot(v) {
+    var n = num(v); if (n === null) return DASH;
+    var p = n * 100;
+    return (Math.abs(p - Math.round(p)) < 0.05) ? Math.round(p) + '%' : p.toFixed(1) + '%';
+  }
   function statusCol(raw) {
     var s = String(raw || '').toLowerCase();
     if (!s) return FNT;
@@ -253,7 +258,7 @@
   }
   function writeStagePct(stage, p) {
     var co = {}; co.versions = sel; co.stages = stage;
-    write('milestonePct', co, p, stage + ' at ' + (p * 100).toFixed(1) + '%');
+    write('milestonePct', co, p, stage + ' at ' + Math.round(p * 100) + '%');
   }
   function writeTerms(days) {
     var co = {}; co.versions = sel;
@@ -273,16 +278,29 @@
   function normalise() {
     var list = schedule(), tot = pctTotal(list), i;
     if (!tot) { say('Nothing to normalise: no percentages are set.', 'bad'); return; }
+    /* Whole points that still sum to exactly 100. Rounding each share on its
+       own lands on 99 or 101 as often as 100, so floor them all and hand the
+       leftover points to the largest remainders. */
+    var floors = [], rem = [], sum = 0, ord = [];
+    for (i = 0; i < list.length; i++) {
+      var raw = ((list[i].pct || 0) / tot) * 100;
+      var f = Math.floor(raw);
+      floors.push(f); rem.push(raw - f); sum += f; ord.push(i);
+    }
+    ord.sort(function (a, b) { return rem[b] - rem[a]; });
+    var left = 100 - sum;
+    for (i = 0; i < left && i < ord.length; i++) floors[ord[i]] += 1;
+
     var chain = Promise.resolve();
     busy = true;
-    say('Normalising eight stages' + DOTS, '');
+    say('Normalising eight stages to whole percentage points' + DOTS, '');
     for (i = 0; i < list.length; i++) {
       (function (stage, p) {
         chain = chain.then(function () {
           var co = {}; co.versions = sel; co.stages = stage;
           return SDK.editValue('milestonePct', co, p);
         });
-      })(list[i].name, (list[i].pct || 0) / tot);
+      })(list[i].name, floors[i] / 100);
     }
     chain.then(function () {
       busy = false;
@@ -476,7 +494,7 @@
         'payment terms. Switch to Milestones in the header to use it.</div>';
     }
     if (tot !== null && Math.abs(tot - 1) > 0.0005) {
-      h += '<div class=' + q('cf-alert') + '>The split totals <b>' + pct(tot) +
+      h += '<div class=' + q('cf-alert') + '>The split totals <b>' + pctTot(tot) +
         '</b>, not 100%, so every Milestone Amount is wrong by that factor. Normalise before relying on ' +
         'the schedule or the chart in Milestones mode.</div>';
     }
@@ -493,19 +511,20 @@
     }
     h += '</div>';
     h += '<div class=' + q('cf-tot') + '>Total <b class=' +
-      (tot !== null && Math.abs(tot - 1) > 0.0005 ? q('cf-warn') : q('')) + '>' + pct(tot) + '</b>' +
+      (tot !== null && Math.abs(tot - 1) > 0.0005 ? q('cf-warn') : q('')) + '>' + pctTot(tot) + '</b>' +
       '<button class=' + q('cf-b') + ' id=' + q('cf-norm') + (busy ? ' disabled' : '') +
       '>Normalise to 100%</button>' +
-      '<span class=' + q('cf-note') + ' style=' + q('margin:0') + '>drag a segment edge, or type below</span></div>';
+      '<span class=' + q('cf-note') + ' style=' + q('margin:0') + '>whole percentage points ' + DASH +
+      ' drag a segment edge, or type below</span></div>';
 
     h += '<table class=' + q('cf-tb') + '><thead><tr><th>Milestone</th><th class=' + q('cf-n') + '>Share</th>' +
       '<th class=' + q('cf-n') + '>Amount</th><th>Billed in</th></tr></thead><tbody>';
     for (i = 0; i < list.length; i++) {
       h += '<tr><td>' + esc(list[i].name) + '</td>' +
         '<td class=' + q('cf-n') + '><input class=' + q('cf-in') + ' type=' + q('number') +
-        ' min=' + q('0') + ' max=' + q('100') + ' step=' + q('0.5') +
+        ' min=' + q('0') + ' max=' + q('100') + ' step=' + q('1') +
         ' data-pct=' + q(esc(list[i].name)) +
-        ' value=' + q(list[i].pct === null ? '' : (list[i].pct * 100).toFixed(1)) +
+        ' value=' + q(list[i].pct === null ? '' : String(Math.round(list[i].pct * 100))) +
         (busy ? ' disabled' : '') + '></td>' +
         '<td class=' + q('cf-n') + '>' + money(list[i].amount, c) + '</td>' +
         '<td>' + esc(list[i].achieved || DASH) + '</td></tr>';
@@ -595,8 +614,8 @@
     for (i = 0; i < pcts.length; i++) {
       on(pcts[i], 'change', function (ev) {
         var el = ev.currentTarget, stage = el.getAttribute('data-pct');
-        var v = parseFloat(el.value);
-        if (isNaN(v) || v < 0) { say('Share must be a number of 0 or more.', 'bad'); return; }
+        var v = Math.round(parseFloat(el.value));
+        if (isNaN(v) || v < 0) { say('Share must be a whole percentage of 0 or more.', 'bad'); return; }
         writeStagePct(stage, v / 100);
       });
     }
@@ -627,7 +646,7 @@
     dragPct = p;
     grip.seg.style.width = (p * 100) + '%';
     /* keep the label honest while dragging, or the number lags the bar */
-    var pcTxt = (p * 100).toFixed(0) + '%';
+    var pcTxt = Math.round(p * 100) + '%';
     grip.seg.textContent = (p * 100) > 6 ? pcTxt : '';
     var g = document.createElement('span');
     g.className = 'cf-gr';
@@ -641,7 +660,7 @@
     var stage = grip.stage, p = dragPct;
     grip = null; dragPct = null;
     if (p === null || p === undefined) { paint(); return; }
-    writeStagePct(stage, Math.round(p * 1000) / 1000);
+    writeStagePct(stage, Math.round(p * 100) / 100);
   }
 
   var rsz = null;
