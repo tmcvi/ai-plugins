@@ -209,9 +209,17 @@ def build(name):
     #
     # update_frame_body does not need this: it validates every anchor against
     # the live body first, so a comment added that way is safe.
-    stripped = strip_comments(assembled)
-    keep = [ln.rstrip() for ln in stripped.split('\n')]
-    deploy = '\n'.join([ln for ln in keep if ln.strip()]) + '\n'
+    # Drop a line only if stripping a comment is what emptied it. Lines that
+    # were already blank stay: they are the structure that makes a long body
+    # readable enough to transcribe accurately, which is the whole point.
+    raw_lines = assembled.split('\n')
+    out_lines = strip_comments(assembled).split('\n')
+    deploy = '\n'.join([
+        out.rstrip() for raw, out in zip(raw_lines, out_lines)
+        if out.strip() or not raw.strip()
+    ])
+    if not deploy.endswith('\n'):
+        deploy += '\n'
     ddest = os.path.join(OUT, name + '.deploy.js')
     with open(ddest, 'w', encoding='utf-8') as fh:
         fh.write(deploy)

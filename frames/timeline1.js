@@ -36,7 +36,6 @@
     '.tl-tb th{text-align:left;color:' + MUT + ';font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em;padding:6px 6px;border-bottom:1px solid ' + BRD + '}' +
     '.tl-tb td{padding:5px 6px;border-bottom:1px solid ' + BRD + '}' +
     '.tl-n{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}' +
-    '.tl-ab{display:inline-block;min-width:44px;font-size:11px;font-weight:600;color:' + MUT + '}' +
     '.tl-cv{width:100%;overflow:hidden;cursor:default}.tl-cv canvas{display:block}' +
     '.tl-st{padding:32px 16px;text-align:center;color:' + MUT + '}' +
     '.tl-st.e{color:#B91C1C}' +
@@ -136,7 +135,7 @@
       var nm = lab(rows[i], 1);
       if (!nm) continue;
       out.push({
-        name: nm, ab: lab(rows[i], 2) || nm.slice(0, 3),
+        name: nm,
         months: num(val(rows[i], ci('tl', 'months'))),
         from: val(rows[i], ci('tl', 'from')), to: val(rows[i], ci('tl', 'to')),
         achieved: txt(val(rows[i], ci('tl', 'achieved')))
@@ -203,7 +202,7 @@
     for (i = 0; i < sg.length; i++) {
       var m = sg[i].months;
       if (m !== null) tot += m;
-      h += '<tr><td><span class=' + q('tl-ab') + '>' + esc(sg[i].ab) + '</span></td>' +
+      h += '<tr><td>' + esc(sg[i].name) + '</td>' +
         '<td class=' + q('tl-n') + '><input class=' + q('tl-in n') + ' type=' + q('number') +
         ' min=' + q('0') + ' step=' + q('1') + ' data-stage=' + q(esc(sg[i].name)) +
         ' value=' + q(m === null ? '' : String(m)) + (pending[sg[i].name] ? ' disabled' : '') + '></td>' +
@@ -243,11 +242,11 @@
     }
     if (!ord.length) { host.innerHTML = st('', 'No phase lands in a month for this version.'); return; }
 
-    var sg = stages(), abOf = {}, achOf = {};
-    for (i = 0; i < sg.length; i++) { abOf[sg[i].name] = sg[i].ab; achOf[sg[i].name] = sg[i].achieved; }
+    var sg = stages(), known = {}, achOf = {};
+    for (i = 0; i < sg.length; i++) { known[sg[i].name] = 1; achOf[sg[i].name] = sg[i].achieved; }
     var list = [];
     for (i = 0; i < sg.length; i++) if (by[sg[i].name]) list.push(by[sg[i].name]);
-    for (i = 0; i < ord.length; i++) if (!abOf[ord[i]]) list.push(by[ord[i]]);
+    for (i = 0; i < ord.length; i++) if (!known[ord[i]]) list.push(by[ord[i]]);
     if (!list.length) list = [by[ord[0]]];
 
     var lo = list[0].lo, hi = list[0].hi;
@@ -280,9 +279,7 @@
       var bw = Math.max(3, x1 - x0);
 
       x.fillStyle = MUT; x.textAlign = 'right';
-      x.fillText(clip(x, b.n, pl - 58), pl - 54, y + rh / 2 + 4);
-      x.fillStyle = FNT;
-      x.fillText(abOf[b.n] || '', pl - 8, y + rh / 2 + 4);
+      x.fillText(clip(x, b.n, pl - 16), pl - 12, y + rh / 2 + 4);
       x.textAlign = 'left';
 
       x.globalAlpha = pending[b.n] ? 0.45 : 1;
@@ -429,7 +426,7 @@
     var html =
       card('Phases', 8, '<div class=' + q('tl-cv') + ' id=' + q('tl-gantt') + '></div>',
            'drag a bar' + String.fromCharCode(39) + 's right edge to change its length') +
-      card('Months', 4, rail(), 'type a value, or drag');
+      card('Months', 4, rail(), 'type a value, or drag an edge');
     if (showSpans) html += card('Resourcing spans', 12, spans(), 'Dual Timeline Stages');
     elB.innerHTML = html;
 
