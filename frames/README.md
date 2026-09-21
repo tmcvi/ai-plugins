@@ -13,6 +13,20 @@ build/              generated; safe to delete
 python3 frames/build.py --all      # or: python3 frames/build.py cockpit
 ```
 
+## Deploying, and keeping the repo honest
+
+`cockpit1.js` is **live on Frame `ddaf6ce8` (Executive Summary) and byte-identical to it** — 28,354 bytes both sides. It carries no header comment for that reason; its purpose is documented here instead.
+
+Pushing a body means retyping it into a JSON tool argument, which is why `build.py` forbids double quotes and backslashes: newlines become the only escaping, and the risk of a corruption that still parses drops sharply. It does not reach zero. The first push of this file silently lost its comment header, one unused constant and five section comments — caught only by comparing `bodySizeBytes` against the local build.
+
+So, after any push:
+
+1. **Prefer `update_frame_body` over `update_frame`** once a body is live. It validates every `oldString` against the current body before writing anything, so drift surfaces as a rejection instead of a corruption. Seven edits applied cleanly is seven pieces of evidence that the deployed code matches.
+2. **Compare `bodySizeBytes` with the local build.** Equal sizes plus matching edits is a strong check; a mismatch means the repo is lying about what is running, which is worse than a bug.
+3. If they differ, **reconcile the local file down to what is deployed**, not the other way around, unless the missing content is functional.
+
+`cockpit.js` (the fuller 56 KB version with the shared module, runtime filter negotiation, tooltips and the truncation banner) is **not deployed**. It is the target to grow back into once stage 1 has been exercised; deploying it would mean retyping 56 KB, which is where corruption becomes likely rather than possible.
+
 The lint pass rejects what the sandbox forbids (network, storage, `alert`, Workers, `parent`, `@import`, `<script>`) and what does not survive a JSON tool argument (template literals), and requires the things a Frame body must have (`#app`, `root.__cleanup`, strict mode). It strips comments and regex literals before matching, so prose and `.replace(/'/g, …)` do not trip it — `strip_comments` has its own test cases in the commit that introduced it.
 
 ## This tenant's Frames API (probed 21 Sep 2026)

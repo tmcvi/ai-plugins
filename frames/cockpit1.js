@@ -1,16 +1,10 @@
-/* Frame 4 - Executive Summary cockpit, stage 1.
-   Self-contained (BARE) and deliberately compact so the body can be pushed
-   through the API without a hand-paste. Reads dataSources from the manifest
-   on Frame ddaf6ce8; every source has versions as label 0 and is narrowed
-   client-side, so no dynamicFilters are needed. No double quotes, no
-   backslashes - build.py enforces it. */
 (function () {
   'use strict';
   var SDK = window.PigmentSDK;
   var root = document.getElementById('app');
   if (root.__cleanup) root.__cleanup();
 
-  var DASH = String.fromCharCode(8211), ARROW = String.fromCharCode(8594), DOTS = String.fromCharCode(8230);
+  var DASH = String.fromCharCode(8211), DOTS = String.fromCharCode(8230);
   var QT = String.fromCharCode(39);
   function q(s) { return QT + s + QT; }
   var INK = '#111827', MUT = '#6B7280', FNT = '#9CA3AF', BRD = '#E5E7EB', BG = '#F6F7F9';
@@ -27,7 +21,7 @@
     '.ck-hd{position:sticky;top:0;z-index:9;min-height:56px;display:flex;align-items:center;gap:14px;padding:0 24px;background:#fff;border-bottom:1px solid ' + BRD + ';flex-wrap:wrap}' +
     '.ck-t{font-size:16px;font-weight:600}' +
     '.ck-sp{flex:1 1 auto}' +
-    '.ck-bd{padding:24px;max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);gap:16px}' +
+    '.ck-bd{padding:24px;max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:start}' +
     '.ck-c{background:#fff;border:1px solid ' + BRD + ';border-radius:8px;padding:16px;min-width:0}' +
     '.ck-c h2{margin:0 0 12px;font-size:14px;font-weight:600}' +
     '.ck-c h2 span{color:' + MUT + ';font-size:12px;font-weight:400;margin-left:8px}' +
@@ -124,7 +118,6 @@
     return x;
   }
 
-  /* -- state ------------------------------------------------------------- */
   var COLS = {
     hdr: ['sponsor', 'indication', 'programPhase', 'status', 'currency', 'patients', 'sites', 'peak'],
     svc: ['in', 'out'], budget: ['price', 'cost'],
@@ -164,7 +157,6 @@
   }
   function bump() { if (timer) clearTimeout(timer); timer = setTimeout(paint, 30); }
 
-  /* -- subscriptions ----------------------------------------------------- */
   function sub(n, rows) {
     var o = {
       dynamicFilters: [],
@@ -187,7 +179,6 @@
     }));
   } catch (e) {}
 
-  /* -- shell ------------------------------------------------------------- */
   root.className = 'ck';
   root.innerHTML =
     '<div class=' + q('ck-hd') + '>' +
@@ -201,7 +192,6 @@
   on(root.querySelector('#ck-pr'), 'click', function () { window.print(); });
   on(elV, 'change', function () { sel = elV.value; dirty = false; paint(); });
 
-  /* -- panels ------------------------------------------------------------ */
   function card(title, span, inner, sub2) {
     return '<section class=' + q('ck-c') + ' style=' + q('grid-column:span ' + span) + '><h2>' + esc(title) +
       (sub2 ? '<span>' + esc(sub2) + '</span>' : '') + '</h2>' + inner + '</section>';
@@ -219,7 +209,7 @@
       ['Programme phase', txt(val(r, ci('hdr', 'programPhase'))), 1],
       ['Patients randomized', num(val(r, ci('hdr', 'patients'))) === null ? '' : money(val(r, ci('hdr', 'patients'))), 0],
       ['Active sites', num(val(r, ci('hdr', 'sites'))) === null ? '' : money(val(r, ci('hdr', 'sites'))), 0],
-      ['Peak cash drawdown', comp(val(r, ci('hdr', 'peak')), c), 0]
+      ['Budget', comp(budgetTotal(), c), 0]
     ];
     var h = '<div class=' + q('ck-ti') + '>', i;
     for (i = 0; i < t.length; i++) {
@@ -246,13 +236,24 @@
   }
 
   function gapTag(name) {
+    var tag = ' <span class=' + q('ck-tag') + '>no approver assigned</span>';
     var a = mine('appr'), i;
     for (i = 0; i < a.length; i++) {
-      if (lab(a[i], 1) === name) {
-        return txt(val(a[i], ci('appr', 'approver'))) ? '' : ' <span class=' + q('ck-tag') + '>no approver assigned</span>';
-      }
+      if (lab(a[i], 1) === name) return txt(val(a[i], ci('appr', 'approver'))) ? '' : tag;
     }
-    return '';
+    /* No approvals row at all is the same gap, not an absence of evidence -
+       ranks 10 and 11 carry no approver in this model, and rank 10 does carry
+       budget. Only claim it once the approvals source has loaded. */
+    return ready(S.appr.d) ? tag : '';
+  }
+
+  function budgetTotal() {
+    var rows = mine('budget'), t = null, i, p;
+    for (i = 0; i < rows.length; i++) {
+      p = num(val(rows[i], ci('budget', 'price')));
+      if (p !== null) t = (t || 0) + p;
+    }
+    return t;
   }
 
   function budget() {
@@ -348,7 +349,7 @@
       kp('Peak drawdown', comp(pk, c), POS) + '</div>' +
       '<div class=' + q('ck-cv') + ' id=' + q('ck-cash') + '></div>' +
       '<div class=' + q('ck-lg') + '>' + lgd(ACC, 'Receipts (cum.)') + lgd(PAY, 'Payments (cum.)') +
-      lgd(POS, 'Net position') + lgd(REV, 'Earnt revenue (monthly)') + '</div>';
+      lgd(POS, 'Net position') + lgd(REV, 'Earnt revenue (monthly, own scale)') + '</div>';
   }
   function kp(l, v, c) {
     return '<div><div class=' + q('ck-lb') + '>' + esc(l) + '</div><div class=' + q('ck-vl') +
@@ -367,7 +368,6 @@
       '<span class=' + q('ck-ws') + ' id=' + q('ck-nw') + '></span></div>';
   }
 
-  /* -- paint ------------------------------------------------------------- */
   function paint() {
     var keep = null, live = elB.querySelector('#ck-nt');
     if (live && dirty) {
@@ -434,7 +434,7 @@
     for (i = 0; i < stg.length; i++) { if (stg[i].lo < lo) lo = stg[i].lo; if (stg[i].hi > hi) hi = stg[i].hi; }
     lo = Math.max(0, lo - 1); hi = Math.min(order.length - 1, hi + 1);
     var span = Math.max(1, hi - lo + 1);
-    var rh = 20, gp = 6, pl = 190, pr = 14, pt = 20, pb = 10;
+    var rh = 20, gp = 6, pl = 250, pr = 14, pt = 20, pb = 10;
     var w = Math.max(320, host.clientWidth || 640), h = pt + pb + stg.length * (rh + gp);
     host.innerHTML = '<canvas></canvas>';
     var x = fitC(host.firstChild, w, h), cw = (w - pl - pr) / span;
@@ -474,9 +474,8 @@
     var cr = [], cc = [], a = 0, b = 0;
     for (i = 0; i < n; i++) { a += s.rc[i]; b += s.cs[i]; cr.push(a); cc.push(b); }
     var hi = 0, lo = 0;
-    for (i = 0; i < n; i++) {
-      [cr[i], cc[i], s.ps[i], s.er[i]].forEach(function (v) { if (v > hi) hi = v; if (v < lo) lo = v; });
-    }
+    function track(v) { if (v > hi) hi = v; if (v < lo) lo = v; }
+    for (i = 0; i < n; i++) { track(cr[i]); track(cc[i]); track(s.ps[i]); }
     if (hi === lo) hi = lo + 1;
     var pd = (hi - lo) * 0.08; hi += pd; lo -= pd;
     function X(k) { return pl + (n === 1 ? pw / 2 : (k / (n - 1)) * pw); }
@@ -487,12 +486,17 @@
     x.fillText(comp(hi), pl - 6, Y(hi) + 8); x.fillText(comp(lo), pl - 6, Y(lo));
     x.textAlign = 'left'; x.fillText(s.m[0], pl, h - 6);
     if (n > 1) { x.textAlign = 'right'; x.fillText(s.m[n - 1], w - pr, h - 6); }
-    var bw = Math.max(1, (pw / Math.max(1, n)) * 0.55);
-    x.fillStyle = REV; x.globalAlpha = 0.2;
+    /* Monthly revenue is about 4% of the cumulative axis, so on a shared
+       scale the bars are invisible. Own scale, off the baseline, capped at a
+       third of the plot - read for shape, not level, as the legend now says. */
+    var emax = 0;
+    for (i = 0; i < n; i++) if (Math.abs(s.er[i]) > emax) emax = Math.abs(s.er[i]);
+    var bw = Math.max(1, (pw / Math.max(1, n)) * 0.55), bcap = ph * 0.33;
+    x.fillStyle = REV; x.globalAlpha = 0.28;
     for (i = 0; i < n; i++) {
-      if (!s.er[i]) continue;
-      var y0 = Y(Math.max(0, s.er[i])), y1 = Y(Math.min(0, s.er[i]));
-      x.fillRect(X(i) - bw / 2, y0, bw, Math.max(1, y1 - y0));
+      if (!s.er[i] || !emax) continue;
+      var bhh = Math.max(1, (Math.abs(s.er[i]) / emax) * bcap);
+      x.fillRect(X(i) - bw / 2, pt + ph - bhh, bw, bhh);
     }
     x.globalAlpha = 1;
     ln(x, cr, X, Y, ACC, 1.8); ln(x, cc, X, Y, PAY, 1.8); ln(x, s.ps, X, Y, POS, 2.4);
