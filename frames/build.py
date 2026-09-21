@@ -128,6 +128,10 @@ def strip_comments(src):
     return ''.join(out)
 
 
+# Frames built without the shared module prepended: self-contained diagnostics.
+BARE = {'apiprobe'}
+
+
 def frames():
     out = []
     for name in sorted(os.listdir(HERE)):
@@ -141,12 +145,15 @@ def build(name):
     if not os.path.exists(src):
         sys.exit('no such frame: %s (have: %s)' % (name, ', '.join(frames())))
 
-    with open(SHARED, encoding='utf-8') as fh:
-        shared = fh.read()
     with open(src, encoding='utf-8') as fh:
         body = fh.read()
 
-    assembled = shared.rstrip() + '\n\n' + body.lstrip()
+    if name in BARE:
+        assembled = body
+    else:
+        with open(SHARED, encoding='utf-8') as fh:
+            shared = fh.read()
+        assembled = shared.rstrip() + '\n\n' + body.lstrip()
 
     # Lint the code, not the prose: a comment mentioning fetch or holding a
     # backtick is not a sandbox violation.
