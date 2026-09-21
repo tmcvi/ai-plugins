@@ -46,8 +46,27 @@
     '.tl-hm td{height:16px;padding:0;border:1px solid #fff}' +
     '.tl-hm th{font-weight:600;font-size:11px;color:' + MUT + ';text-align:left;padding:2px 6px;white-space:nowrap;width:210px}' +
     '.tl-tag{display:inline-block;padding:1px 8px;border-radius:4px;font-size:11px;background:' + BG + ';border:1px dashed #D1D5DB;color:' + MUT + '}' +
+    '.tl-tip{position:fixed;z-index:9999;pointer-events:none;opacity:0;background:#111827;color:#fff;font-family:' + FF + ';font-size:12px;line-height:1.5;padding:8px 10px;border-radius:6px;max-width:300px;transition:opacity .08s}' +
+    '.tl-help{background:#EEF2FF;border:1px solid #C7D2FE;color:#3730A3;border-radius:6px;padding:8px 10px;font-size:12px;margin-bottom:12px}' +
+    '.tl-help b{font-weight:600}' +
+    '.tl-chg{background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;border-radius:6px;padding:6px 10px;font-size:12px;margin-top:8px}' +
     '@media (max-width:1100px){.tl-bd{grid-template-columns:repeat(6,1fr)}}';
   document.head.appendChild(styleEl);
+
+  var tip = document.createElement('div');
+  tip.className = 'tl-tip';
+  document.body.appendChild(tip);
+  function tipShow(html, cx, cy) {
+    tip.innerHTML = html;
+    tip.style.opacity = '1';
+    var tw = tip.offsetWidth, th = tip.offsetHeight;
+    var lx = cx + 14, ly = cy + 14;
+    if (lx + tw > window.innerWidth - 8) lx = cx - tw - 14;
+    if (ly + th > window.innerHeight - 8) ly = cy - th - 14;
+    tip.style.left = Math.max(8, lx) + 'px';
+    tip.style.top = Math.max(8, ly) + 'px';
+  }
+  function tipHide() { tip.style.opacity = '0'; }
 
   function esc(s) {
     var t = String(s == null ? '' : s);
@@ -86,7 +105,7 @@
   var S = {}, i0;
   for (i0 = 0; i0 < NAMES.length; i0++) S[NAMES[i0]] = { d: null, err: null };
   var versions = [], sel = null, timer = null, showSpans = false, confirmZero = null;
-  var pending = {}, msg = '', msgCls = '';
+  var pending = {}, msg = '', msgCls = '', hoverStage = null, lastChange = null;
 
   function ready(d) { return !!(d && d.rows && typeof d.rows.length === 'number'); }
   function lab(r, i) { return (r && r.labels && r.labels[i] != null) ? String(r.labels[i]) : ''; }
@@ -149,12 +168,17 @@
 
   function writeMonths(stage, n) {
     if (!sel) { say('Pick a version first.', 'bad'); return; }
+    var was = null, sg = stages(), i;
+    for (i = 0; i < sg.length; i++) if (sg[i].name === stage) was = sg[i].months;
+    if (was === n) { say('', ''); return; }
     pending[stage] = true;
+    lastChange = null;
     say('Saving ' + stage + DOTS, '');
     var co = {}; co.versions = sel; co.stages = stage;
     Promise.resolve(SDK.editValue('months', co, n)).then(function () {
       delete pending[stage];
-      say('Saved. Downstream dates are recalculating' + DOTS, 'ok');
+      lastChange = { stage: stage, was: was, now: n };
+      say('', 'ok');
     })['catch'](function (e) {
       delete pending[stage];
       say('Not saved: ' + ((e && e.message) ? e.message : 'the write was rejected.'), 'bad');
@@ -197,7 +221,11 @@
     if (!ready(S.tl.d)) return st('', 'Loading' + DOTS);
     var sg = stages();
     if (!sg.length) return st('', 'No phases for this version.');
-    var h = '<table class=' + q('tl-tb') + '><thead><tr><th>Phase</th><th class=' + q('tl-n') + '>Months</th>' +
+    var h = '<div class=' + q('tl-help') + '>Three things are editable here: the <b>start date</b> in the ' +
+      'header, and each phase' + String.fromCharCode(39) + 's <b>months</b> ' + DASH +
+      ' either type in the column below or drag a bar' + String.fromCharCode(39) + 's right edge. ' +
+      'Everything else, including every From and To date, is calculated by the model.</div>';
+    h += '<table class=' + q('tl-tb') + '><thead><tr><th>Phase</th><th class=' + q('tl-n') + '>Months</th>' +
       '<th>From</th><th>To</th></tr></thead><tbody>', i, tot = 0;
     for (i = 0; i < sg.length; i++) {
       var m = sg[i].months;
@@ -218,95 +246,116 @@
         ' to zero</button> <button class=' + q('tl-b') + ' id=' + q('tl-cc') + '>Cancel</button>';
     }
     h += '</div>';
+    if (lastChange) {
+      h += '<div class=' + q('tl-chg') + '><b>' + esc(lastChange.stage) + '</b> ' +
+        (lastChange.was === null ? DASH : lastChange.was) + ' ' + ARR + ' ' + lastChange.now +
+        ' months. Every later phase moved with it ' + DASH + ' compare the From and To columns.</div>';
+    }
     return h;
   }
 
   var bars = [], drag = null, geo = null;
 
+  function toDate(v) {
+    var t = txt(v); if (!t) return null;
+    var d = new Date(t);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function redraw() {
+    var host = elB.querySelector('#tl-gantt');
+    if (host) gantt(host);
+  }
+
   function gantt(host) {
-    var rows = mine('grid');
-    if (S.grid.err) { host.innerHTML = st(' e', S.grid.err); return; }
-    if (!ready(S.grid.d)) { host.innerHTML = st('', 'Loading' + DOTS); return; }
-    var order = axisOf('grid', 2), rk = {}, i;
-    for (i = 0; i < order.length; i++) rk[order[i]] = i;
-    var by = {}, ord = [];
-    for (i = 0; i < rows.length; i++) {
-      var s = lab(rows[i], 1), mo = lab(rows[i], 2), v = num(val(rows[i], 0));
-      if (!s || !mo || v === null || v <= 0) continue;
-      var m = rk[mo]; if (m === undefined) continue;
-      if (!by[s]) { by[s] = { n: s, lo: m, hi: m, lf: v, hf: v }; ord.push(s); }
-      else {
-        if (m < by[s].lo) { by[s].lo = m; by[s].lf = v; }
-        if (m > by[s].hi) { by[s].hi = m; by[s].hf = v; }
-      }
+    if (S.tl.err) { host.innerHTML = st(' e', S.tl.err); return; }
+    if (!ready(S.tl.d)) { host.innerHTML = st('', 'Loading' + DOTS); return; }
+    var sg = stages(), list = [], i;
+    for (i = 0; i < sg.length; i++) {
+      var a = toDate(sg[i].from), b = toDate(sg[i].to);
+      if (a && b) list.push({ n: sg[i].name, a: a, b: b, m: sg[i].months, ach: sg[i].achieved });
     }
-    if (!ord.length) { host.innerHTML = st('', 'No phase lands in a month for this version.'); return; }
+    if (!list.length) { host.innerHTML = st('', 'No dated phases for this version.'); return; }
 
-    var sg = stages(), known = {}, achOf = {};
-    for (i = 0; i < sg.length; i++) { known[sg[i].name] = 1; achOf[sg[i].name] = sg[i].achieved; }
-    var list = [];
-    for (i = 0; i < sg.length; i++) if (by[sg[i].name]) list.push(by[sg[i].name]);
-    for (i = 0; i < ord.length; i++) if (!known[ord[i]]) list.push(by[ord[i]]);
-    if (!list.length) list = [by[ord[0]]];
+    var DAY = 86400000;
+    var lo = list[0].a.getTime(), hi = list[0].b.getTime();
+    for (i = 0; i < list.length; i++) {
+      if (list[i].a.getTime() < lo) lo = list[i].a.getTime();
+      if (list[i].b.getTime() > hi) hi = list[i].b.getTime();
+    }
+    lo -= 20 * DAY; hi += 20 * DAY;
 
-    var lo = list[0].lo, hi = list[0].hi;
-    for (i = 0; i < list.length; i++) { if (list[i].lo < lo) lo = list[i].lo; if (list[i].hi > hi) hi = list[i].hi; }
-    lo = Math.max(0, lo - 1); hi = Math.min(order.length - 1, hi + 1);
-    var span = Math.max(1, hi - lo + 1);
-
-    var rh = 26, gp = 8, pl = 260, pr = 90, pt = 26, pb = 14;
+    var rh = 26, gp = 8, pl = 260, pr = 96, pt = 30, pb = 16;
     var w = Math.max(420, host.clientWidth || 800), h = pt + pb + list.length * (rh + gp);
     host.innerHTML = '<canvas></canvas>';
-    var cv = host.firstChild, x = fitC(cv, w, h), cw = (w - pl - pr) / span;
-    geo = { cv: cv, pl: pl, cw: cw, lo: lo, w: w };
+    var cv = host.firstChild, x = fitC(cv, w, h);
+    var plotW = w - pl - pr;
+    function X(t) { return pl + ((t - lo) / (hi - lo)) * plotW; }
+    var pxMonth = (plotW / ((hi - lo) / DAY)) * 30.4;
+    geo = { cv: cv, pl: pl, pxMonth: pxMonth, w: w };
     x.font = '11px ' + FF;
 
-    x.strokeStyle = BRD; x.fillStyle = FNT; x.lineWidth = 1;
-    for (i = lo; i <= hi; i++) {
-      if (i === lo || order[i].indexOf('Jan') === 0) {
-        var gx = pl + (i - lo) * cw;
-        x.beginPath(); x.moveTo(gx, pt - 6); x.lineTo(gx, h - pb); x.stroke();
-        x.fillText(order[i], gx + 3, pt - 10);
+    var first = new Date(lo);
+    var cur = new Date(first.getFullYear(), first.getMonth(), 1);
+    while (cur.getTime() <= hi) {
+      var gx = X(cur.getTime()), jan = cur.getMonth() === 0;
+      if (gx >= pl - 1 && gx <= w - pr + 1) {
+        x.strokeStyle = jan ? '#D1D5DB' : '#F1F2F4';
+        x.lineWidth = 1;
+        x.beginPath(); x.moveTo(gx, pt - 10); x.lineTo(gx, h - pb); x.stroke();
+        if (jan || cur.getMonth() % 3 === 0) {
+          x.fillStyle = jan ? MUT : FNT;
+          x.fillText(cur.toLocaleDateString(undefined, { month: 'short', year: '2-digit' }), gx + 3, pt - 14);
+        }
       }
+      cur = new Date(cur.getFullYear(), cur.getMonth() + 1, 1);
     }
 
     bars = [];
     for (i = 0; i < list.length; i++) {
-      var b = list[i], y = pt + i * (rh + gp);
-      var x0 = pl + (b.lo - lo + (1 - b.lf)) * cw;
-      var x1 = pl + (b.hi - lo + b.hf) * cw;
-      if (drag && drag.stage === b.n) x1 = Math.max(x0 + cw * 0.25, drag.x1);
-      var bw = Math.max(3, x1 - x0);
+      var r2 = list[i], y = pt + i * (rh + gp);
+      var x0 = X(r2.a.getTime()), x1 = X(r2.b.getTime());
+      if (drag && drag.stage === r2.n) x1 = Math.max(x0 + 6, drag.x1);
+      var bw = Math.max(4, x1 - x0);
 
-      x.fillStyle = MUT; x.textAlign = 'right';
-      x.fillText(clip(x, b.n, pl - 16), pl - 12, y + rh / 2 + 4);
+      x.fillStyle = hoverStage === r2.n ? INK : MUT;
+      x.textAlign = 'right';
+      x.fillText(clip(x, r2.n, pl - 16), pl - 12, y + rh / 2 + 4);
       x.textAlign = 'left';
 
-      x.globalAlpha = pending[b.n] ? 0.45 : 1;
+      x.globalAlpha = pending[r2.n] ? 0.4 : 1;
       x.fillStyle = PAL[i % PAL.length];
       x.fillRect(x0, y, bw, rh);
       x.globalAlpha = 1;
 
-      x.fillStyle = '#ffffff';
-      x.globalAlpha = 0.85;
-      x.fillRect(x0 + bw - 3, y + 5, 2, rh - 10);
+      if (hoverStage === r2.n) {
+        x.strokeStyle = INK; x.lineWidth = 1.5;
+        x.strokeRect(x0 - 0.5, y - 0.5, bw + 1, rh + 1);
+      }
+
+      x.fillStyle = '#ffffff'; x.globalAlpha = hoverStage === r2.n ? 1 : 0.8;
+      x.fillRect(x0 + bw - 8, y + 6, 2, rh - 12);
+      x.fillRect(x0 + bw - 5, y + 6, 2, rh - 12);
       x.globalAlpha = 1;
 
-      var dx = x0 + bw, dy = y + rh / 2, r = 4;
-      x.fillStyle = INK;
-      x.beginPath(); x.moveTo(dx, dy - r); x.lineTo(dx + r, dy); x.lineTo(dx, dy + r); x.lineTo(dx - r, dy);
-      x.closePath(); x.fill();
-      if (achOf[b.n]) {
-        x.fillStyle = MUT;
-        x.fillText(achOf[b.n], Math.min(dx + 8, w - pr + 4), dy + 4);
+      if (bw > 40 && r2.m !== null) {
+        x.fillStyle = '#ffffff'; x.textAlign = 'center';
+        x.fillText(r2.m + 'm', x0 + bw / 2, y + rh / 2 + 4);
+        x.textAlign = 'left';
       }
-      bars.push({ stage: b.n, x0: x0, x1: x0 + bw, y: y, h: rh });
+
+      x.fillStyle = MUT;
+      x.fillText(fdate(r2.b), Math.min(x0 + bw + 10, w - pr + 4), y + rh / 2 + 4);
+      bars.push({ stage: r2.n, x0: x0, x1: x0 + bw, y: y, h: rh, m: r2.m, a: r2.a, b: r2.b });
     }
 
     cv.style.cursor = 'default';
     cv.addEventListener('mousemove', hover);
     cv.addEventListener('mousedown', down);
-    cv.addEventListener('mouseleave', function () { if (!drag) cv.style.cursor = 'default'; });
+    cv.addEventListener('mouseleave', function () {
+      tipHide();
+      if (!drag && hoverStage) { hoverStage = null; redraw(); }
+    });
   }
 
   function hitEdge(mx, my) {
@@ -316,10 +365,30 @@
     }
     return null;
   }
+  function hitBar(mx, my) {
+    for (var i = 0; i < bars.length; i++) {
+      var b = bars[i];
+      if (my >= b.y && my <= b.y + b.h) return b;
+    }
+    return null;
+  }
   function hover(ev) {
     if (drag || !geo) return;
     var r = geo.cv.getBoundingClientRect();
-    geo.cv.style.cursor = hitEdge(ev.clientX - r.left, ev.clientY - r.top) ? 'ew-resize' : 'default';
+    var mx = ev.clientX - r.left, my = ev.clientY - r.top;
+    var edge = hitEdge(mx, my), bar = hitBar(mx, my);
+    geo.cv.style.cursor = edge ? 'ew-resize' : 'default';
+    if (bar) {
+      if (hoverStage !== bar.stage) { hoverStage = bar.stage; redraw(); }
+      tipShow('<b>' + esc(bar.stage) + '</b><br>' + esc(fdate(bar.a)) + ' ' + ARR + ' ' + esc(fdate(bar.b)) +
+        '<br>' + (bar.m === null ? DASH : bar.m + ' months') +
+        '<br><span style=' + q('opacity:.7') + '>' +
+        (edge ? 'drag this edge to change it' : 'grab the right edge to change it') + '</span>',
+        ev.clientX, ev.clientY);
+    } else {
+      tipHide();
+      if (hoverStage) { hoverStage = null; redraw(); }
+    }
   }
   function down(ev) {
     if (!geo) return;
@@ -327,16 +396,15 @@
     var b = hitEdge(ev.clientX - r.left, ev.clientY - r.top);
     if (!b) return;
     ev.preventDefault();
-    var sg = stages(), cm = null, i;
-    for (i = 0; i < sg.length; i++) if (sg[i].name === b.stage) cm = sg[i].months;
+    tipHide();
     drag = { stage: b.stage, x0: b.x0, x1: b.x1, x1o: b.x1, start: ev.clientX,
-             months: cm === null ? 0 : cm, raf: 0 };
+             months: b.m === null ? 0 : b.m, raf: 0 };
     document.addEventListener('mousemove', move);
     document.addEventListener('mouseup', up);
   }
   function move(ev) {
     if (!drag || !geo) return;
-    drag.x1 = Math.max(drag.x0 + geo.cw * 0.25, drag.x1o + (ev.clientX - drag.start));
+    drag.x1 = Math.max(drag.x0 + 6, drag.x1o + (ev.clientX - drag.start));
     if (drag.raf) return;
     drag.raf = requestAnimationFrame(function () {
       if (!drag) return;
@@ -351,7 +419,7 @@
     if (!drag || !geo) { drag = null; return; }
     if (drag.raf) cancelAnimationFrame(drag.raf);
     var d = ev.clientX - drag.start;
-    var delta = Math.round(d / geo.cw);
+    var delta = Math.round(d / geo.pxMonth);
     var next = Math.max(1, drag.months + delta);
     var stage = drag.stage, was = drag.months;
     drag = null;
@@ -425,7 +493,7 @@
 
     var html =
       card('Phases', 8, '<div class=' + q('tl-cv') + ' id=' + q('tl-gantt') + '></div>',
-           'drag a bar' + String.fromCharCode(39) + 's right edge to change its length') +
+           'hover a bar; drag its right edge to change the length') +
       card('Months', 4, rail(), 'type a value, or drag an edge');
     if (showSpans) html += card('Resourcing spans', 12, spans(), 'Dual Timeline Stages');
     elB.innerHTML = html;
@@ -481,6 +549,7 @@
       try { listeners[i][0].removeEventListener(listeners[i][1], listeners[i][2]); } catch (e) {}
     }
     if (styleEl && styleEl.parentNode) styleEl.parentNode.removeChild(styleEl);
+    if (tip && tip.parentNode) tip.parentNode.removeChild(tip);
     subs = []; listeners = []; bars = []; geo = null; root.innerHTML = '';
     root.__cleanup = null;
   };
