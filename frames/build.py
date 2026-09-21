@@ -129,7 +129,7 @@ def strip_comments(src):
 
 
 # Frames built without the shared module prepended: self-contained diagnostics.
-BARE = {'apiprobe'}
+BARE = {'apiprobe', 'apiprobe2'}
 
 
 def frames():

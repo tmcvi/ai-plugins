@@ -15,6 +15,49 @@ python3 frames/build.py --all      # or: python3 frames/build.py cockpit
 
 The lint pass rejects what the sandbox forbids (network, storage, `alert`, Workers, `parent`, `@import`, `<script>`) and what does not survive a JSON tool argument (template literals), and requires the things a Frame body must have (`#app`, `root.__cleanup`, strict mode). It strips comments and regex literals before matching, so prose and `.replace(/'/g, …)` do not trip it — `strip_comments` has its own test cases in the commit that introduced it.
 
+## This tenant's Frames API (probed 21 Sep 2026)
+
+Established by running `apiprobe.js` inside a Frame. The documented API does not apply here.
+
+`window.PigmentSDK` is frozen and has **six** methods:
+
+| Method | Signature | Status |
+| --- | --- | --- |
+| `subscribeToDataSource` | `(dataSourceName, { dynamicFilters, scroll, onData, onError })` | **the read path** |
+| `subscribeToItems` | `(listAlias, { onData, onError })` | unchanged |
+| `addItem` | `(listAlias, values)` | unchanged |
+| `editItem` | `(listAlias, item, values)` | unchanged |
+| `editValue` | `(metricAlias, coordinates, value)` | unchanged |
+| `subscribeToVizualization` | `(viewAlias, { pageDefinitions, scroll })` | **removed** |
+
+`subscribeToVizualization` still exists on the object but every call errors:
+
+```
+The subscribeToVizualization operation is no longer supported.
+Use useSubscribeToDataSource instead.
+```
+
+That is why `create_frame` rejects `type: "View"` bindings. **Views cannot feed a Frame in this tenant** — the seventeen `[FRM]` views stay valid native views and still pin down the shape each panel needs, but they are not the data path.
+
+### Three consequences for the design
+
+1. **`pageDefinitions` is gone.** The dataSource handle is `{ updateDynamicFilters, updateScroll, unsubscribe }` — there is no `updatePageDefinitions`. Version selection, which section 3 of the briefing builds the whole shared header around, has to go through **`dynamicFilters` / `updateDynamicFilters`** instead.
+2. **The pivot moves server-side into the manifest.** A dataSource declares `labels` (dimension bindings that come back as labels), `selectors` (dimension bindings used to choose what to fetch) and `values` (metric bindings, each with an aggregator). What used to be a view's Rows / Columns / Pages is now this declaration, so each panel needs its own dataSource rather than its own view.
+3. **Writes are unaffected.** `editValue(metricAlias, coordinates, value)` is exactly as documented, so the preparer note in Frame 4 and the milestone and timeline writes in Frames 2 and 3 need no change.
+
+### Still unknown
+
+The payload shape from `subscribeToDataSource` — whether it is still column-major `cells[c][r]` with `labels.rows` / `labels.columns`, or something shaped around `labels` and `selectors`. And the `dynamicFilters` shape. `apiprobe2.js` is deployed to `[FRM] ZZ API probe` to answer both; it subscribes to a one-dimension dataSource and a two-dimension one with a selector, and prints the raw payloads.
+
+### Tool quirks worth knowing
+
+- Binding fields are camelCase (`viewId`, `listId`, `metricId`, `canRead`, `canWrite`), not the documented snake_case.
+- `create_frame` and `update_frame` both **require** `dataSources`; `update_frame` replaces the whole Frame, so resend `bindings` and `dataSources` every time or they are lost.
+- `search_frames` reads back `bindings` but **omits `dataSources`**, even when they are stored — the create and update responses do echo them. Do not conclude from a read-back that they were dropped.
+- The Frame editor's Resources panel for a *new* Frame starts `{"bindings": [], "dataSources": []}`. Pasting probe code into a fresh Frame therefore produces `No binding found for alias ...` and `The data source ... no longer exists` for everything. That is an empty manifest, not an API limitation.
+
+## Superseded: the original blocker note
+
 ## ⚠️ Blocked: this tenant's Frames API is not the documented one
 
 `cockpit.js` is written against the Frames API as documented — View bindings read with `subscribeToVizualization`. **This Pigment tenant rejects that outright:**
