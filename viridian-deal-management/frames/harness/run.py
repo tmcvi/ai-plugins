@@ -8,6 +8,7 @@ errors, boot failures, bad readers and dead layouts before a deploy.
 
 Usage:  python3 frames/harness/run.py [page ...]
 """
+import json
 import pathlib
 import re
 import subprocess
@@ -31,12 +32,21 @@ PAGE = """<!doctype html>
 // Some screens only show a section once something is clicked (the Admin tabs,
 // the Deal editor). Drive that here so the harness covers them too.
 (function () {
-  var want = %(click)s;
-  if (!want) return;
-  setTimeout(function () {
-    var el = document.querySelector(want);
-    if (el) el.click(); else document.getElementById('__errors').textContent += ' | no element for ' + want;
-  }, 600);
+  var steps = %(click)s;
+  if (!steps) return;
+  if (typeof steps === 'string') steps = [steps];
+  // Some paths need more than one action - open the Admin tab that holds the
+  // mapping selects, then change one - so run them in order.
+  steps.forEach(function (want, i) {
+    setTimeout(function () {
+      var change = want.indexOf('change:') === 0;
+      var sel = change ? want.slice(7) : want;
+      var el = document.querySelector(sel);
+      if (!el) { document.getElementById('__errors').textContent += ' | no element for ' + sel; return; }
+      if (change) el.dispatchEvent(new Event('change', { bubbles: true }));
+      else el.click();
+    }, 600 * (i + 1));
+  });
 })();
 </script>
 </body></html>
@@ -44,7 +54,11 @@ PAGE = """<!doctype html>
 
 # page -> extra passes, each a CSS selector to click once the Frame has booted.
 VARIANTS = {
+    # A write is the one path a render cannot exercise, and it is where the
+    # friendly-name rule bites (D21), so fire one on each screen that writes.
+    "pipeline": {"write": 'change:select[data-stagefor]'},
     "admin": {
+        "write": ['[data-tab="Reference lists"]', 'change:select[data-mapStage]'],
         "scurve": '[data-tab="S-curve profiles"]',
         "reference": '[data-tab="Reference lists"]',
         "import": '[data-tab="Import"]',
@@ -63,7 +77,7 @@ def check(page, label=None, click=None):
     label = label or page
     html = HERE / ("%s.harness.html" % label)
     html.write_text(PAGE % {"page": page,
-                            "click": ("'%s'" % click) if click else "null"})
+                            "click": json.dumps(click) if click else "null"})
     url = "file://" + str(html)
 
     shot = OUT / ("%s.png" % label)

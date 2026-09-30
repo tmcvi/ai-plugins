@@ -162,6 +162,18 @@ def ds_parts_map(page):
             if parts and set(parts) <= mine}
 
 
+def write_props_map(page):
+    """List alias -> {friendly property name: binding alias}, for this page.
+
+    addItem/editItem no longer accept friendly names; a write addresses the
+    property through its binding instead (D21).
+    """
+    wp = SRC / "writeprops.json"
+    if not wp.exists():
+        return {}
+    return json.loads(wp.read_text()).get(page, {})
+
+
 def build(page, logo):
     parts = [
         "(function () {",
@@ -173,6 +185,7 @@ def build(page, logo):
         "var COL_ALIAS = " + json.dumps(col_alias_map(page)) + ";",
         "var DS_COLUMNS = " + json.dumps(ds_columns_map(page)) + ";",
         "var DS_PARTS = " + json.dumps(ds_parts_map(page)) + ";",
+        "var WRITE_PROPS = " + json.dumps(write_props_map(page)) + ";",
     ]
     for name in SHARED:
         f = SRC / "shared" / name

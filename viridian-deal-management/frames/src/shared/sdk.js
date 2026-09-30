@@ -436,8 +436,32 @@ function disposeAll() {
 // Each resolves to {ok:true} or {ok:false, message} so callers can revert the
 // field and surface the SDK's own message rather than a generic failure.
 
+// "Referencing properties by friendly name in addItem/editItem is no longer
+// supported. Reference properties through their bindings instead." Pages still
+// read and write in friendly names, which is what the model calls them; the
+// translation to binding aliases happens here, once (D21).
+function bindProps(listAlias, values) {
+  var map = (typeof WRITE_PROPS !== 'undefined' && WRITE_PROPS[listAlias]) || {};
+  var out = {}, unmapped = [];
+  for (var key in values) {
+    if (!Object.prototype.hasOwnProperty.call(values, key)) continue;
+    if (map[key]) {
+      out[map[key]] = values[key];
+    } else {
+      // Pass it through so the SDK's own message names it, and record the gap:
+      // a property written but never bound is a generator bug, not a user one.
+      unmapped.push(key);
+      out[key] = values[key];
+    }
+  }
+  if (unmapped.length) {
+    diagNote('write:' + listAlias, 'error', 'no writable binding for ' + unmapped.join(', '));
+  }
+  return out;
+}
+
 function writeItem(listAlias, itemName, values) {
-  return SDK.editItem(listAlias, itemName, values)
+  return SDK.editItem(listAlias, itemName, bindProps(listAlias, values))
     .then(function () { toast('Saved'); return { ok: true }; })
     .catch(function (e) {
       var msg = (e && e.message) ? e.message : 'Could not save';
@@ -447,7 +471,7 @@ function writeItem(listAlias, itemName, values) {
 }
 
 function createItem(listAlias, values) {
-  return SDK.addItem(listAlias, values)
+  return SDK.addItem(listAlias, bindProps(listAlias, values))
     .then(function () { return { ok: true }; })
     .catch(function (e) {
       var msg = (e && e.message) ? e.message : 'Could not create';

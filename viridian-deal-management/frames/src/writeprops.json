@@ -1,0 +1,81 @@
+{
+  "admin": {
+    "pigmentStage": {
+      "Maps To Stage": "pigStageMapsTo"
+    },
+    "salesPerson": {
+      "CRM Name": "personCrmName",
+      "Email": "personEmail"
+    },
+    "pigmentAE": {
+      "Active": "aeActive"
+    }
+  },
+  "newDeal": {
+    "opportunity": {
+      "Opportunity Name": "oppName",
+      "Sales Person": "oppSalesPerson",
+      "Stage": "oppStage",
+      "Expected Close Date": "oppCloseDate",
+      "Use Case": "oppUseCase",
+      "Sales Motion": "oppSalesMotion",
+      "Deal Size": "oppDealSize",
+      "Pigment AE": "oppPigmentAE",
+      "Notes": "oppNotes",
+      "Matched Pigment Opportunity": "oppMatched",
+      "Last Updated On": "oppUpdatedOn",
+      "Closed On": "oppClosedOn",
+      "Created On": "oppCreatedOn"
+    }
+  },
+  "pipeline": {
+    "opportunity": {
+      "Sales Person": "oppSalesPerson",
+      "Stage": "oppStage",
+      "Expected Close Date": "oppCloseDate",
+      "Use Case": "oppUseCase",
+      "Sales Motion": "oppSalesMotion",
+      "Deal Size": "oppDealSize",
+      "Pigment AE": "oppPigmentAE",
+      "Notes": "oppNotes",
+      "Matched Pigment Opportunity": "oppMatched",
+      "Last Updated On": "oppUpdatedOn",
+      "Closed On": "oppClosedOn",
+      "Opportunity Name": "oppName"
+    }
+  },
+  "deal": {
+    "opportunity": {
+      "Sales Person": "oppSalesPerson",
+      "Stage": "oppStage",
+      "Expected Close Date": "oppCloseDate",
+      "Use Case": "oppUseCase",
+      "Sales Motion": "oppSalesMotion",
+      "Deal Size": "oppDealSize",
+      "Pigment AE": "oppPigmentAE",
+      "Notes": "oppNotes",
+      "Matched Pigment Opportunity": "oppMatched",
+      "Last Updated On": "oppUpdatedOn",
+      "Closed On": "oppClosedOn",
+      "Opportunity Name": "oppName"
+    }
+  },
+  "matching": {
+    "opportunity": {
+      "Sales Person": "oppSalesPerson",
+      "Stage": "oppStage",
+      "Expected Close Date": "oppCloseDate",
+      "Use Case": "oppUseCase",
+      "Sales Motion": "oppSalesMotion",
+      "Deal Size": "oppDealSize",
+      "Pigment AE": "oppPigmentAE",
+      "Notes": "oppNotes",
+      "Matched Pigment Opportunity": "oppMatched",
+      "Created On": "oppCreatedOn",
+      "Last Updated On": "oppUpdatedOn",
+      "Closed On": "oppClosedOn",
+      "Opportunity Name": "oppName"
+    }
+  },
+  "forecast": {}
+}

@@ -29,6 +29,19 @@
 
   function later(fn) { setTimeout(fn, 10); }
 
+  function checkWrite(call, listAlias, values) {
+    var bad = [];
+    for (var k in (values || {})) {
+      if (Object.prototype.hasOwnProperty.call(values, k) && /\s/.test(k)) bad.push(k);
+    }
+    if (bad.length) {
+      record('friendly-name write', call + '(' + listAlias + ') passed ' + bad.join(', '));
+      return Promise.reject(new Error(
+        'Referencing properties by friendly name in addItem/editItem is no longer supported.'));
+    }
+    return Promise.resolve();
+  }
+
   window.PigmentSDK = {
     subscribeToDataSource: function (name, opts) {
       var fx = window.FIXTURES && window.FIXTURES[name];
@@ -58,8 +71,11 @@
       });
       return { unsubscribe: function () {} };
     },
-    addItem: function () { return Promise.resolve(); },
-    editItem: function () { return Promise.resolve(); },
+    // Pigment rejects a write that names a property by its friendly name, so
+    // the harness does too: binding aliases are camelCase and never contain a
+    // space, friendly names always do.
+    addItem: function (listAlias, values) { return checkWrite('addItem', listAlias, values); },
+    editItem: function (listAlias, item, values) { return checkWrite('editItem', listAlias, values); },
     editValue: function () { return Promise.resolve(); }
   };
 })();

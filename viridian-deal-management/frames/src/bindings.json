@@ -259,7 +259,7 @@
       "listId": "6998653c-f99c-4ba4-8c36-68bc620ef681",
       "listPropertyTechnicalName": "maps_to_stage_ERVXPC",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "attachMapsTo",
@@ -275,7 +275,7 @@
       "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
       "listPropertyTechnicalName": "crm_name_D5SKRA",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "personEmail",
@@ -283,7 +283,7 @@
       "listId": "bd6a645f-2d27-41fe-8edf-f3788b96d392",
       "listPropertyTechnicalName": "email_WZ7QF1",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "useCaseCodes",
@@ -299,7 +299,7 @@
       "listId": "987256d7-9b59-48e8-99f9-70b77cf8143c",
       "listPropertyTechnicalName": "active_QXZ85V",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     }
   ],
   "newDeal": [
@@ -518,6 +518,110 @@
       "listPropertyTechnicalName": "_order_XA1UNE",
       "canRead": true,
       "canWrite": false
+    },
+    {
+      "name": "oppName",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "opportunity_name_POPNJR",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppSalesPerson",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "sales_person_TANUAJ",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppStage",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "stage_T28KCI",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppCloseDate",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "expected_close_date_10AJNG",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppUseCase",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "use_case_2FFYNB",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppSalesMotion",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "sales_motion_MN98AU",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppDealSize",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "deal_size_NWXWWW",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppPigmentAE",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "pigment_ae_RDLDT8",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppNotes",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "notes_AV0MTG",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppMatched",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "matched_pigment_opportunity_8CRBB3",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppUpdatedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "last_updated_on_QTQWWX",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppClosedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "closed_on_V8DFEL",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
+      "name": "oppCreatedOn",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "created_on_H6YAOP",
+      "canRead": true,
+      "canWrite": true
     }
   ],
   "pipeline": [
@@ -590,7 +694,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "sales_person_TANUAJ",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppStage",
@@ -598,7 +702,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "stage_T28KCI",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppCloseDate",
@@ -606,7 +710,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "expected_close_date_10AJNG",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppUseCase",
@@ -614,7 +718,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "use_case_2FFYNB",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppSalesMotion",
@@ -622,7 +726,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "sales_motion_MN98AU",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppDealSize",
@@ -630,7 +734,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "deal_size_NWXWWW",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppPigmentAE",
@@ -638,7 +742,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "pigment_ae_RDLDT8",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppNotes",
@@ -646,7 +750,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "notes_AV0MTG",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppMatched",
@@ -654,7 +758,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "matched_pigment_opportunity_8CRBB3",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppCreatedOn",
@@ -670,7 +774,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "last_updated_on_QTQWWX",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppClosedOn",
@@ -678,7 +782,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "closed_on_V8DFEL",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "mOPPLicenceValueUsd",
@@ -1231,6 +1335,14 @@
       "metricId": "cbc294c8-21f1-4c92-949c-81af9f7ce1d8",
       "canRead": true,
       "canWrite": false
+    },
+    {
+      "name": "oppName",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "opportunity_name_POPNJR",
+      "canRead": true,
+      "canWrite": true
     }
   ],
   "deal": [
@@ -1303,7 +1415,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "sales_person_TANUAJ",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppStage",
@@ -1311,7 +1423,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "stage_T28KCI",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppCloseDate",
@@ -1319,7 +1431,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "expected_close_date_10AJNG",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppUseCase",
@@ -1327,7 +1439,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "use_case_2FFYNB",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppSalesMotion",
@@ -1335,7 +1447,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "sales_motion_MN98AU",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppDealSize",
@@ -1343,7 +1455,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "deal_size_NWXWWW",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppPigmentAE",
@@ -1351,7 +1463,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "pigment_ae_RDLDT8",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppNotes",
@@ -1359,7 +1471,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "notes_AV0MTG",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppMatched",
@@ -1367,7 +1479,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "matched_pigment_opportunity_8CRBB3",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppCreatedOn",
@@ -1383,7 +1495,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "last_updated_on_QTQWWX",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppClosedOn",
@@ -1391,7 +1503,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "closed_on_V8DFEL",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "mOPPLicenceValueUsd",
@@ -1944,6 +2056,14 @@
       "metricId": "cbc294c8-21f1-4c92-949c-81af9f7ce1d8",
       "canRead": true,
       "canWrite": false
+    },
+    {
+      "name": "oppName",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "opportunity_name_POPNJR",
+      "canRead": true,
+      "canWrite": true
     }
   ],
   "matching": [
@@ -2023,7 +2143,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "sales_person_TANUAJ",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppStage",
@@ -2031,7 +2151,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "stage_T28KCI",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppCloseDate",
@@ -2039,7 +2159,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "expected_close_date_10AJNG",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppUseCase",
@@ -2047,7 +2167,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "use_case_2FFYNB",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppSalesMotion",
@@ -2055,7 +2175,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "sales_motion_MN98AU",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppDealSize",
@@ -2063,7 +2183,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "deal_size_NWXWWW",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppPigmentAE",
@@ -2071,7 +2191,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "pigment_ae_RDLDT8",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppNotes",
@@ -2079,7 +2199,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "notes_AV0MTG",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppMatched",
@@ -2087,7 +2207,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "matched_pigment_opportunity_8CRBB3",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppCreatedOn",
@@ -2095,7 +2215,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "created_on_H6YAOP",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppUpdatedOn",
@@ -2103,7 +2223,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "last_updated_on_QTQWWX",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "oppClosedOn",
@@ -2111,7 +2231,7 @@
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "closed_on_V8DFEL",
       "canRead": true,
-      "canWrite": false
+      "canWrite": true
     },
     {
       "name": "mOPPLicenceValueUsd",
@@ -2688,6 +2808,14 @@
       "listPropertyTechnicalName": "_order_XA1UNE",
       "canRead": true,
       "canWrite": false
+    },
+    {
+      "name": "oppName",
+      "type": "ListProperty",
+      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
+      "listPropertyTechnicalName": "opportunity_name_POPNJR",
+      "canRead": true,
+      "canWrite": true
     }
   ],
   "forecast": [

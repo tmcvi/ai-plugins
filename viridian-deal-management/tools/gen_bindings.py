@@ -43,6 +43,7 @@ M = json.loads((HERE / "docs" / "metric-ids.json").read_text())
 #   alias: (list alias, technical name, the column name the pages read)
 PROPS = {
     # Opportunity - the nine sales fields plus the system dates and the match.
+    "oppName":         ("opportunity", "opportunity_name_POPNJR", "Opportunity Name"),
     "oppSalesPerson":  ("opportunity", "sales_person_TANUAJ", "Sales Person"),
     "oppStage":        ("opportunity", "stage_T28KCI", "Stage"),
     "oppCloseDate":    ("opportunity", "expected_close_date_10AJNG", "Expected Close Date"),
@@ -303,6 +304,22 @@ PAGE_WRITES = {
 }
 PAGE_WRITES["deal"] = PAGE_WRITES["pipeline"]
 
+# Friendly names are no longer accepted by addItem/editItem: a write names the
+# binding instead, so every property a page writes needs a writable
+# ListProperty binding whether or not the page also reads it (D21).
+OPP_EDIT = ["oppName", "oppSalesPerson", "oppStage", "oppCloseDate", "oppUseCase",
+            "oppSalesMotion", "oppDealSize", "oppPigmentAE", "oppNotes", "oppMatched",
+            "oppUpdatedOn", "oppClosedOn"]
+
+PROP_WRITES = {
+    "pipeline": OPP_EDIT,
+    "newDeal":  OPP_EDIT + ["oppCreatedOn"],
+    "matching": OPP_EDIT + ["oppCreatedOn"],
+    "admin":    ["pigStageMapsTo", "personEmail", "personCrmName", "aeActive"],
+    "forecast": [],
+}
+PROP_WRITES["deal"] = PROP_WRITES["pipeline"]
+
 PAGES = ["admin", "newDeal", "pipeline", "deal", "matching", "forecast"]
 
 
@@ -314,6 +331,8 @@ def main():
     ds_columns = {}
     # logical data source -> its physical per-type parts
     ds_parts = {}
+    # page -> list alias -> {friendly property name: binding alias}
+    write_props = {}
 
     # Guard the invariant that broke once: two metrics must never share an alias.
     seen_alias = {}
@@ -340,14 +359,18 @@ def main():
             binds.append({"name": al, "type": "Metric", "metricId": mid,
                           "canRead": True, "canWrite": bool(write)})
 
-        def add_prop(al):
+        def add_prop(al, write=False):
             if al in seen:
+                if write:
+                    for b in binds:
+                        if b["name"] == al:
+                            b["canWrite"] = True
                 return
             seen.add(al)
             list_alias, technical, _display = PROPS[al]
             binds.append({"name": al, "type": "ListProperty", "listId": L[list_alias],
                           "listPropertyTechnicalName": technical,
-                          "canRead": True, "canWrite": False})
+                          "canRead": True, "canWrite": bool(write)})
 
         for al, w in PAGE_LISTS[page]:
             add_list(al, w)
@@ -394,6 +417,18 @@ def main():
         for wa in PAGE_WRITES[page]:
             add_metric(wa, M[WRITE_ALIAS[wa]], True)
 
+        for pa in PROP_WRITES[page]:
+            list_alias, _technical, _display = PROPS[pa]
+            add_list(list_alias, 1)
+            add_prop(pa, write=True)
+
+        write_props[page] = {}
+        for b in binds:
+            if b["type"] != "ListProperty" or not b.get("canWrite"):
+                continue
+            list_alias, _technical, display = PROPS[b["name"]]
+            write_props[page].setdefault(list_alias, {})[display] = b["name"]
+
         names = [x["name"] for x in binds]
         for n, c in collections.Counter(names).items():
             if c > 1:
@@ -422,6 +457,7 @@ def main():
     (HERE / "frames" / "src" / "datasources.json").write_text(json.dumps(datasources, indent=2))
     (HERE / "frames" / "src" / "dscolumns.json").write_text(json.dumps(ds_columns, indent=2))
     (HERE / "frames" / "src" / "dsparts.json").write_text(json.dumps(ds_parts, indent=2))
+    (HERE / "frames" / "src" / "writeprops.json").write_text(json.dumps(write_props, indent=2))
     for p in PAGES:
         print("  + %-9s %2d bindings, %d data sources" % (p, len(bindings[p]), len(datasources[p])))
     print("\nNo alias collisions, no duplicate bindings, every data source resolves.")
