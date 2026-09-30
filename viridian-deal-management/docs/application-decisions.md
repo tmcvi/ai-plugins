@@ -417,3 +417,34 @@ What it cannot check is anything Pigment itself adjudicates — whether a data
 source is accepted, and whether the numbers are right. For that the Frames now
 self-report: if a source has failed or never answered eight seconds in, the
 page replaces itself with a table of every source and its outcome.
+
+## D21 — ⚠️ Writes address a property through its binding, not by friendly name
+
+*"Referencing properties by friendly name in addItem/editItem is no longer
+supported. Reference properties through their bindings instead."*
+
+This is the same API generation as D16–D19, and it broke every write in the
+app: the Deal editor, Pipeline's inline stage dropdown, Matching's link and
+unlink, New deal's create, and the three Admin mapping tables.
+
+`SDK.editItem('opportunity', name, { 'Sales Person': 'Alex Reid' })` is now
+`SDK.editItem('opportunity', name, { oppSalesPerson: 'Alex Reid' })`, where
+`oppSalesPerson` is a `ListProperty` binding on the Frame with `canWrite: true`.
+
+The pages still speak in friendly names — that is what the model calls these
+fields, and it keeps the page code readable against the data model. The
+translation happens once, in `bindProps()` inside the shared write wrappers,
+against `WRITE_PROPS`: a per-page map of list alias → friendly name → binding
+alias, emitted by `gen_bindings.py` and injected by `build.py`. A property a
+page writes now gets a writable binding whether or not the page also reads it,
+and a write with no binding behind it is recorded in the data source report
+(D20) rather than failing silently.
+
+One new binding was needed: the Opportunity display property
+(`opportunity_name_POPNJR`), which `addItem` sets when New deal creates a deal
+and `editItem` sets when the editor renames one.
+
+**Cost of this one:** bindings changed, and bindings can only be replaced
+wholesale, so Pipeline, Deals, New deal, Matching and Admin each need a full
+`update_frame` rather than a patch. Forecast writes nothing and needs only its
+body updating.
