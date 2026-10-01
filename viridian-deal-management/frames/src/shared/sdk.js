@@ -232,7 +232,12 @@ function mergeParts(parts, store) {
   return out;
 }
 
-function subscribeView(alias, onReady, onErr, pageDefs, scroll) {
+// Every source is fetched, not held: the subscription is dropped as soon as it
+// has answered, because Pigment caps how many a Frame may hold at once (D23).
+// Where the page writes, the source is re-fetched after the write instead.
+var _views = [];
+
+function fetchView(alias, onReady, onErr, scroll) {
   var parts = (typeof DS_PARTS !== 'undefined' && DS_PARTS[alias]) || [alias];
   var store = {}, arrived = 0;
   for (var i = 0; i < parts.length; i++) {
@@ -245,6 +250,27 @@ function subscribeView(alias, onReady, onErr, pageDefs, scroll) {
         if (arrived === parts.length) onReady(mergeParts(parts, store));
       }, onErr, scroll);
     })(parts[i]);
+  }
+}
+
+function subscribeView(alias, onReady, onErr, pageDefs, scroll) {
+  _views.push({ alias: alias, onReady: onReady, onErr: onErr, scroll: scroll });
+  fetchView(alias, onReady, onErr, scroll);
+  // Callers keep this to tell "already subscribed" from "not yet".
+  return { alias: alias };
+}
+
+// Re-read whatever this page can change. Pigment recalculates after the write
+// lands, so the read is held back a moment rather than racing it.
+var refreshViews = null;
+function _refreshViewsNow() {
+  var live = (typeof DS_LIVE !== 'undefined' && DS_LIVE) || [];
+  var done = {};
+  for (var i = 0; i < _views.length; i++) {
+    var v = _views[i];
+    if (live.indexOf(v.alias) === -1 || done[v.alias]) continue;
+    done[v.alias] = 1;
+    fetchView(v.alias, v.onReady, v.onErr, v.scroll);
   }
 }
 
@@ -316,9 +342,46 @@ function diagArm() {
   _timers.push(t);
 }
 
+// ---- subscription budget -------------------------------------------------
+// Pigment allows a Frame only about thirteen data sources at once - the
+// fourteenth comes back "Too many active subscriptions for this resource" -
+// and D18's split by value type turned seven logical sources into twenty-five
+// parts. So subscriptions queue against a budget, and a source the page cannot
+// write to hands its slot on as soon as it has answered once: it will not
+// change underneath the page, so holding it open buys nothing (D23).
+
+var SUB_BUDGET = 6;
+var _slots = 0;
+var _waiting = [];
+
+function pumpSubs() {
+  while (_slots < SUB_BUDGET && _waiting.length) {
+    _slots++;
+    _waiting.shift()();
+  }
+}
+
+function freeSlot() {
+  if (_slots > 0) _slots--;
+  pumpSubs();
+}
+
 function subscribePart(alias, onReady, onErr, scroll) {
-  diagNote(alias, 'pending', 'subscribed, no response yet');
+  diagNote(alias, 'pending', 'queued');
   diagArm();
+  _waiting.push(function () { startPart(alias, onReady, onErr, scroll); });
+  pumpSubs();
+}
+
+function startPart(alias, onReady, onErr, scroll) {
+  var holder = { sub: null, released: false };
+  function release() {
+    if (holder.released) return;
+    holder.released = true;
+    stopSub(holder.sub);
+    freeSlot();
+  }
+  diagNote(alias, 'pending', 'subscribed, no response yet');
   var opts = {
     onData: function (data) {
       var grid = adaptGrid(alias, data);
@@ -329,9 +392,11 @@ function subscribePart(alias, onReady, onErr, scroll) {
       diagNote(alias, 'ok', grid.labels.rows.length + ' rows x ' +
                grid.labels.columns.length + ' cols' + (grid.truncated ? ', truncated' : ''));
       onReady(grid);
+      release();
     },
     onError: function (err) {
       diagNote(alias, 'error', (err && err.message) ? err.message : String(err));
+      release();
       if (onErr) onErr(err);
     },
     dynamicFilters: []
@@ -341,19 +406,23 @@ function subscribePart(alias, onReady, onErr, scroll) {
   // source that did overflow reports it through grid.truncated.
   opts.scroll = scroll || { offset: 0, numberOfRows: 1000 };
   if (!SUB_DATA) {
+    diagNote(alias, 'error', 'no data-source subscription on this build');
+    freeSlot();
     if (onErr) onErr(new Error('This Pigment build has no data-source subscription. SDK methods: ' + sdkSurface()));
     return null;
   }
-  var sub;
   try {
-    sub = SDK[SUB_DATA](alias, opts);
+    holder.sub = SDK[SUB_DATA](alias, opts);
   } catch (e) {
     diagNote(alias, 'error', 'threw on subscribe: ' + (e && e.message ? e.message : e));
+    freeSlot();
     if (onErr) onErr(new Error((e && e.message ? e.message : 'Subscription failed') + ' (' + SUB_DATA + ' "' + alias + '")'));
     return null;
   }
-  if (sub) _subs.push(sub);
-  return sub;
+  if (holder.sub) _subs.push(holder.sub);
+  // onData can fire before the call returns, so the handle may only now exist.
+  if (holder.released) stopSub(holder.sub);
+  return holder.sub;
 }
 
 function subscribeList(alias, onReady, onErr) {
@@ -462,7 +531,7 @@ function bindProps(listAlias, values) {
 
 function writeItem(listAlias, itemName, values) {
   return SDK.editItem(listAlias, itemName, bindProps(listAlias, values))
-    .then(function () { toast('Saved'); return { ok: true }; })
+    .then(function () { toast('Saved'); if (refreshViews) refreshViews(); return { ok: true }; })
     .catch(function (e) {
       var msg = (e && e.message) ? e.message : 'Could not save';
       toast(msg, true);
@@ -472,7 +541,7 @@ function writeItem(listAlias, itemName, values) {
 
 function createItem(listAlias, values) {
   return SDK.addItem(listAlias, bindProps(listAlias, values))
-    .then(function () { return { ok: true }; })
+    .then(function () { if (refreshViews) refreshViews(); return { ok: true }; })
     .catch(function (e) {
       var msg = (e && e.message) ? e.message : 'Could not create';
       return { ok: false, message: msg };
@@ -481,10 +550,14 @@ function createItem(listAlias, values) {
 
 function writeValue(metricAlias, coords, value) {
   return SDK.editValue(metricAlias, coords, value)
-    .then(function () { toast('Saved'); return { ok: true }; })
+    .then(function () { toast('Saved'); if (refreshViews) refreshViews(); return { ok: true }; })
     .catch(function (e) {
       var msg = (e && e.message) ? e.message : 'Could not save';
       toast(msg, true);
       return { ok: false, message: msg };
     });
 }
+
+// debounce is declared below subscribeView, so the handle is bound once here:
+// a burst of writes then costs one re-read rather than one each.
+refreshViews = debounce(_refreshViewsNow, 500);

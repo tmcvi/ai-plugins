@@ -162,6 +162,18 @@ def ds_parts_map(page):
             if parts and set(parts) <= mine}
 
 
+def ds_live_map(page):
+    """The logical data sources this page writes to, so must keep subscribed.
+
+    Everything else is released after its first payload, because Pigment caps
+    how many data sources a Frame may subscribe to at once (D23).
+    """
+    lv = SRC / "dslive.json"
+    if not lv.exists():
+        return []
+    return json.loads(lv.read_text()).get(page, [])
+
+
 def write_props_map(page):
     """List alias -> {friendly property name: binding alias}, for this page.
 
@@ -186,6 +198,7 @@ def build(page, logo):
         "var DS_COLUMNS = " + json.dumps(ds_columns_map(page)) + ";",
         "var DS_PARTS = " + json.dumps(ds_parts_map(page)) + ";",
         "var WRITE_PROPS = " + json.dumps(write_props_map(page)) + ";",
+        "var DS_LIVE = " + json.dumps(ds_live_map(page)) + ";",
     ]
     for name in SHARED:
         f = SRC / "shared" / name

@@ -1,72 +1,75 @@
 {
   "vwAssumptions": [
-    "vwAssumptions__Decimal",
-    "vwAssumptions__Integer",
-    "vwAssumptions__Boolean"
+    "vwAssumptions__DecimalM",
+    "vwAssumptions__IntegerM",
+    "vwAssumptions__BooleanM"
   ],
   "vwScalarAssumptions": [
-    "vwScalarAssumptions__Decimal"
+    "vwScalarAssumptions__DecimalM"
   ],
   "vwCommissionRates": [
-    "vwCommissionRates__Decimal"
+    "vwCommissionRates__DecimalM"
   ],
   "vwWinRates": [
-    "vwWinRates__Decimal"
+    "vwWinRates__DecimalM"
   ],
   "vwStandardProfiles": [
-    "vwStandardProfiles__Decimal"
+    "vwStandardProfiles__DecimalM"
   ],
   "vwImportSummary": [
-    "vwImportSummary__Date",
-    "vwImportSummary__Integer",
-    "vwImportSummary__Boolean"
+    "vwImportSummary__DateM",
+    "vwImportSummary__IntegerM",
+    "vwImportSummary__BooleanM"
   ],
   "vwStageProps": [
-    "vwStageProps__Integer",
-    "vwStageProps__Boolean",
-    "vwStageProps__Text"
+    "vwStageProps__IntegerP",
+    "vwStageProps__BooleanP",
+    "vwStageProps__TextP"
   ],
   "vwDealSizeProps": [
-    "vwDealSizeProps__Integer"
+    "vwDealSizeProps__IntegerP"
   ],
   "vwPigmentStageProps": [
-    "vwPigmentStageProps__Integer",
-    "vwPigmentStageProps__Text",
-    "vwPigmentStageProps__Dimension"
+    "vwPigmentStageProps__IntegerP",
+    "vwPigmentStageProps__TextP",
+    "vwPigmentStageProps__DimensionP"
   ],
   "vwAttachProps": [
-    "vwAttachProps__Dimension"
+    "vwAttachProps__DimensionP"
   ],
   "vwSalesPersonProps": [
-    "vwSalesPersonProps__Text"
+    "vwSalesPersonProps__TextP"
   ],
   "vwUseCaseProps": [
-    "vwUseCaseProps__Text"
+    "vwUseCaseProps__TextP"
   ],
   "vwPigmentAEProps": [
-    "vwPigmentAEProps__Boolean"
+    "vwPigmentAEProps__BooleanP"
   ],
   "vwPipelineGrid": [
-    "vwPipelineGrid__Dimension",
-    "vwPipelineGrid__Date",
-    "vwPipelineGrid__Text",
-    "vwPipelineGrid__Decimal",
-    "vwPipelineGrid__Boolean",
-    "vwPipelineGrid__Integer"
+    "vwPipelineGrid__DimensionP",
+    "vwPipelineGrid__DateP",
+    "vwPipelineGrid__TextP",
+    "vwPipelineGrid__DecimalM",
+    "vwPipelineGrid__BooleanM",
+    "vwPipelineGrid__IntegerM",
+    "vwPipelineGrid__TextM"
   ],
   "vwProfileByDeal": [
-    "vwProfileByDeal__Decimal",
-    "vwProfileByDeal__Dimension"
+    "vwProfileByDeal__DecimalM",
+    "vwProfileByDeal__DimensionM"
   ],
   "vwPigmentGrid": [
-    "vwPigmentGrid__Dimension",
-    "vwPigmentGrid__Date",
-    "vwPigmentGrid__Text",
-    "vwPigmentGrid__Decimal",
-    "vwPigmentGrid__Boolean",
-    "vwPigmentGrid__Integer"
+    "vwPigmentGrid__DimensionP",
+    "vwPigmentGrid__DateP",
+    "vwPigmentGrid__TextP",
+    "vwPigmentGrid__DecimalP",
+    "vwPigmentGrid__BooleanM",
+    "vwPigmentGrid__TextM",
+    "vwPigmentGrid__IntegerM",
+    "vwPigmentGrid__DateM"
   ],
   "vwForecast": [
-    "vwForecast__Decimal"
+    "vwForecast__DecimalM"
   ]
 }

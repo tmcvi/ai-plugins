@@ -1,0 +1,25 @@
+{
+  "admin": [
+    "vwAssumptions",
+    "vwScalarAssumptions",
+    "vwCommissionRates",
+    "vwWinRates",
+    "vwStandardProfiles",
+    "vwPigmentStageProps",
+    "vwSalesPersonProps",
+    "vwPigmentAEProps"
+  ],
+  "newDeal": [],
+  "pipeline": [
+    "vwPipelineGrid",
+    "vwProfileByDeal"
+  ],
+  "deal": [
+    "vwPipelineGrid",
+    "vwProfileByDeal"
+  ],
+  "matching": [
+    "vwPipelineGrid"
+  ],
+  "forecast": []
+}

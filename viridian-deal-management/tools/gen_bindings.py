@@ -333,6 +333,8 @@ def main():
     ds_parts = {}
     # page -> list alias -> {friendly property name: binding alias}
     write_props = {}
+    # page -> logical data sources the page can write to, so must keep live
+    ds_live = {}
 
     # Guard the invariant that broke once: two metrics must never share an alias.
     seen_alias = {}
@@ -392,6 +394,7 @@ def main():
                     list_alias, _technical, display = PROPS[value]
                     entry = ({"binding": value, "aggregator": "First"}, display)
                     add_list(list_alias, 0)
+                    kind = "P"
                 else:
                     a = alias(value)
                     add_metric(a, M[value], a in PAGE_WRITES[page])
@@ -399,11 +402,15 @@ def main():
                     # one value per row is what these carry, so take the first.
                     agg = "Sum" if value_type(value) in ("Decimal", "Integer") else "First"
                     entry = ({"binding": a, "aggregator": agg}, value)
-                by_type.setdefault(value_type(value), []).append(entry)
+                    kind = "M"
+                # Pigment rejects a source that draws on both a list property
+                # and a metric, even where both carry the same value type, so
+                # the split is by kind as well as by type (D23).
+                by_type.setdefault((value_type(value), kind), []).append(entry)
 
             parts = []
-            for vtype, entries in by_type.items():
-                part_name = ds_name + "__" + vtype
+            for (vtype, kind), entries in by_type.items():
+                part_name = ds_name + "__" + vtype + kind
                 ds_columns[part_name] = [display for _v, display in entries]
                 parts.append(part_name)
                 ds_list.append({
@@ -428,6 +435,12 @@ def main():
                 continue
             list_alias, _technical, display = PROPS[b["name"]]
             write_props[page].setdefault(list_alias, {})[display] = b["name"]
+
+        # A source the page never writes to cannot change under it, so the
+        # shared layer releases its subscription once it has answered (D23).
+        written = set(PROP_WRITES[page]) | set(WRITE_ALIAS[w] for w in PAGE_WRITES[page])
+        ds_live[page] = [name for name in PAGE_DS[page]
+                         if any(v in written for v in DS[name][2])]
 
         names = [x["name"] for x in binds]
         for n, c in collections.Counter(names).items():
@@ -458,6 +471,7 @@ def main():
     (HERE / "frames" / "src" / "dscolumns.json").write_text(json.dumps(ds_columns, indent=2))
     (HERE / "frames" / "src" / "dsparts.json").write_text(json.dumps(ds_parts, indent=2))
     (HERE / "frames" / "src" / "writeprops.json").write_text(json.dumps(write_props, indent=2))
+    (HERE / "frames" / "src" / "dslive.json").write_text(json.dumps(ds_live, indent=2))
     for p in PAGES:
         print("  + %-9s %2d bindings, %d data sources" % (p, len(bindings[p]), len(datasources[p])))
     print("\nNo alias collisions, no duplicate bindings, every data source resolves.")

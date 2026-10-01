@@ -1,79 +1,79 @@
 {
-  "vwAssumptions__Decimal": [
+  "vwAssumptions__DecimalM": [
     "ASM Licence ARR $",
     "ASM Standard Days"
   ],
-  "vwAssumptions__Integer": [
+  "vwAssumptions__IntegerM": [
     "ASM Project Duration Weeks",
     "ASM Start Lag Weeks"
   ],
-  "vwAssumptions__Boolean": [
+  "vwAssumptions__BooleanM": [
     "TST Profile Sums",
     "TST Profile Zero Beyond Duration"
   ],
-  "vwScalarAssumptions__Decimal": [
+  "vwScalarAssumptions__DecimalM": [
     "ASM Standard Day Rate \u00a3",
     "ASM Hours per Day",
     "ASM FX Rate USD to GBP"
   ],
-  "vwCommissionRates__Decimal": [
+  "vwCommissionRates__DecimalM": [
     "ASM Commission Rate %"
   ],
-  "vwWinRates__Decimal": [
+  "vwWinRates__DecimalM": [
     "ASM Win Rate %"
   ],
-  "vwStandardProfiles__Decimal": [
+  "vwStandardProfiles__DecimalM": [
     "ASM Standard Profile %"
   ],
-  "vwImportSummary__Date": [
+  "vwImportSummary__DateM": [
     "PIG Latest Load Date"
   ],
-  "vwImportSummary__Integer": [
+  "vwImportSummary__IntegerM": [
     "PIG Rows Total",
     "PIG Rows In Latest Load",
     "PIG Rows Dropped",
     "PIG Unmapped Stages"
   ],
-  "vwImportSummary__Boolean": [
+  "vwImportSummary__BooleanM": [
     "TST Phasing Reconciles All"
   ],
-  "vwStageProps__Integer": [
+  "vwStageProps__IntegerP": [
     "Order"
   ],
-  "vwStageProps__Boolean": [
+  "vwStageProps__BooleanP": [
     "Is Open",
     "Is Won",
     "Is Lost"
   ],
-  "vwStageProps__Text": [
+  "vwStageProps__TextP": [
     "Pipeline Group"
   ],
-  "vwDealSizeProps__Integer": [
+  "vwDealSizeProps__IntegerP": [
     "Order"
   ],
-  "vwPigmentStageProps__Integer": [
+  "vwPigmentStageProps__IntegerP": [
     "Order"
   ],
-  "vwPigmentStageProps__Text": [
+  "vwPigmentStageProps__TextP": [
     "Track"
   ],
-  "vwPigmentStageProps__Dimension": [
+  "vwPigmentStageProps__DimensionP": [
     "Maps To Stage"
   ],
-  "vwAttachProps__Dimension": [
+  "vwAttachProps__DimensionP": [
     "Maps To Sales Motion"
   ],
-  "vwSalesPersonProps__Text": [
+  "vwSalesPersonProps__TextP": [
     "CRM Name",
     "Email"
   ],
-  "vwUseCaseProps__Text": [
+  "vwUseCaseProps__TextP": [
     "CRM Codes"
   ],
-  "vwPigmentAEProps__Boolean": [
+  "vwPigmentAEProps__BooleanP": [
     "Active"
   ],
-  "vwPipelineGrid__Dimension": [
+  "vwPipelineGrid__DimensionP": [
     "Sales Person",
     "Stage",
     "Use Case",
@@ -82,18 +82,16 @@
     "Pigment AE",
     "Matched Pigment Opportunity"
   ],
-  "vwPipelineGrid__Date": [
+  "vwPipelineGrid__DateP": [
     "Expected Close Date",
     "Created On",
     "Last Updated On",
     "Closed On"
   ],
-  "vwPipelineGrid__Text": [
-    "Notes",
-    "ALN Match Status",
-    "ALN Stage Alignment"
+  "vwPipelineGrid__TextP": [
+    "Notes"
   ],
-  "vwPipelineGrid__Decimal": [
+  "vwPipelineGrid__DecimalM": [
     "OPP Licence Value $",
     "OPP Licence Value \u00a3",
     "OPP Commission Rate %",
@@ -111,7 +109,7 @@
     "PH Profile Total %",
     "PH Phased Outside Calendar \u00a3"
   ],
-  "vwPipelineGrid__Boolean": [
+  "vwPipelineGrid__BooleanM": [
     "OPP Is Days Overridden",
     "OPP Is Rate Overridden",
     "OPP Is Open",
@@ -125,56 +123,64 @@
     "PH Has Override Profile",
     "TST Phasing Reconciles"
   ],
-  "vwPipelineGrid__Integer": [
+  "vwPipelineGrid__IntegerM": [
     "OPP Duration Weeks",
     "ALN Stage Gap",
     "ALN Close Date Gap Days"
   ],
-  "vwProfileByDeal__Decimal": [
+  "vwPipelineGrid__TextM": [
+    "ALN Match Status",
+    "ALN Stage Alignment"
+  ],
+  "vwProfileByDeal__DecimalM": [
     "PH Effective Profile %",
     "PH Override Profile %"
   ],
-  "vwProfileByDeal__Dimension": [
+  "vwProfileByDeal__DimensionM": [
     "PH Calendar Week"
   ],
-  "vwPigmentGrid__Dimension": [
+  "vwPigmentGrid__DimensionP": [
     "Pigment Stage",
     "Pigment AE",
     "Partner Sales Contact",
     "Partner Attach Type"
   ],
-  "vwPigmentGrid__Date": [
+  "vwPigmentGrid__DateP": [
     "Close Date",
     "Create Date",
     "First Seen",
-    "Last Seen",
-    "PIG First Seen Calc"
+    "Last Seen"
   ],
-  "vwPigmentGrid__Text": [
+  "vwPigmentGrid__TextP": [
     "Segment",
     "Industry",
     "Delivery Approach",
-    "Forecast Category",
+    "Forecast Category"
+  ],
+  "vwPigmentGrid__DecimalP": [
+    "ACV USD",
+    "Influence %"
+  ],
+  "vwPigmentGrid__BooleanM": [
+    "PIG In Latest Load",
+    "PIG Close Month Mismatch",
+    "ALN Pigment Row Closed"
+  ],
+  "vwPigmentGrid__TextM": [
     "PIG Derived Account",
     "PIG Derived Use Case Codes",
     "PIG Derived Close Month",
     "PIG Derived Deal Type",
     "ALN Pigment Match Status"
   ],
-  "vwPigmentGrid__Decimal": [
-    "ACV USD",
-    "Influence %"
-  ],
-  "vwPigmentGrid__Boolean": [
-    "PIG In Latest Load",
-    "PIG Close Month Mismatch",
-    "ALN Pigment Row Closed"
-  ],
-  "vwPigmentGrid__Integer": [
+  "vwPigmentGrid__IntegerM": [
     "ALN Matched Deal Count",
     "ALN Pigment Mapped Stage Order"
   ],
-  "vwForecast__Decimal": [
+  "vwPigmentGrid__DateM": [
+    "PIG First Seen Calc"
+  ],
+  "vwForecast__DecimalM": [
     "PH Services Revenue \u00a3",
     "PH Commission \u00a3",
     "PH Days",
