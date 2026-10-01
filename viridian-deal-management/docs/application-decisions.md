@@ -448,3 +448,45 @@ and `editItem` sets when the editor renames one.
 wholesale, so Pipeline, Deals, New deal, Matching and Admin each need a full
 `update_frame` rather than a patch. Forecast writes nothing and needs only its
 body updating.
+
+## D22 — The Frame deploy path mangles `\uXXXX` and counts bytes, so every deploy is now checksummed
+
+Deploying Pipeline with the D21 bindings surfaced three things about
+`update_frame` / `update_frame_body` that nothing documents, and that between
+them had already put a broken body on the Frame.
+
+**1. The body arrives having been unescaped twice.** A `£` written into
+the Frame source — which is what `json.dumps` emits for `£` in the generated
+`COL_ALIAS` and `DS_COLUMNS` maps — is decoded by the server into a literal
+`£` before it is stored. The same happens to any `\uXXXX`; control characters
+(`\u0001`, used as the label separator in `mergeParts`) are left alone. For
+this app it is harmless, because `"OPP Licence Value £"` and
+`"OPP Licence Value £"` are the same JavaScript string — but it means the
+stored body is *not* byte-identical to `dist/*.js`, and any later
+`update_frame_body` patch has to target the decoded form.
+
+**2. `bodySizeBytes` is UTF-8 bytes, not characters.** Every `£` in the body
+counts twice, every `·`, `×`, `▲`, `▼` twice or three times. Read as a
+character count it looks like the deploy lost data when it had not.
+
+**3. A deploy is a hand-copied transcript, and transcripts lose things.**
+Pigment is unreachable from this environment, so the body cannot be POSTed from
+the file — it is carried across in the tool call. Two defects got through that
+way on this deploy: a blank line dropped because the terminal trimmed a leading
+blank from a `sed` range, and — far worse — the closing `})();` of the
+top-level IIFE, dropped because the last line of the file sat one line past the
+end of the range that was read. That second one is a syntax error: the Frame
+would not have run at all.
+
+**So the deploy is now checksummed.** The body goes up in ≤17,000-character
+chunks, and after each chunk the returned `bodySizeBytes` is compared against
+the expected UTF-8 byte length of that slice of `dist/<page>.js` with
+`£` → `£` applied. A chunk that does not match is wrong and is found
+before the next one goes up. At the end the whole body is checked the same way,
+and `update_frame_body` is used a second time as a read-only verifier: an edit
+whose `newString` equals its `oldString` changes nothing but fails unless the
+text is present exactly once, and `occurrencesReplaced` on single characters
+(`\n`, `(`, `)`, `{`, `}`, `;`, `'`, `"`) gives a cheap structural checksum.
+
+Pipeline deployed on 1 October 2026 verifies at 91,814 bytes against an
+expected 91,814, with all nine character counts matching.
