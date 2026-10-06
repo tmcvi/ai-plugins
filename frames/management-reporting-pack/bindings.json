@@ -1,0 +1,23 @@
+{
+  "application": "[DEMO] [FP&A] 01. DEMO Pigment Official Tour 2025",
+  "applicationId": "c076e8f7-8922-4888-a03e-1c1dd20c28fa",
+  "frameName": "Management Reporting Pack",
+  "bindings": [
+    { "name": "vPeriod", "type": "View", "viewId": "5fafcad5-ea2d-4d3c-a90b-1bd7bd766450", "board": "3.1 P&L Analysis & Rolling Forecast", "widget": "Manage Actual Period" },
+    { "name": "vRev", "type": "View", "viewId": "d5b5dbe4-4402-4686-81eb-941133e07a52", "board": "3.1 P&L Analysis & Rolling Forecast", "widget": "Actuals vs. Budget vs. Forecast" },
+    { "name": "vLand", "type": "View", "viewId": "800bc0ac-592e-4fea-8241-1b45c38bcc27", "board": "3.1 P&L Analysis & Rolling Forecast", "widget": "P&L Reforecast" },
+    { "name": "vCompMonth", "type": "View", "viewId": "aaaa2d80-b480-4f61-b74b-beed198874ac", "board": "3.1 P&L Analysis & Rolling Forecast", "widget": "Actuals - Country P&L Breakdown by Product and Cost Center" },
+    { "name": "vCompYtd", "type": "View", "viewId": "3db40d56-2590-4cba-b20d-9546c4f435f0", "board": "3.1 P&L Analysis & Rolling Forecast", "widget": "Revenue to Net income" },
+    { "name": "vBudFy", "type": "View", "viewId": "c5b9c2b1-e1b1-4517-b497-4b66e07e7d9d", "board": "3.1 P&L Analysis & Rolling Forecast", "widget": "P&L Reforecast (P&L Variance Comparison)" },
+    { "name": "vCash", "type": "View", "viewId": "adc46a0e-0296-41ec-bbbd-5dc0eaf93c53", "board": "3.4 Cashflows", "widget": "Cash Position" },
+    { "name": "vPvm", "type": "View", "viewId": "da9881e8-78df-4da3-906b-56918d2d5c9e", "board": "3.5 Price Volume Mix Analysis", "widget": "PVM (waterfall)" },
+    { "name": "vPvmProd", "type": "View", "viewId": "16a3a58d-fa04-4d0c-b571-aba0719798d6", "board": "3.5 Price Volume Mix Analysis", "widget": "Price Volume Mix Variance Analysis" },
+    { "name": "vPvmSet", "type": "View", "viewId": "5885201c-e1f4-42ac-9968-0bd503cf0b4e", "board": "3.5 Price Volume Mix Analysis", "widget": "PVM Settings" },
+    { "name": "month", "type": "List", "listId": "e9f0f8fe-03d6-41a7-972b-2c2ba8991cd8", "purpose": "Month page definitions and selector labels" },
+    { "name": "year", "type": "List", "listId": "015c3fc3-e609-47f3-a0f5-c3ffd6cdd224", "purpose": "Year page definitions" },
+    { "name": "version", "type": "List", "listId": "69df8e5d-8821-4b30-b830-bc0c21ff4f16", "purpose": "Version page definitions (Actual, Budget, Forecast)" },
+    { "name": "currency", "type": "List", "listId": "1bb9ec5a-0a67-4321-850b-d82b7b401d50", "purpose": "Currency page definition (GBP)" },
+    { "name": "product", "type": "List", "listId": "1ffbe5e9-d60f-4fac-9379-83070ddd7162", "purpose": "Product (Solutions) names for the PVM heat-grid" }
+  ],
+  "dataSources": []
+}
