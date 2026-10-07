@@ -779,7 +779,9 @@ Pigment rows, a stray `|` was removed from the Shoosmiths name, and the
 truncated Folk notes were rewritten as prose), so that CSV is not a byte-exact
 record of what is in Pigment. Pigment is the record.
 
-**Still open:** the six Phase-5 demo opportunities are still in the list.
-`Polarium FP&A and S&OP` (demo) now sits next to the real
-`Polarium – [DEM,SOP,FPA,SUP]`, which will confuse people. They are not deleted
-without Tom's say-so.
+**The demo rows are gone.** The six Phase-5 placeholders (Acme Consolidation
+Rollout, Polarium FP&A and S&OP, Northwind Supply Chain Pilot, Meridian SPM
+Expansion, Brightwater FP&A, Calder Group Consolidation) were deleted on Tom's
+confirmation — `Polarium FP&A and S&OP` in particular would have been mistaken
+for the real `Polarium – [DEM,SOP,FPA,SUP]`. The Opportunity list now holds
+exactly the 130 seeded deals and nothing else.
