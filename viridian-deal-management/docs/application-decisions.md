@@ -721,3 +721,65 @@ newString`, `replaceAll: true`) count `\n`, `function `, `subscribeView(`, `£`,
 compared with the local file. It costs one free call and catches a silent
 truncation that a byte total alone could mask. All six Frames matched on every
 counter.
+
+## D29 — Seeding the Opportunity list from Folk CRM and the open Pigment pipeline
+
+**Status:** done, with four judgement calls Tom made and one match dropped by hand.
+
+The Opportunity list started empty apart from six Phase-5 demo rows. It is now
+seeded with **130 real opportunities**: the **97 open deals from Folk CRM**
+(Viridian's previous tool) plus the **33 rows that are open in the Pigment
+pipeline and have no Folk counterpart**. 84 of the 130 carry a
+`Matched Pigment Opportunity`, so the Matching screen starts with most of the
+reconciliation already done.
+
+**Mapping from Folk's columns to ours.** Stage is 1:1 (`Qualified + Deep disco`
+→ `Qualified`, `POC/custom demo` → `POC`, `Negotiations/Contracting` →
+`Contracting`, the rest by name). Deal Size takes Folk's day band
+(`X-Small (20 days)` and `Small (35 days)` → `Small`, `Medium (50 days)` →
+`Medium`, `Large (80 days)` → `Large`, `X-Large (120 days)` → `Very Large`).
+Use Case collapses Folk's seven values onto our four — `FP&A + Consol` → `FP&A`,
+`IBP` → `Supply Chain`, `SMP` → `SPM`, and `WFP / SWP`, `Platform` and `other`
+→ `Other`. Sales Motion maps `Co-sell` → `Influenced`, `Services` →
+`Services Only`, everything else → `Sourced`. Owner first names resolved to the
+Sales Person list; all 17 resolved, only `sasha` needed a judgement call
+(Sacha Efoui Delplanque).
+
+**The four calls Tom made on the gaps.**
+1. 64 Folk deals carry no day band. They load as **Medium** rather than blank,
+   so every row derives a licence value and a services estimate on day one.
+2. 25 deals had a close date in the past *and* a live stage: those rolled
+   forward to **2026-12-31**. 31 past-dated deals sitting in `Holding pool`
+   kept their original date, because a stale date there is information.
+   9 deals with no date at all were set to the quarter end.
+3. All 33 Pigment-only rows were seeded, not just the large ones.
+4. Orphans — 10 Folk deals owned by a deleted member, plus every Pigment-only
+   row — are owned by **Callum Maslen** until the team reassigns them.
+
+Each of those deviations is written into that row's `Notes`, along with the
+Folk CRM id, so a salesperson opening the deal can see what was inferred and
+what came from the source.
+
+**The matching rule.** A Folk deal is joined to a Pigment row on a normalised
+account name (company suffixes, bracketed qualifiers and punctuation stripped),
+preferring an open Pigment row but **matching to a closed one when that is the
+only candidate** — 39 open and 13 closed. Matching to a closed-lost row is
+deliberate: that disagreement is exactly what the reconciliation screen exists
+to surface. One fuzzy match was wrong and was dropped by hand: *Bolt Phase 2*
+(a services phase-2 engagement) had matched *Bolt - FP&A 2024* (the original
+licence deal). The 44 oldest closed Pigment rows were outside the match pool,
+so the Matching screen may still surface a few more pairs.
+
+**Two caveats on reproducibility.** `imports/opportunity_seed.csv` is the
+generated seed and is gitignored — it carries Viridian's own pipeline and
+contact names. While loading, several names and Notes were tidied by hand
+(`Greencore` / `Greencore (2)` became `Greencore (Daniel Clarke)` /
+`Greencore (Asif Vhora)`, the two MAG rows were pointed at their distinct
+Pigment rows, a stray `|` was removed from the Shoosmiths name, and the
+truncated Folk notes were rewritten as prose), so that CSV is not a byte-exact
+record of what is in Pigment. Pigment is the record.
+
+**Still open:** the six Phase-5 demo opportunities are still in the list.
+`Polarium FP&A and S&OP` (demo) now sits next to the real
+`Polarium – [DEM,SOP,FPA,SUP]`, which will confuse people. They are not deleted
+without Tom's say-so.
