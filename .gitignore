@@ -79,3 +79,6 @@ venv/
 viridian-deal-management/frames/harness/out/
 viridian-deal-management/frames/harness/*.harness.html
 viridian-deal-management/frames/harness/fixtures.js
+
+# Real customer pipeline: prepared for import, not for the repo.
+viridian-deal-management/imports/*.csv

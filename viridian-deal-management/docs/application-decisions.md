@@ -541,3 +541,61 @@ cap.
 The cost is that a Frame no longer sees another user's edit until something
 makes it re-read. For a six-person sales team that is the right trade against
 not loading at all, but it is a behaviour change worth knowing about.
+
+## D24 — ⚠️ The partner export has changed schema again, and the Oct 2026 file is mostly history
+
+The `2026-10-07_Partner_Opportunities` export is a **third** schema, different
+from both §6.1 and the Apr 2026 file D6 describes. It is closer to the brief
+than April was: `Influence %`, `Delivery Approach` and `Partner Sales Contact`
+are all back, so the §6.5 match score gets its "same contact" signal again.
+`Company` and `Opportunity ID` are new; April's `Commission`, `Services`,
+`Forecast Category`, `Source`, `NN/Existing` and `SAO Date` are gone, which
+leaves `Pigment Commission USD`, `Pigment Services USD` and `Forecast Category`
+with nothing feeding them.
+
+**The file is mostly closed business.** 172 of its 244 rows sit on a stage the
+model had never seen, and 171 of those are already won or lost; 173 rows have a
+close date in the past, the earliest Feb 2024. Only ~72 rows are live pipeline.
+Tom chose to load all 244 with the stages mapped, rather than filter to open
+rows, so the history is visibly closed instead of invisible. Six stages were
+added: `S8 - Close win`, `U4 - Closed Won` and `R4 - Closed Won` → Closed Won;
+`S9 - Dead lost` and `U5 - Dead Lost` → Closed Lost; `U0 - Identified` →
+Holding pool. (D8's R1/R2 stay deliberately unmapped.)
+
+**`Partner Sales Contact` pointed at the Viridian `Sales Person` list** — the
+list behind the sales-person dropdown on every Viridian deal. The export names
+Pigment-side people, and carries Tom as both "Thomas Cvijanovic" (63 rows) and
+"Tom Cvijanovic" (46), so importing it would have put a duplicate of him and
+two Pigment staff into the Viridian team picker. The property now references a
+new `Partner Contact` dimension instead, and `tools/prep_pigment_import.py`
+folds the spellings together. The technical name did not change, so no Frame
+binding moved. The match score compares display names, so it still works.
+
+**The opportunity name is a fragile key, and this file proves it.** Asda was
+`Asda -  - 10/2026 - Viridian - UK (Partner) Sourced` in April and is
+`Asda - [FPA] - …` now: keyed on the name, a rename is a new row plus a dropped
+one. `Opportunity ID` would be stable but is filled on only 47 of 244 rows, so
+it cannot be the key yet. Worth revisiting when Pigment populates it.
+
+**The derived-name metrics are now unreliable.** Three naming conventions
+appear in one file — 100 rows use `[FPA]`, 95 use ` - FP&A - `, 49 use neither
+— and only 83 carry a trailing close month. `PIG Derived Account`,
+`PIG Derived Use Case Codes`, `PIG Derived Close Month` and
+`PIG Close Month Mismatch` all parse that name, so they are wrong or blank for
+most rows. A `Company` property has been added and is loaded directly from the
+export, which removes the need to parse the account at least.
+
+**Correction to D15:** it claimed the properties were "named exactly as the
+export's column headers so the mapping is 1:1". That was never true of the
+April file and is not true of this one. `prep_pigment_import.py` now makes it
+true by renaming the headers on the way through, so the claim holds for the
+file the operator actually imports.
+
+**Still outstanding — `First Seen` after the first load.** `PIG First Seen Calc`
+is `IFBLANK(First Seen, Last Seen)` and its description says it is "copied back
+onto the First Seen property after each load", but nothing does that copying.
+On a fresh list it is harmless: every row is genuinely first seen today. From
+the second load on, `First Seen` stays blank and the metric just tracks
+`Last Seen`, so "new this week" would be meaningless. The fix is a one-click
+"Stamp First Seen" action on the Admin Import tab, writing the metric back onto
+the property for rows where it is blank — not yet built.

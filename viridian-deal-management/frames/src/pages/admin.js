@@ -337,13 +337,12 @@ function renderImport() {
   h += '<div style="font:700 15px ' + FONT.display + ';color:' + T.ink + ';margin-bottom:8px;">Weekly load checklist</div>';
   h += '<ol style="margin:0;padding-left:18px;font:13px ' + FONT.body + ';color:' + T.bodyInk + ';line-height:1.7;">';
   h += '<li>Open the weekly partner report from Pigment and save the sheet as CSV.</li>';
-  h += '<li>Rename the first column to <span style="font-family:' + FONT.mono + ';">Pigment Opportunity Name</span>.</li>';
-  h += '<li>Delete every grouping row: any row whose <span style="font-family:' + FONT.mono + ';">Stage</span> cell is blank ' +
-    '(the quarter and attach-group subtotals).</li>';
-  h += '<li>Add a <span style="font-family:' + FONT.mono + ';">Load Date</span> column and set every row to the date you are loading.</li>';
+  h += '<li>Run it through <span style="font-family:' + FONT.mono + ';">tools/prep_pigment_import.py</span>. ' +
+    'That renames the headers to match these properties, stamps every row with the load date and folds the ' +
+    'contact spellings together. It stops rather than emit a file with a blank or duplicated opportunity name.</li>';
   h += '<li>Run the saved import <span style="font-family:' + FONT.mono + ';">Pigment Pipeline weekly</span> in ' +
     'update-or-create mode keyed on the name, with "create missing items" on.</li>';
-  h += '<li>Come back to this tab: check the row counts, then clear any unmapped stages.</li>';
+  h += '<li>Come back to this tab: check the row counts, then map any stage listed as unmapped.</li>';
   h += '</ol>';
   h += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid ' + T.hairline + ';font:12px ' + FONT.body +
     ';color:' + T.secondary + ';">Rows that disappear from a later export are never deleted. They stay, flagged as ' +
