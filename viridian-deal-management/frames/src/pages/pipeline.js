@@ -408,7 +408,7 @@ function attach() {
       e.stopPropagation();
       var name = e.currentTarget.getAttribute('data-stagefor');
       var stage = e.currentTarget.value;
-      var vals = { Stage: stage, 'Last Updated On': todayIso() };
+      var vals = { Stage: stage };
       if (stage === 'Closed Won' || stage === 'Closed Lost') vals['Closed On'] = todayIso();
       else vals['Closed On'] = null;
       writeItem('opportunity', name, vals);

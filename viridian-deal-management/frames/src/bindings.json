@@ -600,26 +600,10 @@
       "canWrite": true
     },
     {
-      "name": "oppUpdatedOn",
-      "type": "ListProperty",
-      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
-      "listPropertyTechnicalName": "last_updated_on_QTQWWX",
-      "canRead": true,
-      "canWrite": true
-    },
-    {
       "name": "oppClosedOn",
       "type": "ListProperty",
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
       "listPropertyTechnicalName": "closed_on_V8DFEL",
-      "canRead": true,
-      "canWrite": true
-    },
-    {
-      "name": "oppCreatedOn",
-      "type": "ListProperty",
-      "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
-      "listPropertyTechnicalName": "created_on_H6YAOP",
       "canRead": true,
       "canWrite": true
     }
@@ -764,7 +748,7 @@
       "name": "oppCreatedOn",
       "type": "ListProperty",
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
-      "listPropertyTechnicalName": "created_on_H6YAOP",
+      "listPropertyTechnicalName": "created_at_QWF26C",
       "canRead": true,
       "canWrite": false
     },
@@ -772,9 +756,9 @@
       "name": "oppUpdatedOn",
       "type": "ListProperty",
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
-      "listPropertyTechnicalName": "last_updated_on_QTQWWX",
+      "listPropertyTechnicalName": "last_edited_at_Z5M1DD",
       "canRead": true,
-      "canWrite": true
+      "canWrite": false
     },
     {
       "name": "oppClosedOn",
@@ -1485,7 +1469,7 @@
       "name": "oppCreatedOn",
       "type": "ListProperty",
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
-      "listPropertyTechnicalName": "created_on_H6YAOP",
+      "listPropertyTechnicalName": "created_at_QWF26C",
       "canRead": true,
       "canWrite": false
     },
@@ -1493,9 +1477,9 @@
       "name": "oppUpdatedOn",
       "type": "ListProperty",
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
-      "listPropertyTechnicalName": "last_updated_on_QTQWWX",
+      "listPropertyTechnicalName": "last_edited_at_Z5M1DD",
       "canRead": true,
-      "canWrite": true
+      "canWrite": false
     },
     {
       "name": "oppClosedOn",
@@ -2213,17 +2197,17 @@
       "name": "oppCreatedOn",
       "type": "ListProperty",
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
-      "listPropertyTechnicalName": "created_on_H6YAOP",
+      "listPropertyTechnicalName": "created_at_QWF26C",
       "canRead": true,
-      "canWrite": true
+      "canWrite": false
     },
     {
       "name": "oppUpdatedOn",
       "type": "ListProperty",
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
-      "listPropertyTechnicalName": "last_updated_on_QTQWWX",
+      "listPropertyTechnicalName": "last_edited_at_Z5M1DD",
       "canRead": true,
-      "canWrite": true
+      "canWrite": false
     },
     {
       "name": "oppClosedOn",
@@ -3021,7 +3005,7 @@
       "name": "oppCreatedOn",
       "type": "ListProperty",
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
-      "listPropertyTechnicalName": "created_on_H6YAOP",
+      "listPropertyTechnicalName": "created_at_QWF26C",
       "canRead": true,
       "canWrite": false
     },
@@ -3029,7 +3013,7 @@
       "name": "oppUpdatedOn",
       "type": "ListProperty",
       "listId": "a1e7c76d-ee84-427d-8933-ffdad6ef1dd2",
-      "listPropertyTechnicalName": "last_updated_on_QTQWWX",
+      "listPropertyTechnicalName": "last_edited_at_Z5M1DD",
       "canRead": true,
       "canWrite": false
     },

@@ -67,6 +67,15 @@ function defaultCloseDate() {
   return isoDate(new Date(Date.UTC(y, endMonth, 0)));
 }
 
+// Pigment's item-history timestamps come back as text, not dates, and their
+// exact shape is the platform's business. Render one as a date when it starts
+// with an ISO date, otherwise show what Pigment gave us rather than a dash.
+function stamp(v) {
+  if (!v) return '-';
+  var d = fmtDate(v);
+  return d === '-' ? String(v) : d;
+}
+
 function esc(s) {
   return String(s === null || s === undefined ? '' : s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')

@@ -100,9 +100,7 @@ function ndSubmit(existingNames, onSuccess) {
     'Expected Close Date': v.close,
     'Use Case': v.useCase,
     'Sales Motion': v.motion,
-    'Deal Size': v.size,
-    'Created On': today,
-    'Last Updated On': today
+    'Deal Size': v.size
   };
   if (v.ae) values['Pigment AE'] = v.ae;
   if (v.notes) values.Notes = v.notes;

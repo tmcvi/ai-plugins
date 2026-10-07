@@ -599,3 +599,42 @@ the second load on, `First Seen` stays blank and the metric just tracks
 `Last Seen`, so "new this week" would be meaningless. The fix is a one-click
 "Stamp First Seen" action on the Admin Import tab, writing the metric back onto
 the property for rows where it is blank — not yet built.
+
+## D25 — Item history replaces the hand-stamped dates, and the Frames stop writing them
+
+Tom replaced the manual `Created On` / `Last Updated On` properties on
+`Opportunity` with Pigment's native item-history properties, `Created at` and
+`Last edited at` (plus `Created by` / `Last edited by`). This is the better
+mechanism and it removes a class of bug: the Frames were stamping those dates
+on every write, so a save that failed halfway, or any edit made outside a
+Frame, left them lying.
+
+It does mean the Frames had to change, because an item-history property is
+read-only. Every write path stamped `Last Updated On`, and New deal stamped
+`Created On` as well — the Deal editor's save, rename, stage dropdown and close
+dialog; Pipeline's inline stage change; Matching's link, unlink and
+create-from-Pigment. Each of those would have failed outright against a
+property that no longer accepts writes. All the stamping is gone; the two
+bindings remain, read-only, so the editor footer still shows when a deal was
+created and last touched.
+
+Two knock-ons worth noting:
+
+* The properties are **Text**, not Date. They move from the `__DateP` part of
+  `vwPipelineGrid` to `__TextP`, and the footer renders them through a new
+  `stamp()` helper that formats an ISO-looking value as a date and otherwise
+  shows Pigment's own text rather than a dash.
+* `Closed On` is **not** an item-history property and stays exactly as it was:
+  it means the date the deal was marked won or lost, which is a business fact
+  the Frames do set, not a record of when the row was touched.
+
+**The same move does not work for `Last Seen` on `Pigment Pipeline`.**
+`First Seen` maps cleanly onto `Created at` — the row's creation really is the
+first time we saw that opportunity. `Last Seen` is a different question: *was
+this row in the latest file?* `Last edited at` only advances when a value
+actually changes, so a row that comes back unchanged week after week would stop
+looking current and `PIG In Latest Load` would report it as dropped — a warning
+on a healthy matched deal, which is the one thing drop-detection must not get
+wrong. It is also Text, so `PIG Latest Load Date` cannot take a MAX of it.
+`Last Seen` therefore needs to stay a Date fed from the import file, which is
+why `prep_pigment_import.py` stamps it.

@@ -23,9 +23,7 @@
       "Pigment AE": "oppPigmentAE",
       "Notes": "oppNotes",
       "Matched Pigment Opportunity": "oppMatched",
-      "Last Updated On": "oppUpdatedOn",
-      "Closed On": "oppClosedOn",
-      "Created On": "oppCreatedOn"
+      "Closed On": "oppClosedOn"
     }
   },
   "pipeline": {
@@ -39,7 +37,6 @@
       "Pigment AE": "oppPigmentAE",
       "Notes": "oppNotes",
       "Matched Pigment Opportunity": "oppMatched",
-      "Last Updated On": "oppUpdatedOn",
       "Closed On": "oppClosedOn",
       "Opportunity Name": "oppName"
     }
@@ -55,7 +52,6 @@
       "Pigment AE": "oppPigmentAE",
       "Notes": "oppNotes",
       "Matched Pigment Opportunity": "oppMatched",
-      "Last Updated On": "oppUpdatedOn",
       "Closed On": "oppClosedOn",
       "Opportunity Name": "oppName"
     }
@@ -71,8 +67,6 @@
       "Pigment AE": "oppPigmentAE",
       "Notes": "oppNotes",
       "Matched Pigment Opportunity": "oppMatched",
-      "Created On": "oppCreatedOn",
-      "Last Updated On": "oppUpdatedOn",
       "Closed On": "oppClosedOn",
       "Opportunity Name": "oppName"
     }

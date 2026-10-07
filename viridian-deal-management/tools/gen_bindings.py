@@ -54,8 +54,10 @@ PROPS = {
     "oppNotes":        ("opportunity", "notes_AV0MTG", "Notes"),
     "oppMatched":      ("opportunity", "matched_pigment_opportunity_8CRBB3",
                         "Matched Pigment Opportunity"),
-    "oppCreatedOn":    ("opportunity", "created_on_H6YAOP", "Created On"),
-    "oppUpdatedOn":    ("opportunity", "last_updated_on_QTQWWX", "Last Updated On"),
+    # Pigment now maintains both of these itself as item-history properties,
+    # so they are Text timestamps the Frames read and must never write (D25).
+    "oppCreatedOn":    ("opportunity", "created_at_QWF26C", "Created at"),
+    "oppUpdatedOn":    ("opportunity", "last_edited_at_Z5M1DD", "Last edited at"),
     "oppClosedOn":     ("opportunity", "closed_on_V8DFEL", "Closed On"),
     # Pigment Pipeline - everything the Matching and Deal screens show.
     "pigStage":        ("pigmentPipeline", "pigment_stage_K38I0J", "Pigment Stage"),
@@ -128,7 +130,7 @@ PROP_TYPE = {
     "oppSalesPerson": "Dimension", "oppStage": "Dimension", "oppCloseDate": "Date",
     "oppUseCase": "Dimension", "oppSalesMotion": "Dimension", "oppDealSize": "Dimension",
     "oppPigmentAE": "Dimension", "oppNotes": "Text", "oppMatched": "Dimension",
-    "oppCreatedOn": "Date", "oppUpdatedOn": "Date", "oppClosedOn": "Date",
+    "oppCreatedOn": "Text", "oppUpdatedOn": "Text", "oppClosedOn": "Date",
     "pigStage": "Dimension", "pigCloseDate": "Date", "pigCreateDate": "Date",
     "pigAE": "Dimension", "pigContact": "Dimension", "pigAttach": "Dimension",
     "pigSegment": "Text", "pigIndustry": "Text", "pigAcv": "Decimal",
@@ -309,12 +311,12 @@ PAGE_WRITES["deal"] = PAGE_WRITES["pipeline"]
 # ListProperty binding whether or not the page also reads it (D21).
 OPP_EDIT = ["oppName", "oppSalesPerson", "oppStage", "oppCloseDate", "oppUseCase",
             "oppSalesMotion", "oppDealSize", "oppPigmentAE", "oppNotes", "oppMatched",
-            "oppUpdatedOn", "oppClosedOn"]
+            "oppClosedOn"]
 
 PROP_WRITES = {
     "pipeline": OPP_EDIT,
-    "newDeal":  OPP_EDIT + ["oppCreatedOn"],
-    "matching": OPP_EDIT + ["oppCreatedOn"],
+    "newDeal":  OPP_EDIT,
+    "matching": OPP_EDIT,
     "admin":    ["pigStageMapsTo", "personEmail", "personCrmName", "aeActive"],
     "forecast": [],
 }

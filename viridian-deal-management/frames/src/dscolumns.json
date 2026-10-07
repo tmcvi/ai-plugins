@@ -84,12 +84,12 @@
   ],
   "vwPipelineGrid__DateP": [
     "Expected Close Date",
-    "Created On",
-    "Last Updated On",
     "Closed On"
   ],
   "vwPipelineGrid__TextP": [
-    "Notes"
+    "Notes",
+    "Created at",
+    "Last edited at"
   ],
   "vwPipelineGrid__DecimalM": [
     "OPP Licence Value $",

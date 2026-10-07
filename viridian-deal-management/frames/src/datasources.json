@@ -607,14 +607,6 @@
           "aggregator": "First"
         },
         {
-          "binding": "oppCreatedOn",
-          "aggregator": "First"
-        },
-        {
-          "binding": "oppUpdatedOn",
-          "aggregator": "First"
-        },
-        {
           "binding": "oppClosedOn",
           "aggregator": "First"
         }
@@ -631,6 +623,14 @@
       "values": [
         {
           "binding": "oppNotes",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCreatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUpdatedOn",
           "aggregator": "First"
         }
       ]
@@ -1226,14 +1226,6 @@
           "aggregator": "First"
         },
         {
-          "binding": "oppCreatedOn",
-          "aggregator": "First"
-        },
-        {
-          "binding": "oppUpdatedOn",
-          "aggregator": "First"
-        },
-        {
           "binding": "oppClosedOn",
           "aggregator": "First"
         }
@@ -1250,6 +1242,14 @@
       "values": [
         {
           "binding": "oppNotes",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCreatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUpdatedOn",
           "aggregator": "First"
         }
       ]
@@ -1845,14 +1845,6 @@
           "aggregator": "First"
         },
         {
-          "binding": "oppCreatedOn",
-          "aggregator": "First"
-        },
-        {
-          "binding": "oppUpdatedOn",
-          "aggregator": "First"
-        },
-        {
           "binding": "oppClosedOn",
           "aggregator": "First"
         }
@@ -1869,6 +1861,14 @@
       "values": [
         {
           "binding": "oppNotes",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCreatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUpdatedOn",
           "aggregator": "First"
         }
       ]
@@ -2554,14 +2554,6 @@
           "aggregator": "First"
         },
         {
-          "binding": "oppCreatedOn",
-          "aggregator": "First"
-        },
-        {
-          "binding": "oppUpdatedOn",
-          "aggregator": "First"
-        },
-        {
           "binding": "oppClosedOn",
           "aggregator": "First"
         }
@@ -2578,6 +2570,14 @@
       "values": [
         {
           "binding": "oppNotes",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppCreatedOn",
+          "aggregator": "First"
+        },
+        {
+          "binding": "oppUpdatedOn",
           "aggregator": "First"
         }
       ]

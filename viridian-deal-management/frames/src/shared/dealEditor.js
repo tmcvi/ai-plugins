@@ -157,8 +157,8 @@ function dealEditorHtml(ctx, embedded) {
   // ---- footer ----------------------------------------------------------
   h += '<div style="display:flex;justify-content:space-between;align-items:center;' +
     'border-top:1px solid ' + T.hairline + ';margin-top:20px;padding-top:12px;">';
-  h += '<div style="' + MONO_CSS + '">created ' + fmtDate(item['Created On']) +
-    ' · updated ' + fmtDate(item['Last Updated On']) +
+  h += '<div style="' + MONO_CSS + '">created ' + stamp(item['Created at']) +
+    ' · updated ' + stamp(item['Last edited at']) +
     (item['Closed On'] ? ' · closed ' + fmtDate(item['Closed On']) : '') + '</div>';
   h += '<button id="de-close-deal" style="' + BTN_PRIMARY + '">Close deal</button>';
   h += '</div>';
@@ -333,11 +333,11 @@ function attachDealEditor(ctx, rerender) {
   function byId(id) { return document.getElementById(id); }
   var today = todayIso();
 
-  // Save a property on the Opportunity and stamp Last Updated On.
+  // Save a property on the Opportunity. Pigment stamps the edit time itself
+  // now, as an item-history property the Frame cannot write (D25).
   function saveProp(prop, value, revertEl, prevVal) {
     var vals = {};
     vals[prop] = value;
-    vals['Last Updated On'] = today;
     return writeItem('opportunity', name, vals).then(function (res) {
       if (!res.ok && revertEl) revertEl.value = prevVal;
       else if (rerender) rerender();
@@ -360,7 +360,7 @@ function attachDealEditor(ctx, rerender) {
           return;
         }
       }
-      writeItem('opportunity', prev, { 'Opportunity Name': next, 'Last Updated On': today })
+      writeItem('opportunity', prev, { 'Opportunity Name': next })
         .then(function (res) {
           if (res.ok) { DE.dealName = next; if (rerender) rerender(); }
           else nameEl.value = prev;
@@ -380,7 +380,6 @@ function attachDealEditor(ctx, rerender) {
       on(e, 'change', function () {
         var vals = {};
         vals[prop] = e.value === '' ? null : e.value;
-        vals['Last Updated On'] = today;
         // Closing the deal from the stage dropdown stamps Closed On too.
         if (prop === 'Stage') {
           if (e.value === 'Closed Won' || e.value === 'Closed Lost') vals['Closed On'] = today;
@@ -506,7 +505,7 @@ function attachDealEditor(ctx, rerender) {
         '<button id="cd-cancel" style="' + BTN_SECONDARY + 'margin-left:auto;">Cancel</button></div>');
       function finish(stage) {
         writeItem('opportunity', name,
-          { Stage: stage, 'Closed On': today, 'Last Updated On': today }).then(function () {
+          { Stage: stage, 'Closed On': today }).then(function () {
             closeModal(mod.back);
             if (rerender) rerender();
           });

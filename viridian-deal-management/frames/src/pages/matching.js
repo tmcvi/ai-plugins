@@ -350,8 +350,7 @@ function attach() {
   bind('m-match', 'click', function () {
     if (!state.selDeal || !state.selPig) return;
     writeItem('opportunity', state.selDeal, {
-      'Matched Pigment Opportunity': state.selPig,
-      'Last Updated On': todayIso()
+      'Matched Pigment Opportunity': state.selPig
     }).then(function (res) {
       if (res.ok) { state.selDeal = null; state.selPig = null; render(); }
     });
@@ -361,7 +360,7 @@ function attach() {
   for (var u = 0; u < unmatchBtns.length; u++) {
     on(unmatchBtns[u], 'click', function (e) {
       writeItem('opportunity', e.currentTarget.getAttribute('data-unmatch'), {
-        'Matched Pigment Opportunity': null, 'Last Updated On': todayIso()
+        'Matched Pigment Opportunity': null
       });
     });
   }
@@ -420,7 +419,7 @@ function openCreateFromPigment() {
     }
     ndSubmit(names, function (created) {
       writeItem('opportunity', created, {
-        'Matched Pigment Opportunity': pig.name, 'Last Updated On': todayIso()
+        'Matched Pigment Opportunity': pig.name
       }).then(function () {
         closeModal(mod.back);
         state.selPig = null;
