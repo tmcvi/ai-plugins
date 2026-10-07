@@ -786,7 +786,7 @@ confirmation — `Polarium FP&A and S&OP` in particular would have been mistaken
 for the real `Polarium – [DEM,SOP,FPA,SUP]`. The Opportunity list now holds
 exactly the 130 seeded deals and nothing else.
 
-## D30 — The Pipeline status filter now shows its counts, and stages filter
+## D30 — The Pipeline filters by stage, and only by stage
 
 **Reported:** "the filter: open, won, lost doesn't work. and we also need a
 filter by stage."
@@ -797,34 +797,48 @@ table and Open was indistinguishable from All, so the control read as dead. It
 was not: `OPP Is Open` returns `TRUE` for all 130, which is correct while every
 deal sits in an open stage.
 
-Three changes:
+Tom's call on seeing it: drop Open / Won / Lost altogether, because the stage
+filter subsumes it. So:
 
-1. The select is now a **segmented control carrying live counts** —
-   `Open 130 · Won 0 · Lost 0 · All 130`. The counts are taken *after* the
-   other filters run, so "Won 0" means "none of the deals you are looking at",
-   and an empty table is explained before it appears.
-2. A **Stage filter** sits next to it, listing the ten stages in `Order`.
-   Choosing a stage drops the status filter to All, because picking
-   `Closed Lost` while the Open tab is live would show nothing.
-3. Open / Won / Lost are still read from the `OPP Is *` metrics, but
+1. **Open / Won / Lost is gone.** One control filters the table now.
+2. **Stage is a multi-select**: one chip per stage, each carrying how many
+   deals it holds once every *other* filter has run, so a chip reading 0 says
+   "none in what you are looking at" rather than leaving you to click and find
+   out. Chips toggle; `All`, `None` and `Default` sit at the end of the row.
+3. Open / Won / Lost are still read from the `OPP Is *` metrics for the KPI
+   strip and the muted styling of lost rows, and now
    **fall back to the Stage list's own `Is Open` / `Is Won` / `Is Lost`
    properties** when the boolean column is missing from the grid. A dropped
    binding or a data-source part that never answers used to make every deal
    look closed, which empties the table under the default filter — the failure
    mode that would have made the original report literally true.
 
+**The default selection, and a deviation worth your eye.** The Frame opens on
+every open stage *except the parking lot* — the six working stages, with
+Holding pool, Closed Won and Closed Lost off. Won and Lost come out by their
+own `Is Won` / `Is Lost` properties, so that part is data-driven. The parking
+lot does not have a property saying it is one, and rather than hard-code the
+string `"Holding pool"` the Frame takes **the first open stage in `Order`**.
+Rename Holding pool or reorder the stages and the default follows; insert a
+new stage ahead of it and the default would exclude the wrong one. The clean
+fix is a boolean on the Stage list — `In Default Pipeline View` — which you
+could then flip yourself in Pigment. It needs a binding change, so it
+un-publishes the five Frames that read `vwStageProps` (D27); say the word and
+I will do it in the same pass as the next change that touches them.
+
 `Probability %` on the Stage list is empty for all ten stages. Nothing reads
 it: `OPP Win Rate %` comes from `ASM Win Rate %` on the Admin screen, which is
 populated and correct. Left alone rather than quietly filled in.
 
 **Deployed as a diff, not a rebuild.** D28's six-chunk rebuild re-sends the
-whole body; this change touched six regions of it. `update_frame_body` took
-those six edits in one call, after the edit set was proved locally to turn the
-previously deployed bundle into the new one byte for byte. Pigment reported
-`bodySizeBytes` 97868, the predicted figure, and all eleven D28 checksum
-counters matched the local build. `update_frame_body` does not touch
-`isPrivate`, so this deploy did not un-publish anything (D27).
+whole body; these changes touched six and then seven regions of it.
+`update_frame_body` took each edit set in one call, after the set had been
+proved locally to turn the previously deployed bundle into the new one byte for
+byte. Pigment reported the predicted `bodySizeBytes` both times — 97868, then
+99228 — and all eleven D28 checksum counters matched the local build on each.
+`update_frame_body` does not touch `isPrivate`, so neither deploy un-published
+anything (D27).
 
-The harness gained a `set:<selector>=<value>` step so a filter choice can be
-driven and screenshotted; `pipeline-filter-stage` and `pipeline-filter-won`
-now run on every build.
+The harness gained a `set:<selector>=<value>` step so a dropdown choice can be
+driven and screenshotted; `pipeline-filter-stage` (toggling a chip off) and
+`pipeline-filter-stage-all` now run on every build.

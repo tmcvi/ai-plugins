@@ -9,8 +9,10 @@ var state = {
   items: [], pigment: [],
   lists: { salesPerson: [], stage: [], useCase: [], salesMotion: [], dealSize: [], pigmentAE: [] },
   scalars: null, importSummary: null,
-  filters: { people: [], group: 'Open', stage: '', useCase: '', motion: '',
-              size: '', quarter: '', q: '' },
+  // stages: null means "nobody has touched the stage filter", which reads as
+  // the default selection. An empty array is a deliberate "none of them".
+  filters: { people: [], stages: null, useCase: '', motion: '',
+             size: '', quarter: '', q: '' },
   sortCol: 4, sortAsc: true,
   partial: false, error: null
 };
@@ -112,15 +114,38 @@ function statusOf(d, item) {
            isLost: s['Is Lost'] === true, derived: true };
 }
 
-function applyFilters(rows) {
+// The default view is the live pipeline: every open stage except the parking
+// lot. Which stage that is comes from the Stage list rather than its name - it
+// is the first open stage in Order - so renaming Holding pool, or reordering
+// the stages, moves the default with it. Won and Lost are out by Is Won/Is Lost.
+function defaultStages() {
+  var open = [], i;
+  for (i = 0; i < state.lists.stage.length; i++) {
+    var s = state.lists.stage[i];
+    if (s['Is Won'] === true || s['Is Lost'] === true) continue;
+    open.push(s);
+  }
+  var out = [];
+  for (i = 0; i < open.length; i++) if (i > 0) out.push(open[i].Name);
+  return out;
+}
+
+// Null until the user picks, and null while the Stage list is still loading -
+// filtering on an empty default would blank the table on the way in.
+function activeStages() {
+  if (state.filters.stages) return state.filters.stages;
+  if (!state.lists.stage.length) return null;
+  return defaultStages();
+}
+
+// ignoreStages drops the stage clause, which is how the chip counts are taken.
+function applyFilters(rows, ignoreStages) {
   var f = state.filters;
+  var stages = ignoreStages ? null : activeStages();
   var out = [];
   for (var i = 0; i < rows.length; i++) {
     var d = rows[i];
-    if (f.group === 'Open' && !d.isOpen) continue;
-    if (f.group === 'Won' && !d.isWon) continue;
-    if (f.group === 'Lost' && !d.isLost) continue;
-    if (f.stage && d.stage !== f.stage) continue;
+    if (stages && stages.indexOf(d.stage) === -1) continue;
     if (f.people.length && f.people.indexOf(d.person) === -1) continue;
     if (f.useCase && d.useCase !== f.useCase) continue;
     if (f.motion && d.motion !== f.motion) continue;
@@ -195,38 +220,34 @@ function selectHtml(id, items, current, blankLabel) {
   return h + '</select>';
 }
 
-// Counts for the status tabs, taken after the other filters have been applied
-// so "Won 0" reads as "none of the deals you are looking at", not as a dead
-// control. Three of these were invisible before: with nothing closed yet, Won
-// and Lost gave an empty table and Open looked identical to All.
-function statusCounts(all) {
-  var saved = state.filters.group;
-  state.filters.group = 'All';
-  var base = applyFilters(all);
-  state.filters.group = saved;
-  var c = { Open: 0, Won: 0, Lost: 0, All: base.length };
-  for (var i = 0; i < base.length; i++) {
-    if (base[i].isOpen) c.Open++;
-    if (base[i].isWon) c.Won++;
-    if (base[i].isLost) c.Lost++;
-  }
+// One chip per stage, each carrying how many deals it holds once every other
+// filter has run - so a chip reading 0 says "none in what you are looking at"
+// rather than leaving you to click and find out.
+function stageCounts(all) {
+  var base = applyFilters(all, true), c = {};
+  for (var i = 0; i < base.length; i++) c[base[i].stage] = (c[base[i].stage] || 0) + 1;
   return c;
 }
 
-function statusTabs(all) {
-  var counts = statusCounts(all);
-  var groups = ['Open', 'Won', 'Lost', 'All'];
-  var h = '<div style="display:inline-flex;border:1px solid ' + T.hairline +
-    ';border-radius:' + RADIUS.input + ';overflow:hidden;">';
-  for (var g = 0; g < groups.length; g++) {
-    var k = groups[g], live = state.filters.group === k;
-    h += '<button data-group="' + k + '" style="font:600 13px ' + FONT.body +
-      ';padding:7px 13px;cursor:pointer;outline:none;border:0;' +
-      (g ? 'border-left:1px solid ' + T.hairline + ';' : '') +
-      'background:' + (live ? T.violet : 'transparent') +
-      ';color:' + (live ? T.cream : T.violet) + ';">' + k +
-      ' <span style="opacity:.7;font-weight:400;">' + counts[k] + '</span></button>';
+function stageChips(all) {
+  var chosen = activeStages() || [];
+  var counts = stageCounts(all);
+  var h = '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:10px;">';
+  h += '<span style="' + LABEL_CSS + 'display:inline;margin:0 4px 0 0;">Stages</span>';
+  for (var i = 0; i < state.lists.stage.length; i++) {
+    var n = state.lists.stage[i].Name;
+    var live = chosen.indexOf(n) !== -1;
+    h += '<button data-stage="' + esc(n) + '" style="font:600 12px ' + FONT.body +
+      ';padding:5px 10px;cursor:pointer;outline:none;border-radius:' + RADIUS.input +
+      ';border:1px solid ' + (live ? T.violet : T.hairline) +
+      ';background:' + (live ? T.violet : 'transparent') +
+      ';color:' + (live ? T.cream : T.violet) + ';">' + esc(n) +
+      ' <span style="opacity:.7;font-weight:400;">' + (counts[n] || 0) + '</span></button>';
   }
+  h += '<button id="s-all" style="' + BTN_SECONDARY + 'padding:5px 10px;font-size:12px;">All</button>';
+  h += '<button id="s-none" style="' + BTN_SECONDARY + 'padding:5px 10px;font-size:12px;">None</button>';
+  h += '<button id="s-default" style="' + BTN_SECONDARY +
+    'padding:5px 10px;font-size:12px;">Default</button>';
   return h + '</div>';
 }
 
@@ -249,8 +270,6 @@ function filterBar(all) {
   }
   h += '</select>';
 
-  h += statusTabs(all);
-  h += selectHtml('f-stage', state.lists.stage, f.stage, 'All stages');
   h += selectHtml('f-useCase', state.lists.useCase, f.useCase, 'All use cases');
   h += selectHtml('f-motion', state.lists.salesMotion, f.motion, 'All motions');
   h += selectHtml('f-size', state.lists.dealSize, f.size, 'All sizes');
@@ -399,6 +418,7 @@ function render() {
   var body = '';
   if (state.partial) body += partialBanner();
   body += kpiStrip(all);
+  body += stageChips(all);
   body += filterBar(all);
   body += '<div style="font:12px ' + FONT.body + ';color:' + T.secondary + ';margin-bottom:6px;">' +
     rows.length + ' of ' + all.length + ' deals</div>';
@@ -418,20 +438,24 @@ function attach() {
   bind('f-person', 'change', function (e) {
     f.people = e.currentTarget.value ? [e.currentTarget.value] : []; render();
   });
-  var tabs = content.querySelectorAll('button[data-group]');
-  for (var g = 0; g < tabs.length; g++) {
-    on(tabs[g], 'click', function (e) {
-      f.group = e.currentTarget.getAttribute('data-group');
+  var chips = content.querySelectorAll('button[data-stage]');
+  for (var g = 0; g < chips.length; g++) {
+    on(chips[g], 'click', function (e) {
+      var n = e.currentTarget.getAttribute('data-stage');
+      var cur = (activeStages() || []).slice();
+      var at = cur.indexOf(n);
+      if (at === -1) cur.push(n); else cur.splice(at, 1);
+      f.stages = cur;
       render();
     });
   }
-  // Picking a closed stage while the Open tab is live would show nothing, so a
-  // stage choice takes the status filter out of the way.
-  bind('f-stage', 'change', function (e) {
-    f.stage = e.currentTarget.value;
-    if (f.stage) f.group = 'All';
-    render();
+  bind('s-all', 'click', function () {
+    var all = [];
+    for (var i = 0; i < state.lists.stage.length; i++) all.push(state.lists.stage[i].Name);
+    f.stages = all; render();
   });
+  bind('s-none', 'click', function () { f.stages = []; render(); });
+  bind('s-default', 'click', function () { f.stages = null; render(); });
   bind('f-useCase', 'change', function (e) { f.useCase = e.currentTarget.value; render(); });
   bind('f-motion', 'change', function (e) { f.motion = e.currentTarget.value; render(); });
   bind('f-size', 'change', function (e) { f.size = e.currentTarget.value; render(); });
@@ -441,7 +465,7 @@ function attach() {
     if (e) { f.q = e.value; render(); var n = document.getElementById('f-q'); if (n) { n.focus(); n.selectionStart = n.value.length; } }
   }, 220));
   bind('f-clear', 'click', function () {
-    state.filters = { people: [], group: 'Open', stage: '', useCase: '', motion: '',
+    state.filters = { people: [], stages: null, useCase: '', motion: '',
                       size: '', quarter: '', q: '' };
     render();
   });
@@ -454,7 +478,7 @@ function attach() {
     }
   });
   bind('empty-clear', 'click', function () {
-    state.filters = { people: [], group: 'Open', stage: '', useCase: '', motion: '',
+    state.filters = { people: [], stages: null, useCase: '', motion: '',
                       size: '', quarter: '', q: '' };
     render();
   });

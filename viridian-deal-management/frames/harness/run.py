@@ -73,9 +73,10 @@ VARIANTS = {
     # friendly-name rule bites (D21), so fire one on each screen that writes.
     "pipeline": {
         "write": 'change:select[data-stagefor]',
-        # The three filters Tom reported: the status tabs and the stage select.
-        "filter-stage": 'set:#f-stage=Qualified',
-        "filter-won": '[data-group="Won"]',
+        # The stage filter: one chip toggled off, and the All / None / Default
+        # buttons that sit beside the chips.
+        "filter-stage": '[data-stage="Demo"]',
+        "filter-stage-all": '#s-all',
     },
     "admin": {
         "write": ['[data-tab="Reference lists"]', 'change:select[data-mapStage]'],
