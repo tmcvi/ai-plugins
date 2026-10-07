@@ -681,3 +681,43 @@ still carries those rows, this is why.
 
 First load verified: `PIG Latest Load Date` 2026-10-07, 244 of 244 rows in the
 latest load, none dropped.
+
+---
+
+## D27 — Redeploying a Frame makes it private again
+
+**Status:** deviation, needs one click from Tom.
+
+`update_frame` is the only way to change a Frame's bindings or data sources,
+and it is wholesale: name, body, bindings and data sources all go in one call.
+Rebinding the six Frames onto the item-history properties (D25) and the
+recreated `First Seen` / `Last Seen` (D26) therefore meant one `update_frame`
+per Frame — and each of those reset `isPrivate` to `true`.
+
+Deals, New deal and Matching had been published; they are now private, along
+with Pipeline, Forecast and Admin which were private already. Nothing in the
+MCP surface publishes a Frame — there is no `publish_frame`, and
+`batch_share_blocks` covers lists and metrics, not Frames — so this cannot be
+undone from here. **Tom publishes each of the six in the Pigment UI.** Worth
+knowing for every future rebind: any change to a Frame's bindings un-publishes
+it, so the publish step belongs at the end of a deploy, not the start.
+
+## D28 — How a Frame body is deployed, and how it is proved
+
+The body is now rebuilt through `update_frame_body` in chunks of at most
+17,000 characters, each one replacing a `/*__NEXT__*/` marker left by the last.
+`frames/deploy_plan.py` prints the chunks and the exact `bodySizeBytes` Pigment
+should report after each, so a dropped line shows up on the call that dropped
+it rather than at the end of a six-chunk rebuild.
+
+Two quirks are folded into that prediction (D22): Pigment decodes `\uXXXX`
+once more on the way in, so the `£` escapes build.py writes into
+`COL_ALIAS` and `DS_COLUMNS` are stored as literal `£` — the same string to
+JavaScript — and `bodySizeBytes` counts UTF-8 bytes rather than characters.
+
+After the last chunk, eight identical-replacement edits (`oldString ===
+newString`, `replaceAll: true`) count `\n`, `function `, `subscribeView(`, `£`,
+`\n\n`, `T.ink`, `return ` and `})();` in the stored body and those counts are
+compared with the local file. It costs one free call and catches a silent
+truncation that a byte total alone could mask. All six Frames matched on every
+counter.
