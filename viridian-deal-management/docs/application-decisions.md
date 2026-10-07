@@ -785,3 +785,46 @@ Expansion, Brightwater FP&A, Calder Group Consolidation) were deleted on Tom's
 confirmation — `Polarium FP&A and S&OP` in particular would have been mistaken
 for the real `Polarium – [DEM,SOP,FPA,SUP]`. The Opportunity list now holds
 exactly the 130 seeded deals and nothing else.
+
+## D30 — The Pipeline status filter now shows its counts, and stages filter
+
+**Reported:** "the filter: open, won, lost doesn't work. and we also need a
+filter by stage."
+
+The Open / Won / Lost control was a plain `<select>` that silently did its job.
+With 130 seeded deals and **not one of them closed**, Won and Lost emptied the
+table and Open was indistinguishable from All, so the control read as dead. It
+was not: `OPP Is Open` returns `TRUE` for all 130, which is correct while every
+deal sits in an open stage.
+
+Three changes:
+
+1. The select is now a **segmented control carrying live counts** —
+   `Open 130 · Won 0 · Lost 0 · All 130`. The counts are taken *after* the
+   other filters run, so "Won 0" means "none of the deals you are looking at",
+   and an empty table is explained before it appears.
+2. A **Stage filter** sits next to it, listing the ten stages in `Order`.
+   Choosing a stage drops the status filter to All, because picking
+   `Closed Lost` while the Open tab is live would show nothing.
+3. Open / Won / Lost are still read from the `OPP Is *` metrics, but
+   **fall back to the Stage list's own `Is Open` / `Is Won` / `Is Lost`
+   properties** when the boolean column is missing from the grid. A dropped
+   binding or a data-source part that never answers used to make every deal
+   look closed, which empties the table under the default filter — the failure
+   mode that would have made the original report literally true.
+
+`Probability %` on the Stage list is empty for all ten stages. Nothing reads
+it: `OPP Win Rate %` comes from `ASM Win Rate %` on the Admin screen, which is
+populated and correct. Left alone rather than quietly filled in.
+
+**Deployed as a diff, not a rebuild.** D28's six-chunk rebuild re-sends the
+whole body; this change touched six regions of it. `update_frame_body` took
+those six edits in one call, after the edit set was proved locally to turn the
+previously deployed bundle into the new one byte for byte. Pigment reported
+`bodySizeBytes` 97868, the predicted figure, and all eleven D28 checksum
+counters matched the local build. `update_frame_body` does not touch
+`isPrivate`, so this deploy did not un-publish anything (D27).
+
+The harness gained a `set:<selector>=<value>` step so a filter choice can be
+driven and screenshotted; `pipeline-filter-stage` and `pipeline-filter-won`
+now run on every build.

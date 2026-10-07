@@ -9,7 +9,8 @@ var state = {
   items: [], pigment: [],
   lists: { salesPerson: [], stage: [], useCase: [], salesMotion: [], dealSize: [], pigmentAE: [] },
   scalars: null, importSummary: null,
-  filters: { people: [], group: 'Open', useCase: '', motion: '', size: '', quarter: '', q: '' },
+  filters: { people: [], group: 'Open', stage: '', useCase: '', motion: '',
+              size: '', quarter: '', q: '' },
   sortCol: 4, sortAsc: true,
   partial: false, error: null
 };
@@ -66,9 +67,7 @@ function deals() {
       commission: v('OPP Commission £'),
       wCommission: v('OPP Weighted Commission £'),
       days: v('OPP Effective Days'),
-      isOpen: v('OPP Is Open') === true,
-      isWon: v('OPP Is Won') === true,
-      isLost: v('OPP Is Lost') === true,
+      mIsOpen: v('OPP Is Open'), mIsWon: v('OPP Is Won'), mIsLost: v('OPP Is Lost'),
       matchStatus: v('ALN Match Status'),
       stageAlign: v('ALN Stage Alignment'),
       closeGap: v('ALN Close Date Gap Days'),
@@ -77,15 +76,40 @@ function deals() {
       pigClosed: v('ALN Pigment Closed') === true,
       profileOk: v('PH Profile Is Valid') === true
     });
+    var d = out[out.length - 1], st = statusOf(d, item);
+    d.isOpen = st.isOpen; d.isWon = st.isWon; d.isLost = st.isLost;
+    d.statusDerived = st.derived;
   }
   return out;
 }
 
-function stageGroupOf(stageName) {
+function stagePropsOf(stageName) {
   for (var i = 0; i < state.lists.stage.length; i++) {
-    if (state.lists.stage[i].Name === stageName) return state.lists.stage[i]['Pipeline Group'] || '';
+    if (state.lists.stage[i].Name === stageName) return state.lists.stage[i];
   }
-  return '';
+  return null;
+}
+
+function stageGroupOf(stageName) {
+  var s = stagePropsOf(stageName);
+  return (s && s['Pipeline Group']) || '';
+}
+
+// Open / Won / Lost come from the OPP Is * metrics. If a boolean column is
+// missing from the grid - a dropped binding, a part that never answered - the
+// metric reads null and every deal would look closed, which empties the table
+// under the default Open filter. The Stage list carries the same three flags,
+// so fall back to those rather than silently showing nothing.
+function statusOf(d, item) {
+  var m = { open: d.mIsOpen, won: d.mIsWon, lost: d.mIsLost };
+  if (m.open === true || m.open === false) {
+    return { isOpen: m.open === true, isWon: m.won === true, isLost: m.lost === true,
+             derived: false };
+  }
+  var s = stagePropsOf(item.Stage || '');
+  if (!s) return { isOpen: false, isWon: false, isLost: false, derived: true };
+  return { isOpen: s['Is Open'] === true, isWon: s['Is Won'] === true,
+           isLost: s['Is Lost'] === true, derived: true };
 }
 
 function applyFilters(rows) {
@@ -96,6 +120,7 @@ function applyFilters(rows) {
     if (f.group === 'Open' && !d.isOpen) continue;
     if (f.group === 'Won' && !d.isWon) continue;
     if (f.group === 'Lost' && !d.isLost) continue;
+    if (f.stage && d.stage !== f.stage) continue;
     if (f.people.length && f.people.indexOf(d.person) === -1) continue;
     if (f.useCase && d.useCase !== f.useCase) continue;
     if (f.motion && d.motion !== f.motion) continue;
@@ -170,6 +195,41 @@ function selectHtml(id, items, current, blankLabel) {
   return h + '</select>';
 }
 
+// Counts for the status tabs, taken after the other filters have been applied
+// so "Won 0" reads as "none of the deals you are looking at", not as a dead
+// control. Three of these were invisible before: with nothing closed yet, Won
+// and Lost gave an empty table and Open looked identical to All.
+function statusCounts(all) {
+  var saved = state.filters.group;
+  state.filters.group = 'All';
+  var base = applyFilters(all);
+  state.filters.group = saved;
+  var c = { Open: 0, Won: 0, Lost: 0, All: base.length };
+  for (var i = 0; i < base.length; i++) {
+    if (base[i].isOpen) c.Open++;
+    if (base[i].isWon) c.Won++;
+    if (base[i].isLost) c.Lost++;
+  }
+  return c;
+}
+
+function statusTabs(all) {
+  var counts = statusCounts(all);
+  var groups = ['Open', 'Won', 'Lost', 'All'];
+  var h = '<div style="display:inline-flex;border:1px solid ' + T.hairline +
+    ';border-radius:' + RADIUS.input + ';overflow:hidden;">';
+  for (var g = 0; g < groups.length; g++) {
+    var k = groups[g], live = state.filters.group === k;
+    h += '<button data-group="' + k + '" style="font:600 13px ' + FONT.body +
+      ';padding:7px 13px;cursor:pointer;outline:none;border:0;' +
+      (g ? 'border-left:1px solid ' + T.hairline + ';' : '') +
+      'background:' + (live ? T.violet : 'transparent') +
+      ';color:' + (live ? T.cream : T.violet) + ';">' + k +
+      ' <span style="opacity:.7;font-weight:400;">' + counts[k] + '</span></button>';
+  }
+  return h + '</div>';
+}
+
 function filterBar(all) {
   var f = state.filters;
   var quarters = [], seen = {};
@@ -189,14 +249,8 @@ function filterBar(all) {
   }
   h += '</select>';
 
-  h += '<select id="f-group" style="' + INPUT_CSS + 'width:auto;">';
-  var groups = ['Open', 'Won', 'Lost', 'All'];
-  for (var g = 0; g < groups.length; g++) {
-    h += '<option value="' + groups[g] + '"' + (f.group === groups[g] ? ' selected' : '') + '>' +
-      groups[g] + '</option>';
-  }
-  h += '</select>';
-
+  h += statusTabs(all);
+  h += selectHtml('f-stage', state.lists.stage, f.stage, 'All stages');
   h += selectHtml('f-useCase', state.lists.useCase, f.useCase, 'All use cases');
   h += selectHtml('f-motion', state.lists.salesMotion, f.motion, 'All motions');
   h += selectHtml('f-size', state.lists.dealSize, f.size, 'All sizes');
@@ -364,7 +418,20 @@ function attach() {
   bind('f-person', 'change', function (e) {
     f.people = e.currentTarget.value ? [e.currentTarget.value] : []; render();
   });
-  bind('f-group', 'change', function (e) { f.group = e.currentTarget.value; render(); });
+  var tabs = content.querySelectorAll('button[data-group]');
+  for (var g = 0; g < tabs.length; g++) {
+    on(tabs[g], 'click', function (e) {
+      f.group = e.currentTarget.getAttribute('data-group');
+      render();
+    });
+  }
+  // Picking a closed stage while the Open tab is live would show nothing, so a
+  // stage choice takes the status filter out of the way.
+  bind('f-stage', 'change', function (e) {
+    f.stage = e.currentTarget.value;
+    if (f.stage) f.group = 'All';
+    render();
+  });
   bind('f-useCase', 'change', function (e) { f.useCase = e.currentTarget.value; render(); });
   bind('f-motion', 'change', function (e) { f.motion = e.currentTarget.value; render(); });
   bind('f-size', 'change', function (e) { f.size = e.currentTarget.value; render(); });
@@ -374,7 +441,8 @@ function attach() {
     if (e) { f.q = e.value; render(); var n = document.getElementById('f-q'); if (n) { n.focus(); n.selectionStart = n.value.length; } }
   }, 220));
   bind('f-clear', 'click', function () {
-    state.filters = { people: [], group: 'Open', useCase: '', motion: '', size: '', quarter: '', q: '' };
+    state.filters = { people: [], group: 'Open', stage: '', useCase: '', motion: '',
+                      size: '', quarter: '', q: '' };
     render();
   });
   bind('f-mine', 'click', function () {
@@ -386,7 +454,8 @@ function attach() {
     }
   });
   bind('empty-clear', 'click', function () {
-    state.filters = { people: [], group: 'Open', useCase: '', motion: '', size: '', quarter: '', q: '' };
+    state.filters = { people: [], group: 'Open', stage: '', useCase: '', motion: '',
+                      size: '', quarter: '', q: '' };
     render();
   });
 

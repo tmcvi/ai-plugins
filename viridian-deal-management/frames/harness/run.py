@@ -39,11 +39,26 @@ PAGE = """<!doctype html>
   // mapping selects, then change one - so run them in order.
   steps.forEach(function (want, i) {
     setTimeout(function () {
-      var change = want.indexOf('change:') === 0;
-      var sel = change ? want.slice(7) : want;
+      // "set:#f-stage=Qualified" picks a value and fires change; "change:sel"
+      // fires change as-is; anything else is a click.
+      var change = want.indexOf('change:') === 0, set = want.indexOf('set:') === 0;
+      var value = null, sel = want;
+      if (change) sel = want.slice(7);
+      if (set) {
+        var eq = want.indexOf('=');
+        sel = want.slice(4, eq);
+        value = want.slice(eq + 1);
+      }
       var el = document.querySelector(sel);
       if (!el) { document.getElementById('__errors').textContent += ' | no element for ' + sel; return; }
-      if (change) el.dispatchEvent(new Event('change', { bubbles: true }));
+      if (set) {
+        el.value = value;
+        if (el.value !== value) {
+          document.getElementById('__errors').textContent += ' | ' + sel + ' has no option ' + value;
+          return;
+        }
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+      } else if (change) el.dispatchEvent(new Event('change', { bubbles: true }));
       else el.click();
     }, 600 * (i + 1));
   });
@@ -56,7 +71,12 @@ PAGE = """<!doctype html>
 VARIANTS = {
     # A write is the one path a render cannot exercise, and it is where the
     # friendly-name rule bites (D21), so fire one on each screen that writes.
-    "pipeline": {"write": 'change:select[data-stagefor]'},
+    "pipeline": {
+        "write": 'change:select[data-stagefor]',
+        # The three filters Tom reported: the status tabs and the stage select.
+        "filter-stage": 'set:#f-stage=Qualified',
+        "filter-won": '[data-group="Won"]',
+    },
     "admin": {
         "write": ['[data-tab="Reference lists"]', 'change:select[data-mapStage]'],
         "scurve": '[data-tab="S-curve profiles"]',
