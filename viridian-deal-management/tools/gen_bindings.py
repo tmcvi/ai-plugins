@@ -337,6 +337,8 @@ def main():
     write_props = {}
     # page -> logical data sources the page can write to, so must keep live
     ds_live = {}
+    # page -> the data sinks that make a binding writable (see below)
+    datasinks = {}
 
     # Guard the invariant that broke once: two metrics must never share an alias.
     seen_alias = {}
@@ -460,6 +462,15 @@ def main():
                         problems.append("%s/%s: unresolved binding %s"
                                         % (page, ds["name"], ref["binding"]))
 
+        # A binding being writable is not enough: a write names a *data sink*,
+        # and Pigment answers an unknown one with "No data sink found with the
+        # name X". Only List and Metric bindings may back a sink - a property
+        # write rides its list's sink, naming the property binding in the
+        # values map (D21) - and the sink is named after its binding so the
+        # pages can keep calling editItem('opportunity', ...) unchanged.
+        datasinks[page] = [{"name": b["name"], "binding": b["name"]} for b in binds
+                           if b["type"] in ("List", "Metric") and b.get("canWrite")]
+
         bindings[page] = binds
         datasources[page] = ds_list
 
@@ -470,12 +481,14 @@ def main():
 
     (HERE / "frames" / "src" / "bindings.json").write_text(json.dumps(bindings, indent=2))
     (HERE / "frames" / "src" / "datasources.json").write_text(json.dumps(datasources, indent=2))
+    (HERE / "frames" / "src" / "datasinks.json").write_text(json.dumps(datasinks, indent=2))
     (HERE / "frames" / "src" / "dscolumns.json").write_text(json.dumps(ds_columns, indent=2))
     (HERE / "frames" / "src" / "dsparts.json").write_text(json.dumps(ds_parts, indent=2))
     (HERE / "frames" / "src" / "writeprops.json").write_text(json.dumps(write_props, indent=2))
     (HERE / "frames" / "src" / "dslive.json").write_text(json.dumps(ds_live, indent=2))
     for p in PAGES:
-        print("  + %-9s %2d bindings, %d data sources" % (p, len(bindings[p]), len(datasources[p])))
+        print("  + %-9s %2d bindings, %d data sources, %d data sinks"
+              % (p, len(bindings[p]), len(datasources[p]), len(datasinks[p])))
     print("\nNo alias collisions, no duplicate bindings, every data source resolves.")
     return 0
 

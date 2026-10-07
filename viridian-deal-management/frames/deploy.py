@@ -54,6 +54,7 @@ def main():
         body_path = DIST / (page + ".js")
         bind_path = DIST / (page + ".bindings.json")
         ds_path = DIST / (page + ".datasources.json")
+        sink_path = DIST / (page + ".datasinks.json")
         if not body_path.exists():
             print("  - %-9s no build output, skipped" % page)
             continue
@@ -65,6 +66,9 @@ def main():
                 "body": body_path.read_text(),
                 "bindings": json.loads(bind_path.read_text()) if bind_path.exists() else [],
                 "dataSources": json.loads(ds_path.read_text()) if ds_path.exists() else [],
+                # Without a sink a write comes back "No data sink found with
+                # the name X", however writable the binding claims to be.
+                "dataSinks": json.loads(sink_path.read_text()) if sink_path.exists() else [],
             },
         }
         existing = ids.get(page)

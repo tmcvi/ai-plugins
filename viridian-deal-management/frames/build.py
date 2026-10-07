@@ -224,6 +224,8 @@ def main():
     all_bindings = json.loads(bindings_path.read_text()) if bindings_path.exists() else {}
     ds_path = SRC / "datasources.json"
     all_ds = json.loads(ds_path.read_text()) if ds_path.exists() else {}
+    sink_path = SRC / "datasinks.json"
+    all_sinks = json.loads(sink_path.read_text()) if sink_path.exists() else {}
 
     failures = []
     for page in wanted:
@@ -245,9 +247,12 @@ def main():
         if page in all_ds:
             (DIST / (page + ".datasources.json")).write_text(
                 json.dumps(all_ds[page], indent=2))
-        print("  + %-9s %6d bytes, %2d bindings, %d data sources"
+        if page in all_sinks:
+            (DIST / (page + ".datasinks.json")).write_text(
+                json.dumps(all_sinks[page], indent=2))
+        print("  + %-9s %6d bytes, %2d bindings, %d data sources, %d sinks"
               % (page, len(body), len(all_bindings.get(page, [])),
-                 len(all_ds.get(page, []))))
+                 len(all_ds.get(page, [])), len(all_sinks.get(page, []))))
 
     if failures:
         print("\nBuild failed: %d problem(s)." % len(failures))

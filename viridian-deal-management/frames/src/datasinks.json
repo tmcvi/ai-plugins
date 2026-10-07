@@ -1,0 +1,105 @@
+{
+  "admin": [
+    {
+      "name": "pigmentStage",
+      "binding": "pigmentStage"
+    },
+    {
+      "name": "salesPerson",
+      "binding": "salesPerson"
+    },
+    {
+      "name": "pigmentAE",
+      "binding": "pigmentAE"
+    },
+    {
+      "name": "asmLicence",
+      "binding": "asmLicence"
+    },
+    {
+      "name": "asmDays",
+      "binding": "asmDays"
+    },
+    {
+      "name": "asmDuration",
+      "binding": "asmDuration"
+    },
+    {
+      "name": "asmLag",
+      "binding": "asmLag"
+    },
+    {
+      "name": "asmRate",
+      "binding": "asmRate"
+    },
+    {
+      "name": "asmHours",
+      "binding": "asmHours"
+    },
+    {
+      "name": "asmFx",
+      "binding": "asmFx"
+    },
+    {
+      "name": "asmCommission",
+      "binding": "asmCommission"
+    },
+    {
+      "name": "asmWin",
+      "binding": "asmWin"
+    },
+    {
+      "name": "asmProfile",
+      "binding": "asmProfile"
+    }
+  ],
+  "newDeal": [
+    {
+      "name": "opportunity",
+      "binding": "opportunity"
+    }
+  ],
+  "pipeline": [
+    {
+      "name": "opportunity",
+      "binding": "opportunity"
+    },
+    {
+      "name": "oppOverrideDays",
+      "binding": "oppOverrideDays"
+    },
+    {
+      "name": "oppOverrideRate",
+      "binding": "oppOverrideRate"
+    },
+    {
+      "name": "phOverrideProfile",
+      "binding": "phOverrideProfile"
+    }
+  ],
+  "deal": [
+    {
+      "name": "opportunity",
+      "binding": "opportunity"
+    },
+    {
+      "name": "oppOverrideDays",
+      "binding": "oppOverrideDays"
+    },
+    {
+      "name": "oppOverrideRate",
+      "binding": "oppOverrideRate"
+    },
+    {
+      "name": "phOverrideProfile",
+      "binding": "phOverrideProfile"
+    }
+  ],
+  "matching": [
+    {
+      "name": "opportunity",
+      "binding": "opportunity"
+    }
+  ],
+  "forecast": []
+}
