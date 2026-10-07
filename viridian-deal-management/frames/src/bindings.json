@@ -1231,7 +1231,7 @@
       "name": "pigFirstSeen",
       "type": "ListProperty",
       "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
-      "listPropertyTechnicalName": "first_seen_RDDBXB",
+      "listPropertyTechnicalName": "first_seen_S06HC1",
       "canRead": true,
       "canWrite": false
     },
@@ -1239,7 +1239,7 @@
       "name": "pigLastSeen",
       "type": "ListProperty",
       "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
-      "listPropertyTechnicalName": "last_seen_8X6JHH",
+      "listPropertyTechnicalName": "last_seen_80YYQ8",
       "canRead": true,
       "canWrite": false
     },
@@ -1952,7 +1952,7 @@
       "name": "pigFirstSeen",
       "type": "ListProperty",
       "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
-      "listPropertyTechnicalName": "first_seen_RDDBXB",
+      "listPropertyTechnicalName": "first_seen_S06HC1",
       "canRead": true,
       "canWrite": false
     },
@@ -1960,7 +1960,7 @@
       "name": "pigLastSeen",
       "type": "ListProperty",
       "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
-      "listPropertyTechnicalName": "last_seen_8X6JHH",
+      "listPropertyTechnicalName": "last_seen_80YYQ8",
       "canRead": true,
       "canWrite": false
     },
@@ -2548,7 +2548,7 @@
       "name": "pigFirstSeen",
       "type": "ListProperty",
       "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
-      "listPropertyTechnicalName": "first_seen_RDDBXB",
+      "listPropertyTechnicalName": "first_seen_S06HC1",
       "canRead": true,
       "canWrite": false
     },
@@ -2556,7 +2556,7 @@
       "name": "pigLastSeen",
       "type": "ListProperty",
       "listId": "0fc2c43e-8371-45ed-99b9-3dd09147918a",
-      "listPropertyTechnicalName": "last_seen_8X6JHH",
+      "listPropertyTechnicalName": "last_seen_80YYQ8",
       "canRead": true,
       "canWrite": false
     },

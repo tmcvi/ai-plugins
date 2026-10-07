@@ -74,8 +74,8 @@ PROPS = {
     "pigDelivery":     ("pigmentPipeline", "delivery_approach_VSUTR5", "Delivery Approach"),
     "pigForecastCat":  ("pigmentPipeline", "forecast_category_X21MLK", "Forecast Category"),
     "pigInfluence":    ("pigmentPipeline", "influence___QIV162", "Influence %"),
-    "pigFirstSeen":    ("pigmentPipeline", "first_seen_RDDBXB", "First Seen"),
-    "pigLastSeen":     ("pigmentPipeline", "last_seen_8X6JHH", "Last Seen"),
+    "pigFirstSeen":    ("pigmentPipeline", "first_seen_S06HC1", "First Seen"),
+    "pigLastSeen":     ("pigmentPipeline", "last_seen_80YYQ8", "Last Seen"),
     # Reference lists - the properties that drive sort order and matching.
     "stageOrder":      ("stage", "_order_XMZILT", "Order"),
     "stageIsOpen":     ("stage", "is_open_1TYBBM", "Is Open"),

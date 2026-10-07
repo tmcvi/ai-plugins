@@ -638,3 +638,46 @@ on a healthy matched deal, which is the one thing drop-detection must not get
 wrong. It is also Text, so `PIG Latest Load Date` cannot take a MAX of it.
 `Last Seen` therefore needs to stay a Date fed from the import file, which is
 why `prep_pigment_import.py` stamps it.
+
+## D26 — `First Seen` and `Last Seen` are derived from Pigment's item history
+
+Tom replaced the hand-maintained `First Seen` / `Last Seen` properties on
+`Pigment Pipeline` with Pigment's native item-history stamps. Those arrive as
+**Text** — `2026-10-07T08:29:15.358+00:00` — which nothing in the model could
+consume: `PIG Latest Load Date` takes a MAX and needs a Date, and a text
+timestamp cannot be rolled up by day, week or month.
+
+So both are now **Date properties computed from the history stamps**:
+
+    First Seen  = DATEVALUE(LEFT('Pigment Pipeline'.'Created at', 10),     "yyyy-MM-dd")
+    Last Seen   = DATEVALUE(LEFT('Pigment Pipeline'.'Last edited at', 10), "yyyy-MM-dd")
+
+Taking the first ten characters discards the time of day, which is an accident
+of when the import happened to run, and leaves a clean Date that Pigment's time
+dimensions can group — the day → week → month analysis of when pipeline was
+created that Tom wants next.
+
+Being formula properties, they are also **read-only**, which is the real prize:
+no import can overwrite them and no Frame can stamp them wrong. The weekly file
+no longer needs a `Last Seen` column at all.
+
+Three metrics had to be re-pointed by hand. Recreating a property gives it a
+new technical name, so `PIG Latest Load Date`, `PIG In Latest Load` and
+`PIG First Seen Calc` stayed in formula error until each formula was re-applied
+— re-saving the same text is enough to rebind it. `PIG First Seen Calc`
+collapses to `'Pigment Pipeline'.'First Seen'`: it existed only to reconstruct a
+first-sighting date that nothing maintained, and Pigment maintains it now. It is
+kept rather than deleted so the Frames' binding does not move.
+
+**The one risk this carries, stated plainly.** `Last edited at` only advances
+when a value actually changes. A row that re-imports completely unchanged may
+keep last week's stamp, fall behind `PIG Latest Load Date` and be reported as
+dropped from Pigment's pipeline when it is sitting in the file. That would put a
+"dropped" warning on a healthy matched deal. The alternative — a `Last Seen`
+column stamped by `prep_pigment_import.py` — had no such ambiguity, and this
+was raised before the change; Tom chose the native fields. Worth watching on the
+second load: if `PIG Rows Dropped` comes back non-zero while the file plainly
+still carries those rows, this is why.
+
+First load verified: `PIG Latest Load Date` 2026-10-07, 244 of 244 rows in the
+latest load, none dropped.
