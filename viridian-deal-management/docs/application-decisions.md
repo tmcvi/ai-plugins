@@ -490,3 +490,54 @@ text is present exactly once, and `occurrencesReplaced` on single characters
 
 Pipeline deployed on 1 October 2026 verifies at 91,814 bytes against an
 expected 91,814, with all nine character counts matching.
+
+## D23 — ⚠️ A data source draws on one kind of value, and a Frame holds about thirteen
+
+The Pipeline Frame's own data source report (D20) named two failures Pigment
+had until then been giving as a single unexplained error screen. Both are
+limits on the inline data sources D17 moved the app onto, and between them they
+undo part of D18.
+
+**A source cannot mix a list property with a metric.** Pigment says "A data
+source cannot mix several value types", but the message is misleading: the
+three sources it rejected were the three that mixed kinds, and every source
+drawing on one kind alone was accepted, whatever its type.
+
+| source | values | result |
+| --- | --- | --- |
+| `vwPipelineGrid__Date` | 4 list properties | ok |
+| `vwPigmentGrid__Date` | 4 list properties **+ 1 metric** | rejected |
+| `vwPipelineGrid__Decimal` | 16 metrics | ok |
+| `vwPigmentGrid__Decimal` | 2 list properties | ok |
+| `vwPipelineGrid__Text` | 1 list property **+ 2 metrics** | rejected |
+| `vwPigmentGrid__Text` | 4 list properties **+ 5 metrics** | rejected |
+
+So the split is now by value type *and* source kind: `vwPipelineGrid__TextP`
+carries Notes, `vwPipelineGrid__TextM` carries the two ALN metrics. Part names
+gain a `P` or `M` suffix, which also makes the diagnostics table legible.
+
+**And a Frame gets about thirteen data sources at once.** The fourteenth comes
+back "Too many active subscriptions for this resource", and on Pipeline the
+first thirteen were served while the remaining seven were refused outright —
+the import summary, both stage property sources and the deal size order, so the
+page lost its header date and every dropdown's sort order. Item subscriptions
+are a separate pool; all four of those succeeded.
+
+This is D18 colliding with a hard limit: splitting by type (now by kind too)
+turned Pipeline's seven logical sources into twenty-five parts, and Admin's
+thirteen into twenty-one.
+
+**Nothing is held open any more.** A source is read and its subscription
+dropped as soon as it has answered, with a budget of six in flight at a time,
+so a page's peak is six however many parts it needs. Where the page writes, the
+source is re-read after the write rather than kept live — debounced at half a
+second, so a burst of edits costs one re-read, and late enough that Pigment has
+recalculated rather than racing it. `gen_bindings.py` works out which sources
+those are per page (any source carrying a binding the page can write) and emits
+`DS_LIVE`; the alternative, holding the written sources live, would have
+deadlocked Admin, whose twelve live parts exceed any budget safely under the
+cap.
+
+The cost is that a Frame no longer sees another user's edit until something
+makes it re-read. For a six-person sales team that is the right trade against
+not loading at all, but it is a behaviour change worth knowing about.
