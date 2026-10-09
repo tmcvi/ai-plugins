@@ -78,6 +78,7 @@ VARIANTS = {
         "filter-stage": '[data-stage="Demo"]',
         "filter-stage-all": '#s-all',
     },
+    "forecast": {"filter-stage": '[data-stage="Demo"]'},
     "admin": {
         "write": ['[data-tab="Reference lists"]', 'change:select[data-mapStage]'],
         "scurve": '[data-tab="S-curve profiles"]',

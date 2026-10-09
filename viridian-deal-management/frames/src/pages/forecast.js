@@ -19,7 +19,9 @@ var state = {
   items: [], stages: [], importSummary: null,
   measure: MEASURES[0].key, weighted: false, stackBy: 'Stage group',
   granularity: 'Month',
-  fPerson: '', fGroup: 'Open', fUseCase: '', fMotion: '', fSize: '',
+  // fStages: null means nobody has touched the stage filter, which reads as
+  // the default selection. An empty array is a deliberate "none of them".
+  fPerson: '', fStages: null, fUseCase: '', fMotion: '', fSize: '',
   fromIdx: 0, toIdx: 0, rangeInit: false,
   partial: false, error: null,
   canvas: null
@@ -111,19 +113,75 @@ function stageGroupOf(stageName) {
   return 'Other';
 }
 
-function dealPasses(name) {
+// The forecast opens on the live pipeline: every open stage except the parking
+// lot. Won and Lost drop out by their own Is Won / Is Lost properties; the
+// parking lot is the first open stage in Order, so a rename or a reorder of
+// the Stage list moves the default with it rather than breaking it.
+function defaultStages() {
+  var open = [], i;
+  for (i = 0; i < state.stages.length; i++) {
+    var s = state.stages[i];
+    if (s['Is Won'] === true || s['Is Lost'] === true) continue;
+    open.push(s);
+  }
+  var out = [];
+  for (i = 0; i < open.length; i++) if (i > 0) out.push(open[i].Name);
+  return out;
+}
+
+// Null until the user picks, and null while the Stage list is still loading -
+// filtering on an empty default would empty the chart on the way in.
+function activeStages() {
+  if (state.fStages) return state.fStages;
+  if (!state.stages.length) return null;
+  return defaultStages();
+}
+
+function dealPasses(name, ignoreStages) {
   var it = itemByName(name);
   if (!it) return false;
   if (state.fPerson && it['Sales Person'] !== state.fPerson) return false;
   if (state.fUseCase && it['Use Case'] !== state.fUseCase) return false;
   if (state.fMotion && it['Sales Motion'] !== state.fMotion) return false;
   if (state.fSize && it['Deal Size'] !== state.fSize) return false;
-  var open = gridVal(name, 'OPP Is Open') === true;
-  var won = gridVal(name, 'OPP Is Won') === true;
-  if (state.fGroup === 'Open' && !open) return false;
-  if (state.fGroup === 'Won' && !won) return false;
-  if (state.fGroup === 'Both' && !(open || won)) return false;
+  if (!ignoreStages) {
+    var stages = activeStages();
+    if (stages && stages.indexOf(it.Stage) === -1) return false;
+  }
   return true;
+}
+
+// Deals per stage once every other filter has run, for the chip labels.
+function stageCounts() {
+  var c = {};
+  for (var i = 0; i < state.items.length; i++) {
+    var it = state.items[i];
+    if (!dealPasses(it['Opportunity Name'], true)) continue;
+    c[it.Stage] = (c[it.Stage] || 0) + 1;
+  }
+  return c;
+}
+
+function stageChips() {
+  var chosen = activeStages() || [];
+  var counts = stageCounts();
+  var h = '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:10px;">';
+  h += '<span style="' + LABEL_CSS + 'display:inline;margin:0 4px 0 0;">Stages</span>';
+  for (var i = 0; i < state.stages.length; i++) {
+    var n = state.stages[i].Name;
+    var live = chosen.indexOf(n) !== -1;
+    h += '<button data-stage="' + esc(n) + '" style="font:600 12px ' + FONT.body +
+      ';padding:5px 10px;cursor:pointer;outline:none;border-radius:' + RADIUS.input +
+      ';border:1px solid ' + (live ? T.violet : T.hairline) +
+      ';background:' + (live ? T.violet : 'transparent') +
+      ';color:' + (live ? T.cream : T.violet) + ';">' + esc(n) +
+      ' <span style="opacity:.7;font-weight:400;">' + (counts[n] || 0) + '</span></button>';
+  }
+  h += '<button id="s-all" style="' + BTN_SECONDARY + 'padding:5px 10px;font-size:12px;">All</button>';
+  h += '<button id="s-none" style="' + BTN_SECONDARY + 'padding:5px 10px;font-size:12px;">None</button>';
+  h += '<button id="s-default" style="' + BTN_SECONDARY +
+    'padding:5px 10px;font-size:12px;">Default</button>';
+  return h + '</div>';
 }
 
 function seriesKeyFor(name) {
@@ -225,6 +283,7 @@ function render() {
 
   var body = '';
   if (state.partial) body += partialBanner();
+  body += stageChips();
   body += controls();
   body += summaryCards(data);
   body += '<div style="' + cardStyle(12) + 'margin-bottom:12px;">' +
@@ -293,14 +352,6 @@ function controls() {
   for (var k = 0; k < pl.length; k++) {
     h += '<option value="' + esc(pl[k]) + '"' + (state.fPerson === pl[k] ? ' selected' : '') + '>' +
       esc(pl[k]) + '</option>';
-  }
-  h += '</select>';
-
-  h += '<select id="fc-group" style="' + INPUT_CSS + 'width:auto;">';
-  var groups = ['Open', 'Won', 'Both'];
-  for (var g = 0; g < groups.length; g++) {
-    h += '<option value="' + groups[g] + '"' + (state.fGroup === groups[g] ? ' selected' : '') + '>' +
-      groups[g] + '</option>';
   }
   h += '</select>';
 
@@ -562,7 +613,25 @@ function attach() {
     state.granularity = e.currentTarget.value; state.rangeInit = false; render();
   });
   bind('fc-person', 'change', function (e) { state.fPerson = e.currentTarget.value; render(); });
-  bind('fc-group', 'change', function (e) { state.fGroup = e.currentTarget.value; render(); });
+  var content = document.getElementById('content');
+  var chips = content ? content.querySelectorAll('button[data-stage]') : [];
+  for (var g = 0; g < chips.length; g++) {
+    on(chips[g], 'click', function (e) {
+      var n = e.currentTarget.getAttribute('data-stage');
+      var cur = (activeStages() || []).slice();
+      var at = cur.indexOf(n);
+      if (at === -1) cur.push(n); else cur.splice(at, 1);
+      state.fStages = cur;
+      render();
+    });
+  }
+  bind('s-all', 'click', function () {
+    var all = [];
+    for (var i = 0; i < state.stages.length; i++) all.push(state.stages[i].Name);
+    state.fStages = all; render();
+  });
+  bind('s-none', 'click', function () { state.fStages = []; render(); });
+  bind('s-default', 'click', function () { state.fStages = null; render(); });
   bind('fc-from', 'change', function (e) {
     state.fromIdx = parseInt(e.currentTarget.value, 10);
     if (state.toIdx < state.fromIdx) state.toIdx = state.fromIdx;

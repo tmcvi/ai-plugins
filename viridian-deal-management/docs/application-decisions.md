@@ -842,3 +842,60 @@ anything (D27).
 The harness gained a `set:<selector>=<value>` step so a dropdown choice can be
 driven and screenshotted; `pipeline-filter-stage` (toggling a chip off) and
 `pipeline-filter-stage-all` now run on every build.
+
+## D31 — Data sinks, and the same stage filter on Forecast
+
+**Two things, one root.** Writes stopped working on every screen, and Forecast
+needed the stage filter Pipeline had just gained.
+
+### Every input failed: Frames now write through a data sink
+
+The error was `No data sink found with the name "opportunity"` — *sink*, not
+sync. A Frame write no longer goes through a binding marked writable; it goes
+through a **data sink** declared on the Frame beside its data sources. Our
+Frames declared writable bindings and no sinks, so every `editItem` and
+`editValue` was refused, on all six screens at once.
+
+Confirmed from the API: when the bindings are sent back, Pigment's response
+**drops `canRead` and `canWrite` entirely**. They are no longer part of the
+model. Writability comes only from `dataSinks`. The building-pigment-frames
+skill does not mention sinks, so this is the same kind of platform drift as the
+`subscribeToVizualization` → `useSubscribeToDataSource` rename (D20).
+
+`tools/gen_bindings.py` now emits `frames/src/datasinks.json`: one sink per
+writable List or Metric binding, **named after its binding**, so the pages keep
+calling `editItem('opportunity', …)` and `editValue('asmRate', …)` unchanged.
+Only List and Metric bindings may back a sink — a property write rides its
+list's sink and names the property binding in the values map, which is D21's
+rule already. Sinks per Frame: Admin 13, Pipeline 4, Deals 4, New deal 1,
+Matching 1; Forecast writes nothing and needs none.
+
+Sinks live in the Frame definition, so adding them means `update_frame`, which
+is wholesale — each Frame's whole body has to be retransmitted (D28's chunked
+path, checksummed). Pipeline is done and verified. **Admin, Deals, New deal and
+Matching are still to go.** One scar from the first attempt: `update_frame`
+with `dataSources: []` wipes the Frame's data sources, and the only warning is
+the response. Send the complete object every time.
+
+### Forecast filters by stage
+
+Same control as Pipeline (D30): a chip per stage carrying its deal count once
+every other filter has run, with `All` / `None` / `Default` beside it. The
+default is every open stage except the parking lot — Holding pool, Closed Won
+and Closed Lost off.
+
+Forecast's `Open / Won / Both` select is **gone**, as Open / Won / Lost went
+from Pipeline. Leaving it would have been worse than redundant: with the
+default excluding Closed Won, switching the chip on would still have shown
+nothing, because the status filter would have overruled it. One control decides
+what is in the forecast now.
+
+The same deviation as D30 applies to the default: Won and Lost come out by
+their own properties, but the parking lot is identified as the first open stage
+in `Order` rather than by the name "Holding pool". A `In Default Pipeline View`
+boolean on the Stage list would make it Tom's to set; it needs a binding change
+on the five Frames that read `vwStageProps`.
+
+Forecast needed no sink, so it deployed as five body edits, proved locally to
+turn the deployed bundle into the new one byte for byte: Pigment reported the
+predicted 100,804 bytes and all eleven checksum counters matched.
