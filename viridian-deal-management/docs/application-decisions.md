@@ -896,6 +896,14 @@ in `Order` rather than by the name "Holding pool". A `In Default Pipeline View`
 boolean on the Stage list would make it Tom's to set; it needs a binding change
 on the five Frames that read `vwStageProps`.
 
-Forecast needed no sink, so it deployed as five body edits, proved locally to
-turn the deployed bundle into the new one byte for byte: Pigment reported the
-predicted 100,804 bytes and all eleven checksum counters matched.
+**The deal table reads down the pipeline.** It was sorted by expected close
+date; it now sorts by the stage's own `Order` from the Stage list, then by
+close date inside a stage, then by name. The stacked chart's series follow the
+same idea when stacking by stage group: a group sits where its earliest stage
+sits, so the legend reads Early, Mid, Late, Closed rather than the alphabetical
+Closed, Early, Late, Mid it had before.
+
+Forecast needed no sink, so it deployed as body edits proved locally to turn
+the deployed bundle into the new one byte for byte: Pigment reported the
+predicted sizes (100,804 then 102,059 bytes) and every checksum counter
+matched.

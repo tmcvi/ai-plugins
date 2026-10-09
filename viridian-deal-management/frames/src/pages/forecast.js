@@ -106,6 +106,29 @@ function gridVal(name, key) {
   return null;
 }
 
+// Pipeline position of a stage, from the Stage list's own Order.
+function stageOrderOf(stageName) {
+  for (var i = 0; i < state.stages.length; i++) {
+    if (state.stages[i].Name === stageName) {
+      return typeof state.stages[i].Order === 'number' ? state.stages[i].Order : 9999;
+    }
+  }
+  return 9999;
+}
+
+// A stage group sits where its earliest stage sits, so a stacked chart reads
+// Early, Mid, Late, Closed rather than alphabetically.
+function stageGroupRank(group) {
+  var best = 9999;
+  for (var i = 0; i < state.stages.length; i++) {
+    var s = state.stages[i];
+    if ((s['Pipeline Group'] || 'Other') !== group) continue;
+    var o = typeof s.Order === 'number' ? s.Order : 9999;
+    if (o < best) best = o;
+  }
+  return best;
+}
+
 function stageGroupOf(stageName) {
   for (var i = 0; i < state.stages.length; i++) {
     if (state.stages[i].Name === stageName) return state.stages[i]['Pipeline Group'] || 'Other';
@@ -246,15 +269,26 @@ function buildData() {
 
   var dealRows = [];
   for (var d = 0; d < dealOrder.length; d++) dealRows.push(byDeal[dealOrder[d]]);
+  // Down the pipeline, earliest stage first, then by close date inside a stage.
   dealRows.sort(function (a, b) {
     var ia = itemByName(a.name), ib = itemByName(b.name);
+    var oa = stageOrderOf(ia ? ia.Stage : ''), ob = stageOrderOf(ib ? ib.Stage : '');
+    if (oa !== ob) return oa - ob;
     var da = ia ? ia['Expected Close Date'] || '' : '';
     var db = ib ? ib['Expected Close Date'] || '' : '';
-    return String(da).localeCompare(String(db));
+    if (da !== db) return String(da).localeCompare(String(db));
+    return String(a.name).localeCompare(String(b.name));
   });
 
   var series = [];
-  seriesOrder.sort();
+  if (state.stackBy === 'Stage group') {
+    seriesOrder.sort(function (a, b) {
+      var ra = stageGroupRank(a), rb = stageGroupRank(b);
+      return ra === rb ? String(a).localeCompare(String(b)) : ra - rb;
+    });
+  } else {
+    seriesOrder.sort();
+  }
   for (var s = 0; s < seriesOrder.length; s++) series.push(seriesMap[seriesOrder[s]]);
 
   return { periods: cols, series: series, dealRows: dealRows };
