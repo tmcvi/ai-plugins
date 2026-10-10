@@ -347,7 +347,7 @@ function overrideCell(d, kind) {
   if (on) {
     h += '<button data-ovrclear="' + kind + '" data-for="' + esc(d.name) +
       '" title="' + esc(hint) + '" style="' + BTN_SECONDARY +
-      'padding:1px 5px;font-size:11px;line-height:1.3;">\u00d7</button>';
+      'padding:1px 5px;font-size:11px;line-height:1.3;">×</button>';
   } else {
     h += '<span style="display:inline-block;width:18px;"></span>';
   }

@@ -941,3 +941,59 @@ One harness fix came out of it: the fixture generator gave
 `ALN Pigment Mapped Stage Order` a generic integer, which put every mock
 Pigment row outside the Stage list and emptied the pane. It now generates
 orders that exist, so the pass actually exercises the filter.
+
+
+## D33 — Licence $ and services days are overridable on the Pipeline table
+
+Tom asked to override the licence value and the number of services days
+"on the face of the pipeline", without opening a deal.
+
+**Days needed no model change.** `OPP Override Days` already existed, and
+`OPP Effective Days = IFBLANK('OPP Override Days', 'OPP Standard Days')`
+already fed everything downstream.
+
+**Licence did.** `OPP Licence Value $` was the band lookup itself, with
+nowhere to put a manual figure. It is now split the same way days are:
+
+| Metric | What it is |
+| --- | --- |
+| `OPP Standard Licence $` | `'ASM Licence ARR $'[BY: Opportunity.'Deal Size']` — the old formula, unchanged |
+| `OPP Override Licence $` | manual input on Opportunity, normally blank |
+| `OPP Licence Value $` | `IFBLANK('OPP Override Licence $', 'OPP Standard Licence $')` |
+
+Licence £, commission and the weighted figures all derive from
+`OPP Licence Value $`, so they follow an override without further change.
+Services value does **not** — it is days × day rate, which is the point of
+having two separate overrides.
+
+**On the table**, the cell always shows the *effective* number. Blanking it
+when there is no override would hide the figure people come to the screen to
+read. An override is marked in gold with a `×` beside it that clears it.
+Typing sets the override; emptying the field writes null, never 0, so the
+band standard comes back. The standard is in the cell's tooltip either way.
+Click and keydown are stopped inside the cell so editing does not also open
+the Deal slide-over.
+
+**Two deviations worth naming.**
+
+1. The two licence columns are **not** on `vwPipelineGrid`. That View is
+   shared with Matching and Forecast, and widening it would have invalidated
+   both of their just-deployed bodies for columns neither screen uses. They
+   have their own source, `vwLicenceOverride`, on Pipeline and Deals only.
+2. The licence override is **not yet in the shared Deal editor**. Adding it
+   there would change `shared/dealEditor.js`, which is concatenated into all
+   six bundles and would invalidate Matching's and Forecast's deployed
+   bodies. It goes in when Deals gets its own data-sink redeploy, which it
+   needs anyway (D31).
+
+**A third D22 quirk surfaced during the deploy.** The server decodes
+`\uXXXX` a second time, and that is not limited to `£`: a `×` in
+the source came back as a literal `×`, four bytes short of the prediction.
+The source now uses a literal `×`, as the rest of the codebase already did,
+so the file and the stored body agree byte for byte. `frames/deploy_plan.py`
+still only models `£`; **keep non-ASCII literal in Frame source** rather
+than teaching it every escape.
+
+Deployed to Pipeline as `update_frame` (100 bindings, 26 data sources, 5
+sinks) then the body in seven chunks to exactly 103,270 bytes, with all
+sixteen checksum counters matching the local bundle.
