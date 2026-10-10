@@ -872,8 +872,8 @@ Matching 1; Forecast writes nothing and needs none.
 
 Sinks live in the Frame definition, so adding them means `update_frame`, which
 is wholesale — each Frame's whole body has to be retransmitted (D28's chunked
-path, checksummed). Pipeline is done and verified. **Admin, Deals, New deal and
-Matching are still to go.** One scar from the first attempt: `update_frame`
+path, checksummed). Pipeline and Matching are done and verified. **Admin,
+Deals and New deal are still to go.** One scar from the first attempt: `update_frame`
 with `dataSources: []` wipes the Frame's data sources, and the only warning is
 the response. Send the complete object every time.
 
@@ -907,3 +907,37 @@ Forecast needed no sink, so it deployed as body edits proved locally to turn
 the deployed bundle into the new one byte for byte: Pigment reported the
 predicted sizes (100,804 then 102,059 bytes) and every checksum counter
 matched.
+
+
+## D32 — Matching filters both panes by pipeline stage
+
+One chip row above the two panes drives both, because a stage filter that
+applied to only one side would hide the half of a pair you were hunting for.
+
+The two sides reach the same stage by different routes. A Viridian deal
+carries its `Stage` directly. A Pigment row is placed by the stage its Pigment
+Stage maps to on Admin, which reaches the Frame as
+`ALN Pigment Mapped Stage Order` — already bound, so no model change was
+needed. Each chip therefore carries **two counts, Viridian then Pigment**,
+both taken after every other filter.
+
+The default is every open stage except the parking lot, as on Pipeline (D30)
+and Forecast (D31). That also hides the `S0 - SQO` and `U0 - Identified`
+Pigment rows, because both map to Holding pool — which is the intent: those
+are not yet real pipeline.
+
+**A Pigment stage with no mapping is never hidden.** `R1` and `R2` have no
+`Maps To Stage` on Admin today, so they have no mapped order and no place in
+the pipeline. Rather than guess, the filter lets them through: a row you did
+not expect is a smaller problem than one that has quietly vanished from the
+only screen that can match it. Worth mapping those two on Admin.
+
+Matching needed its data sink (D31) anyway, so this rode along with that
+redeploy: `update_frame` with 102 bindings, 27 data sources and the
+`opportunity` sink, then the body in seven chunks to exactly the predicted
+103,663 bytes, with all eleven checksum counters matching.
+
+One harness fix came out of it: the fixture generator gave
+`ALN Pigment Mapped Stage Order` a generic integer, which put every mock
+Pigment row outside the Stage list and emptied the pane. It now generates
+orders that exist, so the pass actually exercises the filter.
