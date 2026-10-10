@@ -79,6 +79,8 @@ VARIANTS = {
         "filter-stage-all": '#s-all',
     },
     "forecast": {"filter-stage": '[data-stage="Demo"]'},
+    # One chip row drives both panes on Matching, so one pass covers both.
+    "matching": {"filter-stage": '[data-stage="Demo"]'},
     "admin": {
         "write": ['[data-tab="Reference lists"]', 'change:select[data-mapStage]'],
         "scurve": '[data-tab="S-curve profiles"]',

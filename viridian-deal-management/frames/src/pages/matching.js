@@ -11,7 +11,9 @@ var state = {
   importSummary: null, assumptions: null,
   selDeal: null, selPig: null,
   showAllDeals: false, showAllPig: false,
-  fPerson: '', fContact: '', fTrack: '', fSegment: '',
+  // fStages: null means nobody has touched the stage filter, which reads as
+  // the default selection. An empty array is a deliberate "none of them".
+  fPerson: '', fStages: null, fContact: '', fTrack: '', fSegment: '',
   showPairs: true,
   partial: false, error: null
 };
@@ -49,6 +51,128 @@ function gridVal(name, key) {
     if (labelName(g.labels.rows[r]) === name) return cell(g, idx[key], r);
   }
   return null;
+}
+
+// Both panes filter on the same set of Viridian stages. A Viridian deal
+// carries its stage directly; a Pigment row is placed by the stage its Pigment
+// Stage maps to on Admin, which arrives as ALN Pigment Mapped Stage Order.
+function stageOrderOf(stageName) {
+  for (var i = 0; i < state.lists.stage.length; i++) {
+    if (state.lists.stage[i].Name === stageName) {
+      return typeof state.lists.stage[i].Order === 'number' ? state.lists.stage[i].Order : null;
+    }
+  }
+  return null;
+}
+
+function stageNameForOrder(order) {
+  if (!isNum(order)) return '';
+  for (var i = 0; i < state.lists.stage.length; i++) {
+    if (state.lists.stage[i].Order === order) return state.lists.stage[i].Name;
+  }
+  return '';
+}
+
+// Matching opens on the live pipeline: every open stage except the parking lot.
+// Won and Lost drop out by their own Is Won / Is Lost properties; the parking
+// lot is the first open stage in Order, so a rename or a reorder of the Stage
+// list moves the default with it.
+function defaultStages() {
+  var open = [], i;
+  for (i = 0; i < state.lists.stage.length; i++) {
+    var s = state.lists.stage[i];
+    if (s['Is Won'] === true || s['Is Lost'] === true) continue;
+    open.push(s);
+  }
+  var out = [];
+  for (i = 0; i < open.length; i++) if (i > 0) out.push(open[i].Name);
+  return out;
+}
+
+function activeStages() {
+  if (state.fStages) return state.fStages;
+  if (!state.lists.stage.length) return null;
+  return defaultStages();
+}
+
+function selectedOrders() {
+  var st = activeStages();
+  if (!st) return null;
+  var set = {};
+  for (var i = 0; i < st.length; i++) {
+    var o = stageOrderOf(st[i]);
+    if (o !== null) set[o] = 1;
+  }
+  return set;
+}
+
+function dealPassesStage(d) {
+  var st = activeStages();
+  return !st || st.indexOf(d.stage) !== -1;
+}
+
+// A Pigment stage with no mapping on Admin cannot be placed in the pipeline,
+// so it is never hidden - better a row you did not expect than one that has
+// quietly vanished from the only screen that can match it.
+function pigPassesStage(p) {
+  var set = selectedOrders();
+  if (!set) return true;
+  if (!isNum(p.mappedOrder)) return true;
+  return !!set[p.mappedOrder];
+}
+
+function dealVisible(d, ignoreStage) {
+  if (!state.showAllDeals && (d.matched || !d.isOpen)) return false;
+  if (state.fPerson && d.salesPerson !== state.fPerson) return false;
+  if (!ignoreStage && !dealPassesStage(d)) return false;
+  return true;
+}
+
+function pigVisible(p, ignoreStage) {
+  if (!state.showAllPig && p.matched) return false;
+  if (state.fContact && p.partnerContact !== state.fContact) return false;
+  if (state.fTrack && p.track !== state.fTrack) return false;
+  if (state.fSegment && p.segment !== state.fSegment) return false;
+  if (!ignoreStage && !pigPassesStage(p)) return false;
+  return true;
+}
+
+// Each chip carries two counts: Viridian rows, then Pigment rows, both taken
+// after every other filter so a 0 means "none in what you are looking at".
+function stageChips(allDeals, allPig) {
+  var chosen = activeStages() || [];
+  var dc = {}, pc = {}, i;
+  for (i = 0; i < allDeals.length; i++) {
+    if (!dealVisible(allDeals[i], true)) continue;
+    dc[allDeals[i].stage] = (dc[allDeals[i].stage] || 0) + 1;
+  }
+  for (i = 0; i < allPig.length; i++) {
+    if (!pigVisible(allPig[i], true)) continue;
+    var nm = stageNameForOrder(allPig[i].mappedOrder);
+    if (!nm) continue;
+    pc[nm] = (pc[nm] || 0) + 1;
+  }
+
+  var h = '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">';
+  h += '<span style="' + LABEL_CSS + 'display:inline;margin:0 4px 0 0;">Stages</span>';
+  for (i = 0; i < state.lists.stage.length; i++) {
+    var n = state.lists.stage[i].Name;
+    var live = chosen.indexOf(n) !== -1;
+    h += '<button data-stage="' + esc(n) + '" style="font:600 12px ' + FONT.body +
+      ';padding:5px 10px;cursor:pointer;outline:none;border-radius:' + RADIUS.input +
+      ';border:1px solid ' + (live ? T.violet : T.hairline) +
+      ';background:' + (live ? T.violet : 'transparent') +
+      ';color:' + (live ? T.cream : T.violet) + ';">' + esc(n) +
+      ' <span style="opacity:.7;font-weight:400;">' + (dc[n] || 0) + '/' + (pc[n] || 0) +
+      '</span></button>';
+  }
+  h += '<button id="s-all" style="' + BTN_SECONDARY + 'padding:5px 10px;font-size:12px;">All</button>';
+  h += '<button id="s-none" style="' + BTN_SECONDARY + 'padding:5px 10px;font-size:12px;">None</button>';
+  h += '<button id="s-default" style="' + BTN_SECONDARY +
+    'padding:5px 10px;font-size:12px;">Default</button>';
+  h += '<span style="font:11px ' + FONT.body + ';color:' + T.muted + ';margin-left:4px;">' +
+    'Viridian / Pigment</span>';
+  return h + '</div>';
 }
 
 function matchedPigNames() {
@@ -96,6 +220,7 @@ function pigRecords() {
       segment: pr.Segment || '',
       attach: pr['Partner Attach Type'] || '',
       acv: pr['ACV USD'],
+      mappedOrder: pr['ALN Pigment Mapped Stage Order'],
       matched: !!mp[n], matchedTo: mp[n] || ''
     });
   }
@@ -124,6 +249,8 @@ function render() {
     (allPig.length - matchedCount) + '</strong> Pigment only · <strong>' + viridianOnly +
     '</strong> Viridian only</div>';
 
+  body += stageChips(allDeals, allPig);
+
   body += '<div style="display:flex;gap:12px;align-items:flex-start;">';
   body += leftPane(allDeals, allPig);
   body += centrePane();
@@ -141,8 +268,7 @@ function leftPane(allDeals, allPig) {
   var rows = [];
   for (var i = 0; i < allDeals.length; i++) {
     var d = allDeals[i];
-    if (!state.showAllDeals && (d.matched || !d.isOpen)) continue;
-    if (state.fPerson && d.salesPerson !== state.fPerson) continue;
+    if (!dealVisible(d)) continue;
     rows.push(d);
   }
 
@@ -183,10 +309,7 @@ function rightPane(allPig, allDeals) {
   var rows = [];
   for (var i = 0; i < allPig.length; i++) {
     var p = allPig[i];
-    if (!state.showAllPig && p.matched) continue;
-    if (state.fContact && p.partnerContact !== state.fContact) continue;
-    if (state.fTrack && p.track !== state.fTrack) continue;
-    if (state.fSegment && p.segment !== state.fSegment) continue;
+    if (!pigVisible(p)) continue;
     rows.push(p);
   }
 
@@ -328,6 +451,25 @@ function attach() {
   bind('m-track', 'change', function (e) { state.fTrack = e.currentTarget.value; render(); });
   bind('m-segment', 'change', function (e) { state.fSegment = e.currentTarget.value; render(); });
   bind('m-clear', 'click', function () { state.selDeal = null; state.selPig = null; render(); });
+
+  var chips = content.querySelectorAll('button[data-stage]');
+  for (var g = 0; g < chips.length; g++) {
+    on(chips[g], 'click', function (e) {
+      var n = e.currentTarget.getAttribute('data-stage');
+      var cur = (activeStages() || []).slice();
+      var at = cur.indexOf(n);
+      if (at === -1) cur.push(n); else cur.splice(at, 1);
+      state.fStages = cur;
+      render();
+    });
+  }
+  bind('s-all', 'click', function () {
+    var all = [];
+    for (var i = 0; i < state.lists.stage.length; i++) all.push(state.lists.stage[i].Name);
+    state.fStages = all; render();
+  });
+  bind('s-none', 'click', function () { state.fStages = []; render(); });
+  bind('s-default', 'click', function () { state.fStages = null; render(); });
   bind('m-togglePairs', 'click', function () { state.showPairs = !state.showPairs; render(); });
 
   var dealRows = content.querySelectorAll('[data-deal]');

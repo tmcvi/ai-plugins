@@ -82,6 +82,10 @@ BY_COLUMN = {
     'ALN Match Status': lambda i: 'Matched' if i % 2 == 0 else 'Viridian only',
     'ALN Stage Alignment': lambda i: 'Aligned' if i % 3 else 'Pigment ahead',
     'ALN Pigment Match Status': lambda i: 'Matched' if i % 2 == 0 else 'Pigment only',
+    # Matching filters Pigment rows by the Stage their Pigment Stage maps to,
+    # which reaches the Frame as this order. A generic integer here put every
+    # row outside the Stage list and emptied the pane.
+    'ALN Pigment Mapped Stage Order': lambda i: (i % 8) + 1,
     'ASM Project Duration Weeks': lambda i: [6, 8, 12, 16][i % 4],
     'ASM Start Lag Weeks': lambda i: [2, 2, 4, 4][i % 4],
     'ASM Licence ARR $': lambda i: [60000, 120000, 250000, 500000][i % 4],
