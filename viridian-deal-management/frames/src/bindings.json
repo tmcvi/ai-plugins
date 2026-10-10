@@ -1000,6 +1000,20 @@
       "canWrite": false
     },
     {
+      "name": "mOPPStandardLicenceUsd",
+      "type": "Metric",
+      "metricId": "1002a642-cd6b-4756-b853-56e0ce5b244e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppOverrideLicence",
+      "type": "Metric",
+      "metricId": "b07ae358-7de6-42df-9ad1-243febb6146e",
+      "canRead": true,
+      "canWrite": true
+    },
+    {
       "name": "mPHEffectiveProfilePct",
       "type": "Metric",
       "metricId": "e26c5fa9-0981-4d17-ac68-668f4a6fe570",
@@ -1719,6 +1733,20 @@
       "metricId": "78eddde5-ede6-4cf0-9446-f18e8596450a",
       "canRead": true,
       "canWrite": false
+    },
+    {
+      "name": "mOPPStandardLicenceUsd",
+      "type": "Metric",
+      "metricId": "1002a642-cd6b-4756-b853-56e0ce5b244e",
+      "canRead": true,
+      "canWrite": false
+    },
+    {
+      "name": "oppOverrideLicence",
+      "type": "Metric",
+      "metricId": "b07ae358-7de6-42df-9ad1-243febb6146e",
+      "canRead": true,
+      "canWrite": true
     },
     {
       "name": "mPHEffectiveProfilePct",

@@ -9,6 +9,10 @@ var state = {
   items: [], pigment: [],
   lists: { salesPerson: [], stage: [], useCase: [], salesMotion: [], dealSize: [], pigmentAE: [] },
   scalars: null, importSummary: null,
+  // Opportunity Name -> the licence standard and override, from their own
+  // source: vwPipelineGrid is shared with Matching and Forecast, which have no
+  // use for these two columns.
+  licence: {},
   // stages: null means "nobody has touched the stage filter", which reads as
   // the default selection. An empty array is a deliberate "none of them".
   filters: { people: [], stages: null, useCase: '', motion: '',
@@ -55,6 +59,7 @@ function deals() {
     var item = itemByName(name);
     if (!item) continue;
     function v(k) { return idx[k] === undefined ? null : cell(g, idx[k], r); }
+    var lic = state.licence[name] || {};
     out.push({
       name: name, item: item,
       person: item['Sales Person'] || '', stage: item.Stage || '',
@@ -64,6 +69,10 @@ function deals() {
       matchedTo: item['Matched Pigment Opportunity'] || '',
       winRate: v('OPP Win Rate %'),
       licenceUsd: v('OPP Licence Value $'),
+      licenceStd: lic['OPP Standard Licence $'],
+      licenceOvr: lic['OPP Override Licence $'],
+      daysStd: v('OPP Standard Days'),
+      daysOvr: v('OPP Override Days'),
       services: v('OPP Services Value £'),
       wServices: v('OPP Weighted Services Value £'),
       commission: v('OPP Commission £'),
@@ -316,6 +325,35 @@ function flagsFor(d) {
   return h || '<span style="color:' + T.muted + ';">—</span>';
 }
 
+// Licence $ and Days are editable on the face of the table. The cell always
+// shows the effective number - blanking it out would hide the figure people
+// come here to read - and an override is marked in gold with a clear button
+// beside it. Typing sets the override; emptying the field removes it and the
+// standard for the size band comes back.
+function overrideCell(d, kind) {
+  var lic = kind === 'lic';
+  var ovr = lic ? d.licenceOvr : d.daysOvr;
+  var eff = lic ? d.licenceUsd : d.days;
+  var on = isNum(ovr);
+  var shown = isNum(eff) ? (lic ? Math.round(eff) : Math.round(eff * 10) / 10) : '';
+  var std = lic ? d.licenceStd : d.daysStd;
+  var hint = lic ? 'standard ' + moneyUsd(std) : 'standard ' + days(std);
+
+  var h = '<div style="display:flex;align-items:center;gap:3px;justify-content:flex-end;">';
+  h += '<input data-ovr="' + kind + '" data-for="' + esc(d.name) + '" value="' + esc(shown) +
+    '" data-prev="' + esc(shown) + '" title="' + esc(hint) + '" style="' + INPUT_CSS +
+    'padding:3px 5px;font-size:12px;width:' + (lic ? '84' : '56') + 'px;text-align:right;' +
+    (on ? 'border-color:' + T.gold + ';color:' + T.goldText + ';font-weight:600;' : '') + '">';
+  if (on) {
+    h += '<button data-ovrclear="' + kind + '" data-for="' + esc(d.name) +
+      '" title="' + esc(hint) + '" style="' + BTN_SECONDARY +
+      'padding:1px 5px;font-size:11px;line-height:1.3;">\u00d7</button>';
+  } else {
+    h += '<span style="display:inline-block;width:18px;"></span>';
+  }
+  return h + '</div>';
+}
+
 function stageDropdown(d) {
   var h = '<select data-stagefor="' + esc(d.name) + '" style="' + INPUT_CSS +
     'padding:3px 4px;font-size:12px;width:auto;min-width:112px;">';
@@ -343,7 +381,8 @@ function tableFor(rows) {
         '<span style="font-weight:600;color:' + T.ink + ';">' + esc(d.name) + '</span>',
         esc(d.person), stageDropdown(d), pct(d.winRate, 0), fmtDate(d.closeDate),
         esc(d.useCase), esc(d.motion), badge(d.size, 'neutral'),
-        moneyUsd(d.licenceUsd), money(d.services), money(d.commission), days(d.days),
+        overrideCell(d, 'lic'), money(d.services), money(d.commission),
+        overrideCell(d, 'days'),
         badge(d.matchStatus === 'Matched' ? 'matched' : 'Viridian only',
               d.matchStatus === 'Matched' ? 'good' : 'neutral'),
         flagsFor(d)
@@ -508,6 +547,45 @@ function attach() {
     });
   }
 
+  // Inline Licence $ / Days overrides. The click and keydown guards stop the
+  // row handler below opening the Deal editor while someone is typing.
+  function ovrAlias(kind) { return kind === 'lic' ? 'oppOverrideLicence' : 'oppOverrideDays'; }
+
+  var ovrs = content.querySelectorAll('input[data-ovr]');
+  for (var o = 0; o < ovrs.length; o++) {
+    on(ovrs[o], 'click', function (e) { e.stopPropagation(); });
+    on(ovrs[o], 'keydown', function (e) {
+      e.stopPropagation();
+      if (e.key === 'Enter') e.currentTarget.blur();
+    });
+    on(ovrs[o], 'blur', function (e) {
+      var t = e.currentTarget;
+      var prev = t.getAttribute('data-prev');
+      if (t.value === prev) return;
+      var raw = t.value.trim();
+      var value;
+      if (raw === '') value = null;
+      else {
+        var n = parseNumberInput(raw);
+        if (n === null || isNaN(n)) { toast('Enter a number', true); t.value = prev; return; }
+        if (n < 0) { toast('Value cannot be negative', true); t.value = prev; return; }
+        value = n;
+      }
+      writeValue(ovrAlias(t.getAttribute('data-ovr')),
+        { opportunity: t.getAttribute('data-for') }, value)
+        .then(function (res) { if (!res.ok) t.value = prev; });
+    });
+  }
+
+  var ovrClears = content.querySelectorAll('button[data-ovrclear]');
+  for (var oc = 0; oc < ovrClears.length; oc++) {
+    on(ovrClears[oc], 'click', function (e) {
+      e.stopPropagation();
+      writeValue(ovrAlias(e.currentTarget.getAttribute('data-ovrclear')),
+        { opportunity: e.currentTarget.getAttribute('data-for') }, null);
+    });
+  }
+
   var trs = content.querySelectorAll('tr[data-row]');
   for (var r = 0; r < trs.length; r++) {
     on(trs[r], 'click', function (e) {
@@ -531,6 +609,12 @@ function boot() {
     state.idx = columnIndex(d);
     state.items = rowsAsItems(d, 'Opportunity Name');
     state.partial = state.partial || !!d.truncated;
+    redraw();
+  }, fail);
+  subscribeView('vwLicenceOverride', function (d) {
+    var rows = rowsAsItems(d, 'Opportunity Name'), m = {};
+    for (var i = 0; i < rows.length; i++) m[rows[i]['Opportunity Name']] = rows[i];
+    state.licence = m;
     redraw();
   }, fail);
   subscribeView('vwPigmentGrid', function (d) {

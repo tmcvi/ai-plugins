@@ -12,10 +12,12 @@
   "newDeal": [],
   "pipeline": [
     "vwPipelineGrid",
+    "vwLicenceOverride",
     "vwProfileByDeal"
   ],
   "deal": [
     "vwPipelineGrid",
+    "vwLicenceOverride",
     "vwProfileByDeal"
   ],
   "matching": [

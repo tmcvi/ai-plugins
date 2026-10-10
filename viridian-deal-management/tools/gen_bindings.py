@@ -153,6 +153,7 @@ def value_type(value):
 # Metric aliases the page modules use directly with editValue.
 WRITE_ALIAS = {
     "oppOverrideDays": "OPP Override Days",
+    "oppOverrideLicence": "OPP Override Licence $",
     "oppOverrideRate": "OPP Override Day Rate £",
     "phOverrideProfile": "PH Override Profile %",
     "asmLicence": "ASM Licence ARR $",
@@ -247,6 +248,11 @@ DS = {
     # One weekly source. Month is a property of Week, not a dimension of the PH
     # metrics, so Pigment rejects it as a label; the page rolls weeks up (D17).
     "vwForecast":          (["opportunity", "week"], [], FORECAST_VALUES),
+    # Only Pipeline and Deals let anyone override the licence, so the two
+    # columns behind it get their own source rather than widening the grid
+    # Matching and Forecast also read.
+    "vwLicenceOverride":   (["opportunity"], [],
+                            ["OPP Standard Licence $", "OPP Override Licence $"]),
     "vwStageProps":        (["stage"], [],
                             ["stageOrder", "stageIsOpen", "stageIsWon", "stageIsLost",
                              "stageGroup"]),
@@ -272,9 +278,11 @@ PAGE_DS = {
                  "vwUseCaseProps", "vwPigmentAEProps"],
     "newDeal":  ["vwAssumptions", "vwScalarAssumptions", "vwCommissionRates", "vwImportSummary",
                  "vwStageProps", "vwDealSizeProps"],
-    "pipeline": ["vwPipelineGrid", "vwProfileByDeal", "vwScalarAssumptions", "vwImportSummary",
+    "pipeline": ["vwPipelineGrid", "vwLicenceOverride", "vwProfileByDeal",
+                 "vwScalarAssumptions", "vwImportSummary",
                  "vwStageProps", "vwDealSizeProps", "vwPigmentGrid"],
-    "deal":     ["vwPipelineGrid", "vwProfileByDeal", "vwScalarAssumptions", "vwImportSummary",
+    "deal":     ["vwPipelineGrid", "vwLicenceOverride", "vwProfileByDeal",
+                 "vwScalarAssumptions", "vwImportSummary",
                  "vwStageProps", "vwDealSizeProps", "vwPigmentGrid"],
     "matching": ["vwPipelineGrid", "vwPigmentGrid", "vwImportSummary", "vwAssumptions",
                  "vwStageProps", "vwUseCaseProps", "vwSalesPersonProps",
@@ -301,7 +309,8 @@ PAGE_LISTS["deal"] = PAGE_LISTS["pipeline"]
 PAGE_WRITES = {
     "admin":    ["asmLicence", "asmDays", "asmDuration", "asmLag", "asmProfile", "asmRate",
                  "asmHours", "asmFx", "asmCommission", "asmWin"],
-    "pipeline": ["oppOverrideDays", "oppOverrideRate", "phOverrideProfile"],
+    "pipeline": ["oppOverrideDays", "oppOverrideLicence", "oppOverrideRate",
+                 "phOverrideProfile"],
     "newDeal":  [], "matching": [], "forecast": [],
 }
 PAGE_WRITES["deal"] = PAGE_WRITES["pipeline"]

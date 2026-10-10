@@ -812,6 +812,25 @@
       ]
     },
     {
+      "name": "vwLicenceOverride__DecimalM",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mOPPStandardLicenceUsd",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "oppOverrideLicence",
+          "aggregator": "Sum"
+        }
+      ]
+    },
+    {
       "name": "vwProfileByDeal__DecimalM",
       "labels": [
         {
@@ -1427,6 +1446,25 @@
         {
           "binding": "mALNStageAlignment",
           "aggregator": "First"
+        }
+      ]
+    },
+    {
+      "name": "vwLicenceOverride__DecimalM",
+      "labels": [
+        {
+          "binding": "opportunity"
+        }
+      ],
+      "selectors": [],
+      "values": [
+        {
+          "binding": "mOPPStandardLicenceUsd",
+          "aggregator": "Sum"
+        },
+        {
+          "binding": "oppOverrideLicence",
+          "aggregator": "Sum"
         }
       ]
     },

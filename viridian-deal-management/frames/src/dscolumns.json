@@ -132,6 +132,10 @@
     "ALN Match Status",
     "ALN Stage Alignment"
   ],
+  "vwLicenceOverride__DecimalM": [
+    "OPP Standard Licence $",
+    "OPP Override Licence $"
+  ],
   "vwProfileByDeal__DecimalM": [
     "PH Effective Profile %",
     "PH Override Profile %"

@@ -55,6 +55,9 @@
     "vwPipelineGrid__IntegerM",
     "vwPipelineGrid__TextM"
   ],
+  "vwLicenceOverride": [
+    "vwLicenceOverride__DecimalM"
+  ],
   "vwProfileByDeal": [
     "vwProfileByDeal__DecimalM",
     "vwProfileByDeal__DimensionM"

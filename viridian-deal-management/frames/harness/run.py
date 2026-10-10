@@ -77,6 +77,8 @@ VARIANTS = {
         # buttons that sit beside the chips.
         "filter-stage": '[data-stage="Demo"]',
         "filter-stage-all": '#s-all',
+        # The inline Licence $ override on the face of the table.
+        "override": 'set:input[data-ovr]=150000',
     },
     "forecast": {"filter-stage": '[data-stage="Demo"]'},
     # One chip row drives both panes on Matching, so one pass covers both.

@@ -73,6 +73,10 @@
       "binding": "oppOverrideRate"
     },
     {
+      "name": "oppOverrideLicence",
+      "binding": "oppOverrideLicence"
+    },
+    {
       "name": "phOverrideProfile",
       "binding": "phOverrideProfile"
     }
@@ -89,6 +93,10 @@
     {
       "name": "oppOverrideRate",
       "binding": "oppOverrideRate"
+    },
+    {
+      "name": "oppOverrideLicence",
+      "binding": "oppOverrideLicence"
     },
     {
       "name": "phOverrideProfile",
