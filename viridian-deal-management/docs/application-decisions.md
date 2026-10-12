@@ -1040,3 +1040,58 @@ identical-replacement edits — the one that fails names the gap.
 `update_frame` resets `isPrivate` to true (D27), so **all five Frames that
 have been redeployed need publishing again**: Pipeline, Matching, New deal,
 Deals and Admin. Only Forecast is untouched.
+
+
+## D35 — Pipeline KPIs follow the filters, and an export button
+
+Tom: "the KPIs at the top don't respond to the filters, they need to be
+interactive. Also we need a button that downloads the main deal data to
+Excel."
+
+**The KPIs were being handed the wrong set.** `kpiStrip(all)` got every deal
+in the book, and `kpis()` then narrowed to open deals on its own — so no
+filter, stage chip or search box could move them. They now total the rows
+actually on screen, and the strip carries a caption, *"Totals for the 4 deals
+shown — of 6 in the book"*, so the scope is never ambiguous.
+
+Three cards were renamed as a consequence. "Open services value", "Open
+commission" and "Open days" are now "Services value", "Commission" and
+"Days": with the stage filter driving what is counted, the word *open* was
+describing a rule that no longer existed. The default stage selection is
+still every open stage except the parking lot (D30), so the opening view
+reads exactly as it did.
+
+The "N of M deals" line under the filter bar went away — the strip caption
+says the same thing, higher up, where the numbers it qualifies are.
+
+**The export is CSV, not .xlsx.** A Frame cannot load an external script, so
+there is no zip writer available to emit a real workbook, and hand-rolling
+one was not worth it for a flat extract. Excel opens a UTF-8 CSV natively.
+Three details make it behave:
+
+- a byte-order mark, without which Excel mangles every `£`;
+- numbers written unformatted and dates as ISO, so Excel types them as
+  numbers and dates rather than text;
+- RFC-style quoting, so a deal name containing a comma, or a note containing
+  a quote or a newline, survives the round trip.
+
+It exports **what is on screen** — current filters, current sort order — and
+carries 28 columns, including the standard and override values behind both
+Licence $ and Days, which the table only shows as an effective figure.
+
+**Testing it needed two routes.** A real download hangs headless Chromium
+under `--dump-dom`, so the browser harness now records the anchor click
+instead of performing it and asserts the download was reached with the right
+filename. The CSV text itself is unit-tested in Node against the built
+bundle: quoting, embedded commas, quotes and newlines, blank handling and a
+full parse-back round trip.
+
+**A second instance of the D33 escape quirk.** The BOM was written `'﻿'`
+and came back from Pigment as a literal BOM character, three bytes short of
+the prediction. The source now uses `String.fromCharCode(0xFEFF)`. The
+pipeline bundle no longer contains a single `\uXXXX` escape, which is the
+state to keep it in.
+
+Deployed as four diff edits against the live body rather than a full
+retransmission — the bindings, data sources and sinks were unchanged — then
+one corrective edit for the BOM, landing on exactly 108,898 bytes.

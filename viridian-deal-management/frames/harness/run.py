@@ -25,6 +25,23 @@ PAGE = """<!doctype html>
 <body style="margin:0">
 <div id="app"></div>
 <pre id="__errors" style="display:none"></pre>
+<pre id="__download" style="display:none"></pre>
+<script>
+// Headless Chromium hangs on a real download under --dump-dom, so the anchor
+// click is recorded instead of performed. The export still has to build its
+// blob, name the file and reach the click for this to fire, which is the part
+// worth asserting; the CSV text itself is unit-tested separately.
+(function () {
+  var proto = HTMLAnchorElement.prototype, real = proto.click;
+  proto.click = function () {
+    if (this.hasAttribute('download')) {
+      document.getElementById('__download').textContent = this.getAttribute('download');
+      return;
+    }
+    return real.apply(this, arguments);
+  };
+})();
+</script>
 <script src="mock_sdk.js"></script>
 <script src="fixtures.js"></script>
 <script src="../dist/%(page)s.js"></script>
@@ -77,6 +94,9 @@ VARIANTS = {
         # buttons that sit beside the chips.
         "filter-stage": '[data-stage="Demo"]',
         "filter-stage-all": '#s-all',
+        # The export button: a click must build the CSV and reach a download
+        # without throwing, which is the only part a screenshot cannot show.
+        "export": '#f-export',
         # The inline Licence $ override on the face of the table.
         "override": 'set:input[data-ovr]=150000',
     },
@@ -122,6 +142,13 @@ def check(page, label=None, click=None):
         problems.append("stuck on the loading block")
     if len(dom) < 2000:
         problems.append("rendered almost nothing (%d bytes of DOM)" % len(dom))
+
+    # The export pass has to prove it actually reached a named download.
+    if label.endswith("-export"):
+        d = re.search(r'<pre id="__download"[^>]*>(.*?)</pre>', dom, re.S)
+        got = d.group(1).strip() if d else ""
+        if not re.match(r"^viridian-pipeline-\d{4}-\d{2}-\d{2}\.csv$", got):
+            problems.append("export did not reach a download (filename %r)" % got)
 
     return problems, shot, len(dom)
 

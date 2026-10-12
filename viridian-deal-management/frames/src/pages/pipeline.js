@@ -168,9 +168,14 @@ function applyFilters(rows, ignoreStages) {
 
 function currentQuarter() { return quarterOf(todayIso()); }
 
-function kpis(all) {
-  var open = [], i;
-  for (i = 0; i < all.length; i++) if (all[i].isOpen) open.push(all[i]);
+// The KPIs total whatever the filters have left on screen, not the whole
+// book. The default stage selection is already "every open stage except the
+// parking lot", so the opening view still reads as live pipeline - but narrow
+// to one sales person, or switch the stage chips to Closed Won, and the cards
+// move with the table. A KPI strip that ignored the filters above it was the
+// screen quietly disagreeing with itself.
+function kpis(rows) {
+  var i;
 
   function sum(arr, k) {
     var t = 0;
@@ -179,33 +184,42 @@ function kpis(all) {
   }
 
   var thisQ = [], q = currentQuarter();
-  for (i = 0; i < all.length; i++) {
-    if ((all[i].isOpen || all[i].isWon) && quarterOf(all[i].closeDate) === q) thisQ.push(all[i]);
+  for (i = 0; i < rows.length; i++) {
+    if (quarterOf(rows[i].closeDate) === q) thisQ.push(rows[i]);
   }
   var unmatched = 0;
-  for (i = 0; i < all.length; i++) {
-    if (all[i].isOpen && all[i].matchStatus !== 'Matched') unmatched++;
+  for (i = 0; i < rows.length; i++) {
+    if (rows[i].matchStatus !== 'Matched') unmatched++;
   }
 
   return [
-    { label: 'Open services value', main: moneyShort(sum(open, 'services')),
-      sub: 'weighted ' + moneyShort(sum(open, 'wServices')) },
-    { label: 'Open commission', main: moneyShort(sum(open, 'commission')),
-      sub: 'weighted ' + moneyShort(sum(open, 'wCommission')) },
-    { label: 'Open days', main: days(sum(open, 'days')),
-      sub: open.length + ' open deals' },
+    { label: 'Services value', main: moneyShort(sum(rows, 'services')),
+      sub: 'weighted ' + moneyShort(sum(rows, 'wServices')) },
+    { label: 'Commission', main: moneyShort(sum(rows, 'commission')),
+      sub: 'weighted ' + moneyShort(sum(rows, 'wCommission')) },
+    { label: 'Days', main: days(sum(rows, 'days')),
+      sub: rows.length + ' deal' + (rows.length === 1 ? '' : 's') + ' in view' },
     { label: 'Closing ' + q, main: String(thisQ.length),
       sub: moneyShort(sum(thisQ, 'services')) },
-    { label: 'Licence ARR in pipeline', main: '$' + num(Math.round(sum(open, 'licenceUsd') / 1000), 0) + 'k',
-      sub: 'open deals only' },
+    { label: 'Licence ARR', main: '$' + num(Math.round(sum(rows, 'licenceUsd') / 1000), 0) + 'k',
+      sub: 'in view' },
     { label: 'Unmatched deals', main: String(unmatched),
       sub: unmatched ? 'link them on Matching' : 'all matched' }
   ];
 }
 
-function kpiStrip(all) {
-  var cards = kpis(all);
-  var h = '<div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">';
+function kpiStrip(rows, all) {
+  var cards = kpis(rows);
+  var h = '';
+  h += '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;">';
+  h += '<span style="' + LABEL_CSS + 'display:inline;margin:0;">Totals for the ' +
+    rows.length + ' deal' + (rows.length === 1 ? '' : 's') + ' shown</span>';
+  if (rows.length !== all.length) {
+    h += '<span style="font:12px ' + FONT.body + ';color:' + T.secondary + ';">of ' +
+      all.length + ' in the book</span>';
+  }
+  h += '</div>';
+  h += '<div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">';
   for (var i = 0; i < cards.length; i++) {
     h += '<div style="flex:1 1 150px;min-width:140px;background:' + T.violet +
       ';border-radius:' + RADIUS.card + ';padding:12px 14px;">' +
@@ -287,7 +301,95 @@ function filterBar(all) {
     INPUT_CSS + 'width:auto;min-width:160px;">';
   h += '<button id="f-clear" style="' + BTN_SECONDARY + '">Clear</button>';
   h += '<button id="f-mine" style="' + BTN_SECONDARY + '">My deals</button>';
+  h += '<button id="f-export" style="' + BTN_SECONDARY + 'margin-left:auto;">Export to Excel</button>';
   return h + '</div>';
+}
+
+// ---- export --------------------------------------------------------------
+// Excel opens a UTF-8 CSV natively, and a Frame cannot bundle a zip writer to
+// emit a real .xlsx (no external scripts reach the sandbox), so the download is
+// CSV with a byte-order mark - without the BOM Excel mangles the GBP sign.
+// Numbers go out unformatted and dates as ISO so Excel types them as numbers
+// and dates rather than text, which is the whole point of exporting.
+var EXPORT_COLS = [
+  { label: 'Opportunity name',      get: function (d) { return d.name; } },
+  { label: 'Sales person',          get: function (d) { return d.person; } },
+  { label: 'Stage',                 get: function (d) { return d.stage; } },
+  { label: 'Win %',                 get: function (d) { return pctNum(d.winRate); } },
+  { label: 'Expected close date',   get: function (d) { return d.closeDate; } },
+  { label: 'Quarter',               get: function (d) { return quarterOf(d.closeDate); } },
+  { label: 'Use case',              get: function (d) { return d.useCase; } },
+  { label: 'Sales motion',          get: function (d) { return d.motion; } },
+  { label: 'Deal size',             get: function (d) { return d.size; } },
+  { label: 'Licence $',             get: function (d) { return d.licenceUsd; } },
+  { label: 'Licence $ standard',    get: function (d) { return d.licenceStd; } },
+  { label: 'Licence $ override',    get: function (d) { return d.licenceOvr; } },
+  { label: 'Services GBP',          get: function (d) { return d.services; } },
+  { label: 'Weighted services GBP', get: function (d) { return d.wServices; } },
+  { label: 'Commission GBP',        get: function (d) { return d.commission; } },
+  { label: 'Weighted commission GBP', get: function (d) { return d.wCommission; } },
+  { label: 'Days',                  get: function (d) { return d.days; } },
+  { label: 'Days standard',         get: function (d) { return d.daysStd; } },
+  { label: 'Days override',         get: function (d) { return d.daysOvr; } },
+  { label: 'Pigment AE',            get: function (d) { return d.ae; } },
+  { label: 'Match status',          get: function (d) { return d.matchStatus; } },
+  { label: 'Matched Pigment opportunity', get: function (d) { return d.matchedTo; } },
+  { label: 'Stage alignment',       get: function (d) { return d.stageAlign; } },
+  { label: 'Close date gap days',   get: function (d) { return d.closeGap; } },
+  { label: 'Pigment row dropped',   get: function (d) { return d.dropped ? 'Yes' : 'No'; } },
+  { label: 'Closed in Pigment',     get: function (d) { return d.pigClosed ? 'Yes' : 'No'; } },
+  { label: 'Profile valid',         get: function (d) { return d.profileOk ? 'Yes' : 'No'; } },
+  { label: 'Notes',                 get: function (d) { return d.item.Notes; } }
+];
+
+function pctNum(v) { return isNum(v) ? Math.round(v * 1000) / 10 : null; }
+
+function csvCell(v) {
+  if (v === null || v === undefined) return '';
+  if (typeof v === 'number') return isFinite(v) ? String(v) : '';
+  var s = String(v);
+  if (s.indexOf('"') !== -1 || s.indexOf(',') !== -1 ||
+      s.indexOf('\n') !== -1 || s.indexOf('\r') !== -1) {
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  return s;
+}
+
+// Exported in the order and selection currently on screen, so what downloads is
+// what the person is looking at.
+function dealsCsv(rows) {
+  var out = [], i, c, line;
+  line = [];
+  for (c = 0; c < EXPORT_COLS.length; c++) line.push(csvCell(EXPORT_COLS[c].label));
+  out.push(line.join(','));
+  for (i = 0; i < rows.length; i++) {
+    line = [];
+    for (c = 0; c < EXPORT_COLS.length; c++) line.push(csvCell(EXPORT_COLS[c].get(rows[i])));
+    out.push(line.join(','));
+  }
+  return out.join('\r\n');
+}
+
+// The Frame runs in a sandboxed iframe, so a download can be refused outright.
+// Say so plainly rather than leaving a button that looks broken.
+function downloadCsv(text, filename) {
+  try {
+    // String.fromCharCode, not a \u escape: Pigment decodes \uXXXX a second
+    // time on deploy (D33), which would leave a raw BOM sitting in the source.
+    var blob = new Blob([String.fromCharCode(0xFEFF) + text], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = el('a', { href: url, download: filename, style: 'display:none;' });
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () {
+      if (a.parentNode) a.parentNode.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 0);
+    return true;
+  } catch (e) {
+    toast('This browser blocked the download', true);
+    return false;
+  }
 }
 
 var COLS = [
@@ -456,11 +558,9 @@ function render() {
 
   var body = '';
   if (state.partial) body += partialBanner();
-  body += kpiStrip(all);
+  body += kpiStrip(rows, all);
   body += stageChips(all);
   body += filterBar(all);
-  body += '<div style="font:12px ' + FONT.body + ';color:' + T.secondary + ';margin-bottom:6px;">' +
-    rows.length + ' of ' + all.length + ' deals</div>';
   body += tableFor(rows);
 
   root.innerHTML = shellHtml(SCREEN, loadDate(), body) + slideOver();
@@ -514,6 +614,13 @@ function attach() {
       f.people = [state.lists.salesPerson[0].Name];
       toast('Filtered to ' + f.people[0]);
       render();
+    }
+  });
+  bind('f-export', 'click', function () {
+    var rows = sortRows(applyFilters(deals()));
+    if (!rows.length) { toast('Nothing to export with these filters', true); return; }
+    if (downloadCsv(dealsCsv(rows), 'viridian-pipeline-' + todayIso() + '.csv')) {
+      toast('Exported ' + rows.length + ' deal' + (rows.length === 1 ? '' : 's'));
     }
   });
   bind('empty-clear', 'click', function () {
