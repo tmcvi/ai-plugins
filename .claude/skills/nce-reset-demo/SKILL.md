@@ -34,6 +34,7 @@ Record the count of non-blank cells of each block **before** clearing (it goes i
 | INP · PO requested | 577098fc-0776-49d0-9633-c22e013b97ee | all |
 | INP · Close override | f90e3d66-86bd-4419-bbff-bd5697dc9be2 | all (Opportunity, Scenario) |
 | INP · Validation adjustments | 55c727d4-8204-40ec-b7f9-6eacb1a6cece | all (Line, Month, Scenario, Measure) |
+| INP · Mix override | 96614217-ca7b-4b1c-a84d-aabde27332df | all (Opportunity, Revenue component, Scenario); the Pipeline Frame's Edit mix % writes it in Planner override |
 | INP · Validation status | 04a685c3-f248-49e7-99c3-a393909ad000 | all (blank reads Not started) |
 | INP · Profile override | 2768ac60-3ec0-4244-936c-50ffad1dfe6e | all (Project) |
 | INP · Delivery start override | 089a7771-60d4-4d33-8bfc-ba0829b09ad2 | all (Project) |
