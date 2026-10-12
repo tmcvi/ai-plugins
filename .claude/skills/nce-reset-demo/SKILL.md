@@ -51,8 +51,10 @@ Record the count of non-blank cells of each block **before** clearing (it goes i
 
 Lists (read with `fetch_list_data` / `get_list_items`, delete with `delete_list_items`):
 
-- **TL · Override log** (`27d0d1c8-0dba-4be3-a28f-996d17d672e3`): delete rows whose `Logged at` is after the marker (all rows when the marker is blank).
+- **TL · Override log** (`27d0d1c8-0dba-4be3-a28f-996d17d672e3`): delete rows whose `Logged at` is after the marker (all rows when the marker is blank). Rows at or before the marker are the previous run's demo seed and stay.
 - **INP · Consensus approval** (`da8c09d5-0de6-44c8-8f7b-e0b415972b00`): delete rows whose `Approved at` is after the marker (all rows when the marker is blank).
+
+Get the row ids with `get_list_items` (extra properties `Logged at` / `Approved at`) and delete with `delete_list_items`. Both lists' stamps (`Logged at`, `Set by`, `Approved at`, `Approved by`) are Pigment item history: compare them with the marker in UTC.
 
 After clearing, read every block again: each must be empty (the context inputs blank). If anything remains, stop and report — do not seed on top of residue.
 
@@ -61,8 +63,8 @@ After clearing, read every block again: each must be empty (the context inputs b
 Apply the CSV in file order:
 
 - `seed`: `set_metric_input` on the block with the coordinates and value (dates ISO, dimension items by display name).
-- `log`: `add_list_items` on TL · Override log with the coordinate pairs as columns (friendly names: Line, Month, Scenario, Measure, Date type, Override date, System value, Override value, Reason, Comment; Set by and Logged at fill themselves). Write each log row **before** the `seed` row it covers when you run it by hand; when seeding in file order, write the log row right after its cells.
-- `approve`: after the seed has recalculated, read the Consensus FY 27 Revenue, Gross margin and Cash in (`STG · Bridge`, Bridge step = Consensus, Studio KPI = Revenue / Gross margin / Cash in) and add one INP · Consensus approval row with Version, Note, Period, Approved by and those three figures; Approved at fills itself.
+- `log`: `add_list_items` on TL · Override log with the coordinate pairs as columns (friendly names: Line, Month, Scenario, Measure, Date type, Override date, System value, Override value, Reason, Comment; Set by and Logged at are stamped by Pigment and cannot be written). **Skip** the row when a surviving row (at or before the marker) already has the same Line, Month, Scenario and values with a `Demo state (nce-reset-demo)` comment; when the CSV value changed, delete the surviving row and add the new one. Check `System value` against the live system figure (Baseline `CALC · Final value` for the line and month) before writing it.
+- `approve`: after the seed has recalculated (read `STG · Bridge` twice a minute apart; use it when the two reads agree), take the Consensus FY 27 Revenue, Gross margin and Cash in (Bridge step = Consensus, Studio KPI = Revenue / Gross margin / Cash in) and add one INP · Consensus approval row with Version, Note, Period and those three figures (Approved by and Approved at are stamped by Pigment). Skip it when a surviving `demo baseline` row already carries the same three figures; otherwise delete that row first.
 - `context`: set the Frame context inputs (scalar metrics; dimension items by display name).
 
 ## 3. Verify and log
@@ -72,7 +74,7 @@ Read, then compare:
 0. `list_issues` on the application: **no issues**. A block whose formula is in error keeps its last values silently, so the checks below can read 0 while the block no longer recalculates.
 1. `STG · Check value` (`47e46b39-97e3-4b4d-8d08-4ef924889c52`) by Check: every check = 0, except the informational counts (VAL · Delivery date assumed and any other check the build log names as informational), which are recorded, not asserted.
 2. `CALC · Pending preview` (`221d0a6d-dd35-42d6-b425-4ac2f9a5b491`): blank everywhere.
-3. `STG · Bridge` (`1d2dd004-3c84-4b69-b6d1-c0b5756b4108`): Consensus ≠ System (Baseline) on Revenue **and** Gross margin; System + the four movements = Consensus (to £1).
+3. `STG · Bridge` (`1d2dd004-3c84-4b69-b6d1-c0b5756b4108`): Consensus ≠ System (Baseline) on Revenue **and** Gross margin; System + the four movements = Consensus within £5 on Revenue, Gross margin, Cash in and Net project cash (single-precision rounding on totals of £30m+; anything larger is a real break).
 4. `STG · Scenario contents` (`b497a946-3c1b-493f-8f6f-4f7b5d18e907`): Baseline reads "System plan · nothing typed"; Risk, Upside and What-if list their drivers.
 
 If all pass: set `INP · Demo state marker` to the current UTC time (ISO, e.g. `2026-10-12T09:15:00Z`). If any fails: **do not set the marker**; say loudly which check failed and with what value.

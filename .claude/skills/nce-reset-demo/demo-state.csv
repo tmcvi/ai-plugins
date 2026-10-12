@@ -18,7 +18,7 @@ seed,INP · Delay months,Line=SO-10421/20|Scenario=What-if,3,What-if repeats the
 seed,INP · Book delivery slip,Product family=Gateways|Scenario=What-if,2,§5 step-back: all undelivered gateway hardware 2 months later
 seed,INP · Lead-time shock,Product hierarchy=GW-400|Scenario=What-if,6,§5 step-back: GW-400 supplier lead time +6 weeks
 seed,INP · Collection days shift,Customer segment=Enterprise|Scenario=What-if,30,§5 step-back: Enterprise customers pay 30 days later
-approve,INP · Consensus approval,Version=v1|Note=demo baseline|Period=FY 27|Approved by=Tom,,"Sign-off beat: one approved version, figures = Consensus FY27 after seeding, Approved at = reset time"
+approve,INP · Consensus approval,Version=v1|Note=demo baseline|Period=FY 27,,"Sign-off beat: one approved version, figures = Consensus FY27 after seeding, Approved at = reset time"
 context,INP · Frame project,,P-1040,Consistent landing
 context,INP · Frame scenario,,Consensus,Every Frame opens on Consensus
 context,INP · Compare against,,Baseline,Compare against the system plan
