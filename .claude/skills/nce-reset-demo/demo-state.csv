@@ -5,6 +5,9 @@ log,TL · Override log,Line=SC-2201|Month=Jan 27|Scenario=Planner override|Measu
 seed,INP · Date override,Line=SO-10421/20|Scenario=Planner override|Date type=Delivery month,2027-01-01,"Scene 04 beat: SO-10421/20 aligned to its feasible month (Jan 27)"
 seed,INP · Override reason,Line=SO-10421/20|Month=Jan 27|Scenario=Planner override,Supply constrained,Reason for the SO-10421/20 alignment
 log,TL · Override log,Line=SO-10421/20|Month=Jan 27|Scenario=Planner override|Date type=Delivery month|Override date=2027-01-01|Reason=Supply constrained|Comment=Demo state (nce-reset-demo): aligned to the feasible month,,Audit row for the SO-10421/20 alignment
+seed,INP · Date override,Line=OPP-2214 · HW|Scenario=Planner override|Date type=Delivery month,2026-12-01,"Pipeline conflict beat: the customer asks for Campus C hardware in December; stock supports January (lead-time constrained), so the key deal shows a feasibility conflict to resolve (align to Jan 27 or expedite)"
+seed,INP · Override reason,Line=OPP-2214 · HW|Month=Dec 26|Scenario=Planner override,Commercial change,Reason for the Campus C hardware date
+log,TL · Override log,Line=OPP-2214 · HW|Month=Dec 26|Scenario=Planner override|Date type=Delivery month|Override date=2026-12-01|Reason=Commercial change|Comment=Demo state (nce-reset-demo): customer asks for Campus C hardware in December; stock supports March,,Audit row for the Campus C hardware date
 seed,INP · Delay months,Line=SO-10421/20|Scenario=Risk,3,"Scene 07 Risk: gateway slips 3 months from its feasible month (Jan 27 -> Apr 27); moves cash and inventory inside FY27"
 seed,INP · Delay months,Line=SO-10447/20|Scenario=Risk,9,"§5 deal-specific Risk: £555k booked hardware, feasible Jan 27 -> Oct 27, so it leaves FY27 (no booked line is feasible in Jul-Sep 27 on v1.1)"
 seed,INP · Event probability,Scenario=Risk,0.6,Risk probability 60%
