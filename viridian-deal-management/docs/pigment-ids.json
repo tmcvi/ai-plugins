@@ -45,7 +45,13 @@
     "OPP Override Days": "fecdec7b-5dd3-49c3-aec4-fb16085c4aef",
     "OPP Override Day Rate GBP": "2702f75e-0085-4053-94a3-1a2f088e5fea",
     "PH Override Profile %": "0b394b03-3569-4a97-b769-dee02e671124",
-    "PIG Latest Load Date": "6f44a34d-363e-422d-a598-f8fec9c640d4"
+    "PIG Latest Load Date": "6f44a34d-363e-422d-a598-f8fec9c640d4",
+    "OPP Stage Name": "228c460c-3a72-4f0d-b8c1-965f70418c26",
+    "OPP Sales Person Name": "48015efa-1b20-4579-8a5e-6dde6d366e65",
+    "OPP Expected Close Date": "951c2ec8-2caa-43c7-94b6-5f5410dd8e6f",
+    "OPP Use Case Name": "db96082e-bf86-4324-a905-d9f4614bcf27",
+    "OPP Sales Motion Name": "44f274f2-afa7-433b-9613-d7770ba407a2",
+    "OPP Deal Size Name": "3dd80352-f6e2-4cf2-839a-a26413355621"
   },
   "tables": {
     "TBL Opportunity": "3230334c-7697-4b1a-8bd0-1d2d8c844518",
@@ -67,12 +73,14 @@
     "VW Import Summary": "2358f175-d712-4c1b-8128-c7582cbded96",
     "VW Standard Profiles": "e5649621-0995-4db9-b474-af282dda0704",
     "VW Commission Rates": "73bb2759-2402-4093-81ee-dca9954f6443",
-    "VW Win Rates": "6898f91c-916d-435d-abf1-5ec7cb7eb365"
+    "VW Win Rates": "6898f91c-916d-435d-abf1-5ec7cb7eb365",
+    "VW Deal Export": "47af7411-ff5f-4c51-8e6e-db3af0a8e1a3"
   },
   "boards": {
     "ADM Assumptions": "844cf295-0965-49eb-bfe5-fd4c054d9e97",
     "ADM Pigment Pipeline": "09dd0f23-2935-4c81-b098-02b06cdba535",
-    "TST Opportunity Check": "c7c18fc2-d47f-4e2d-a0ce-95d6ff8ac5f4"
+    "TST Opportunity Check": "c7c18fc2-d47f-4e2d-a0ce-95d6ff8ac5f4",
+    "Deal export": "28862031-3664-4827-a084-2307f9c1ff2e"
   },
   "frames": {
     "pipeline": "c211afb6-043f-42ac-a3b1-9a896758b4b0",

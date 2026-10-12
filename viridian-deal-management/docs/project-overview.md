@@ -12,7 +12,9 @@ S-curve; rolls that up to months; and reconciles the whole picture weekly
 against Pigment's own CRM export.
 
 All user-facing experience is delivered through six **Frames**. Boards exist
-only as an admin fallback (§7.9 of the brief).
+only as an admin fallback (§7.9 of the brief), plus one **Deal export** Board
+that exists purely so the whole book of deals can be downloaded to Excel - a
+Frame provably cannot download a file (D37).
 
 ## The six screens
 
@@ -24,6 +26,11 @@ only as an admin fallback (§7.9 of the brief).
 | **Matching** | Two panes — Viridian deals and Pigment CRM rows — with client-side suggestion scoring, a matched-pairs strip, and "create a Viridian deal from this Pigment row". |
 | **Forecast** | Measure and Weighted toggles, stacked monthly bars on canvas, deals-by-period table, Copy table. |
 | **Admin** | Every assumption: scalars, per-size economics, commission rates, win rates, S-curve profiles, stage mapping, and the weekly import checklist. |
+
+Plus the **Deal export** Board: `VW Deal Export` as a plain grid with
+Pigment's own Download action above it. Nothing on it is editable and no Frame
+depends on it; the Pipeline Frame's own **Copy for Excel** button covers the
+quicker case of exporting whatever you have just filtered to.
 
 Frame ids live in `frames/frame-ids.json`; all other Pigment ids in
 `docs/pigment-ids.json`.

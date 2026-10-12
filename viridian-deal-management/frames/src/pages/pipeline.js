@@ -301,16 +301,17 @@ function filterBar(all) {
     INPUT_CSS + 'width:auto;min-width:160px;">';
   h += '<button id="f-clear" style="' + BTN_SECONDARY + '">Clear</button>';
   h += '<button id="f-mine" style="' + BTN_SECONDARY + '">My deals</button>';
-  h += '<button id="f-export" style="' + BTN_SECONDARY + 'margin-left:auto;">Export to Excel</button>';
+  h += '<button id="f-export" style="' + BTN_SECONDARY + 'margin-left:auto;">Copy for Excel</button>';
   return h + '</div>';
 }
 
 // ---- export --------------------------------------------------------------
-// Excel opens a UTF-8 CSV natively, and a Frame cannot bundle a zip writer to
-// emit a real .xlsx (no external scripts reach the sandbox), so the download is
-// CSV with a byte-order mark - without the BOM Excel mangles the GBP sign.
-// Numbers go out unformatted and dates as ISO so Excel types them as numbers
-// and dates rather than text, which is the whole point of exporting.
+// A Frame runs in sandbox="allow-scripts", with no allow-downloads, so the
+// browser refuses a download *silently*: nothing throws, so there is nothing to
+// catch, and a naive button would cheerfully report an export that never
+// happened. (It did, until this was measured - see D37.) What the sandbox does
+// allow is a clipboard copy from a selected textarea, so the rows go out as
+// tab-separated text, which Excel pastes straight into cells.
 var EXPORT_COLS = [
   { label: 'Opportunity name',      get: function (d) { return d.name; } },
   { label: 'Sales person',          get: function (d) { return d.person; } },
@@ -344,52 +345,67 @@ var EXPORT_COLS = [
 
 function pctNum(v) { return isNum(v) ? Math.round(v * 1000) / 10 : null; }
 
-function csvCell(v) {
+// A tab or a newline inside a value would break the grid Excel builds out of
+// the paste, and a quoted field is not handled consistently on paste, so any
+// run of whitespace inside a cell collapses to a single space. Notes is the
+// only field this normally touches.
+function tsvCell(v) {
   if (v === null || v === undefined) return '';
   if (typeof v === 'number') return isFinite(v) ? String(v) : '';
-  var s = String(v);
-  if (s.indexOf('"') !== -1 || s.indexOf(',') !== -1 ||
-      s.indexOf('\n') !== -1 || s.indexOf('\r') !== -1) {
-    return '"' + s.replace(/"/g, '""') + '"';
-  }
-  return s;
+  return String(v).replace(/\s+/g, ' ').trim();
 }
 
-// Exported in the order and selection currently on screen, so what downloads is
-// what the person is looking at.
-function dealsCsv(rows) {
+// In the order and selection currently on screen, so what you paste is what
+// you were looking at.
+function dealsTsv(rows) {
   var out = [], i, c, line;
   line = [];
-  for (c = 0; c < EXPORT_COLS.length; c++) line.push(csvCell(EXPORT_COLS[c].label));
-  out.push(line.join(','));
+  for (c = 0; c < EXPORT_COLS.length; c++) line.push(tsvCell(EXPORT_COLS[c].label));
+  out.push(line.join('\t'));
   for (i = 0; i < rows.length; i++) {
     line = [];
-    for (c = 0; c < EXPORT_COLS.length; c++) line.push(csvCell(EXPORT_COLS[c].get(rows[i])));
-    out.push(line.join(','));
+    for (c = 0; c < EXPORT_COLS.length; c++) line.push(tsvCell(EXPORT_COLS[c].get(rows[i])));
+    out.push(line.join('\t'));
   }
   return out.join('\r\n');
 }
 
-// The Frame runs in a sandboxed iframe, so a download can be refused outright.
-// Say so plainly rather than leaving a button that looks broken.
-function downloadCsv(text, filename) {
+// The textarea has to be in the document and selected for the copy to be
+// allowed. Returns whether the clipboard actually took it.
+function copyText(text) {
+  var ta = el('textarea', { style: 'position:fixed;top:-1000px;left:-1000px;opacity:0;' });
+  ta.value = text;
+  document.body.appendChild(ta);
+  var ok = false;
   try {
-    // String.fromCharCode, not a \u escape: Pigment decodes \uXXXX a second
-    // time on deploy (D33), which would leave a raw BOM sitting in the source.
-    var blob = new Blob([String.fromCharCode(0xFEFF) + text], { type: 'text/csv;charset=utf-8;' });
-    var url = URL.createObjectURL(blob);
-    var a = el('a', { href: url, download: filename, style: 'display:none;' });
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(function () {
-      if (a.parentNode) a.parentNode.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 0);
-    return true;
+    ta.focus();
+    ta.select();
+    if (ta.setSelectionRange) ta.setSelectionRange(0, text.length);
+    ok = document.execCommand('copy');
   } catch (e) {
-    toast('This browser blocked the download', true);
-    return false;
+    ok = false;
   }
+  if (ta.parentNode) ta.parentNode.removeChild(ta);
+  return ok;
+}
+
+// If even that is refused, hand the text over to be copied by hand rather than
+// claim an export that did not happen.
+function showCopyFallback(text, rows) {
+  var mod = openModal(680,
+    '<div style="font:700 17px ' + FONT.display + ';color:' + T.ink + ';margin-bottom:6px;">' +
+    'Copy for Excel</div>' +
+    '<div style="font:13px ' + FONT.body + ';color:' + T.secondary + ';margin-bottom:10px;">' +
+    'This browser would not put it on the clipboard for us. All ' + rows +
+    ' rows are selected below - press Ctrl+C (Cmd+C on a Mac), then paste into a sheet.</div>' +
+    '<textarea id="x-text" readonly style="' + INPUT_CSS + 'height:260px;font:12px ' + FONT.mono +
+    ';resize:vertical;white-space:pre;"></textarea>' +
+    '<div style="display:flex;margin-top:10px;">' +
+    '<button id="x-close" style="' + BTN_SECONDARY + 'margin-left:auto;">Close</button></div>');
+  var ta = document.getElementById('x-text');
+  if (ta) { ta.value = text; ta.focus(); ta.select(); }
+  var close = document.getElementById('x-close');
+  if (close) on(close, 'click', function () { closeModal(mod.back); });
 }
 
 var COLS = [
@@ -620,9 +636,12 @@ function attach() {
   });
   bind('f-export', 'click', function () {
     var rows = sortRows(applyFilters(deals()));
-    if (!rows.length) { toast('Nothing to export with these filters', true); return; }
-    if (downloadCsv(dealsCsv(rows), 'viridian-pipeline-' + todayIso() + '.csv')) {
-      toast('Exported ' + rows.length + ' deal' + (rows.length === 1 ? '' : 's'));
+    if (!rows.length) { toast('Nothing to copy with these filters', true); return; }
+    var text = dealsTsv(rows);
+    if (copyText(text)) {
+      toast(rows.length + ' deal' + (rows.length === 1 ? '' : 's') + ' copied - paste into Excel');
+    } else {
+      showCopyFallback(text, rows.length);
     }
   });
   bind('empty-clear', 'click', function () {

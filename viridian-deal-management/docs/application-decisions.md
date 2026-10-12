@@ -1168,3 +1168,81 @@ matching.
 **All six Frames need publishing again** in the Pigment UI. The five that were
 rebuilt through `update_frame` earlier are still private (D27); Forecast was
 public but has now been edited too.
+
+## D37 - A Frame cannot download a file, so the export is a Board
+
+Tom asked for a button on the Pipeline Frame that downloads the deal data to
+Excel. One was built (D35) and it did not work. This records what was
+actually measured, and what replaced it.
+
+**The measurement.** A Pigment Frame runs in an iframe with
+`sandbox="allow-scripts"` and an opaque origin. `allow-downloads` is not in
+that list, so when a page clicks an anchor with a `download` attribute, or
+navigates to a `blob:` or `data:` URL, Chrome refuses it **silently**: no
+exception is raised, no event fires, and the `URL.createObjectURL` call that
+preceded it succeeds normally. There is nothing for the page to catch, so the
+button reported a successful export every time while nothing reached the disk.
+
+This was confirmed rather than assumed. `frames/harness/sandbox_export.mjs`
+loads the real built bundle into a real `sandbox="allow-scripts"` iframe under
+headless Chromium and clicks the button with a real
+`Input.dispatchMouseEvent`, not a synthetic one - the first attempt drove the
+click through `postMessage`, which breaks the user-gesture chain and would have
+condemned the sandbox for the wrong reason. With a genuine gesture the download
+is still blocked, and `Page.downloadWillBegin` never fires. The same probe
+showed `document.execCommand('copy')` *is* allowed from a user gesture.
+
+I was wrong about this in D35 and said so to Tom rather than leaving a button
+on screen that lies.
+
+**What the Pipeline Frame has now: Copy for Excel.** The button puts the rows
+on the clipboard as tab-separated text, which pastes straight into a sheet.
+Twenty-eight columns, in the order and the selection currently on screen, so
+what you paste is what you were looking at. Three details:
+
+- **Tabs and newlines are collapsed, not quoted.** Excel's handling of a
+  quoted field on paste is not consistent across platforms, whereas a stray
+  tab inside a value silently shifts every later column of that row. Any run
+  of whitespace inside a cell becomes a single space. In practice this only
+  touches Notes. `tools/check_tsv_export.js` pulls the helpers out of the
+  built bundle and asserts it.
+- **The copy needs a real selection.** The text goes into an off-screen
+  textarea that is focused and selected before `execCommand('copy')`; without
+  that the copy is refused.
+- **If even that is refused, the Frame says so.** The fallback opens the text
+  pre-selected and asks for Ctrl+C, rather than claiming an export that did
+  not happen. That was the whole failure of the first version.
+
+**What Tom asked for instead: a Board.** Tom's answer to the sandbox finding
+was *"I just need an equivalent table on a board and I will do the download
+from there"*. Pigment's own grid has a working **Download** action, because it
+is not inside the Frame sandbox.
+
+**This is a deliberate deviation from "Frames, not Boards", made at Tom's
+explicit request.** The six Frames remain the application's UI; this one Board
+exists solely to get a file out of Pigment, which a Frame provably cannot do.
+Nothing on it is editable and no Frame depends on it.
+
+- **Board `Deal export`** (`28862031-3664-4827-a084-2307f9c1ff2e`), full
+  width, Import icon in Purple. A short text widget explains what it is for,
+  a `BlockExport` action button labelled **Download deals** sits above the
+  grid, and the grid itself is the view below.
+- **View `VW Deal Export`** (`47af7411-ff5f-4c51-8e6e-db3af0a8e1a3`) on the
+  Opportunity table, one row per deal, 27 columns: the six attributes first,
+  then the twenty-one economics. It is a **separate view** from
+  `VW Pipeline Grid` on purpose - the Frames read that one, and widening it to
+  suit a download would have disturbed them.
+- **Six new metrics** in `20 Opportunities`, because a Table view cannot carry
+  a List property as a value; an attribute has to be surfaced as a metric
+  before a grid can show it. `OPP Stage Name`, `OPP Sales Person Name`,
+  `OPP Expected Close Date`, `OPP Use Case Name`, `OPP Sales Motion Name`,
+  `OPP Deal Size Name`. Each is the dimension property read through the
+  opportunity's own selection, e.g.
+  `Stage.'Name'[BY: Opportunity.'Stage']`. `NAMEOF` and `NAME` do not exist in
+  Pigment's formula language and `TEXT()` requires a numeric argument;
+  `validate_formula` settled the idiom. All six were spot-checked against the
+  live data and return values for every deal.
+
+**The Frame export stays.** It costs nothing to keep, it is the quicker route
+when you have already filtered the Pipeline to the deals you care about, and
+the Board is the one to use for the whole book.
