@@ -997,3 +997,46 @@ than teaching it every escape.
 Deployed to Pipeline as `update_frame` (100 bindings, 26 data sources, 5
 sinks) then the body in seven chunks to exactly 103,270 bytes, with all
 sixteen checksum counters matching the local bundle.
+
+
+## D34 — Data sinks finished on Admin, Deals and New deal
+
+D31 found the cause of `No data sink found with the name X` and fixed
+Pipeline and Matching. The other three write-capable Frames still had none,
+so creating a deal, editing one on the Deals screen, and every Admin
+assumption input all failed. All three are now deployed:
+
+| Frame | Sinks | Final bodySizeBytes |
+| --- | --- | --- |
+| New deal | 1 (`opportunity`) | 78,417 |
+| Deals | 5 (`opportunity`, days, rate, licence, profile) | 83,586 |
+| Admin | 13 (3 lists + 10 assumption metrics) | 98,647 |
+
+**Forecast needs none and has none.** Its bundle carries fifteen write call
+sites, but every one is in shared code it never invokes — it has no deal
+editor and no form. Checked rather than assumed.
+
+### The blank-line trap, and the real fix
+
+Two of these deploys came back exactly one byte short with *every* character
+count still matching — a genuinely nasty signature, because a lost character
+would change a count and a reordering cannot change a byte total. The answer
+was the newline count: a blank line had vanished.
+
+A chunk boundary that touches a blank line loses it. The terminal swallows a
+trailing empty line, so a chunk that **ends** on one drops it; and a chunk
+that **starts** on one drops it just as invisibly. The first fix to
+`frames/deploy_plan.py` only handled the trailing case, which simply moved
+the problem to the leading edge and cost a second deploy. `chunks()` now
+walks a boundary back until the lines on **both** sides are non-blank.
+
+The diagnosis is worth keeping: when `bodySizeBytes` is short but the
+character histogram matches, count `\n` and `\n\n`. Then anchor every blank
+line in the suspect range as `<prev line>\n\n<next line>` and send them as
+identical-replacement edits — the one that fails names the gap.
+
+### Two things Tom has to do in the Pigment UI
+
+`update_frame` resets `isPrivate` to true (D27), so **all five Frames that
+have been redeployed need publishing again**: Pipeline, Matching, New deal,
+Deals and Admin. Only Forecast is untouched.

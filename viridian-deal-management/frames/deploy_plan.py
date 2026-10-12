@@ -33,12 +33,29 @@ def stored(text):
 
 
 def chunks(lines):
+    """Split into chunks, never ending one on a blank line.
+
+    A chunk that ends on a blank line is a trap: the terminal swallows the
+    trailing empty line, the transcription drops it, and the body comes back
+    one byte short with every character count still matching - which is a
+    genuinely horrible thing to debug (it cost a whole New deal deploy). So a
+    boundary that would land on a blank line is walked back to the last
+    non-blank line instead.
+    """
     out, start, size = [], 1, 0
     for i, line in enumerate(lines, start=1):
         n = len(line) + 1
         if size + n > LIMIT and size:
-            out.append((start, i - 1))
-            start, size = i, 0
+            # A boundary must have a non-blank line on BOTH sides. A chunk that
+            # ends on a blank line loses it (the terminal eats the trailing
+            # empty line); a chunk that *starts* on one loses it just as
+            # quietly, and that cost a Deals deploy before this guard existed.
+            end = i - 1
+            while end > start and (lines[end - 1] == "" or lines[end] == ""):
+                end -= 1
+            out.append((start, end))
+            start = end + 1
+            size = sum(len(l) + 1 for l in lines[start - 1:i - 1])
         size += n
     out.append((start, len(lines)))
     return out
