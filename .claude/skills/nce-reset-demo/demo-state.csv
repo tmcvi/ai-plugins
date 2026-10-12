@@ -1,0 +1,27 @@
+step,block,coordinates,value,why
+seed,INP · Value override,Line=SC-2201|Month=Jan 27|Scenario=Planner override|Measure=Revenue,21250,"Scene 05 override beat: half the system month (live system £42,500; the brief's £45k of £90k assumed a different ACV)"
+seed,INP · Override reason,Line=SC-2201|Month=Jan 27|Scenario=Planner override,Go-live slipped,Reason for the SC-2201 override
+log,TL · Override log,Line=SC-2201|Month=Jan 27|Scenario=Planner override|Measure=Revenue|System value=42500|Override value=21250|Reason=Go-live slipped|Comment=Demo state (nce-reset-demo): go-live slipped so half the January service,,Audit row for the SC-2201 override
+seed,INP · Date override,Line=SO-10421/20|Scenario=Planner override|Date type=Delivery month,2027-01-01,"Scene 04 beat: SO-10421/20 aligned to its feasible month (Jan 27)"
+seed,INP · Override reason,Line=SO-10421/20|Month=Jan 27|Scenario=Planner override,Supply constrained,Reason for the SO-10421/20 alignment
+log,TL · Override log,Line=SO-10421/20|Month=Jan 27|Scenario=Planner override|Date type=Delivery month|Override date=2027-01-01|Reason=Supply constrained|Comment=Demo state (nce-reset-demo): aligned to the feasible month,,Audit row for the SO-10421/20 alignment
+seed,INP · Delay months,Line=SO-10421/20|Scenario=Risk,3,"Scene 07 Risk: gateway slips 3 months from its feasible month (Jan 27 -> Apr 27); moves cash and inventory inside FY27"
+seed,INP · Delay months,Line=SO-10447/20|Scenario=Risk,9,"§5 deal-specific Risk: £555k booked hardware, feasible Jan 27 -> Oct 27, so it leaves FY27 (no booked line is feasible in Jul-Sep 27 on v1.1)"
+seed,INP · Event probability,Scenario=Risk,0.6,Risk probability 60%
+seed,INP · Win-rate shift,Segment=Long tail|Scenario=Risk,-10,§5 step-back: long-tail stage weights 10 points lower
+seed,INP · Pipeline close slip,Stage group=Pipeline|Scenario=Risk,2,§5 step-back: every open deal closes 2 months later
+seed,INP · Renewal pull-forward,Line=SC-2237|Scenario=Upside,12,"Scene 07 Upside: SC-2237 (ends 15 May 28) renews 12 months early, so the new term starts May 27 inside FY27"
+seed,INP · Event probability,Scenario=Upside,0.4,Upside probability 40%
+seed,INP · Win-rate shift,Segment=Key deal|Scenario=Upside,10,§5 step-back: key-deal stage weights 10 points higher
+seed,INP · Cost uplift %,Product category=Hardware|Scenario=What-if,0.1,Scene 07 What-if: hardware cost +10%
+seed,INP · Delay months,Line=SO-10421/20|Scenario=What-if,3,What-if repeats the Risk delay (combined beat)
+seed,INP · Book delivery slip,Product family=Gateways|Scenario=What-if,2,§5 step-back: all undelivered gateway hardware 2 months later
+seed,INP · Lead-time shock,Product hierarchy=GW-400|Scenario=What-if,6,§5 step-back: GW-400 supplier lead time +6 weeks
+seed,INP · Collection days shift,Customer segment=Enterprise|Scenario=What-if,30,§5 step-back: Enterprise customers pay 30 days later
+approve,INP · Consensus approval,Version=v1|Note=demo baseline|Period=FY 27|Approved by=Tom,,"Sign-off beat: one approved version, figures = Consensus FY27 after seeding, Approved at = reset time"
+context,INP · Frame project,,P-1040,Consistent landing
+context,INP · Frame scenario,,Consensus,Every Frame opens on Consensus
+context,INP · Compare against,,Baseline,Compare against the system plan
+context,INP · Drill measure,,Revenue,Drill lands on revenue
+context,INP · Drill month,,Feb 27,Drill lands on Feb 27
+context,INP · Supply product,,GW-400,Supply alignment lands on GW-400
