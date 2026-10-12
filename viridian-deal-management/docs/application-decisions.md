@@ -1086,12 +1086,85 @@ filename. The CSV text itself is unit-tested in Node against the built
 bundle: quoting, embedded commas, quotes and newlines, blank handling and a
 full parse-back round trip.
 
-**A second instance of the D33 escape quirk.** The BOM was written `'﻿'`
-and came back from Pigment as a literal BOM character, three bytes short of
-the prediction. The source now uses `String.fromCharCode(0xFEFF)`. The
-pipeline bundle no longer contains a single `\uXXXX` escape, which is the
-state to keep it in.
+**A second instance of the D33 escape quirk.** The BOM was written as a
+`\u` escape and came back from Pigment as a literal BOM character, three
+bytes short of the prediction. The source now uses
+`String.fromCharCode(0xFEFF)`.
+
+*(Corrected in D36: this entry originally claimed the pipeline bundle then
+held no `\uXXXX` escape at all. It does - twenty `\u00a3` and one
+`\u0001`. The check behind that claim used an over-escaped regex and so
+matched nothing. `frames/deploy_plan.py` models `\u00a3`, and `\u0001` is
+left alone by the server, so the size predictions were right either way.)*
 
 Deployed as four diff edits against the live body rather than a full
 retransmission — the bindings, data sources and sinks were unchanged — then
 one corrective edit for the BOM, landing on exactly 108,898 bytes.
+
+
+## D36 - "It says saved, then it reverts"
+
+Tom: "You change something, it says its saved, but then it reverts back to
+the previous value."
+
+**The mechanism.** A write resolves, the Frame toasts *Saved* and schedules a
+re-read of its live sources 500ms later. Pigment recalculates asynchronously,
+so that re-read can still be serving the value from **before** the write. The
+pages kept no record of what they had just written - the new value existed
+only in the DOM element the person had touched - so the moment the stale grid
+arrived, `render()` rebuilt the table and put the old value back. Nothing was
+lost in Pigment; the screen was lying about it.
+
+It was invisible to the screenshot harness, because the mock SDK's reads never
+reflected its writes at all: every pass already rendered fixture data, so
+nothing looked wrong.
+
+**The fix: an optimistic overlay in `shared/sdk.js`.** Every write parks what
+it wrote (`notePending`), and every grid is overlaid with whatever is still
+outstanding before a page sees it (`applyPending`). The screen shows the
+user's value whatever the server is still doing.
+
+Three details earn their place:
+
+- **Retirement is per column, not per write.** A stage change also stamps
+  `Closed On`. All-or-nothing retirement let that second column - which may
+  never converge - pin the stage indefinitely, which would hide the next edit
+  somebody else made. The third regression check below exists because the
+  first implementation got this wrong and the test caught it.
+- **`PENDING_TTL` is two minutes.** If the server never agrees the overlay has
+  to let go rather than display a number that is not in the model. A write
+  that fails drops its entry at once.
+- **The re-read waits for the cursor to leave a field.** Re-rendering replaces
+  the whole content area, discarding anything half-typed in another cell. It
+  defers up to twenty times, so a cursor parked in a field cannot postpone the
+  read for ever.
+
+**Pipeline needed one page-level addition.** Its Licence $ and Days cells show
+the *effective* figure, not the override that was written, so holding the
+override column alone would still have let the visible number snap back. Those
+two cells now carry their band standard in `data-std` and pass the effective
+value to the write as an optimistic column - clearing an override restores the
+standard on screen immediately.
+
+**A regression test, because a screenshot cannot see this.**
+`frames/harness/write_persistence.py` turns the mock into a server with a
+settable lag and checks three things: an edit holds while the server is still
+behind; the override cells hold their effective figure too; and once the
+server has caught up the page lets go again, so a later change by someone else
+comes through. The first version of check three passed vacuously - it looked
+for a marker string that `--dump-dom` also prints as part of the inline script
+- and was rewritten to assert behaviour instead.
+
+**Deployed to all six Frames**, since the fix is in shared code. Bindings,
+data sources and sinks were untouched, so each went as a verified diff rather
+than a full body: five identical edits for the shared change, plus three more
+for Pipeline. `frames/diff_deploy.py` now does that work - it anchors each
+edit against the text as it will be when that edit runs, and proves the set
+reproduces the new bundle byte for byte before anything is sent. Final sizes:
+Pipeline 114,930, Deals 88,831, New deal 83,662, Admin 103,892, Matching
+108,908, Forecast 107,304 - every one exactly as predicted, every counter
+matching.
+
+**All six Frames need publishing again** in the Pigment UI. The five that were
+rebuilt through `update_frame` earlier are still private (D27); Forecast was
+public but has now been edited too.

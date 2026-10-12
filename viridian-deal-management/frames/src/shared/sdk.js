@@ -235,6 +235,102 @@ function mergeParts(parts, store) {
 // Every source is fetched, not held: the subscription is dropped as soon as it
 // has answered, because Pigment caps how many a Frame may hold at once (D23).
 // Where the page writes, the source is re-fetched after the write instead.
+// ---- optimistic overlay ---------------------------------------------------
+// Pigment recalculates asynchronously, so the re-read that follows a write can
+// still be carrying the value from before it. The pages keep no record of what
+// they just wrote, so they render that stale value straight back over the edit:
+// it says "Saved", then it reverts. Every write now parks what it wrote, and
+// every grid is overlaid with whatever is still outstanding before a page sees
+// it. An entry retires the moment the server agrees on every column it touched,
+// or after PENDING_TTL if the server never does - so a write Pigment silently
+// refused cannot pin a wrong number on screen for ever.
+
+var PENDING_TTL = 120000;
+var _pending = [];
+
+// match: label values that must all appear in a row's label path.
+// cols:  display column name -> the value the write should produce.
+function notePending(match, cols) {
+  var key = match.join('\u0001') + '|';
+  var names = [], n;
+  for (n in cols) if (Object.prototype.hasOwnProperty.call(cols, n)) names.push(n);
+  names.sort();
+  key += names.join(',');
+
+  var entry = { key: key, match: match, cols: cols, ok: {}, at: Date.now() };
+  for (var i = _pending.length - 1; i >= 0; i--) {
+    if (_pending[i].key === key) _pending.splice(i, 1);
+  }
+  _pending.push(entry);
+  return entry;
+}
+
+function dropPending(entry) {
+  var i = _pending.indexOf(entry);
+  if (i !== -1) _pending.splice(i, 1);
+}
+
+function rowMatches(labels, match) {
+  for (var m = 0; m < match.length; m++) {
+    var found = false;
+    for (var l = 0; l < labels.length; l++) if (labels[l] === match[m]) { found = true; break; }
+    if (!found) return false;
+  }
+  return true;
+}
+
+// Blank is blank however it arrives, and a float that survived a round trip is
+// the same number it went out as.
+function sameValue(a, b) {
+  if (a === null || a === undefined || a === '') return b === null || b === undefined || b === '';
+  if (b === null || b === undefined || b === '') return false;
+  if (typeof a === 'number' && typeof b === 'number') return Math.abs(a - b) < 1e-9;
+  return String(a) === String(b);
+}
+
+function applyPending(grid) {
+  if (!_pending.length || !grid || !grid.labels) return grid;
+
+  var cutoff = Date.now() - PENDING_TTL, live = [], i;
+  for (i = 0; i < _pending.length; i++) if (_pending[i].at >= cutoff) live.push(_pending[i]);
+  _pending = live;
+  if (!live.length) return grid;
+
+  var idx = columnIndex(grid);
+  for (var r = 0; r < grid.labels.rows.length; r++) {
+    var path = grid.labels.rows[r];
+    var labels = typeof path === 'string' ? [path] : (path || []);
+    for (var e = 0; e < live.length; e++) {
+      var entry = live[e];
+      if (!rowMatches(labels, entry.match)) continue;
+      for (var name in entry.cols) {
+        if (!Object.prototype.hasOwnProperty.call(entry.cols, name)) continue;
+        var c = idx[name];
+        if (c === undefined) continue;          // not a column of this source
+        if (sameValue(cell(grid, c, r), entry.cols[name])) entry.ok[name] = true;
+        else grid.cells[c][r] = entry.cols[name];
+      }
+    }
+  }
+
+  // Each column is released on its own as soon as the server agrees on it.
+  // All-or-nothing would let one slow column pin the rest: a stage change also
+  // stamps Closed On, and holding the stage hostage to that would hide the next
+  // edit somebody else made.
+  var keep = [];
+  for (i = 0; i < live.length; i++) {
+    var left = 0;
+    for (var k in live[i].cols) {
+      if (!Object.prototype.hasOwnProperty.call(live[i].cols, k)) continue;
+      if (live[i].ok[k]) delete live[i].cols[k];
+      else left++;
+    }
+    if (left) keep.push(live[i]);
+  }
+  _pending = keep;
+  return grid;
+}
+
 var _views = [];
 
 function fetchView(alias, onReady, onErr, scroll) {
@@ -247,7 +343,7 @@ function fetchView(alias, onReady, onErr, scroll) {
         store[part] = grid;
         // Wait for every part, otherwise a page would render against half its
         // columns and then flicker as the rest land.
-        if (arrived === parts.length) onReady(mergeParts(parts, store));
+        if (arrived === parts.length) onReady(applyPending(mergeParts(parts, store)));
       }, onErr, scroll);
     })(parts[i]);
   }
@@ -263,7 +359,28 @@ function subscribeView(alias, onReady, onErr, pageDefs, scroll) {
 // Re-read whatever this page can change. Pigment recalculates after the write
 // lands, so the read is held back a moment rather than racing it.
 var refreshViews = null;
+
+// A re-render replaces the whole content area, which throws away whatever is
+// half-typed in another cell. So the re-read waits for the cursor to leave.
+// The overlay above keeps the screen honest in the meantime; the cap stops a
+// cursor parked in a field from deferring the read for ever.
+var _refreshDeferrals = 0;
+
+function isEditing() {
+  var a = document.activeElement;
+  if (!a || !a.tagName) return false;
+  var tag = a.tagName.toUpperCase();
+  if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') return false;
+  return a.type !== 'checkbox' && a.type !== 'button';
+}
+
 function _refreshViewsNow() {
+  if (_refreshDeferrals < 20 && isEditing()) {
+    _refreshDeferrals++;
+    if (refreshViews) refreshViews();
+    return;
+  }
+  _refreshDeferrals = 0;
   var live = (typeof DS_LIVE !== 'undefined' && DS_LIVE) || [];
   var done = {};
   for (var i = 0; i < _views.length; i++) {
@@ -529,11 +646,17 @@ function bindProps(listAlias, values) {
   return out;
 }
 
-function writeItem(listAlias, itemName, values) {
+// optimistic: columns to hold beyond the ones written, where a write moves a
+// figure the page actually displays (an override feeding an effective value).
+// Friendly property names are the grid's column names, so values serves as the
+// default overlay.
+function writeItem(listAlias, itemName, values, optimistic) {
+  var entry = notePending([itemName], optimistic || values);
   return SDK.editItem(listAlias, itemName, bindProps(listAlias, values))
     .then(function () { toast('Saved'); if (refreshViews) refreshViews(); return { ok: true }; })
     .catch(function (e) {
       var msg = (e && e.message) ? e.message : 'Could not save';
+      dropPending(entry);
       toast(msg, true);
       return { ok: false, message: msg };
     });
@@ -548,11 +671,20 @@ function createItem(listAlias, values) {
     });
 }
 
-function writeValue(metricAlias, coords, value) {
+function writeValue(metricAlias, coords, value, optimistic) {
+  var match = [], cols = {}, k;
+  for (k in coords) if (Object.prototype.hasOwnProperty.call(coords, k)) match.push(coords[k]);
+  cols[(typeof COL_ALIAS !== 'undefined' && COL_ALIAS[metricAlias]) || metricAlias] = value;
+  if (optimistic) {
+    for (k in optimistic) if (Object.prototype.hasOwnProperty.call(optimistic, k)) cols[k] = optimistic[k];
+  }
+  var entry = notePending(match, cols);
+
   return SDK.editValue(metricAlias, coords, value)
     .then(function () { toast('Saved'); if (refreshViews) refreshViews(); return { ok: true }; })
     .catch(function (e) {
       var msg = (e && e.message) ? e.message : 'Could not save';
+      dropPending(entry);
       toast(msg, true);
       return { ok: false, message: msg };
     });

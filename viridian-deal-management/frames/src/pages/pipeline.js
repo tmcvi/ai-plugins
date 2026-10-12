@@ -443,11 +443,13 @@ function overrideCell(d, kind) {
 
   var h = '<div style="display:flex;align-items:center;gap:3px;justify-content:flex-end;">';
   h += '<input data-ovr="' + kind + '" data-for="' + esc(d.name) + '" value="' + esc(shown) +
-    '" data-prev="' + esc(shown) + '" title="' + esc(hint) + '" style="' + INPUT_CSS +
+    '" data-prev="' + esc(shown) + '" data-std="' + esc(isNum(std) ? std : '') +
+    '" title="' + esc(hint) + '" style="' + INPUT_CSS +
     'padding:3px 5px;font-size:12px;width:' + (lic ? '84' : '56') + 'px;text-align:right;' +
     (on ? 'border-color:' + T.gold + ';color:' + T.goldText + ';font-weight:600;' : '') + '">';
   if (on) {
     h += '<button data-ovrclear="' + kind + '" data-for="' + esc(d.name) +
+      '" data-std="' + esc(isNum(std) ? std : '') +
       '" title="' + esc(hint) + '" style="' + BTN_SECONDARY +
       'padding:1px 5px;font-size:11px;line-height:1.3;">×</button>';
   } else {
@@ -658,6 +660,18 @@ function attach() {
   // row handler below opening the Deal editor while someone is typing.
   function ovrAlias(kind) { return kind === 'lic' ? 'oppOverrideLicence' : 'oppOverrideDays'; }
 
+  // These cells show the *effective* number, not the override, so holding the
+  // override column alone would still let the figure on screen snap back while
+  // Pigment recalculates. Clearing an override returns the cell to the standard
+  // for the size band, which the cell already carries.
+  function ovrOptimistic(kind, el, value) {
+    var std = parseNumberInput(el.getAttribute('data-std'));
+    var o = {};
+    o[kind === 'lic' ? 'OPP Licence Value $' : 'OPP Effective Days'] =
+      value === null ? (isNum(std) ? std : null) : value;
+    return o;
+  }
+
   var ovrs = content.querySelectorAll('input[data-ovr]');
   for (var o = 0; o < ovrs.length; o++) {
     on(ovrs[o], 'click', function (e) { e.stopPropagation(); });
@@ -678,8 +692,9 @@ function attach() {
         if (n < 0) { toast('Value cannot be negative', true); t.value = prev; return; }
         value = n;
       }
-      writeValue(ovrAlias(t.getAttribute('data-ovr')),
-        { opportunity: t.getAttribute('data-for') }, value)
+      var kind = t.getAttribute('data-ovr');
+      writeValue(ovrAlias(kind), { opportunity: t.getAttribute('data-for') }, value,
+                 ovrOptimistic(kind, t, value))
         .then(function (res) { if (!res.ok) t.value = prev; });
     });
   }
@@ -688,8 +703,9 @@ function attach() {
   for (var oc = 0; oc < ovrClears.length; oc++) {
     on(ovrClears[oc], 'click', function (e) {
       e.stopPropagation();
-      writeValue(ovrAlias(e.currentTarget.getAttribute('data-ovrclear')),
-        { opportunity: e.currentTarget.getAttribute('data-for') }, null);
+      var btn = e.currentTarget, ck = btn.getAttribute('data-ovrclear');
+      writeValue(ovrAlias(ck), { opportunity: btn.getAttribute('data-for') }, null,
+                 ovrOptimistic(ck, btn, null));
     });
   }
 
