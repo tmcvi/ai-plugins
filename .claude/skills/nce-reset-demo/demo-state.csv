@@ -10,7 +10,7 @@ seed,INP · Delay months,Line=SO-10447/20|Scenario=Risk,9,"§5 deal-specific Ris
 seed,INP · Event probability,Scenario=Risk,0.6,Risk probability 60%
 seed,INP · Win-rate shift,Segment=Long tail|Scenario=Risk,-10,§5 step-back: long-tail stage weights 10 points lower
 seed,INP · Pipeline close slip,Stage group=Pipeline|Scenario=Risk,2,§5 step-back: every open deal closes 2 months later
-seed,INP · Renewal pull-forward,Line=SC-2237|Scenario=Upside,12,"Scene 07 Upside: SC-2237 (ends 15 May 28) renews 12 months early, so the new term starts May 27 inside FY27"
+seed,INP · Renewal pull-forward,Line=SC-2237|Scenario=Upside,12,"Scene 07 Upside: SC-2237 (ends 15 May 28) renews 12 months early. The renewal co-terms at the same ACV, so the gain starts Jun 28 (FY28); no contract ends inside FY27 on v1.1. Upside's FY27 money is the key-deal win-rate shift"
 seed,INP · Event probability,Scenario=Upside,0.4,Upside probability 40%
 seed,INP · Win-rate shift,Segment=Key deal|Scenario=Upside,10,§5 step-back: key-deal stage weights 10 points higher
 seed,INP · Cost uplift %,Product category=Hardware|Scenario=What-if,0.1,Scene 07 What-if: hardware cost +10%
