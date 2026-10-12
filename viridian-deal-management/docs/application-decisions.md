@@ -1228,20 +1228,50 @@ Nothing on it is editable and no Frame depends on it.
   a `BlockExport` action button labelled **Download deals** sits above the
   grid, and the grid itself is the view below.
 - **View `VW Deal Export`** (`47af7411-ff5f-4c51-8e6e-db3af0a8e1a3`) on the
-  Opportunity table, one row per deal, 27 columns: the six attributes first,
+  Opportunity table, one row per deal, 29 columns: the eight attributes first,
   then the twenty-one economics. It is a **separate view** from
   `VW Pipeline Grid` on purpose - the Frames read that one, and widening it to
   suit a download would have disturbed them.
-- **Six new metrics** in `20 Opportunities`, because a Table view cannot carry
-  a List property as a value; an attribute has to be surfaced as a metric
-  before a grid can show it. `OPP Stage Name`, `OPP Sales Person Name`,
-  `OPP Expected Close Date`, `OPP Use Case Name`, `OPP Sales Motion Name`,
-  `OPP Deal Size Name`. Each is the dimension property read through the
-  opportunity's own selection, e.g.
-  `Stage.'Name'[BY: Opportunity.'Stage']`. `NAMEOF` and `NAME` do not exist in
-  Pigment's formula language and `TEXT()` requires a numeric argument;
-  `validate_formula` settled the idiom. All six were spot-checked against the
-  live data and return values for every deal.
+- **Eight attribute metrics** in `20 Opportunities`, because a Table view
+  cannot carry a List property as a value; an attribute has to be surfaced as
+  a metric before a grid can show it. `OPP Sales Person`, `OPP Stage`,
+  `OPP Use Case`, `OPP Sales Motion`, `OPP Deal Size`, `OPP Pigment AE`,
+  `OPP Matched Pigment Opportunity` and `OPP Expected Close Date`.
+
+**These are Dimension-typed metrics, not text — that was a correction.** The
+first version made them `Text` and read the dimension's name through the
+opportunity's own selection (`Stage.'Name'[BY: Opportunity.'Stage']`). Tom
+caught it straight away: a text metric is a *value*, so the grid could display
+it but not filter, group or sort by it, which is most of what a table is for.
+
+A metric's target type can be `Dimension`, pointing at the list it references,
+and then the formula is simply `Opportunity.'Stage'` - the dimension item
+itself, per opportunity. `validate_formula` makes the point exactly: against
+the old Text metric it fails with *"Formula type: Dimension (Stage), Target
+type: Text"*. The formula was always yielding a dimension; only the target
+type was wrong.
+
+All six were converted in place with `update_metric`, which changes
+`target_type` without recreating the block, so the ids are unchanged and
+nothing was deleted. The `Name` suffix went with the text. `OPP Expected
+Close Date` became a `Date` rather than a dimension, because Expected Close
+Date is a date property and has no dimension form; it is legitimately a value.
+`OPP Pigment AE` and `OPP Matched Pigment Opportunity` were added at the same
+time, on the same pattern, so the Board matches the Frame's column set.
+
+Two things are worth keeping in mind next time:
+
+- A **List** view carries List properties natively but rejects metrics - all
+  21 economics were silently dropped from a trial. A **Table** view is the
+  reverse. A dimension-typed metric is what bridges them, and it is the right
+  answer on either.
+- Their non-temporal aggregator is `Any`, not `Sum`, so a subtotal row shows
+  the shared value where there is one rather than attempting arithmetic on a
+  category.
+
+All eight were spot-checked against live data and return the right values.
+The grid is flat - rows are Opportunity alone, metrics across, Tabular
+layout - so it stays one row per deal.
 
 **The Frame export stays.** It costs nothing to keep, it is the quicker route
 when you have already filtered the Pipeline to the deals you care about, and

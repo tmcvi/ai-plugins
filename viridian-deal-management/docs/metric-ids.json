@@ -77,10 +77,12 @@
   "PIG Unmapped Stages": "354807db-024b-4a0d-b017-cbf281036603",
   "OPP Standard Licence $": "1002a642-cd6b-4756-b853-56e0ce5b244e",
   "OPP Override Licence $": "b07ae358-7de6-42df-9ad1-243febb6146e",
-  "OPP Stage Name": "228c460c-3a72-4f0d-b8c1-965f70418c26",
-  "OPP Sales Person Name": "48015efa-1b20-4579-8a5e-6dde6d366e65",
+  "OPP Stage": "228c460c-3a72-4f0d-b8c1-965f70418c26",
+  "OPP Sales Person": "48015efa-1b20-4579-8a5e-6dde6d366e65",
   "OPP Expected Close Date": "951c2ec8-2caa-43c7-94b6-5f5410dd8e6f",
-  "OPP Use Case Name": "db96082e-bf86-4324-a905-d9f4614bcf27",
-  "OPP Sales Motion Name": "44f274f2-afa7-433b-9613-d7770ba407a2",
-  "OPP Deal Size Name": "3dd80352-f6e2-4cf2-839a-a26413355621"
+  "OPP Use Case": "db96082e-bf86-4324-a905-d9f4614bcf27",
+  "OPP Sales Motion": "44f274f2-afa7-433b-9613-d7770ba407a2",
+  "OPP Deal Size": "3dd80352-f6e2-4cf2-839a-a26413355621",
+  "OPP Pigment AE": "8175ca80-2a75-45ad-9268-6fe9f34b1486",
+  "OPP Matched Pigment Opportunity": "e0a76ac9-c781-48e7-a0dc-2f23df28423e"
 }

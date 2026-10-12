@@ -46,12 +46,14 @@
     "OPP Override Day Rate GBP": "2702f75e-0085-4053-94a3-1a2f088e5fea",
     "PH Override Profile %": "0b394b03-3569-4a97-b769-dee02e671124",
     "PIG Latest Load Date": "6f44a34d-363e-422d-a598-f8fec9c640d4",
-    "OPP Stage Name": "228c460c-3a72-4f0d-b8c1-965f70418c26",
-    "OPP Sales Person Name": "48015efa-1b20-4579-8a5e-6dde6d366e65",
+    "OPP Stage": "228c460c-3a72-4f0d-b8c1-965f70418c26",
+    "OPP Sales Person": "48015efa-1b20-4579-8a5e-6dde6d366e65",
     "OPP Expected Close Date": "951c2ec8-2caa-43c7-94b6-5f5410dd8e6f",
-    "OPP Use Case Name": "db96082e-bf86-4324-a905-d9f4614bcf27",
-    "OPP Sales Motion Name": "44f274f2-afa7-433b-9613-d7770ba407a2",
-    "OPP Deal Size Name": "3dd80352-f6e2-4cf2-839a-a26413355621"
+    "OPP Use Case": "db96082e-bf86-4324-a905-d9f4614bcf27",
+    "OPP Sales Motion": "44f274f2-afa7-433b-9613-d7770ba407a2",
+    "OPP Deal Size": "3dd80352-f6e2-4cf2-839a-a26413355621",
+    "OPP Pigment AE": "8175ca80-2a75-45ad-9268-6fe9f34b1486",
+    "OPP Matched Pigment Opportunity": "e0a76ac9-c781-48e7-a0dc-2f23df28423e"
   },
   "tables": {
     "TBL Opportunity": "3230334c-7697-4b1a-8bd0-1d2d8c844518",
