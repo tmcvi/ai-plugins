@@ -67,10 +67,12 @@ Seventy-six metrics, all named `PREFIX Name`, money ending `£`, percentages `%`
   rate and amount, win rate, standard / override / effective days and day rate,
   services value standard and revised, the weighted pair, the override and
   status booleans, duration.
-- **`PH` (18)** — phasing: effective and override profile %, the calendar week a
+- **`PH` (20)** — phasing: effective and override profile %, the calendar week a
   project week lands on, then services revenue, commission, days, hours,
   licence and total revenue by Week, each with a weighted twin, plus the profile
-  validity checks and `PH Phased Outside Calendar £`.
+  validity checks and `PH Phased Outside Calendar £`. The last two, `PH Push
+  Hours by Week` and its weighted twin, are collapsed to Week alone and marked
+  Shared, as push sources for another application (D38).
 - **`PIG` (13)** — import state and the fields parsed out of the opportunity
   name: derived account, use-case codes, close month, deal type, the close-month
   mismatch check, and the load-summary counts.

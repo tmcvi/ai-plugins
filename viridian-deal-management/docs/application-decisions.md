@@ -1276,3 +1276,70 @@ layout - so it stays one row per deal.
 **The Frame export stays.** It costs nothing to keep, it is the quicker route
 when you have already filtered the Pipeline to the deals you care about, and
 the Board is the one to use for the whole book.
+
+## D38 - Hours by week, as a push metric
+
+Tom needs to send Viridian's forecast delivery hours, by week, to another
+Pigment application. This records what was built and the two things that are
+still open.
+
+**Why a new metric rather than pushing `PH Hours`.** `PH Hours` is dimensioned
+by **Week x Opportunity**. A cross-application push has to map every dimension
+it carries onto something in the target, and no other application has
+Viridian's `Opportunity` list. A push source therefore has to be collapsed to
+the dimensions the target can actually match - here, Week alone.
+
+**Two metrics, in `30 Phasing`:**
+
+- **`PH Push Hours by Week`** (`d496b0d6-911e-4e3c-b718-a70eb7133ba3`) - total
+  hours per week.
+- **`PH Push Weighted Hours by Week`** (`38029dd8-b37a-4ed8-86c4-d2a0086f759c`)
+  - the same, after the stage win rate.
+
+Both are `Shared`, not Private, which is what makes them reachable from another
+application's library. Both aggregate `Sum` on temporal and non-temporal
+dimensions, because hours accumulate.
+
+**The formula is an implicit collapse, and that is the Pigment idiom here.**
+
+```
+'PH Hours'[FILTER: 'OPP In Forecast']
+```
+
+There is no `SUM()` function to write this explicitly - `SUM('PH Hours')` is a
+syntax error, and `AGGREGATE` is not a valid modifier. Pigment collapses
+`Opportunity` using the source metric's own aggregator, and `validate_formula`
+reports it rather than hiding it:
+
+> Lists removed by implicit alignment: List 'a1e7c76d-…'
+
+That hint is expected and names exactly the one list that should disappear.
+
+**The `[FILTER: 'OPP In Forecast']` is currently a no-op, and that is stated
+deliberately.** Both push metrics reconcile to their sources to the penny -
+72,560.0 hours and 16,058.8 weighted hours across the whole calendar - which
+proves `PH Hours` already excludes deals that are not in the forecast. The
+filter is kept anyway: it makes the intended scope explicit at the point of
+the push, and it keeps the pushed figure correct if the phasing metrics are
+ever widened. It is not changing any number today.
+
+**Two things are still open, and are Tom's to settle:**
+
+1. **Which application receives this, and does its calendar match?** A push
+   maps dimension items between applications. These metrics carry `Week`, whose
+   items are `WC 2025-01-06` and so on, from this app's 2025-2028 calendar. If
+   the target app's weeks are named or bounded differently the mapping has to
+   be built, or the push has to go by Month instead - in which case a
+   `PH Push Hours by Month` is a two-line addition, since `OPP Close Month`
+   already exists as a mapping metric.
+2. **Is total-across-deals the right grain?** It is the natural one for a
+   resourcing or capacity model. If the target needs it split - by Use Case as
+   a skill proxy, by Deal Size, or by Sales Person - say which, and the split
+   is another metric on the same pattern. It cannot be inferred from this app,
+   because Viridian's delivery resourcing is not modelled here at all; `Sales
+   Person` is who sold the deal, not who delivers it.
+
+**Note on tooling:** `create_metric_copy_config` is explicitly
+*within the same application*, so the push itself is not something the MCP
+tools can wire up - Tom configures the transfer in the Pigment UI. These
+metrics are the source it points at.
