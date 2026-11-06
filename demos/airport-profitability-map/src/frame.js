@@ -26,7 +26,10 @@
   var PERIODS = [{ key: 'ytd', label: 'YTD Oct 2026', months: MONTHS.slice(0, 10) }, { key: 'fy', label: 'FY 2026 · actual + forecast', months: MONTHS.slice() }];
   MONTHS.forEach(function (m, i) { PERIODS.push({ key: 'm' + i, label: m + (i > LAST_ACTUAL ? ' · forecast' : ''), months: [m] }); });
   var CONFIG = { airport: 'Manchester Airport', mark: 'MAN', subtitle: 'Commercial profitability map', currency: '£', disclaimer: 'Illustrative data' };
-  var WORLD = { x: -10, y: -64, w: 1620, h: 1080 }; // whole-airport view, padded so floating controls clear the map
+  var WORLD = { x: 0, y: 0, w: 3711, h: 3579 };            // map space (north up)
+  var AIRPORT_VIEW = { x: 330, y: -80, w: 3440, h: 3720 };  // opening view: the whole airfield
+  var LOD_FAR = 1300;                                        // wider than this: show zone totals, hide unit detail
+  var BASE_COLORS = { land: '#11201a', airfield: '#18202d', urban: '#1e2329', forest: '#0e2a1b', beige: '#1b211a', water: '#1d4466', apronbld: '#26344a', paved: '#344052', roadfill: '#56677e' };
   // Area tabs. Keys match the 'Terminal' property on Units and Map Features; zoom boxes come from the data.
   var SCOPE_LIST = [['all', 'Airport'], ['T2', 'Terminal 2'], ['T3', 'Terminal 3'], ['Landside', 'Station & Skylink'], ['Ground', 'Car parks']];
   var SCOPES = {};
@@ -62,7 +65,7 @@
   var S = {
     units: [], byCode: {}, features: [], kpi: {}, gatePax: {}, gateBudget: {}, trend: null,
     lens: 'profit', period: 'ytd', scope: 'all', zone: null, selected: null, flow: false,
-    view: { x: WORLD.x, y: WORLD.y, w: WORLD.w, h: WORLD.h }, stale: true, edits: [], baseline: null, busy: false,
+    view: { x: AIRPORT_VIEW.x, y: AIRPORT_VIEW.y, w: AIRPORT_VIEW.w, h: AIRPORT_VIEW.h }, aggs: [], stale: true, edits: [], baseline: null, busy: false,
     playing: false, ready: { units: false, features: false, kpis: false }, error: null, toast: null
   };
   var subs = [];
@@ -167,11 +170,12 @@
     return { maxAbs: abs[abs.length - 1], min: sorted[0], max: sorted[sorted.length - 1] };
   }
   var LENS_K = { profit: 8000, sqm: 15 };
-  function colorFor(u, lens, dom) {
-    var v = lensValue(u, lens);
+  function colorFor(u, lens, dom) { return valueColor(lensValue(u, lens), lens, dom); }
+  function valueColor(v, lens, dom) {
     if (lens === 'cat') { for (var i = 0; i < GROUP_COLORS.length; i++) if (GROUP_COLORS[i][0] === v) return GROUP_COLORS[i][1]; return NEUTRAL; }
     if (lens === 'lease') {
       if (v === null) return '#2a313b';
+      if (v === 'agg') return NEUTRAL;
       return v <= 6 ? STATUS.critical : v <= 12 ? STATUS.serious : v <= 24 ? STATUS.warning : STATUS.ok;
     }
     if (v === null || !isFinite(v)) return '#2a313b';
@@ -185,6 +189,24 @@
       return ramp(SEQ, (Math.log10(Math.max(v, 0.01)) - lo) / (hi - lo || 1));
     }
     return NEUTRAL;
+  }
+  function zoneAgg(zone, lens) {
+    var a = { profit: 0, budget: 0, sales: 0, pax: 0, area: 0, n: 0, expiring: 0, groups: {} };
+    S.units.forEach(function (u) {
+      if (u.zone !== zone) return;
+      var d = unitData(u.code); if (!d) return;
+      a.n++; a.profit += d.profit; a.budget += d.budget; a.sales += d.sales; a.pax = Math.max(a.pax, d.pax); a.area += u.area;
+      var ml = monthsUntil(u.lease); if (ml !== null && ml <= 12) a.expiring += Math.max(0, d.profit);
+      var g = CAT_GROUP[u.category]; a.groups[g] = (a.groups[g] || 0) + d.sales;
+    });
+    if (!a.n) return { v: null, text: '' };
+    if (lens === 'profit') return { v: a.profit, text: money(a.profit) };
+    if (lens === 'sqm') return { v: a.area ? a.profit / a.area : null, text: a.area ? money(a.profit / a.area) + '/m²' : '—' };
+    if (lens === 'spp') return { v: a.pax ? a.sales / a.pax : null, text: a.pax ? money(a.sales / a.pax) + ' per pax' : '—' };
+    if (lens === 'var') { var vv = a.budget ? (a.profit - a.budget) / Math.abs(a.budget) : null; return { v: vv, text: pct(vv, true) + ' vs budget' }; }
+    if (lens === 'lease') { var fr = a.profit > 0 ? a.expiring / a.profit : 0; return { v: fr >= 0.3 ? 3 : fr >= 0.15 ? 9 : fr > 0 ? 18 : 99, text: pct(fr) + ' of profit expiring' }; }
+    var best = null; for (var k in a.groups) if (!best || a.groups[k] > a.groups[best]) best = k;
+    return { v: best, text: best || '' };
   }
   function fmtLens(u, lens) {
     var v = lensValue(u, lens);
@@ -260,7 +282,7 @@
     '.apm-kpi-l{overflow:hidden;text-overflow:ellipsis}',
     '.up{color:var(--good)}.dn{color:var(--bad)}',
     '.apm-main{flex:1;display:flex;min-height:0}',
-    '.apm-map{position:relative;flex:1;min-width:0;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#121a24 0%,var(--bg) 70%)}',
+    '.apm-map{position:relative;flex:1;min-width:0;overflow:hidden;background:#11201a}',
     '.apm-map svg{display:block;width:100%;height:100%;cursor:grab;touch-action:none;user-select:none}',
     '.apm-map svg.drag{cursor:grabbing}',
     '.apm-float{position:absolute;display:flex;gap:6px;align-items:center;z-index:5}',
@@ -331,6 +353,27 @@
     '.u:hover{stroke:#fff;stroke-width:1.4}',
     '.stale .u{animation:apmPulse .7s ease-in-out infinite alternate}',
     '.dim{opacity:.22}',
+    '.u.in,.ul.in{transition:opacity .35s ease}',
+    '.lod0 .u.in{opacity:0;pointer-events:none}',
+    '.lod0 .ul.in,.lod0 .near{opacity:0}',
+    '.near{transition:opacity .35s}',
+    '.zagg{opacity:0;pointer-events:none;transition:opacity .35s ease,fill .45s ease;stroke:rgba(11,15,20,.9);stroke-width:2}',
+    '.lod0 .zagg{opacity:.95;pointer-events:auto;cursor:zoom-in}',
+    '.lod0 .zagg:hover{stroke:#ffc627;stroke-width:3}',
+    '.lod0 .zagg.dim{opacity:.35}',
+    '.zaggl{fill:#fff;font-weight:700;pointer-events:none;opacity:0;transition:opacity .35s}',
+    '.zaggl.dk{fill:#0b0f14}',
+    '.zaggl .zv{font-weight:500;opacity:.9}',
+    '.lod0 .zaggl{opacity:1}',
+    '.place{fill:rgba(214,222,232,.42);font-size:58px;font-weight:600;letter-spacing:.02em;pointer-events:none}',
+    '.roadl{fill:rgba(170,185,205,.6);font-size:34px;font-weight:700;pointer-events:none}',
+    '.poil{fill:rgba(225,170,200,.85);font-size:30px;font-weight:600;pointer-events:none}',
+    '.rwy{fill:rgba(240,244,248,.85);font-size:30px;font-weight:800;letter-spacing:.05em;pointer-events:none}',
+    '.maplbl{fill:rgba(214,222,232,.45);font-weight:700;pointer-events:none}',
+    '.tlabel{fill:#ffc627;font-size:34px;font-weight:800;letter-spacing:.12em;pointer-events:none}',
+    '.place,.roadl,.poil,.tlabel{transition:opacity .35s}',
+    '.lod1 .place,.lod1 .roadl{opacity:0}',
+    '.lod2 .tlabel,.lod2 .poil{opacity:0}',
     '.ul{fill:#fff;font-size:5.4px;font-weight:600;pointer-events:none;opacity:0;transition:opacity .2s}',
     '.ul.dk{fill:#0b0f14}',
     '.ul.huge,.lod1 .ul.big,.lod2 .ul{opacity:1}',
@@ -399,9 +442,10 @@
   var PLANE = 'M0,-30 C3,-30 4,-24 4,-18 L4,-6 L28,6 L28,11 L4,4 L4,18 L11,24 L11,28 L0,25 L-11,28 L-11,24 L-4,18 L-4,4 L-28,11 L-28,6 L-4,-6 L-4,-18 C-4,-24 -3,-30 0,-30 Z';
 
   function buildMap() {
+    S.aggs = [];
     var host = $('apm-map');
     if (svg) svg.remove();
-    svg = el('svg', { viewBox: '0 0 1600 1000', preserveAspectRatio: 'xMidYMid meet', role: 'img', 'aria-label': 'Airport floor plan coloured by the selected measure' });
+    svg = el('svg', { viewBox: AIRPORT_VIEW.x + ' ' + AIRPORT_VIEW.y + ' ' + AIRPORT_VIEW.w + ' ' + AIRPORT_VIEW.h, preserveAspectRatio: 'xMidYMid meet', role: 'img', 'aria-label': 'Airport map coloured by the selected measure. Zoom into a terminal to see individual units.' });
     host.insertBefore(svg, host.firstChild);
     var defs = el('defs', {}, svg);
     var pat = el('pattern', { id: 'apm-hatch', width: 6, height: 6, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
@@ -411,59 +455,68 @@
     el('feGaussianBlur', { stdDeviation: 3, result: 'b' }, glow);
     var mg = el('feMerge', {}, glow); el('feMergeNode', { in: 'b' }, mg); el('feMergeNode', { in: 'SourceGraphic' }, mg);
 
-    var gBg = el('g', {}, svg), gZone = el('g', {}, svg), gUnits = el('g', { id: 'apm-units' }, svg);
-    var gFlow = el('g', { id: 'apm-flow' }, svg), gGates = el('g', {}, svg), gLabels = el('g', {}, svg), gSel = el('g', {}, svg);
-    var order = { apron: 0, runway: 1, taxiway: 1, road: 1, walkway: 2, station: 2, terminal: 2, closed: 2, ghostpier: 3, zone: 3, pier: 3, security: 4, checkin: 4, holdroom: 4, stand: 5, gate: 6, compass: 6 };
-    var feats = S.features.slice().sort(function (a, b) { return (order[a.type] || 0) - (order[b.type] || 0); });
+    var gBase = el('g', {}, svg), gBg = el('g', {}, svg), gZone = el('g', {}, svg), gUnits = el('g', { id: 'apm-units' }, svg);
+    var gFlow = el('g', { id: 'apm-flow' }, svg), gGates = el('g', {}, svg), gLabels = el('g', {}, svg), gAgg = el('g', {}, svg), gMap = el('g', {}, svg), gSel = el('g', {}, svg);
+    el('rect', { x: WORLD.x - 4000, y: WORLD.y - 4000, width: WORLD.w + 8000, height: WORLD.h + 8000, fill: BASE_COLORS.land }, gBase);
+    var baseOrder = { airfield: 0, urban: 1, forest: 2, beige: 3, water: 4, apronbld: 5, paved: 6, roadfill: 7 };
+    S.features.filter(function (f) { return f.type === 'base'; }).sort(function (a, b) { return (baseOrder[a.cls] || 0) - (baseOrder[b.cls] || 0); }).forEach(function (f) {
+      el('path', { d: f.path, fill: BASE_COLORS[f.cls] || BASE_COLORS.land, 'fill-rule': 'evenodd' }, gBase);
+    });
+    var order = { runwayline: 1, walkway: 2, station: 2, terminal: 2, closed: 2, ghostpier: 3, zone: 3, pier: 3, security: 4, checkin: 4, holdroom: 4, stand: 5, gate: 6 };
+    var feats = S.features.filter(function (f) { return f.type !== 'base'; }).sort(function (a, b) { return (order[a.type] || 0) - (order[b.type] || 0); });
+    function txt(parent, x, y, s, cls, style, anchor) {
+      var t = el('text', { x: x, y: y, class: cls, 'text-anchor': anchor || 'middle' }, parent);
+      if (style) t.setAttribute('style', style);
+      t.textContent = s;
+      return t;
+    }
     feats.forEach(function (f) {
       var r = f.box;
       switch (f.type) {
-        case 'apron': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 18, fill: '#0f151c', stroke: 'rgba(255,255,255,.04)' }, gBg); break;
-        case 'runway':
-          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#1b2129' }, gBg);
-          el('line', { x1: r.x + 70, y1: r.y + r.h / 2, x2: r.x + r.w - 70, y2: r.y + r.h / 2, stroke: '#4b5562', 'stroke-width': 1.5, 'stroke-dasharray': '18 14' }, gBg);
-          for (var i = 0; i < 6; i++) { el('rect', { x: r.x + 8, y: r.y + 3 + i * (r.h - 6) / 6, width: 22, height: 2.2, fill: '#4b5562' }, gBg); el('rect', { x: r.x + r.w - 30, y: r.y + 3 + i * (r.h - 6) / 6, width: 22, height: 2.2, fill: '#4b5562' }, gBg); }
-          if (f.ends) {
-            var ends = f.ends.split('|');
-            var e1 = el('text', { x: r.x + 44, y: r.y + r.h / 2 + 4, class: 'zl', 'text-anchor': 'middle', style: 'font-size:11px;fill:rgba(238,241,244,.55)' }, gBg); e1.textContent = ends[0];
-            var e2 = el('text', { x: r.x + r.w - 44, y: r.y + r.h / 2 + 4, class: 'zl', 'text-anchor': 'middle', style: 'font-size:11px;fill:rgba(238,241,244,.55)' }, gBg); e2.textContent = ends[1] || '';
-          }
-          if (f.label) { var rl = el('text', { x: r.x + r.w / 2, y: r.y - 4, class: 'zl', 'text-anchor': 'middle', style: 'font-size:8px;letter-spacing:.14em;fill:rgba(238,241,244,.32)' }, gBg); rl.textContent = f.label; }
+        case 'runwayline':
+          var L = f.line, ang = Math.atan2(L[3] - L[1], L[2] - L[0]), deg = ang * 180 / Math.PI, ux = Math.cos(ang), uy = Math.sin(ang), nx = -uy, ny = ux;
+          el('line', { x1: L[0] + ux * 90, y1: L[1] + uy * 90, x2: L[2] - ux * 90, y2: L[3] - uy * 90, stroke: 'rgba(230,236,244,.55)', 'stroke-width': 2.4, 'stroke-dasharray': '30 22' }, gBg);
+          [[L[0], L[1], 1], [L[2], L[3], -1]].forEach(function (e) {
+            for (var i = -3; i <= 3; i++) {
+              if (!i) continue;
+              var ox = e[0] + nx * i * 4.2 + ux * e[2] * 8, oy = e[1] + ny * i * 4.2 + uy * e[2] * 8;
+              el('line', { x1: ox, y1: oy, x2: ox + ux * e[2] * 26, y2: oy + uy * e[2] * 26, stroke: 'rgba(230,236,244,.6)', 'stroke-width': 2.4 }, gBg);
+            }
+          });
+          var ends = (f.ends || '').split('|');
+          txt(gMap, L[0] + ux * 60, L[1] + uy * 60, ends[0] || '', 'rwy', null).setAttribute('transform', 'rotate(' + (deg + 90) + ' ' + (L[0] + ux * 60) + ' ' + (L[1] + uy * 60) + ')');
+          txt(gMap, L[2] - ux * 60, L[3] - uy * 60, ends[1] || '', 'rwy', null).setAttribute('transform', 'rotate(' + (deg - 90) + ' ' + (L[2] - ux * 60) + ' ' + (L[3] - uy * 60) + ')');
+          var mx = (L[0] + L[2]) / 2 - nx * 30, my = (L[1] + L[3]) / 2 - ny * 30;
+          txt(gMap, mx, my, f.label, 'maplbl', 'font-size:30px;letter-spacing:.14em').setAttribute('transform', 'rotate(' + deg + ' ' + mx + ' ' + my + ')');
           break;
-        case 'closed':
-          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: 'url(#apm-hatch)', stroke: 'rgba(255,255,255,.18)', 'stroke-dasharray': '6 5', 'stroke-width': 1.2 }, gBg);
+        case 'place': txt(gMap, f.labelX, f.labelY, f.label, 'place', null); break;
+        case 'roadlabel': txt(gMap, f.labelX, f.labelY, f.label, 'roadl', null); break;
+        case 'poi':
+          var hotel = /hotel|radisson/i.test(f.name || '');
+          el('circle', { cx: r.x, cy: r.y, r: 9, fill: hotel ? '#d55181' : '#7d8794', stroke: '#0b0f14', 'stroke-width': 2 }, gMap);
+          txt(gMap, r.x + 14, r.y + 6, f.label, 'poil', null, 'start');
           break;
-        case 'ghostpier':
-          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: 'none', stroke: 'rgba(255,255,255,.16)', 'stroke-dasharray': '6 5', 'stroke-width': 1.2 }, gBg);
-          break;
-        case 'station':
-          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: '#1a2330', stroke: 'rgba(255,255,255,.14)', 'stroke-width': 1.2 }, gBg);
-          for (var q = 0; q < 3; q++) el('line', { x1: r.x + 14, x2: r.x + r.w - 14, y1: r.y + 66 + q * 10, y2: r.y + 66 + q * 10, stroke: '#2c3846', 'stroke-width': 2 }, gBg);
-          break;
-        case 'walkway':
-          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#212b37', stroke: 'rgba(255,255,255,.08)' }, gBg);
-          break;
-        case 'compass':
-          var cg = el('g', { transform: 'translate(' + (r.x + r.w / 2) + ',' + (r.y + r.h / 2) + ') rotate(' + (f.heading || 0) + ')' }, gBg);
-          el('circle', { r: 17, fill: 'none', stroke: 'rgba(255,255,255,.14)' }, cg);
-          el('path', { d: 'M0,-14 L6,8 L0,4 L-6,8 Z', fill: '#a9b3bf' }, cg);
-          var nt = el('text', { y: -21, 'text-anchor': 'middle', class: 'zl', style: 'font-size:9px;fill:#a9b3bf;letter-spacing:0' }, cg); nt.textContent = 'N';
-          break;
-        case 'taxiway': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#151b22' }, gBg); el('line', { x1: r.x, y1: r.y + r.h / 2, x2: r.x + r.w, y2: r.y + r.h / 2, stroke: '#7a6420', 'stroke-width': 0.8 }, gBg); break;
-        case 'road': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 4, fill: '#161c24' }, gBg); el('line', { x1: r.x + 10, y1: r.y + r.h / 2, x2: r.x + r.w - 10, y2: r.y + r.h / 2, stroke: '#3a4350', 'stroke-dasharray': '10 8' }, gBg); break;
-        case 'terminal': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: '#18202a', stroke: 'rgba(255,255,255,.12)', 'stroke-width': 1.2 }, gBg); break;
+        case 'terminal': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: '#18202a', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg); break;
+        case 'closed': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: 'url(#apm-hatch)', stroke: 'rgba(255,255,255,.2)', 'stroke-dasharray': '6 5', 'stroke-width': 1.5 }, gBg); break;
+        case 'ghostpier': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 8, fill: 'none', stroke: 'rgba(255,255,255,.2)', 'stroke-dasharray': '6 5', 'stroke-width': 1.5 }, gBg); break;
+        case 'station': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: '#1a2330', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg); break;
+        case 'walkway': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#2a3545', stroke: 'rgba(255,255,255,.12)' }, gBg); break;
         case 'pier':
-          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h + 4, rx: 10, fill: '#18202a', stroke: 'rgba(255,255,255,.12)', 'stroke-width': 1.2 }, gBg);
-          el('rect', { x: r.x + 52, y: r.y + 6, width: r.w - 104, height: r.h - 4, fill: '#1d2631' }, gBg);
+          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 8, fill: '#18202a', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg);
+          if (r.w > r.h) el('rect', { x: r.x + 4, y: r.y + 52, width: r.w - 8, height: r.h - 104, fill: '#1d2631' }, gBg);
+          else el('rect', { x: r.x + r.w / 2 - 15, y: r.y + 4, width: 30, height: r.h - 8, fill: '#1d2631' }, gBg);
           break;
         case 'security':
-          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 4, fill: '#141a22', stroke: 'rgba(255,255,255,.08)' }, gBg);
-          for (var s = 0; s < 10; s++) el('line', { x1: r.x + 16 + s * (r.w - 32) / 9, y1: r.y + 6, x2: r.x + 16 + s * (r.w - 32) / 9, y2: r.y + r.h - 6, stroke: '#2a3340', 'stroke-width': 3 }, gBg);
+          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#141a22', stroke: 'rgba(255,255,255,.08)' }, gBg);
+          var vert = r.h > r.w, nl = Math.max(3, Math.floor((vert ? r.h : r.w) / 30));
+          for (var s = 0; s < nl; s++) {
+            var p0 = 10 + s * ((vert ? r.h : r.w) - 20) / (nl - 1);
+            if (vert) el('line', { x1: r.x + 4, x2: r.x + r.w - 4, y1: r.y + p0, y2: r.y + p0, stroke: '#2a3340', 'stroke-width': 3 }, gBg);
+            else el('line', { y1: r.y + 4, y2: r.y + r.h - 4, x1: r.x + p0, x2: r.x + p0, stroke: '#2a3340', 'stroke-width': 3 }, gBg);
+          }
           break;
-        case 'checkin': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 4, fill: '#202935', stroke: 'rgba(255,255,255,.06)' }, gBg); break;
-        case 'holdroom':
-          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: 'url(#apm-hatch)' }, gBg);
-          break;
+        case 'checkin': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#202935', stroke: 'rgba(255,255,255,.06)' }, gBg); break;
+        case 'holdroom': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 2, fill: 'url(#apm-hatch)' }, gBg); break;
         case 'stand':
           var cx = r.x + r.w / 2, cy = r.y + r.h / 2, sc = r.w / 64;
           el('path', { d: PLANE, fill: '#2a3440', stroke: '#3a4655', 'stroke-width': 1 / sc, transform: 'translate(' + cx + ',' + cy + ') rotate(' + (f.heading || 0) + ') scale(' + sc + ')' }, gBg);
@@ -471,43 +524,59 @@
         case 'gate':
           if (f.closed) { el('circle', { cx: r.x, cy: r.y, r: 2.5, fill: '#4b5562' }, gGates); break; }
           el('circle', { cx: r.x, cy: r.y, r: 3, fill: '#ffc627' }, gGates);
-          var left = f.side === 'L';
-          var tx = el('text', { x: r.x + (left ? 7 : -7), y: r.y + 3, class: 'gl', 'text-anchor': left ? 'start' : 'end' }, gLabels);
-          tx.textContent = f.label;
+          var gx = r.x, gy = r.y + 3, anc = 'middle';
+          if (f.side === 'L') { gx = r.x + 6; anc = 'start'; } else if (f.side === 'R') { gx = r.x - 6; anc = 'end'; } else if (f.side === 'T') { gy = r.y + 13; } else if (f.side === 'B') { gy = r.y - 6; }
+          txt(gLabels, gx, gy, f.label, 'gl near', null, anc);
+          break;
+        case 'compass':
+          var cg = el('g', { transform: 'translate(' + (r.x + r.w / 2) + ',' + (r.y + r.h / 2) + ') rotate(' + (f.heading || 0) + ') scale(2.4)' }, gMap);
+          el('circle', { r: 17, fill: 'rgba(11,15,20,.6)', stroke: 'rgba(255,255,255,.25)' }, cg);
+          el('path', { d: 'M0,-14 L6,8 L0,4 L-6,8 Z', fill: '#cfd6df' }, cg);
+          txt(cg, 0, -21, 'N', 'zl', 'font-size:10px;fill:#cfd6df;letter-spacing:0');
           break;
       }
-      if (f.type === 'zone' || f.type === 'pier') {
-        var z = el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 8, class: 'zh', 'data-zone': f.zone, 'data-term': f.terminal }, gZone);
-        var ttl = el('title', {}, z); ttl.textContent = 'Zoom into ' + f.zone;
+      if (f.zone && (f.type === 'zone' || f.type === 'pier' || f.type === 'station' || f.type === 'walkway')) {
+        var z = el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 6, class: 'zh', 'data-zone': f.zone }, gZone);
+        el('title', {}, z).textContent = 'Zoom into ' + f.zone;
+        var ag = el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: f.type === 'walkway' ? 3 : 8, class: 'zagg', 'data-zone': f.zone, fill: NEUTRAL }, gAgg);
+        var lab = null;
+        if (f.type !== 'walkway') {
+          var fs = Math.max(13, Math.min(30, r.w / 6, r.h / 3.2));
+          lab = el('text', { x: r.x + r.w / 2, y: r.y + r.h / 2, class: 'zaggl far', 'text-anchor': 'middle', style: 'font-size:' + fs + 'px' }, gAgg);
+          var t1 = el('tspan', { x: r.x + r.w / 2, dy: '-0.15em' }, lab); t1.textContent = f.zone.replace(/^T[23] /, '');
+          var t2 = el('tspan', { x: r.x + r.w / 2, dy: '1.15em', class: 'zv' }, lab); t2.textContent = '';
+        }
+        S.aggs.push({ zone: f.zone, rect: ag, label: lab });
       }
-      if (f.label && f.type !== 'gate' && f.type !== 'stand' && f.type !== 'runway') {
+      if (f.label && ['gate', 'stand', 'runwayline', 'place', 'roadlabel', 'poi'].indexOf(f.type) < 0) {
         if (f.type === 'zone' && f.labelX === null) return;
         var lx = f.labelX !== null ? f.labelX : r.x + r.w / 2;
         var ly = f.labelY !== null ? f.labelY : r.y + r.h / 2 + 3;
-        var t = el('text', { x: lx, y: ly, class: 'zl', 'text-anchor': 'middle' }, gLabels);
-        if (f.small || f.type === 'checkin' || f.type === 'security' || f.type === 'road' || f.type === 'walkway') t.setAttribute('style', 'font-size:7.5px;letter-spacing:.14em;fill:rgba(238,241,244,.34)');
-        t.textContent = f.label;
-        if (f.sub) { var st2 = el('text', { x: lx, y: ly + 12, class: 'zl', 'text-anchor': 'middle', style: 'font-size:7.5px;letter-spacing:.12em;fill:rgba(238,241,244,.36)' }, gLabels); st2.textContent = f.sub; }
+        if (f.far) { txt(gMap, lx, ly, f.label, 'tlabel', null); return; }
+        var t = txt(gLabels, lx, ly, f.label, 'zl near', f.small ? 'font-size:7.5px;letter-spacing:.14em;fill:rgba(238,241,244,.4)' : null);
+        if (f.sub) txt(gLabels, lx, ly + 11, f.sub, 'zl near', 'font-size:7px;letter-spacing:.12em;fill:rgba(238,241,244,.4)');
+        return t;
       }
     });
 
     SCOPE_LIST.forEach(function (sc) {
-      if (sc[0] === 'all') return;
+      if (sc[0] === 'all') { SCOPES.all.box = AIRPORT_VIEW; return; }
       var bx = null;
       var add = function (b) { if (!b || !b.w) return; if (!bx) bx = { x0: b.x, y0: b.y, x1: b.x + b.w, y1: b.y + b.h }; else { bx.x0 = Math.min(bx.x0, b.x); bx.y0 = Math.min(bx.y0, b.y); bx.x1 = Math.max(bx.x1, b.x + b.w); bx.y1 = Math.max(bx.y1, b.y + b.h); } };
       S.units.forEach(function (u) { if (u.terminal === sc[0]) add(u.box); });
       S.features.forEach(function (f) { if (f.terminal === sc[0] && f.type !== 'gate') add(f.box); });
-      if (bx) SCOPES[sc[0]].box = { x: bx.x0 - 30, y: bx.y0 - 30, w: bx.x1 - bx.x0 + 60, h: bx.y1 - bx.y0 + 60 };
+      if (bx) SCOPES[sc[0]].box = { x: bx.x0 - 40, y: bx.y0 - 40, w: bx.x1 - bx.x0 + 80, h: bx.y1 - bx.y0 + 80 };
     });
     unitEls = {};
     S.units.forEach(function (u) {
-      var r = u.box;
-      var rect = el('rect', { x: r.x + 0.8, y: r.y + 0.8, width: Math.max(r.w - 1.6, 1), height: Math.max(r.h - 1.6, 1), rx: 2.5, class: 'u', fill: NEUTRAL, stroke: '#0b0f14', 'stroke-width': 1, 'data-code': u.code, tabindex: 0, role: 'button', 'aria-label': u.name }, gUnits);
-      var big = r.w * r.h > 2500;
-      var label = el('text', { x: r.x + r.w / 2, y: r.y + r.h / 2 + 2, class: 'ul' + (big ? ' big' : '') + (r.w * r.h > 8000 ? ' huge' : ''), 'text-anchor': 'middle' }, gLabels);
-      var nm = u.name.length > (r.w / 3.2) ? u.name.slice(0, Math.max(3, Math.floor(r.w / 3.2) - 1)) + '…' : u.name;
-      label.textContent = nm;
-      if (big) label.setAttribute('style', 'font-size:' + Math.min(10, Math.max(6, r.w / 14)) + 'px');
+      var r = u.box, inside = u.terminal !== 'Ground';
+      var rect = el('rect', { x: r.x + 0.8, y: r.y + 0.8, width: Math.max(r.w - 1.6, 1), height: Math.max(r.h - 1.6, 1), rx: 2.5, class: 'u' + (inside ? ' in' : ''), fill: NEUTRAL, stroke: '#0b0f14', 'stroke-width': 1, 'data-code': u.code, tabindex: 0, role: 'button', 'aria-label': u.name }, gUnits);
+      var big = r.w * r.h > 2500, huge = !inside;
+      var label = el('text', { x: r.x + r.w / 2, y: r.y + r.h / 2 + 2, class: 'ul' + (big ? ' big' : '') + (huge ? ' huge' : '') + (inside ? ' in' : ''), 'text-anchor': 'middle' }, gLabels);
+      var fsz = huge ? Math.min(22, Math.max(9, r.w / 10)) : big ? Math.min(10, Math.max(6, r.w / 14)) : 5.4;
+      var maxChars = Math.floor(r.w / (fsz * 0.56));
+      label.textContent = u.name.length > maxChars ? u.name.slice(0, Math.max(3, maxChars - 1)) + '…' : u.name;
+      if (huge || big) label.setAttribute('style', 'font-size:' + fsz + 'px');
       unitEls[u.code] = { rect: rect, label: label };
     });
     el('rect', { id: 'apm-selbox', x: 0, y: 0, width: 0, height: 0, rx: 3, fill: 'none', stroke: '#ffc627', 'stroke-width': 2.4, filter: 'url(#apm-glow)', visibility: 'hidden', 'pointer-events': 'none' }, gSel);
@@ -532,6 +601,16 @@
     var su = S.selected && S.byCode[S.selected];
     if (su) { sb.setAttribute('x', su.box.x - 1); sb.setAttribute('y', su.box.y - 1); sb.setAttribute('width', su.box.w + 2); sb.setAttribute('height', su.box.h + 2); sb.setAttribute('visibility', 'visible'); }
     else sb.setAttribute('visibility', 'hidden');
+    var aggVals = S.aggs.map(function (g) { return zoneAgg(g.zone, S.lens); });
+    var adom = { maxAbs: 0, min: Infinity, max: -Infinity };
+    aggVals.forEach(function (a) { if (typeof a.v === 'number' && isFinite(a.v)) { adom.maxAbs = Math.max(adom.maxAbs, Math.abs(a.v)); adom.min = Math.min(adom.min, a.v); adom.max = Math.max(adom.max, a.v); } });
+    S.aggs.forEach(function (g, i) {
+      var a = aggVals[i], c = a.v === null ? '#2a313b' : valueColor(a.v, S.lens, adom);
+      g.rect.setAttribute('fill', c);
+      g.rect.classList.toggle('dim', S.zone ? g.zone !== S.zone : false);
+      g.text = a.text;
+      if (g.label) { g.label.lastChild.textContent = a.text; g.label.classList.toggle('dk', lum(c) > 0.55); }
+    });
     paintFlow();
     renderLegend(dom);
   }
@@ -555,17 +634,22 @@
         var sec = S.features.filter(function (x) { return x.type === 'security' && x.terminal === f.terminal; })[0];
         if (!sec) return;
         var p = piers[f.zone] || { pax: 0 };
-        var sx = sec.box.x + sec.box.w / 2, px = f.box.x + f.box.w / 2;
-        var down = f.box.y > sec.box.y;
-        var root = down ? f.box.y : f.box.y + f.box.h, tip = down ? f.box.y + f.box.h : f.box.y, dir = down ? 1 : -1;
-        var sy = down ? sec.box.y + sec.box.h : sec.box.y;
-        var d = 'M' + sx + ',' + sy + ' C' + sx + ',' + (sy + dir * 70) + ' ' + px + ',' + (root - dir * 70) + ' ' + px + ',' + (root + dir * 6) + ' L' + px + ',' + (tip - dir * 14);
-        el('path', { d: d, class: 'flow', 'stroke-width': 2 + 14 * p.pax / maxP }, g);
+        var sx = sec.box.x + sec.box.w / 2, sy = sec.box.y + sec.box.h / 2, d;
+        if (f.box.w > f.box.h) {
+          var py = f.box.y + f.box.h / 2, west = f.box.x < sec.box.x;
+          var rx = west ? f.box.x + f.box.w : f.box.x, tx = west ? f.box.x : f.box.x + f.box.w, dx = west ? -1 : 1;
+          d = 'M' + sx + ',' + sy + ' C' + (sx + dx * 90) + ',' + sy + ' ' + (rx - dx * 90) + ',' + py + ' ' + (rx + dx * 6) + ',' + py + ' L' + (tx - dx * 14) + ',' + py;
+        } else {
+          var px = f.box.x + f.box.w / 2, down = f.box.y > sec.box.y;
+          var root = down ? f.box.y : f.box.y + f.box.h, tip = down ? f.box.y + f.box.h : f.box.y, dir = down ? 1 : -1;
+          d = 'M' + sx + ',' + sy + ' C' + sx + ',' + (sy + dir * 70) + ' ' + px + ',' + (root - dir * 70) + ' ' + px + ',' + (root + dir * 6) + ' L' + px + ',' + (tip - dir * 14);
+        }
+        el('path', { d: d, class: 'flow', 'stroke-width': 2 + 9 * p.pax / maxP, 'vector-effect': 'non-scaling-stroke' }, g);
       }
       if (f.type === 'gate') {
         var v = S.gatePax[f.label] || 0, b = S.gateBudget[f.label] || 0;
         if (f.closed && !v) return;
-        var rad = 3 + 13 * Math.sqrt(v / maxGate);
+        var rad = 3 + 8 * Math.sqrt(v / maxGate);
         var c = el('circle', { cx: f.box.x, cy: f.box.y, r: rad, fill: b && v < b * 0.8 ? 'rgba(240,107,107,.35)' : 'rgba(255,198,39,.28)', stroke: b && v < b * 0.8 ? '#f06b6b' : '#ffc627', 'stroke-width': 1 }, g);
         var t = el('title', {}, c); t.textContent = 'Gate ' + f.label + ': ' + num(v) + ' departing pax (' + pct(b ? v / b - 1 : null, true) + ' vs budget)';
       }
@@ -798,6 +882,7 @@
     if (!svg) return;
     var v = S.view;
     svg.setAttribute('viewBox', v.x + ' ' + v.y + ' ' + v.w + ' ' + v.h);
+    svg.classList.toggle('lod0', v.w > LOD_FAR);
     svg.classList.toggle('lod1', v.w < 1100);
     svg.classList.toggle('lod2', v.w < 620);
   }
@@ -824,7 +909,7 @@
   }
   function zoomAt(cx, cy, f) {
     var p = svgPoint(cx, cy);
-    var w = Math.max(160, Math.min(2400, S.view.w * f)), k = w / S.view.w;
+    var w = Math.max(160, Math.min(WORLD.w * 1.4, S.view.w * f)), k = w / S.view.w;
     S.view = { x: p.x - (p.x - S.view.x) * k, y: p.y - (p.y - S.view.y) * k, w: w, h: S.view.h * k };
     applyView();
   }
@@ -836,18 +921,18 @@
     renderAll();
   }
   function setZone(z) {
-    var f = S.features.filter(function (x) { return (x.type === 'pier' || x.type === 'zone') && x.zone === z; })[0];
+    var f = S.features.filter(function (x) { return x.zone === z && x.type !== 'base' && x.type !== 'walkway'; })[0] || S.features.filter(function (x) { return x.zone === z; })[0];
     var u = S.units.filter(function (x) { return x.zone === z; })[0];
     if (!f && !u) return;
     S.zone = z; S.selected = null;
     S.scope = f ? (f.terminal || 'all') : u.terminal;
     if (!SCOPES[S.scope]) S.scope = 'all';
-    var box = f ? f.box : null;
-    if (!box) {
-      var b0 = null;
-      S.units.forEach(function (x) { if (x.zone !== z) return; var b = x.box; if (!b0) b0 = { x0: b.x, y0: b.y, x1: b.x + b.w, y1: b.y + b.h }; else { b0.x0 = Math.min(b0.x0, b.x); b0.y0 = Math.min(b0.y0, b.y); b0.x1 = Math.max(b0.x1, b.x + b.w); b0.y1 = Math.max(b0.y1, b.y + b.h); } });
-      box = { x: b0.x0, y: b0.y0, w: b0.x1 - b0.x0, h: b0.y1 - b0.y0 };
-    }
+    var b0 = null;
+    var add = function (b) { if (!b0) b0 = { x0: b.x, y0: b.y, x1: b.x + b.w, y1: b.y + b.h }; else { b0.x0 = Math.min(b0.x0, b.x); b0.y0 = Math.min(b0.y0, b.y); b0.x1 = Math.max(b0.x1, b.x + b.w); b0.y1 = Math.max(b0.y1, b.y + b.h); } };
+    S.features.forEach(function (x) { if (x.zone === z && x.type !== 'base') add(x.box); });
+    S.units.forEach(function (x) { if (x.zone === z) add(x.box); });
+    var box = { x: b0.x0, y: b0.y0, w: b0.x1 - b0.x0, h: b0.y1 - b0.y0 };
+    var minW = 420; if (box.w < minW) { box.x -= (minW - box.w) / 2; box.w = minW; }
     if (PIER_ZONES[z]) box = { x: box.x - 90, y: box.y - 40, w: box.w + 180, h: box.h + 60 };
     animateTo(box, 40);
     renderAll();
@@ -1015,6 +1100,10 @@
     }
     var t = e.target;
     if (svg && svg.contains(t) && t.classList && t.classList.contains('u')) showTip(unitTip(S.byCode[t.getAttribute('data-code')]), e.clientX, e.clientY);
+    else if (svg && svg.contains(t) && t.classList && t.classList.contains('zagg')) {
+      var zn = t.getAttribute('data-zone'), ag = zoneAgg(zn, S.lens), ap = zoneAgg(zn, 'profit');
+      showTip('<b>' + esc(zn) + '</b><br><span class=\'k\'>' + esc(LENSES.filter(function (l) { return l.key === S.lens; })[0].label) + ':</span> ' + esc(ag.text) + (S.lens !== 'profit' ? '<br><span class=\'k\'>Profit:</span> ' + ap.text : '') + '<br><span class=\'k\'>Click to zoom in</span>', e.clientX, e.clientY);
+    }
     else if (t.classList && t.classList.contains('apm-hit') && S.trend) {
       var i = Number(t.getAttribute('data-m'));
       showTip('<b>' + MONTHS[i] + (i > LAST_ACTUAL ? ' · forecast' : '') + '</b><br><span class=\'k\'>Profit:</span> ' + money(S.trend.profit[i]) + '<br><span class=\'k\'>Budget:</span> ' + money(S.trend.budget[i]) + '<br><span class=\'k\'>Sales:</span> ' + money(S.trend.sales[i]), e.clientX, e.clientY);
@@ -1027,7 +1116,7 @@
     drag = null;
     if (wasDrag) return;
     if (target.classList.contains('u')) selectUnit(target.getAttribute('data-code'), false);
-    else if (target.classList.contains('zh')) setZone(target.getAttribute('data-zone'));
+    else if (target.classList.contains('zh') || target.classList.contains('zagg')) setZone(target.getAttribute('data-zone'));
   }
   function onWheel(e) {
     if (!svg || !svg.contains(e.target)) return;
@@ -1104,13 +1193,13 @@
     onData: function (d) {
       S.features = (d.items || []).map(function (it) {
         var lx = prop(it, 'LabelX'), ly = prop(it, 'LabelY');
-        return { name: prop(it, 'Feature'), type: prop(it, 'Type'), box: shape(prop(it, 'Shape')), label: prop(it, 'Label') || '', sub: prop(it, 'Sub') || '', terminal: prop(it, 'Terminal') || '', zone: prop(it, 'Zone') || '', pier: prop(it, 'Pier') || '', heading: Number(prop(it, 'Heading')) || 0, ends: prop(it, 'Ends') || '', closed: !!prop(it, 'Closed'), small: !!prop(it, 'Small'), labelX: lx === undefined || lx === '' ? null : Number(lx), labelY: ly === undefined || ly === '' ? null : Number(ly), side: '' };
+        return { name: prop(it, 'Feature'), type: prop(it, 'Type'), box: shape(prop(it, 'Shape')), label: prop(it, 'Label') || '', sub: prop(it, 'Sub') || '', terminal: prop(it, 'Terminal') || '', zone: prop(it, 'Zone') || '', pier: prop(it, 'Pier') || '', heading: Number(prop(it, 'Heading')) || 0, ends: prop(it, 'Ends') || '', closed: !!prop(it, 'Closed'), small: !!prop(it, 'Small'), far: !!prop(it, 'Far'), cls: prop(it, 'Class') || '', path: prop(it, 'Path') || '', line: String(prop(it, 'Line') || '').split(',').map(Number), labelX: lx === undefined || lx === '' ? null : Number(lx), labelY: ly === undefined || ly === '' ? null : Number(ly), side: '' };
       });
       // gate side: which side of its pier the gate sits on
       var piers = {};
       PIER_ZONES = {};
       S.features.forEach(function (f) { if (f.type === 'pier' || f.type === 'ghostpier') piers[f.zone || f.name] = f; if (f.type === 'pier') PIER_ZONES[f.zone] = f; });
-      S.features.forEach(function (f) { if (f.type === 'gate' && piers[f.pier]) f.side = f.box.x <= piers[f.pier].box.x + 1 ? 'L' : 'R'; });
+      S.features.forEach(function (f) { var pp = piers[f.pier]; if (f.type !== 'gate' || !pp) return; if (pp.box.w > pp.box.h) f.side = f.box.y <= pp.box.y + 1 ? 'T' : 'B'; else f.side = f.box.x <= pp.box.x + 1 ? 'L' : 'R'; });
       S.ready.features = true;
       maybeBuild();
     },

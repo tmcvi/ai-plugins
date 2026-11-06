@@ -6,12 +6,14 @@
  * label paths, loading states), and recalculates after writes the way a
  * Pigment model would. In Pigment this file is NOT used.
  *
- * LAYOUT: a schematic of the real arrangement, rotated so the runways run
- * left to right (true north points up and to the right). It shows Terminal 2
- * with Pier 1 and Pier 2, Terminal 3 and its extension into the former
- * Terminal 1, Terminal 1 (closed 15 March 2026), The Station and Skylink,
- * runways 05L/23R and 05R/23L, and the official car parks. The schematic is
- * not survey-accurate. Gate labels are illustrative.
+ * LAYOUT: north-up and geographic. The basemap (airfield boundary, runways and
+ * taxiways, roads incl. the M56, rivers, woodland and built-up areas) is traced
+ * from a map tile by tools/trace_basemap.py. Runways 05L/23R and 05R/23L sit on
+ * their measured 39-degree line. Terminal 2 (Pier 1 and Pier 2, pointing west),
+ * Terminal 1 (closed 15 March 2026), Terminal 3 and its extension, The Station,
+ * Skylink, the hotels and the car parks are placed where they sit on the map.
+ * Terminal interiors are schematic, not survey-accurate. Gate labels are
+ * illustrative.
  *
  * DATA: all passenger, sales and profit figures by unit are ILLUSTRATIVE.
  * Total passengers are set near Manchester's public 2025 figure (32.1M);
@@ -142,160 +144,179 @@
     return item;
   }
 
-  // ------------------------------------------------------------ airfield
-  F('Apron', 'apron', 20, 524, 1560, 350);
-  F('Taxiway', 'taxiway', 20, 880, 1560, 6);
-  F('Runway 05L/23R', 'runway', 30, 896, 1540, 26, { 'Label': 'RUNWAY 05L/23R · 3,048 m', 'Ends': '05L|23R' });
-  F('Runway 05R/23L', 'runway', 20, 958, 1290, 26, { 'Label': 'RUNWAY 05R/23L · 3,050 m', 'Ends': '05R|23L' });
-  F('North', 'compass', 1480, 940, 40, 40, { 'Heading': '40' });
+  // ============================================================ GEOGRAPHY
+  // World units = pixels of a north-up 1237x1193 map tile x 3 (about 1.3 m per unit).
+  // The basemap (airfield, runways and taxiways, roads, water, land use) is traced
+  // from that tile by tools/trace_basemap.py and inlined as window.__MAN_BASEMAP.
+  var BASE = (typeof window !== 'undefined' && window.__MAN_BASEMAP) || { paths: [], width: 3711, height: 3579 };
+  BASE.paths.forEach(function (p, i) { features.push({ 'Feature': 'Base ' + p.type + ' ' + i, 'Type': 'base', 'Class': p.type, 'Path': p.d, 'Shape': '0,0,0,0' }); });
+  F('Runway 05L/23R', 'runwayline', 0, 0, 0, 0, { 'Line': '1593,2241,3360,810', 'Ends': '05L|23R', 'Label': 'RUNWAY 05L/23R · 3,048 m' });
+  F('Runway 05R/23L', 'runwayline', 0, 0, 0, 0, { 'Line': '708,3333,2580,1818', 'Ends': '05R|23L', 'Label': 'RUNWAY 05R/23L · 3,050 m' });
+  F('North', 'compass', 3590, 3420, 60, 60, { 'Heading': '0' });
+  [['Hale Barns', 255, 290], ['Warburton Green', 640, 712], ['Ringway', 1095, 1294], ['Thorns Green', 462, 1640], ['Morley Green', 2802, 3118], ['Moss Nook', 3470, 455], ['Styal', 3600, 1900]].forEach(function (p) {
+    F(p[0], 'place', 0, 0, 0, 0, { 'Label': p[0], 'LabelX': String(p[1]), 'LabelY': String(p[2]) });
+  });
+  [['M56', 1335, 935], ['M56', 2236, 212], ['A538 Wilmslow Rd', 1590, 1700], ['Altrincham Rd', 2900, 2470], ['Ringway Rd W', 3150, 545]].forEach(function (p) {
+    F(p[0] + ' label', 'roadlabel', 0, 0, 0, 0, { 'Label': p[0], 'LabelX': String(p[1]), 'LabelY': String(p[2]) });
+  });
+  F('Radisson Blu Hotel', 'poi', 2440, 520, 0, 0, { 'Label': 'Radisson Blu' });
+  F('Clayton Hotel', 'poi', 2730, 560, 0, 0, { 'Label': 'Clayton Hotel' });
+  F('World Freight Terminal', 'poi', 1620, 1040, 0, 0, { 'Label': 'World Freight Terminal' });
 
   // ------------------------------------------------------- landside spine
-  F('Terminal road', 'road', 20, 166, 1560, 16, { 'Label': 'TERMINAL ROAD' });
-  F('The Station', 'station', 860, 26, 200, 134, { 'Terminal': 'Landside', 'Label': 'THE STATION', 'Sub': 'RAIL · METROLINK · COACH', 'LabelX': '960', 'LabelY': '50' });
-  F('Station link', 'walkway', 948, 160, 24, 34, { 'Terminal': 'Landside' });
-  F('Skylink', 'walkway', 280, 190, 1200, 16, { 'Terminal': 'Landside', 'Zone': 'Skylink', 'Label': 'SKYLINK', 'LabelX': '700', 'LabelY': '201' });
-  F('Skylink T2', 'walkway', 1150, 206, 20, 16, { 'Terminal': 'Landside' });
-  F('Skylink T3', 'walkway', 420, 206, 20, 16, { 'Terminal': 'Landside' });
+  F('The Station', 'station', 2510, 516, 110, 96, { 'Terminal': 'Landside', 'Zone': 'The Station', 'Label': 'THE STATION', 'Sub': 'RAIL · METROLINK · COACH', 'LabelX': '2565', 'LabelY': '509', 'Small': '1' });
+  F('Skylink T2', 'walkway', 2300, 574, 210, 16, { 'Terminal': 'Landside', 'Zone': 'Skylink', 'Label': 'SKYLINK', 'LabelX': '2405', 'LabelY': '585', 'Small': '1' });
+  F('Skylink south', 'walkway', 2558, 612, 16, 150, { 'Terminal': 'Landside', 'Zone': 'Skylink' });
+  F('Skylink T3', 'walkway', 2574, 744, 108, 16, { 'Terminal': 'Landside', 'Zone': 'Skylink' });
+  F('Skylink T3 link', 'walkway', 2666, 760, 16, 120, { 'Terminal': 'Landside', 'Zone': 'Skylink' });
 
   // ----------------------------------------------------------- terminals
-  F('Terminal 3', 'terminal', 40, 222, 480, 298, { 'Terminal': 'T3', 'Label': 'TERMINAL 3', 'LabelX': '280', 'LabelY': '219' });
-  F('Terminal 1', 'closed', 528, 222, 264, 298, { 'Terminal': 'T1', 'Label': 'TERMINAL 1', 'Sub': 'CLOSED 15 MARCH 2026', 'LabelX': '660', 'LabelY': '366' });
-  F('Terminal 2', 'terminal', 810, 222, 760, 298, { 'Terminal': 'T2', 'Label': 'TERMINAL 2', 'LabelX': '1190', 'LabelY': '219' });
-  F('T3 Landside', 'zone', 40, 222, 480, 78, { 'Terminal': 'T3', 'Zone': 'T3 Landside' });
-  F('T3 Airside', 'zone', 40, 330, 340, 190, { 'Terminal': 'T3', 'Zone': 'T3 Airside' });
-  F('T3 Extension', 'zone', 384, 330, 136, 190, { 'Terminal': 'T3', 'Zone': 'T3 Extension', 'Label': 'T3 EXTENSION', 'LabelX': '452', 'LabelY': '338', 'Small': '1' });
-  F('T2 Landside', 'zone', 810, 222, 760, 78, { 'Terminal': 'T2', 'Zone': 'T2 Landside' });
-  F('T2 Airside', 'zone', 810, 330, 760, 190, { 'Terminal': 'T2', 'Zone': 'T2 Airside' });
-  F('T3 Security', 'security', 120, 302, 240, 26, { 'Terminal': 'T3', 'Label': 'SECURITY' });
-  F('T2 Security', 'security', 1000, 302, 380, 26, { 'Terminal': 'T2', 'Label': 'SECURITY' });
-  [60, 145, 230].forEach(function (x, i) { F('T3 Check-in ' + (i + 1), 'checkin', x, 228, 74, 28, { 'Terminal': 'T3', 'Label': 'CHECK-IN' }); });
-  [900, 987, 1074, 1161, 1248].forEach(function (x, i) { F('T2 Check-in ' + (i + 1), 'checkin', x, 228, 72, 28, { 'Terminal': 'T2', 'Label': 'CHECK-IN' }); });
+  F('Terminal 2', 'terminal', 1930, 280, 370, 400, { 'Terminal': 'T2', 'Label': 'TERMINAL 2', 'LabelX': '2115', 'LabelY': '262', 'Far': '1' });
+  F('T2 Landside', 'zone', 2214, 284, 84, 392, { 'Terminal': 'T2', 'Zone': 'T2 Landside' });
+  F('T2 Airside', 'zone', 1932, 284, 252, 392, { 'Terminal': 'T2', 'Zone': 'T2 Airside' });
+  F('T2 Security', 'security', 2188, 300, 22, 360, { 'Terminal': 'T2', 'Label': '' });
+  [300, 362, 424, 486].forEach(function (y, i) { F('T2 Check-in ' + (i + 1), 'checkin', 2220, y, 26, 54, { 'Terminal': 'T2' }); });
+  F('Terminal 1', 'closed', 2420, 760, 220, 140, { 'Terminal': 'T1', 'Label': 'TERMINAL 1', 'Sub': 'CLOSED MARCH 2026', 'LabelX': '2478', 'LabelY': '822', 'Small': '1' });
+  F('T3 Extension', 'zone', 2536, 786, 102, 112, { 'Terminal': 'T3', 'Zone': 'T3 Extension', 'Label': 'T3 EXTENSION', 'LabelX': '2587', 'LabelY': '782', 'Small': '1' });
+  F('Terminal 3', 'terminal', 2660, 880, 240, 180, { 'Terminal': 'T3', 'Label': 'TERMINAL 3', 'LabelX': '2780', 'LabelY': '872', 'Far': '1' });
+  F('T3 Landside', 'zone', 2662, 882, 236, 50, { 'Terminal': 'T3', 'Zone': 'T3 Landside' });
+  F('T3 Airside', 'zone', 2662, 952, 236, 106, { 'Terminal': 'T3', 'Zone': 'T3 Airside' });
+  F('T3 Security', 'security', 2690, 934, 180, 16, { 'Terminal': 'T3', 'Label': '' });
+  [2668, 2706].forEach(function (x, i) { F('T3 Check-in ' + (i + 1), 'checkin', x, 888, 32, 38, { 'Terminal': 'T3' }); });
 
   // ---------------------------------------------------------------- piers
   var gateW = {};
-  function pier(zone, key, terminal, x, yRoot, yTip, segs, weight, wide, mix, opts) {
+  function addGate(gname, zone, terminal, gx, gy, standBox, heading, weight, closed) {
+    F('Gate ' + gname, 'gate', gx, gy, 0, 0, { 'Terminal': terminal, 'Pier': zone, 'Label': gname, 'Closed': closed ? '1' : '' });
+    if (standBox) F('Stand ' + gname, 'stand', standBox[0], standBox[1], standBox[2], standBox[3], { 'Heading': String(heading), 'Terminal': terminal, 'Pier': zone });
+    gates.push({ name: gname, pier: zone, terminal: terminal });
+    gateW[gname] = weight * rr(0.85, 1.15);
+  }
+  function pierUnit(zone, key, terminal, u, gate, mix, opts, x, y, w, h, pos) {
+    var code = terminal + '-' + key + '-' + (u < 10 ? '0' : '') + u;
+    var cat = mix[(u - 1) % mix.length];
+    var o = { pier: zone, gate: gate };
+    if (opts.leases && opts.leases[u - 1]) o.lease = opts.leases[u - 1];
+    if (opts.special && opts.special[u]) { var sp = opts.special[u]; cat = sp.cat || cat; for (var k in sp) if (k !== 'cat') o[k] = sp[k]; }
+    U(code, cat, terminal, zone, 'pier', x, y, w, h, pos, o);
+  }
+  // Horizontal pier: root on the east (terminal side), tip to the west. Gates on top and bottom.
+  function pierH(zone, key, terminal, xRoot, xTip, y, segs, weight, mix, opts) {
     opts = opts || {};
-    var w = 130;
-    F(zone, opts.ghost ? 'ghostpier' : 'pier', x, yRoot, w, yTip - yRoot, { 'Terminal': terminal, 'Zone': opts.ghost ? '' : zone, 'Label': opts.label || zone.toUpperCase(), 'LabelX': String(x + w / 2), 'LabelY': String(yTip + 16) });
-    var segH = (yTip - yRoot - 10) / segs;
-    var u = 0, g = 0;
+    var T = 130, len = xRoot - xTip;
+    F(zone, opts.ghost ? 'ghostpier' : 'pier', xTip, y, len, T, { 'Terminal': terminal, 'Zone': opts.ghost ? '' : zone, 'Label': opts.label || zone.toUpperCase(), 'LabelX': String(xTip + len / 2), 'LabelY': String(y + T / 2 + 3), 'Small': '1' });
+    var segW = (len - 10) / segs, u = 0, g = 0, sw = Math.min(opts.wide ? 52 : 46, segW * 2 - 4);
     for (var s = 0; s < segs; s++) {
-      var y = yRoot + 5 + s * segH, h = segH - 5;
+      var x = xRoot - 5 - (s + 1) * segW, w = segW - 4;
       var pos = 1 - 0.6 * (s / Math.max(1, segs - 1));
-      [[x + 4, s % 2 === 0, 'L'], [x + w - 48, s % 2 === 1, 'R']].forEach(function (col) {
-        if (col[1] && !opts.ghost) {
-          u++;
-          var code = terminal + '-' + key + '-' + (u < 10 ? '0' : '') + u;
-          var cat = mix[(u - 1) % mix.length];
-          var o = { pier: zone, gate: key + '·' + (g + 1) };
-          if (opts.leases && opts.leases[u - 1]) o.lease = opts.leases[u - 1];
-          if (opts.special && opts.special[u]) { var sp = opts.special[u]; cat = sp.cat || cat; for (var k in sp) if (k !== 'cat') o[k] = sp[k]; }
-          U(code, cat, terminal, zone, 'pier', col[0], y, 44, h, pos, o);
-        } else if (!col[1]) {
-          g++;
-          var gname = key + '·' + g;
-          var left = col[2] === 'L';
-          var gx = left ? x : x + w;
-          if (!opts.ghost) F('Holdroom ' + gname, 'holdroom', col[0], y, 44, h, { 'Terminal': terminal, 'Pier': zone });
-          F('Gate ' + gname, 'gate', gx, y + h / 2, 0, 0, { 'Terminal': terminal, 'Pier': zone, 'Label': gname, 'Closed': opts.ghost ? '1' : '' });
-          var sw = Math.min(wide ? 70 : 58, segH * 2 - 4);
-          if (!opts.ghost) F('Stand ' + gname, 'stand', left ? gx - 10 - sw : gx + 10, y + h / 2 - sw / 2, sw, sw, { 'Heading': left ? '90' : '-90', 'Terminal': terminal, 'Pier': zone });
-          gates.push({ name: gname, pier: zone, terminal: terminal });
-          gateW[gname] = weight * rr(0.85, 1.15);
-        }
+      [[y + 4, s % 2 === 0, 'T'], [y + T - 48, s % 2 === 1, 'B']].forEach(function (row) {
+        if (row[1] && !opts.ghost) { u++; pierUnit(zone, key, terminal, u, key + '·' + (g + 1), mix, opts, x, row[0], w, 44, pos); return; }
+        if (row[1]) return;
+        g++;
+        var gname = key + '·' + g, top = row[2] === 'T', cx = x + w / 2;
+        if (!opts.ghost) F('Holdroom ' + gname, 'holdroom', x, row[0], w, 44, { 'Terminal': terminal, 'Pier': zone });
+        addGate(gname, zone, terminal, cx, top ? y : y + T, opts.ghost ? null : [cx - sw / 2, top ? y - 8 - sw : y + T + 8, sw, sw], top ? 180 : 0, weight, opts.ghost);
       });
     }
   }
-  pier('Pier 1', 'P1', 'T2', 880, 524, 842, 11, 1.0, false,
-    ['Duty Free', 'Café & Bakery', 'News & Convenience', 'Quick Service', 'Bar & Restaurant', 'Health & Beauty', 'Café & Bakery', 'Tech & Electronics', 'News & Convenience', 'Quick Service', 'Café & Bakery'],
+  // Vertical pier: root at the top (terminal side), tip at the bottom. Gates left and right.
+  function pierV(zone, key, terminal, x, yRoot, yTip, segs, weight, mix, opts) {
+    opts = opts || {};
+    var Wd = opts.width || 130, len = yTip - yRoot;
+    F(zone, opts.ghost ? 'ghostpier' : 'pier', x, yRoot, Wd, len, { 'Terminal': terminal, 'Zone': opts.ghost ? '' : zone, 'Label': opts.label || zone.toUpperCase(), 'LabelX': String(x + Wd / 2), 'LabelY': String(yTip + 16), 'Small': '1' });
+    var segH = (len - 10) / segs, u = 0, g = 0, sw = Math.min(46, segH * 2 - 4), cw = (Wd - 42) / 2;
+    for (var s = 0; s < segs; s++) {
+      var y = yRoot + 5 + s * segH, h = segH - 4;
+      var pos = 1 - 0.6 * (s / Math.max(1, segs - 1));
+      [[x + 4, s % 2 === 0, 'L'], [x + Wd - 4 - cw, s % 2 === 1, 'R']].forEach(function (col) {
+        if (col[1] && !opts.ghost) { u++; pierUnit(zone, key, terminal, u, key + '·' + (g + 1), mix, opts, col[0], y, cw, h, pos); return; }
+        if (col[1]) return;
+        g++;
+        var gname = key + '·' + g, left = col[2] === 'L', gx = left ? x : x + Wd;
+        if (!opts.ghost) F('Holdroom ' + gname, 'holdroom', col[0], y, cw, h, { 'Terminal': terminal, 'Pier': zone });
+        addGate(gname, zone, terminal, gx, y + h / 2, opts.ghost ? null : [left ? gx - 8 - sw : gx + 8, y + h / 2 - sw / 2, sw, sw], left ? 90 : -90, weight, opts.ghost);
+      });
+    }
+  }
+  pierH('Pier 1', 'P1', 'T2', 1930, 1680, 280, 10, 1.0,
+    ['Duty Free', 'Café & Bakery', 'News & Convenience', 'Quick Service', 'Bar & Restaurant', 'Health & Beauty', 'Café & Bakery', 'Tech & Electronics', 'News & Convenience', 'Quick Service'],
     { leases: ['2031-03-31', '2027-03-31', '2027-06-30', '2027-03-31', '2027-09-30'], special: { 1: { name: 'Duty free express · Pier 1', area: 240, locF: 0.3 }, 8: { name: 'Tech accessories · P1-08', locF: 0.45, magMult: 2.1, lease: '2029-03-31' } } });
-  pier('Pier 2', 'P2', 'T2', 1380, 524, 862, 12, 1.3, true,
+  pierH('Pier 2', 'P2', 'T2', 1930, 1660, 546, 12, 1.3,
     ['Duty Free', 'Bar & Restaurant', 'Café & Bakery', 'Fashion & Luxury', 'News & Convenience', 'Quick Service', 'Health & Beauty', 'Café & Bakery', 'Jewellery & Watches', 'News & Convenience', 'Bar & Restaurant', 'Café & Bakery'],
-    { special: { 1: { name: 'Duty free express · Pier 2', area: 260, locF: 0.32 } } });
-  pier('T3 Pier', 'T3', 'T3', 150, 524, 780, 8, 1.15, false,
-    ['Café & Bakery', 'News & Convenience', 'Quick Service', 'Bar & Restaurant', 'Café & Bakery', 'Quick Service', 'News & Convenience', 'Café & Bakery']);
-  pier('T1 pier (closed)', 'T1', 'T1', 600, 524, 720, 6, 1.0, false, [], { ghost: true, label: 'T1 PIER · CLOSED' });
+    { wide: true, special: { 1: { name: 'Duty free express · Pier 2', area: 260, locF: 0.32 } } });
+  pierV('T3 Pier', 'T3', 'T3', 2680, 1060, 1180, 4, 1.15, ['Café & Bakery', 'News & Convenience', 'Quick Service', 'Bar & Restaurant'], { width: 120 });
+  pierV('T1 pier (closed)', 'T1', 'T1', 2440, 900, 1100, 6, 1.0, [], { ghost: true, width: 80, label: 'T1 PIER · CLOSED' });
 
   // -------------------------------------------------------- T2 airside
   var T2A = 'T2 Airside';
-  function t2(code, cat, x, y, w, h, pos, opt) { return U('T2-' + code, cat, 'T2', T2A, 'airside', x, y, w, h, pos, opt); }
-  U('T2-DF', 'Duty Free', 'T2', T2A, 'airside', 1080, 338, 220, 74, 1, { name: 'Walk-through duty free · T2', area: 2165, rate: 0.37, lease: '2032-03-31', locF: 1.05 });
-  var fh = ['Quick Service', 'Quick Service', 'Café & Bakery', 'Bar & Restaurant', 'Quick Service', 'Quick Service', 'Café & Bakery', 'Bar & Restaurant'];
+  U('T2-DF', 'Duty Free', 'T2', T2A, 'airside', 2098, 300, 84, 296, 1, { name: 'Walk-through duty free · T2', area: 2165, rate: 0.37, lease: '2032-03-31', locF: 1.05 });
+  var fhCats = ['Quick Service', 'Quick Service', 'Café & Bakery', 'Bar & Restaurant', 'Quick Service', 'Quick Service', 'Café & Bakery', 'Bar & Restaurant'];
   var fhNames = ['Pizza', 'Burgers', 'Bakery', 'Taproom', 'Asian street food', 'Deli', 'Desserts', 'Food hall bar'];
-  fh.forEach(function (cat, i) {
-    var col = i % 4, row = Math.floor(i / 4);
-    U('T2-FH-0' + (i + 1), cat, 'T2', T2A, 'airside', 1080 + col * 55, 418 + row * 50, 52, 44, 0.9, { name: 'Food hall · ' + fhNames[i], lease: '2030-09-30' });
+  fhCats.forEach(function (cat, i) {
+    U('T2-FH-0' + (i + 1), cat, 'T2', T2A, 'airside', 2014 + (i % 2) * 42, 332 + Math.floor(i / 2) * 64, 40, 60, 0.9, { name: 'Food hall · ' + fhNames[i], lease: '2030-09-30', area: 140 });
   });
-  var wingCats = ['Books & news', 'Health & Beauty', 'Fashion & Luxury', 'Café & Bakery', 'Toys & Gifts', 'Jewellery & Watches', 'Health & Beauty', 'Currency Exchange', 'Fashion & Luxury', 'News & Convenience'];
-  wingCats[0] = 'News & Convenience';
-  [820, 1310].forEach(function (x0, side) {
-    for (var i = 0; i < 10; i++) {
-      var col = i % 5, row = Math.floor(i / 5);
-      var cat = wingCats[(i + side * 3) % wingCats.length];
-      t2((side ? 'E' : 'W') + '-' + (i < 9 ? '0' : '') + (i + 1), cat, x0 + col * 51, 340 + row * 44, 46, 38, rr(0.55, 0.85));
-    }
-  });
-  U('T2-LG-01', 'Lounge', 'T2', T2A, 'airside', 820, 430, 110, 82, 1, { name: 'Escape Lounge · T2', tenant: 'Airport-operated', area: 950, locF: 1.0 });
-  t2('W-11', 'Bar & Restaurant', 936, 430, 64, 82, 0.8, { area: 320 });
-  t2('W-12', 'Café & Bakery', 1006, 430, 64, 82, 0.85, { area: 260 });
-  t2('E-11', 'Bar & Restaurant', 1310, 430, 64, 82, 0.8, { area: 300 });
-  t2('E-12', 'Fashion & Luxury', 1380, 430, 64, 82, 0.7, { name: 'Luxury fashion · E-12', area: 280, lease: '2027-06-30' });
-  U('T2-LG-02', 'Lounge', 'T2', T2A, 'airside', 1450, 430, 112, 82, 1, { name: '1903 Lounge', tenant: 'Airport-operated', area: 1100, ticket: 72, locF: 0.55 });
+  U('T2-LG-01', 'Lounge', 'T2', T2A, 'airside', 1936, 286, 74, 60, 1, { name: 'Escape Lounge · T2', tenant: 'Airport-operated', area: 950 });
+  U('T2-LG-02', 'Lounge', 'T2', T2A, 'airside', 1936, 560, 74, 60, 1, { name: '1903 Lounge', tenant: 'Airport-operated', area: 1100, ticket: 72, locF: 0.55 });
+  var wCats = ['News & Convenience', 'Health & Beauty', 'Fashion & Luxury', 'Café & Bakery', 'Toys & Gifts', 'Jewellery & Watches', 'Health & Beauty', 'Currency Exchange', 'Bar & Restaurant'];
+  for (var wi = 0; wi < 8; wi++) {
+    U('T2-W-0' + (wi + 1), wCats[wi], 'T2', T2A, 'airside', 1936 + (wi % 2) * 38, 352 + Math.floor(wi / 2) * 52, 36, 48, rr(0.55, 0.85), { area: 110 });
+  }
+  U('T2-W-09', 'Bar & Restaurant', 'T2', T2A, 'airside', 1936, 626, 74, 48, 0.8, { area: 300 });
+  U('T2-E-01', 'Fashion & Luxury', 'T2', T2A, 'airside', 2014, 288, 40, 40, 0.7, { area: 120 });
+  U('T2-E-02', 'Health & Beauty', 'T2', T2A, 'airside', 2056, 288, 40, 40, 0.75, { area: 120 });
+  U('T2-E-03', 'Café & Bakery', 'T2', T2A, 'airside', 2014, 590, 40, 84, 0.85, { area: 240 });
+  U('T2-E-04', 'Bar & Restaurant', 'T2', T2A, 'airside', 2056, 590, 40, 84, 0.8, { area: 260 });
+  U('T2-E-05', 'Fashion & Luxury', 'T2', T2A, 'airside', 2098, 602, 84, 72, 0.7, { name: 'Luxury fashion · E-05', area: 280, lease: '2027-06-30' });
 
   // -------------------------------------------------------- T2 landside
   var T2L = 'T2 Landside';
-  ['News & Convenience', 'Café & Bakery', 'Health & Beauty', 'Quick Service', 'Currency Exchange', 'Café & Bakery'].forEach(function (cat, i) {
-    U('T2-L-0' + (i + 1), cat, 'T2', T2L, 'landside', 900 + i * 68, 264, 62, 32, rr(0.25, 0.45));
+  ['News & Convenience', 'Café & Bakery', 'Health & Beauty', 'Quick Service', 'Currency Exchange', 'News & Convenience'].forEach(function (cat, i) {
+    U('T2-L-0' + (i + 1), cat, 'T2', T2L, 'landside', 2250, 290 + i * 44, 46, 40, rr(0.25, 0.45));
   });
-  U('T2-L-07', 'Duty Free', 'T2', T2L, 'landside', 1330, 228, 60, 68, 0.12, { name: 'Arrivals duty free', area: 180, rate: 0.3, locF: 0.12 });
-  U('T2-L-08', 'Café & Bakery', 'T2', T2L, 'landside', 1398, 228, 104, 68, 0.3, { name: 'Arrivals café · T2', area: 290, locF: 0.16, lease: '2027-03-31' });
-  U('T2-L-09', 'News & Convenience', 'T2', T2L, 'landside', 1508, 228, 54, 32, 0.25, { name: 'Arrivals news · T2' });
-  U('T2-L-10', 'Currency Exchange', 'T2', T2L, 'landside', 1508, 264, 54, 32, 0.25, { name: 'Currency exchange · arrivals' });
+  U('T2-L-07', 'Duty Free', 'T2', T2L, 'landside', 2220, 556, 76, 42, 0.12, { name: 'Arrivals duty free', area: 180, rate: 0.3, locF: 0.12 });
+  U('T2-L-08', 'Café & Bakery', 'T2', T2L, 'landside', 2220, 604, 76, 70, 0.3, { name: 'Arrivals café · T2', area: 290, locF: 0.16, lease: '2027-03-31' });
 
   // ---------------------------------------------------------------- T3
   var T3A = 'T3 Airside';
-  ['Café & Bakery', 'News & Convenience', 'Quick Service', 'Health & Beauty', 'Café & Bakery', 'Bar & Restaurant', 'Currency Exchange'].forEach(function (cat, i) {
-    U('T3-A-0' + (i + 1), cat, 'T3', T3A, 'airside', 50 + i * 47, 340, 42, 38, rr(0.6, 0.9));
+  ['Café & Bakery', 'News & Convenience', 'Quick Service', 'Health & Beauty', 'Bar & Restaurant', 'Currency Exchange'].forEach(function (cat, i) {
+    U('T3-A-0' + (i + 1), cat, 'T3', T3A, 'airside', 2666 + i * 39, 956, 36, 36, rr(0.6, 0.9), { area: 90 });
   });
-  U('T3-DF', 'Duty Free', 'T3', T3A, 'airside', 50, 386, 150, 54, 1, { name: 'Duty free · T3', area: 820, rate: 0.35, lease: '2030-03-31', locF: 0.55 });
-  U('T3-LG-01', 'Lounge', 'T3', T3A, 'airside', 208, 386, 100, 54, 1, { name: 'Escape Lounge · T3', tenant: 'Airport-operated', area: 620, locF: 0.7 });
-  ['Quick Service', 'Café & Bakery', 'Bar & Restaurant', 'News & Convenience', 'Quick Service'].forEach(function (cat, i) {
-    U('T3-A-' + (i < 2 ? '0' : '') + (i + 8), cat, 'T3', T3A, 'airside', 50 + i * 64, 448, 58, 64, rr(0.6, 0.9));
+  U('T3-DF', 'Duty Free', 'T3', T3A, 'airside', 2666, 998, 90, 56, 1, { name: 'Duty free · T3', area: 820, rate: 0.35, lease: '2030-03-31', locF: 0.55 });
+  U('T3-LG-01', 'Lounge', 'T3', T3A, 'airside', 2762, 998, 74, 56, 1, { name: 'Escape Lounge · T3', tenant: 'Airport-operated', area: 620, locF: 0.7 });
+  U('T3-A-07', 'Quick Service', 'T3', T3A, 'airside', 2842, 998, 54, 56, 0.8, { area: 160 });
+  [['Bar & Restaurant', 2540, 792], ['Health & Beauty', 2590, 792], ['Café & Bakery', 2540, 846], ['Fashion & Luxury', 2590, 846]].forEach(function (s, i) {
+    U('T3-X-0' + (i + 1), s[0], 'T3', 'T3 Extension', 'airside', s[1], s[2], 46, 48, 0.65, { lease: '2031-03-31', magMult: 0.95, area: 140 });
   });
-  // T3 extension into former T1 space, opened 2026: new leases, budget expected more passengers
-  [['Bar & Restaurant', 388, 344, 62, 80], ['Health & Beauty', 456, 344, 60, 80], ['Café & Bakery', 388, 430, 62, 82], ['Fashion & Luxury', 456, 430, 60, 82]].forEach(function (s, i) {
-    U('T3-X-0' + (i + 1), s[0], 'T3', 'T3 Extension', 'airside', s[1], s[2], s[3], s[4], 0.65, { lease: '2031-03-31', magMult: 0.95 });
-  });
-  ['Café & Bakery', 'News & Convenience', 'Quick Service', 'Car Rental'].forEach(function (cat, i) {
-    U('T3-L-0' + (i + 1), cat, 'T3', 'T3 Landside', 'landside', 60 + i * 66, 264, 60, 32, rr(0.25, 0.45), cat === 'Car Rental' ? { name: 'Car hire desks · T3' } : null);
+  ['Café & Bakery', 'News & Convenience', 'Car Rental'].forEach(function (cat, i) {
+    U('T3-L-0' + (i + 1), cat, 'T3', 'T3 Landside', 'landside', 2746 + i * 50, 888, 46, 40, rr(0.25, 0.45), cat === 'Car Rental' ? { name: 'Car hire desks · T3' } : { area: 90 });
   });
 
   // ----------------------------------------------------- station + skylink
-  U('LS-01', 'Café & Bakery', 'Landside', 'The Station', 'station', 874, 108, 62, 40, 1, { name: 'Coffee kiosk · The Station', locF: 1.3 });
-  U('LS-02', 'News & Convenience', 'Landside', 'The Station', 'station', 942, 108, 62, 40, 1, { name: 'News · The Station' });
-  U('LS-03', 'Advertising', 'Landside', 'The Station', 'station', 1012, 112, 36, 10, 1, { name: 'Digital screen · Station', area: 12 });
-  [330, 520, 640, 800, 1060, 1250, 1380].forEach(function (x, i) {
-    U('SK-0' + (i + 1), 'Advertising', 'Landside', 'Skylink', 'link', x, 193, 34, 10, 1, { name: 'Digital screen · Skylink ' + (i + 1), area: 12 });
+  U('LS-01', 'Café & Bakery', 'Landside', 'The Station', 'station', 2518, 560, 44, 44, 1, { name: 'Coffee kiosk · The Station', locF: 1.3, area: 70 });
+  U('LS-02', 'News & Convenience', 'Landside', 'The Station', 'station', 2568, 560, 44, 44, 1, { name: 'News · The Station', area: 70 });
+  U('LS-03', 'Advertising', 'Landside', 'The Station', 'station', 2522, 528, 40, 12, 1, { name: 'Digital screen · Station', area: 12 });
+  [[2318, 577], [2380, 577], [2442, 577], [2561, 650], [2561, 700], [2600, 747]].forEach(function (p, i) {
+    var vertical = p[0] === 2561;
+    U('SK-0' + (i + 1), 'Advertising', 'Landside', 'Skylink', 'link', p[0], p[1], vertical ? 10 : 34, vertical ? 34 : 10, 1, { name: 'Digital screen · Skylink ' + (i + 1), area: 12 });
   });
 
   // ------------------------------------------------------------ car parks
-  function park(code, name, x, y, w, h, share, ticket, area, extra) {
-    var o = { name: name, tenant: 'Airport-operated', area: area, ticket: ticket, locF: share };
-    if (extra) for (var k in extra) o[k] = extra[k];
-    return U(code, 'Parking', 'Ground', 'Car Parks', 'ground', x, y, w, h, 1, o);
+  function park(code, name, x, y, w, h, share, ticket, area) {
+    return U(code, 'Parking', 'Ground', 'Car Parks', 'ground', x, y, w, h, 1, { name: name, tenant: 'Airport-operated', area: area, ticket: ticket, locF: share });
   }
-  park('CP-01', 'JetParks 3', 20, 20, 150, 64, 0.10, 42, 70000);
-  park('CP-02', 'Long Stay T1 & T3', 180, 20, 270, 64, 0.08, 58, 92000);
-  park('CP-03', 'JetParks Plus', 460, 20, 140, 64, 0.04, 52, 30000);
-  park('CP-04', 'Meet & Greet T3', 610, 20, 110, 64, 0.02, 140, 9000);
-  park('CP-05', 'Multi-Storey T3', 180, 92, 150, 66, 0.07, 92, 34000);
-  park('CP-06', 'Mid Stay T1 & T3', 340, 92, 220, 66, 0.06, 74, 26000);
-  park('CP-07', 'Long Stay T2', 1070, 20, 230, 64, 0.12, 58, 110000);
-  park('CP-08', 'JetParks 1', 1310, 20, 130, 64, 0.15, 44, 95000);
-  park('CP-09', 'JetParks 2', 1450, 20, 130, 64, 0.12, 40, 80000);
-  park('CP-10', 'Multi-Storey T2', 1070, 92, 180, 66, 0.16, 96, 4086 * 25);
-  park('CP-11', 'Meet & Greet T2', 1260, 92, 110, 66, 0.06, 145, 14000);
-  U('CP-12', 'Car Rental', 'Ground', 'Car Parks', 'ground', 20, 92, 150, 66, 1, { name: 'Car rental centre', tenant: 'Rental concessions', area: 8000, lease: '2028-03-31' });
+  park('CP-01', 'Long Stay T2', 1720, 40, 310, 150, 0.12, 58, 110000);
+  park('CP-02', 'Multi-Storey T2', 2320, 410, 100, 120, 0.16, 96, 4086 * 25);
+  park('CP-03', 'Meet & Greet T2', 2320, 610, 100, 70, 0.06, 145, 14000);
+  park('CP-04', 'Mid Stay T1 & T3', 2692, 770, 80, 96, 0.06, 74, 26000);
+  park('CP-05', 'Multi-Storey T3', 2780, 770, 116, 96, 0.07, 92, 34000);
+  park('CP-06', 'Meet & Greet T3', 2916, 900, 84, 80, 0.02, 140, 9000);
+  park('CP-07', 'JetParks 1', 2950, 370, 190, 100, 0.15, 44, 95000);
+  park('CP-08', 'JetParks 2', 3160, 410, 190, 100, 0.12, 40, 80000);
+  park('CP-09', 'Long Stay T1 & T3', 2950, 600, 190, 96, 0.08, 58, 92000);
+  park('CP-10', 'JetParks Plus', 3160, 640, 120, 80, 0.04, 52, 30000);
+  park('CP-11', 'JetParks 3', 2950, 716, 150, 80, 0.10, 42, 70000);
+  U('CP-12', 'Car Rental', 'Ground', 'Car Parks', 'ground', 2320, 696, 92, 56, 1, { name: 'Car rental centre', tenant: 'Rental concessions', area: 8000, lease: '2028-03-31' });
+  park('CP-13', 'Runway Visitor Park', 1930, 1500, 120, 80, 0.004, 9, 12000);
 
   // ------------------------------------------------------------ passengers
   var gatePax = { Actual: {}, Budget: {} };

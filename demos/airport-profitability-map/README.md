@@ -15,8 +15,14 @@ single unit, then run what-if changes that write back to Pigment and recalculate
 | **~32.1M passengers in 2025**; 2026 is set slightly above that | 2026 monthly passenger figures |
 | Walk-through duty free of **2,165 m²** in T2; **1903** and **Escape** lounges; **JetParks 1–3**, JetParks Plus, Long Stay, Mid Stay, the three multi-storeys, Meet & Greet | |
 
-The map is a **schematic** of the real arrangement, not a survey-accurate plan. It is rotated so
-the runways run left to right, and the compass shows true north. Tenant units use **generic
+The map is **north-up and geographic**:
+
+- The basemap is traced from a map screenshot by `tools/trace_basemap.py`. It covers the airfield boundary, runways and taxiways, the M56 and local roads, the River Bollin and other water, woodland and built-up areas.
+- Both runways sit on their measured 39° line.
+- The terminals, piers, The Station, the hotels and the car parks are placed where they sit on the map.
+- Only the **terminal interiors are schematic**.
+
+**Semantic zoom.** The opening view is the whole airfield, with every terminal zone, pier and car park shaded as one block by its total. Zooming in, or clicking a zone or tab, fades in the internal layout: units, holdrooms, gates and aircraft on stand. Tenant units use **generic
 names** ("Coffee house · P1-03"), so no invented figures are attached to real brands.
 Airport-run assets (lounges, car parks) use their public names. To pitch with real tenant
 brands, edit the `Unit Name` and `Tenant` properties of the Unit list. The Frame code does not
@@ -31,6 +37,8 @@ same.
 |---|---|
 | `src/frame.js` | **The Frame body.** Pure JavaScript (no libraries, no network), written to Pigment Frame rules, reading everything through `window.PigmentSDK`. Airport name, currency and area tabs are in the `CONFIG` and `SCOPE_LIST` constants at the top. Zoom boxes are computed from the data. |
 | `src/mock-sdk.js` | Stand-in for `window.PigmentSDK` outside Pigment: the Manchester layout, a dummy passenger and commercial model, and recalculation after writes. Not used in Pigment. |
+| `src/basemap-man.json` | Traced basemap paths, inlined at build time as `window.__MAN_BASEMAP`. In Pigment they become Map Feature items of type `base` with a `Path`. |
+| `tools/trace_basemap.py` | Turns a map screenshot into basemap paths: `python3 tools/trace_basemap.py <png> src/basemap-man.json 3`. Needs `numpy`, `pillow`, `contourpy`. |
 | `build.js` | `node build.js` writes `dist/airport-profit-map.html` (artifact page) and `dist/standalone.html` (open locally). |
 
 ## Stories built into the data
@@ -44,7 +52,7 @@ same.
 
 ### Five-minute demo script
 
-1. Open on *Profit*: "Every commercial unit at Manchester, coloured by what it earns the airport." Hover the T2 duty free and Multi-Storey T2.
+1. Open on the whole airfield: "This is Manchester, and every block is a revenue zone coloured by what it earns." Then click **Terminal 2**, and the map zooms in to show the internal layout.
 2. Click **Terminal 3**. The headline figures now cover T3 only.
 3. Switch to **vs Budget** and press **Play 2026**. After T1 closes in March, T3 goes red and T2 blue. Turn on **Passenger flow**.
 4. Search **Arrivals café**. Read the generated explanation, profit bridge and trend.
@@ -64,7 +72,7 @@ same.
 
 **Map Feature.** Background geometry. Properties: `Type`, `Shape`, `Label`, `Sub`, `LabelX`, `LabelY`, `Terminal`, `Zone`, `Pier`, `Heading`, `Ends`, `Closed`.
 
-`Type` is one of `apron`, `runway`, `taxiway`, `road`, `walkway`, `station`, `terminal`, `closed`, `zone`, `pier`, `ghostpier`, `security`, `checkin`, `holdroom`, `stand`, `gate` or `compass`.
+`Type` is one of `base` (with `Class` and `Path`), `runwayline` (with `Line`), `place`, `roadlabel`, `poi`, `walkway`, `station`, `terminal`, `closed`, `zone`, `pier`, `ghostpier`, `security`, `checkin`, `holdroom`, `stand`, `gate` or `compass`.
 
 **Month** (Jan–Dec 2026) and **Gate**.
 
@@ -105,7 +113,8 @@ By Unit × Month × Version (Actual, Budget):
 - Point what-if write-back at a scenario or sandbox version.
 - `MONTHS` and `LAST_ACTUAL` are constants at the top of `frame.js`. Drive them from the Month list when the period rolls forward.
 - Confirm that `prop()` matches the real `subscribeToItems` item shape.
-- If the demo goes to the customer, replace the schematic geometry with traced coordinates from Manchester's own CAD or GIS floor plans. The `Shape` columns take them directly.
+- **Basemap licensing.** The current basemap is traced from a Google Maps screenshot. That is fine for an internal concept, but Google's terms restrict derived map data. For anything shown to a customer or published, retrace from OpenStreetMap (ODbL, with "© OpenStreetMap contributors" attribution) or from the airport's own GIS. The colour rules in `trace_basemap.py` will need adjusting for a different map style.
+- For a customer-ready interior, replace the schematic terminal geometry with coordinates from Manchester's own CAD or GIS floor plans. The `Shape` columns take them directly.
 
 ## Sources for the public facts
 

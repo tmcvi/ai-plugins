@@ -3,7 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 const src = (f) => fs.readFileSync(path.join(__dirname, 'src', f), 'utf8');
-const mock = src('mock-sdk.js');
+const basemap = 'window.__MAN_BASEMAP = ' + src('basemap-man.json').trim() + ';';
+const mock = basemap + '\n' + src('mock-sdk.js');
 const frame = src('frame.js');
 const head = [
   '<title>Aurora Airport Profit Map</title>',
