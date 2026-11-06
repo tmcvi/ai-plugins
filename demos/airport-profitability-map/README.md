@@ -1,69 +1,70 @@
-# Airport Profitability Map — Pigment Frame prototype
+# Airport Profitability Map: Manchester Airport prototype (Pigment Frame)
 
-An interactive floor plan of a fictional airport, **Aurora International**. Each commercial unit is
-coloured by how much profit it makes for the airport. Viewers can drill from the airport to a
-terminal, a pier and a single unit, then run what-if changes that write back to Pigment and
-recalculate the whole map.
+An interactive floor plan of Manchester Airport (MAN) with each commercial unit coloured by how
+much profit it makes for the airport. Viewers drill from the airport to a terminal, a pier and a
+single unit, then run what-if changes that write back to Pigment and recalculate the whole map.
 
-All data is dummy data. The airport, tenants and brands are invented.
+## What is real and what is invented
+
+| Real (from public sources) | Invented for the demo |
+|---|---|
+| Terminal 2 with **Pier 1** (opened 2019, 11 contact stands) and **Pier 2** (12 gates, A380-capable double air bridges) | Every unit's sales, costs, profit, lease date and minimum guarantee |
+| **Terminal 1 closed** (reported as 15 March 2026); Terminal 3 extends into part of its space; Ryanair operates from T3 | Unit positions inside each terminal, and gate labels (`P1·4`, `T3·2`) |
+| **The Station** (rail, Metrolink, coach) and the **Skylink** walkway | The split of passengers between terminals and piers |
+| Runways **05L/23R (3,048 m)** and **05R/23L (3,050 m)**, running SW–NE with the terminals to the north-west | Budget figures and the budget-vs-actual stories |
+| **~32.1M passengers in 2025**; 2026 is set slightly above that | 2026 monthly passenger figures |
+| Walk-through duty free of **2,165 m²** in T2; **1903** and **Escape** lounges; **JetParks 1–3**, JetParks Plus, Long Stay, Mid Stay, the three multi-storeys, Meet & Greet | |
+
+The map is a **schematic** of the real arrangement, not a survey-accurate plan. It is rotated so
+the runways run left to right, and the compass shows true north. Tenant units use **generic
+names** ("Coffee house · P1-03"), so no invented figures are attached to real brands.
+Airport-run assets (lounges, car parks) use their public names. To pitch with real tenant
+brands, edit the `Unit Name` and `Tenant` properties of the Unit list. The Frame code does not
+change.
+
+The page shows an "Illustrative data" badge, and the insights panel carries a note saying the
+same.
 
 ## Files
 
 | File | What it is |
 |---|---|
-| `src/frame.js` | **The Frame body.** Pure JavaScript (no libraries, no network), written to Pigment Frame rules. It reads everything through `window.PigmentSDK`. Paste it into Pigment as-is. |
-| `src/mock-sdk.js` | Stand-in for `window.PigmentSDK` outside Pigment: same aliases, same data shapes and loading states, and it recalculates after writes. Not used in Pigment. |
-| `build.js` | `node build.js` inlines both into `dist/airport-profit-map.html` (artifact page) and `dist/standalone.html` (open locally in a browser). |
+| `src/frame.js` | **The Frame body.** Pure JavaScript (no libraries, no network), written to Pigment Frame rules, reading everything through `window.PigmentSDK`. Airport name, currency and area tabs are in the `CONFIG` and `SCOPE_LIST` constants at the top. Zoom boxes are computed from the data. |
+| `src/mock-sdk.js` | Stand-in for `window.PigmentSDK` outside Pigment: the Manchester layout, a dummy passenger and commercial model, and recalculation after writes. Not used in Pigment. |
+| `build.js` | `node build.js` writes `dist/airport-profit-map.html` (artifact page) and `dist/standalone.html` (open locally). |
 
-## What it shows
+## Stories built into the data
 
-- **Six lenses:** Profit, Profit per m², Retail spend per passenger, Variance to budget, Lease expiry, Category.
-- **Drill path:** airport → terminal → pier or zone → unit. Click a zone or use the tabs; the KPI strip and insights follow the drill.
-- **Unit panel:** a profit bridge (income, service charge, direct cost, space cost), trading KPIs, a 2026 monthly trend against budget, and plain-English explanations generated from the data.
-- **What-if write-back:** change a unit's revenue share or re-let it as another category. The Frame calls `editValue` / `editItem`, Pigment recalculates, and the map recolours. "Undo all" writes the original values back.
-- **Time playback:** steps month by month through 2026 actuals.
-- **Passenger flow overlay:** footfall from security to each pier, with gate pax against budget.
-
-### Stories planted in the dummy data
-
-1. **Pier B gate reallocation.** From May 2026, gates B1–B5 lose 62% of their flights to Pier C, and the budget did not plan for it. Use the *vs Budget* lens and press *Play*: T1 turns red and T2 turns blue. The insight panel shows the cost by zone.
-2. **Arrivals Coffee House (T1 landside)** is the clearest loss-maker: a large unit in a dead corner with a lease ending in Jan 2027. Re-let it as News & Convenience and watch the profit change.
-3. **Volt Electronics (T2 airside)** trades below its minimum guarantee, so the airport is protected but the tenant is at risk.
-4. **Duty free and car parks** are the profit pools. On the *Profit / m²* lens, the advertising screens in the airside link turn out to be the densest earners.
-5. **Pier C leases** cluster in the next 12 months, so the *Lease expiry* lens shows revenue at risk.
+1. **Terminal 1 closure.** The budget assumed more of T1's passengers would move to T3 and its new extension than actually did. Use the *vs Budget* lens and press *Play 2026*: from March, T2 turns blue (about +11%) and T3 turns red (T3 extension about −30%). Turn on *Passenger flow* to see it at the gates.
+2. **Pier 2 ramp-up.** The pier opened in 2025, and its units trail budget early in the year before catching up by summer. Open any Pier 2 unit and look at the monthly trend.
+3. **Arrivals café · T2** is the clearest loss-maker: a big landside unit with low footfall and a lease ending March 2027. Re-let it live in the demo.
+4. **Tech accessories · P1-08** trades below its minimum guarantee, so the airport is protected but the tenant is at risk.
+5. **Profit pools.** The T2 walk-through duty free and Multi-Storey T2 lead on profit. On *Profit / m²*, the Skylink and Station screens top the table.
+6. **Lease cluster.** Several Pier 1 leases end in 2027. Use the *Lease expiry* lens.
 
 ### Five-minute demo script
 
-1. Open on *Profit*. "This is every commercial unit in the airport, coloured by profit." Hover a few units.
-2. Click **Terminal 1**, then **Pier B**. The KPI strip now covers Pier B only.
-3. Switch to **vs Budget** and press **Play 2026**. From May, the pier turns red. Turn on **Passenger flow** to show why.
-4. Search for **Arrivals Coffee House**. Read the auto-generated explanation, the profit bridge and the trend.
-5. Re-let it as **News & Convenience** and press **Apply**. "That just wrote to Pigment. The model recalculated, and the map, KPIs and insights updated." Then press **Undo all**.
+1. Open on *Profit*: "Every commercial unit at Manchester, coloured by what it earns the airport." Hover the T2 duty free and Multi-Storey T2.
+2. Click **Terminal 3**. The headline figures now cover T3 only.
+3. Switch to **vs Budget** and press **Play 2026**. After T1 closes in March, T3 goes red and T2 blue. Turn on **Passenger flow**.
+4. Search **Arrivals café**. Read the generated explanation, profit bridge and trend.
+5. Re-let it as **News & Convenience** and press **Apply**. "That wrote to Pigment, the model recalculated, and the map updated." Then press **Undo all**.
 
 ## Moving it into Pigment
 
 ### Lists
 
-**Unit** (one item per commercial unit). The item name is the unit code, for example `T1-B-03`.
+**Unit.** The item name is the unit code (for example `T2-P1-03`). Properties:
 
-| Property | Type | Notes |
-|---|---|---|
-| Unit Name | Text | Display name |
-| Tenant | Text | Writable by the Frame (re-let) |
-| Category | Text or dimension | Writable by the Frame (re-let) |
-| Terminal | Text | `T1`, `T2`, `Link`, `Ground` |
-| Zone | Text | `Pier A`, `T1 Airside`, `T1 Landside`, `Airside Link`, `Car Parks & Ground`... |
-| Area (m²) | Number | |
-| Operating Model | Text | `Concession`, `Airport-operated`, `Media` |
-| Shape | Text | `x,y,w,h` in a 1600×1000 map space. **The floor plan is data.** |
-| Lease Expiry | Date | |
-| MAG (€/yr) | Number | Minimum annual guarantee |
-| Nearest Gate | Text | |
+- `Unit Name`, `Tenant` and `Category`. `Tenant` and `Category` are writable for re-letting.
+- `Terminal`: `T2`, `T3`, `Landside` or `Ground`.
+- `Zone`, `Area (m²)` and `Operating Model`.
+- `Shape`: `x,y,w,h` in a 1600×1000 map space.
+- `Lease Expiry`, `MAG (£/yr)` and `Nearest Gate`.
 
-**Map Feature** (background geometry: runway, apron, terminals, piers, security, check-in, holdrooms,
-gates, stands, roads). Properties: `Type`, `Shape`, `Label`, `Terminal`, `Zone`, `Pier`, `Heading`.
-Swap these two lists and the same Frame draws a different airport, a shopping centre, a stadium
-or a hospital estate.
+**Map Feature.** Background geometry. Properties: `Type`, `Shape`, `Label`, `Sub`, `LabelX`, `LabelY`, `Terminal`, `Zone`, `Pier`, `Heading`, `Ends`, `Closed`.
+
+`Type` is one of `apron`, `runway`, `taxiway`, `road`, `walkway`, `station`, `terminal`, `closed`, `zone`, `pier`, `ghostpier`, `security`, `checkin`, `holdroom`, `stand`, `gate` or `compass`.
 
 **Month** (Jan–Dec 2026) and **Gate**.
 
@@ -71,21 +72,19 @@ or a hospital estate.
 
 By Unit × Month × Version (Actual, Budget):
 
-- Inputs and drivers: Passengers Exposed, Conversion, Average Ticket, Revenue Share (Unit only, writable), Space Cost Rate by zone.
-- Calculated: Tenant Sales, Concession Income (`MAX(MAG / 12, Revenue Share × Sales)`), Other Income, Direct Cost, Allocated Cost, Airport Profit, Budget Profit, Transactions.
-- Departing Pax and Budget Departing Pax by Gate × Month.
+- Drivers: Passengers Exposed, Conversion, Average Ticket, Revenue Share (by Unit only, writable), and Space Cost Rate by zone.
+- Calculated: Tenant Sales, Concession Income (`MAX(MAG / 12, Revenue Share × Sales)`), Other Income, Direct Cost, Allocated Cost, Airport Profit, Budget Profit and Transactions.
+- By Gate × Month: Departing Pax and Budget Departing Pax.
 
-`src/mock-sdk.js` (`calc()`) is a working reference for this logic.
+`calc()` in `src/mock-sdk.js` is a working reference for this logic.
 
 ### Views
 
-| Alias | Source | Rows | Columns | Page |
-|---|---|---|---|---|
-| `unitKpis` | KPI metrics | Unit | Tenant Sales, Concession Income, Other Income, Direct Cost, Allocated Cost, Airport Profit, Budget Profit, Transactions, Passengers Exposed, Budget Passengers Exposed, Revenue Share | `months` (multi-select) |
-| `unitTrend` | Same metrics | Month | Airport Profit, Budget Profit, Tenant Sales, Transactions | `units` (one unit) |
-| `gatePax` | Gate pax | Gate | Departing Pax, Budget Departing Pax | `months` |
-
-The Frame looks up columns by name, so column order does not matter.
+| Alias | Rows | Columns | Page |
+|---|---|---|---|
+| `unitKpis` | Unit | Tenant Sales, Concession Income, Other Income, Direct Cost, Allocated Cost, Airport Profit, Budget Profit, Transactions, Passengers Exposed, Budget Passengers Exposed, Revenue Share | `months` (multi-select) |
+| `unitTrend` | Month | Airport Profit, Budget Profit, Tenant Sales, Transactions | `units` (one unit) |
+| `gatePax` | Gate | Departing Pax, Budget Departing Pax | `months` |
 
 ### Frame bindings
 
@@ -101,8 +100,18 @@ The Frame looks up columns by name, so column order does not matter.
 ]
 ```
 
-### Before going live, check
+### Before going live
 
-- **Scenario-safe write-back:** what-if writes change the model, so point the Frame at a scenario or a sandbox version.
-- **Month constants:** `MONTHS` and `LAST_ACTUAL` are constants at the top of `frame.js`. Drive them from the Month list if the period rolls forward.
-- **Item shape:** the Frame reads properties by friendly name through `prop()`, which accepts flat or nested item shapes. Confirm this against the real `subscribeToItems` payload.
+- Point what-if write-back at a scenario or sandbox version.
+- `MONTHS` and `LAST_ACTUAL` are constants at the top of `frame.js`. Drive them from the Month list when the period rolls forward.
+- Confirm that `prop()` matches the real `subscribeToItems` item shape.
+- If the demo goes to the customer, replace the schematic geometry with traced coordinates from Manchester's own CAD or GIS floor plans. The `Shape` columns take them directly.
+
+## Sources for the public facts
+
+- 2025 passengers: [CAPA](https://centreforaviation.com/news/manchester-airport-handles-record-321m-pax-in-2025-1344609), [Marketing Stockport](https://marketingstockport.co.uk/news/manchester-airport-records-32-million-passengers-in-2025/)
+- Terminal 1 closure and T3: [Travel Radar](https://travelradar.aero/manchester-airport-closes-terminal-1-after-60-years/), [CAPA](https://centreforaviation.com/news/manchester-airport-reports-record-feb-2026-amid-new-status-as-two-terminal-facility-1351534)
+- Piers 1 and 2: [ADS Group](https://www.adsgroup.org.uk/knowledge/industry-member-news/manchester-airport-s-new-pier-completes-first-phase-of-pound-1bn-transformation/), [Construction Index](https://www.theconstructionindex.co.uk/news/view/mace-breaks-ground-on-mags-pier-2)
+- T2 retail and the duty free size: [Moodie Davitt](https://moodiedavittreport.com/22-new-retail-and-fb-stores-to-complete-manchester-airport-t2-transformation-in-2025/), [Business Traveller](https://www.businesstraveller.com/business-travel/2024/09/21/manchester-airport-unveils-line-up-of-shops-bars-and-restaurants-for-terminal-2/)
+- Runways: [OurAirports](https://ourairports.com/airports/EGCC/runways.html)
+- Car parks: [Confidentials](https://confidentials.com/manchester/quick-guide-to-official-parking-at-manchester-airport)

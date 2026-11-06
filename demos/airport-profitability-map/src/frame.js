@@ -25,24 +25,23 @@
   var AS_OF = new Date('2026-10-31T00:00:00Z');
   var PERIODS = [{ key: 'ytd', label: 'YTD Oct 2026', months: MONTHS.slice(0, 10) }, { key: 'fy', label: 'FY 2026 · actual + forecast', months: MONTHS.slice() }];
   MONTHS.forEach(function (m, i) { PERIODS.push({ key: 'm' + i, label: m + (i > LAST_ACTUAL ? ' · forecast' : ''), months: [m] }); });
-  var WORLD = { x: 0, y: 0, w: 1600, h: 1000 };
-  var SCOPES = {
-    all: { label: 'Airport', box: WORLD, test: function () { return true; } },
-    T1: { label: 'Terminal 1', box: { x: 50, y: 70, w: 720, h: 830 }, test: function (u) { return u.terminal === 'T1'; } },
-    T2: { label: 'Terminal 2', box: { x: 850, y: 60, w: 720, h: 840 }, test: function (u) { return u.terminal === 'T2'; } },
-    Link: { label: 'Airside Link', box: { x: 700, y: 560, w: 220, h: 160 }, test: function (u) { return u.terminal === 'Link'; } },
-    Ground: { label: 'Car parks & ground', box: { x: 60, y: 860, w: 1480, h: 140 }, test: function (u) { return u.terminal === 'Ground'; } }
-  };
+  var CONFIG = { airport: 'Manchester Airport', mark: 'MAN', subtitle: 'Commercial profitability map', currency: '£', disclaimer: 'Illustrative data' };
+  var WORLD = { x: -10, y: -64, w: 1620, h: 1080 }; // whole-airport view, padded so floating controls clear the map
+  // Area tabs. Keys match the 'Terminal' property on Units and Map Features; zoom boxes come from the data.
+  var SCOPE_LIST = [['all', 'Airport'], ['T2', 'Terminal 2'], ['T3', 'Terminal 3'], ['Landside', 'Station & Skylink'], ['Ground', 'Car parks']];
+  var SCOPES = {};
+  SCOPE_LIST.forEach(function (s) { SCOPES[s[0]] = { label: s[1], box: WORLD, test: s[0] === 'all' ? function () { return true; } : function (u) { return u.terminal === s[0]; } }; });
+  var PIER_ZONES = {};
   var CAT_GROUP = {
     'Duty Free': 'Duty Free', 'Café & Bakery': 'Food & Beverage', 'Bar & Restaurant': 'Food & Beverage', 'Quick Service': 'Food & Beverage',
-    'Fashion & Luxury': 'Specialist Retail', 'Health & Beauty': 'Specialist Retail', 'Tech & Electronics': 'Specialist Retail',
+    'Fashion & Luxury': 'Specialist Retail', 'Health & Beauty': 'Specialist Retail', 'Tech & Electronics': 'Specialist Retail', 'Jewellery & Watches': 'Specialist Retail', 'Toys & Gifts': 'Specialist Retail',
     'News & Convenience': 'Convenience', 'Lounge': 'Lounges', 'Parking': 'Parking & Mobility', 'Car Rental': 'Parking & Mobility',
     'Currency Exchange': 'Services', 'Advertising': 'Advertising'
   };
   var GROUP_COLORS = [['Duty Free', '#3987e5'], ['Food & Beverage', '#d95926'], ['Specialist Retail', '#199e70'], ['Convenience', '#c98500'], ['Lounges', '#d55181'], ['Parking & Mobility', '#008300'], ['Services', '#9085e9'], ['Advertising', '#e66767']];
   var RETAIL = { 'Duty Free': 1, 'Food & Beverage': 1, 'Specialist Retail': 1, 'Convenience': 1, 'Services': 1 };
-  var RETENANT = ['Café & Bakery', 'Bar & Restaurant', 'Quick Service', 'News & Convenience', 'Health & Beauty', 'Fashion & Luxury', 'Tech & Electronics', 'Duty Free', 'Currency Exchange'];
-  var DEFAULT_RATE = { 'Duty Free': 0.36, 'Fashion & Luxury': 0.16, 'Health & Beauty': 0.17, 'Tech & Electronics': 0.12, 'News & Convenience': 0.20, 'Café & Bakery': 0.15, 'Bar & Restaurant': 0.15, 'Quick Service': 0.13, 'Currency Exchange': 0.30 };
+  var RETENANT = ['Café & Bakery', 'Bar & Restaurant', 'Quick Service', 'News & Convenience', 'Health & Beauty', 'Fashion & Luxury', 'Jewellery & Watches', 'Toys & Gifts', 'Tech & Electronics', 'Duty Free', 'Currency Exchange'];
+  var DEFAULT_RATE = { 'Duty Free': 0.36, 'Fashion & Luxury': 0.16, 'Health & Beauty': 0.17, 'Tech & Electronics': 0.12, 'News & Convenience': 0.20, 'Café & Bakery': 0.15, 'Bar & Restaurant': 0.15, 'Quick Service': 0.13, 'Currency Exchange': 0.30, 'Jewellery & Watches': 0.16, 'Toys & Gifts': 0.17 };
 
   var NEUTRAL = '#3a414b';
   var DIV_POS = [NEUTRAL, '#1f4f8f', '#2a78d6', '#5598e7', '#9ec5f4'];
@@ -63,7 +62,7 @@
   var S = {
     units: [], byCode: {}, features: [], kpi: {}, gatePax: {}, gateBudget: {}, trend: null,
     lens: 'profit', period: 'ytd', scope: 'all', zone: null, selected: null, flow: false,
-    view: { x: 0, y: 0, w: 1600, h: 1000 }, stale: true, edits: [], baseline: null, busy: false,
+    view: { x: WORLD.x, y: WORLD.y, w: WORLD.w, h: WORLD.h }, stale: true, edits: [], baseline: null, busy: false,
     playing: false, ready: { units: false, features: false, kpis: false }, error: null, toast: null
   };
   var subs = [];
@@ -78,7 +77,7 @@
   // ------------------------------------------------------------ formatting
   function money(v, opts) {
     if (v === null || v === undefined || isNaN(v)) return '—';
-    var a = Math.abs(v), s = v < 0 ? '−€' : (opts && opts.sign && v > 0 ? '+€' : '€');
+    var C = CONFIG.currency, a = Math.abs(v), s = v < 0 ? '−' + C : (opts && opts.sign && v > 0 ? '+' + C : C);
     if (a >= 1e6) return s + (a / 1e6).toFixed(a >= 1e7 ? 1 : 2) + 'M';
     if (a >= 1e3) return s + (a / 1e3).toFixed(a >= 1e5 ? 0 : 1) + 'k';
     return s + (a === 0 ? '0' : a.toFixed(a < 10 ? 2 : 0));
@@ -215,8 +214,8 @@
     var t = S.scope, z = S.zone;
     S.features.forEach(function (f) {
       if (f.type !== 'gate') return;
-      if (t !== 'all' && t !== 'Ground' && t !== 'Link' && f.terminal !== t) return;
-      if (z && z.indexOf('Pier ') === 0 && f.pier !== z.slice(5)) return;
+      if (t !== 'all' && t !== 'Ground' && t !== 'Landside' && f.terminal !== t) return;
+      if (z && PIER_ZONES[z] && f.pier !== z) return;
       s += S.gatePax[f.label] || 0; b += S.gateBudget[f.label] || 0;
     });
     return { actual: s, budget: b };
@@ -232,7 +231,8 @@
     '.apm :focus-visible{outline:2px solid var(--sign);outline-offset:2px}',
     '.apm-top{display:flex;align-items:center;gap:14px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);background:var(--surface);flex-wrap:wrap}',
     '.apm-brand{display:flex;align-items:center;gap:10px;min-width:0}',
-    '.apm-mark{width:30px;height:30px;border-radius:6px;background:var(--sign);color:var(--signInk);display:grid;place-items:center;font-weight:800;font-size:15px;flex:none}',
+    '.apm-mark{min-width:34px;height:30px;padding:0 6px;border-radius:6px;background:var(--sign);color:var(--signInk);display:grid;place-items:center;font-weight:800;font-size:13px;letter-spacing:.04em;flex:none}',
+    '.apm-demo{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--sign);border:1px solid rgba(255,198,39,.5);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:2px;cursor:help}',
     '.apm-title{font-weight:700;font-size:15px;letter-spacing:.01em;white-space:nowrap}',
     '.apm-sub{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}',
     '.apm-tabs{display:flex;gap:2px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:2px;overflow-x:auto;max-width:100%}',
@@ -333,7 +333,7 @@
     '.dim{opacity:.22}',
     '.ul{fill:#fff;font-size:5.4px;font-weight:600;pointer-events:none;opacity:0;transition:opacity .2s}',
     '.ul.dk{fill:#0b0f14}',
-    '.lod1 .ul.big,.lod2 .ul{opacity:1}',
+    '.ul.huge,.lod1 .ul.big,.lod2 .ul{opacity:1}',
     '.gl{fill:#ffc627;font-size:9px;font-weight:800;letter-spacing:.04em;pointer-events:none}',
     '.zl{fill:rgba(238,241,244,.45);font-size:11px;font-weight:700;letter-spacing:.18em;pointer-events:none}',
     '.zh{fill:transparent;cursor:zoom-in}',
@@ -357,14 +357,14 @@
 
   // --------------------------------------------------------- shell markup
   function shellHtml() {
-    var tabs = ['all', 'T1', 'T2', 'Link', 'Ground'].map(function (k) {
+    var tabs = SCOPE_LIST.map(function (sc) { return sc[0]; }).map(function (k) {
       return '<button class=\'apm-tab\' data-act=\'scope\' data-v=\'' + k + '\' aria-pressed=\'false\'>' + esc(SCOPES[k].label) + '</button>';
     }).join('');
     var opts = PERIODS.map(function (p) { return '<option value=\'' + p.key + '\'>' + esc(p.label) + '</option>'; }).join('');
     var lens = LENSES.map(function (l) { return '<button data-act=\'lens\' data-v=\'' + l.key + '\' title=\'' + esc(l.hint) + '\' aria-pressed=\'false\'>' + esc(l.label) + '</button>'; }).join('');
     return '' +
       '<header class=\'apm-top\'>' +
-        '<div class=\'apm-brand\'><div class=\'apm-mark\' aria-hidden=\'true\'>✈</div><div><div class=\'apm-title\'>Aurora International</div><div class=\'apm-sub\'>Commercial profitability map</div></div></div>' +
+        '<div class=\'apm-brand\'><div class=\'apm-mark\' aria-hidden=\'true\'>' + esc(CONFIG.mark) + '</div><div><div class=\'apm-title\'>' + esc(CONFIG.airport) + ' <span class=\'apm-demo\' title=\'Real layout and passenger scale. Unit-level sales, costs and profits are invented for demonstration.\'>' + esc(CONFIG.disclaimer) + '</span></div><div class=\'apm-sub\'>' + esc(CONFIG.subtitle) + '</div></div></div>' +
         '<nav class=\'apm-tabs\' aria-label=\'Area\'>' + tabs + '</nav>' +
         '<div class=\'apm-spacer\'></div>' +
         '<div class=\'apm-period\'><label for=\'apm-period\' class=\'apm-sub\'>Period</label><select id=\'apm-period\' class=\'apm-select\' data-act=\'period\'>' + opts + '</select>' +
@@ -413,7 +413,7 @@
 
     var gBg = el('g', {}, svg), gZone = el('g', {}, svg), gUnits = el('g', { id: 'apm-units' }, svg);
     var gFlow = el('g', { id: 'apm-flow' }, svg), gGates = el('g', {}, svg), gLabels = el('g', {}, svg), gSel = el('g', {}, svg);
-    var order = { apron: 0, runway: 1, taxiway: 1, road: 1, terminal: 2, zone: 3, pier: 3, security: 4, checkin: 4, holdroom: 4, stand: 5, gate: 6 };
+    var order = { apron: 0, runway: 1, taxiway: 1, road: 1, walkway: 2, station: 2, terminal: 2, closed: 2, ghostpier: 3, zone: 3, pier: 3, security: 4, checkin: 4, holdroom: 4, stand: 5, gate: 6, compass: 6 };
     var feats = S.features.slice().sort(function (a, b) { return (order[a.type] || 0) - (order[b.type] || 0); });
     feats.forEach(function (f) {
       var r = f.box;
@@ -422,7 +422,32 @@
         case 'runway':
           el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#1b2129' }, gBg);
           el('line', { x1: r.x + 70, y1: r.y + r.h / 2, x2: r.x + r.w - 70, y2: r.y + r.h / 2, stroke: '#4b5562', 'stroke-width': 1.5, 'stroke-dasharray': '18 14' }, gBg);
-          for (var i = 0; i < 6; i++) { el('rect', { x: r.x + 8, y: r.y + 3 + i * 4.4, width: 26, height: 2.2, fill: '#4b5562' }, gBg); el('rect', { x: r.x + r.w - 34, y: r.y + 3 + i * 4.4, width: 26, height: 2.2, fill: '#4b5562' }, gBg); }
+          for (var i = 0; i < 6; i++) { el('rect', { x: r.x + 8, y: r.y + 3 + i * (r.h - 6) / 6, width: 22, height: 2.2, fill: '#4b5562' }, gBg); el('rect', { x: r.x + r.w - 30, y: r.y + 3 + i * (r.h - 6) / 6, width: 22, height: 2.2, fill: '#4b5562' }, gBg); }
+          if (f.ends) {
+            var ends = f.ends.split('|');
+            var e1 = el('text', { x: r.x + 44, y: r.y + r.h / 2 + 4, class: 'zl', 'text-anchor': 'middle', style: 'font-size:11px;fill:rgba(238,241,244,.55)' }, gBg); e1.textContent = ends[0];
+            var e2 = el('text', { x: r.x + r.w - 44, y: r.y + r.h / 2 + 4, class: 'zl', 'text-anchor': 'middle', style: 'font-size:11px;fill:rgba(238,241,244,.55)' }, gBg); e2.textContent = ends[1] || '';
+          }
+          if (f.label) { var rl = el('text', { x: r.x + r.w / 2, y: r.y - 4, class: 'zl', 'text-anchor': 'middle', style: 'font-size:8px;letter-spacing:.14em;fill:rgba(238,241,244,.32)' }, gBg); rl.textContent = f.label; }
+          break;
+        case 'closed':
+          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: 'url(#apm-hatch)', stroke: 'rgba(255,255,255,.18)', 'stroke-dasharray': '6 5', 'stroke-width': 1.2 }, gBg);
+          break;
+        case 'ghostpier':
+          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: 'none', stroke: 'rgba(255,255,255,.16)', 'stroke-dasharray': '6 5', 'stroke-width': 1.2 }, gBg);
+          break;
+        case 'station':
+          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: '#1a2330', stroke: 'rgba(255,255,255,.14)', 'stroke-width': 1.2 }, gBg);
+          for (var q = 0; q < 3; q++) el('line', { x1: r.x + 14, x2: r.x + r.w - 14, y1: r.y + 66 + q * 10, y2: r.y + 66 + q * 10, stroke: '#2c3846', 'stroke-width': 2 }, gBg);
+          break;
+        case 'walkway':
+          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#212b37', stroke: 'rgba(255,255,255,.08)' }, gBg);
+          break;
+        case 'compass':
+          var cg = el('g', { transform: 'translate(' + (r.x + r.w / 2) + ',' + (r.y + r.h / 2) + ') rotate(' + (f.heading || 0) + ')' }, gBg);
+          el('circle', { r: 17, fill: 'none', stroke: 'rgba(255,255,255,.14)' }, cg);
+          el('path', { d: 'M0,-14 L6,8 L0,4 L-6,8 Z', fill: '#a9b3bf' }, cg);
+          var nt = el('text', { y: -21, 'text-anchor': 'middle', class: 'zl', style: 'font-size:9px;fill:#a9b3bf;letter-spacing:0' }, cg); nt.textContent = 'N';
           break;
         case 'taxiway': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#151b22' }, gBg); el('line', { x1: r.x, y1: r.y + r.h / 2, x2: r.x + r.w, y2: r.y + r.h / 2, stroke: '#7a6420', 'stroke-width': 0.8 }, gBg); break;
         case 'road': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 4, fill: '#161c24' }, gBg); el('line', { x1: r.x + 10, y1: r.y + r.h / 2, x2: r.x + r.w - 10, y2: r.y + r.h / 2, stroke: '#3a4350', 'stroke-dasharray': '10 8' }, gBg); break;
@@ -444,6 +469,7 @@
           el('path', { d: PLANE, fill: '#2a3440', stroke: '#3a4655', 'stroke-width': 1 / sc, transform: 'translate(' + cx + ',' + cy + ') rotate(' + (f.heading || 0) + ') scale(' + sc + ')' }, gBg);
           break;
         case 'gate':
+          if (f.closed) { el('circle', { cx: r.x, cy: r.y, r: 2.5, fill: '#4b5562' }, gGates); break; }
           el('circle', { cx: r.x, cy: r.y, r: 3, fill: '#ffc627' }, gGates);
           var left = f.side === 'L';
           var tx = el('text', { x: r.x + (left ? 7 : -7), y: r.y + 3, class: 'gl', 'text-anchor': left ? 'start' : 'end' }, gLabels);
@@ -454,25 +480,31 @@
         var z = el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 8, class: 'zh', 'data-zone': f.zone, 'data-term': f.terminal }, gZone);
         var ttl = el('title', {}, z); ttl.textContent = 'Zoom into ' + f.zone;
       }
-      if (f.label && f.type !== 'gate' && f.type !== 'stand') {
-        var lx = r.x + r.w / 2, ly;
-        if (f.type === 'pier') ly = r.y - 8;
-        else if (f.type === 'terminal') ly = r.y + r.h + 29;
-        else if (f.type === 'runway') ly = r.y + r.h / 2 + 4;
-        else ly = r.y + r.h / 2 + 4;
-        if (f.type === 'zone' && f.zone !== 'Airside Link') return;
-        var t = el('text', { x: lx, y: f.type === 'zone' ? r.y - 6 : ly, class: 'zl', 'text-anchor': 'middle' }, gLabels);
-        if (f.type === 'checkin' || f.type === 'security' || f.type === 'road' || f.type === 'runway') t.setAttribute('style', 'font-size:8px;letter-spacing:.14em;fill:rgba(238,241,244,.32)');
+      if (f.label && f.type !== 'gate' && f.type !== 'stand' && f.type !== 'runway') {
+        if (f.type === 'zone' && f.labelX === null) return;
+        var lx = f.labelX !== null ? f.labelX : r.x + r.w / 2;
+        var ly = f.labelY !== null ? f.labelY : r.y + r.h / 2 + 3;
+        var t = el('text', { x: lx, y: ly, class: 'zl', 'text-anchor': 'middle' }, gLabels);
+        if (f.small || f.type === 'checkin' || f.type === 'security' || f.type === 'road' || f.type === 'walkway') t.setAttribute('style', 'font-size:7.5px;letter-spacing:.14em;fill:rgba(238,241,244,.34)');
         t.textContent = f.label;
+        if (f.sub) { var st2 = el('text', { x: lx, y: ly + 12, class: 'zl', 'text-anchor': 'middle', style: 'font-size:7.5px;letter-spacing:.12em;fill:rgba(238,241,244,.36)' }, gLabels); st2.textContent = f.sub; }
       }
     });
 
+    SCOPE_LIST.forEach(function (sc) {
+      if (sc[0] === 'all') return;
+      var bx = null;
+      var add = function (b) { if (!b || !b.w) return; if (!bx) bx = { x0: b.x, y0: b.y, x1: b.x + b.w, y1: b.y + b.h }; else { bx.x0 = Math.min(bx.x0, b.x); bx.y0 = Math.min(bx.y0, b.y); bx.x1 = Math.max(bx.x1, b.x + b.w); bx.y1 = Math.max(bx.y1, b.y + b.h); } };
+      S.units.forEach(function (u) { if (u.terminal === sc[0]) add(u.box); });
+      S.features.forEach(function (f) { if (f.terminal === sc[0] && f.type !== 'gate') add(f.box); });
+      if (bx) SCOPES[sc[0]].box = { x: bx.x0 - 30, y: bx.y0 - 30, w: bx.x1 - bx.x0 + 60, h: bx.y1 - bx.y0 + 60 };
+    });
     unitEls = {};
     S.units.forEach(function (u) {
       var r = u.box;
       var rect = el('rect', { x: r.x + 0.8, y: r.y + 0.8, width: Math.max(r.w - 1.6, 1), height: Math.max(r.h - 1.6, 1), rx: 2.5, class: 'u', fill: NEUTRAL, stroke: '#0b0f14', 'stroke-width': 1, 'data-code': u.code, tabindex: 0, role: 'button', 'aria-label': u.name }, gUnits);
       var big = r.w * r.h > 2500;
-      var label = el('text', { x: r.x + r.w / 2, y: r.y + r.h / 2 + 2, class: 'ul' + (big ? ' big' : ''), 'text-anchor': 'middle' }, gLabels);
+      var label = el('text', { x: r.x + r.w / 2, y: r.y + r.h / 2 + 2, class: 'ul' + (big ? ' big' : '') + (r.w * r.h > 8000 ? ' huge' : ''), 'text-anchor': 'middle' }, gLabels);
       var nm = u.name.length > (r.w / 3.2) ? u.name.slice(0, Math.max(3, Math.floor(r.w / 3.2) - 1)) + '…' : u.name;
       label.textContent = nm;
       if (big) label.setAttribute('style', 'font-size:' + Math.min(10, Math.max(6, r.w / 14)) + 'px');
@@ -522,14 +554,17 @@
       if (f.type === 'pier') {
         var sec = S.features.filter(function (x) { return x.type === 'security' && x.terminal === f.terminal; })[0];
         if (!sec) return;
-        var p = piers[f.zone.slice(5)] || { pax: 0 };
-        var sx = sec.box.x + sec.box.w / 2, sy = sec.box.y;
-        var px = f.box.x + f.box.w / 2;
-        var d = 'M' + sx + ',' + sy + ' C' + sx + ',' + (sy - 60) + ' ' + px + ',' + (f.box.y + f.box.h + 40) + ' ' + px + ',' + (f.box.y + f.box.h - 10) + ' L' + px + ',' + (f.box.y + 14);
+        var p = piers[f.zone] || { pax: 0 };
+        var sx = sec.box.x + sec.box.w / 2, px = f.box.x + f.box.w / 2;
+        var down = f.box.y > sec.box.y;
+        var root = down ? f.box.y : f.box.y + f.box.h, tip = down ? f.box.y + f.box.h : f.box.y, dir = down ? 1 : -1;
+        var sy = down ? sec.box.y + sec.box.h : sec.box.y;
+        var d = 'M' + sx + ',' + sy + ' C' + sx + ',' + (sy + dir * 70) + ' ' + px + ',' + (root - dir * 70) + ' ' + px + ',' + (root + dir * 6) + ' L' + px + ',' + (tip - dir * 14);
         el('path', { d: d, class: 'flow', 'stroke-width': 2 + 14 * p.pax / maxP }, g);
       }
       if (f.type === 'gate') {
         var v = S.gatePax[f.label] || 0, b = S.gateBudget[f.label] || 0;
+        if (f.closed && !v) return;
         var rad = 3 + 13 * Math.sqrt(v / maxGate);
         var c = el('circle', { cx: f.box.x, cy: f.box.y, r: rad, fill: b && v < b * 0.8 ? 'rgba(240,107,107,.35)' : 'rgba(255,198,39,.28)', stroke: b && v < b * 0.8 ? '#f06b6b' : '#ffc627', 'stroke-width': 1 }, g);
         var t = el('title', {}, c); t.textContent = 'Gate ' + f.label + ': ' + num(v) + ' departing pax (' + pct(b ? v / b - 1 : null, true) + ' vs budget)';
@@ -647,8 +682,9 @@
 
     h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Watch list</h3>' +
       '<div class=\'apm-flag\'><i style=\'background:' + STATUS.serious + '\'>!</i><div><b>' + expiring.length + (expiring.length === 1 ? ' lease ends' : ' leases end') + ' within 12 months</b><br>' + money(atRisk) + ' of annualised profit to renew or re-let. <button class=\'apm-btn\' data-act=\'lens\' data-v=\'lease\' style=\'padding:1px 8px;margin-top:4px\'>Show on map</button></div></div>' +
-      '<div class=\'apm-flag\'><i style=\'background:' + STATUS.warning + '\'>€</i><div><b>' + mags.length + ' tenant' + (mags.length === 1 ? '' : 's') + ' paying only the minimum guarantee</b><br>' +
+      '<div class=\'apm-flag\'><i style=\'background:' + STATUS.warning + '\'>' + CONFIG.currency + '</i><div><b>' + mags.length + ' tenant' + (mags.length === 1 ? '' : 's') + ' paying only the minimum guarantee</b><br>' +
       (mags.length ? mags.slice(0, 3).map(function (u) { return '<button class=\'apm-btn\' data-act=\'select\' data-v=\'' + esc(u.code) + '\' style=\'padding:1px 8px;margin:4px 4px 0 0\'>' + esc(u.name) + '</button>'; }).join('') : 'All tenants are trading above their guarantee.') + '</div></div></div>';
+    h += '<div class=\'apm-sec\'><p class=\'apm-note\' style=\'margin:0\'>Layout is a schematic of the real terminal arrangement. Passenger totals are set to public scale; every unit-level sales, cost and profit figure is invented for this demo.</p></div>';
     $('apm-side').innerHTML = h;
   }
 
@@ -698,7 +734,7 @@
     var out = [];
     var n = periodObj().months.length;
     if (d.profit < 0) out.push([STATUS.critical, '−', '<b>Loss-making.</b> Space costs of ' + money(d.alloc) + ' outweigh income of ' + money(d.conc + d.other) + '.']);
-    if (onMag(u, d)) out.push([STATUS.warning, '€', '<b>Paying the minimum guarantee.</b> Sales of ' + money(d.sales) + ' earn ' + money(d.sales * d.rate) + ' at ' + pct(d.rate) + ', below the ' + money(u.mag * n / 12) + ' guarantee. Tenant may ask to renegotiate.']);
+    if (onMag(u, d)) out.push([STATUS.warning, CONFIG.currency, '<b>Paying the minimum guarantee.</b> Sales of ' + money(d.sales) + ' earn ' + money(d.sales * d.rate) + ' at ' + pct(d.rate) + ', below the ' + money(u.mag * n / 12) + ' guarantee. Tenant may ask to renegotiate.']);
     var vb = d.budget ? (d.profit - d.budget) / Math.abs(d.budget) : 0;
     var pv = d.bpax ? d.pax / d.bpax - 1 : 0;
     if (vb < -0.12) out.push([STATUS.serious, '↓', '<b>' + pct(vb, true) + ' vs budget.</b> ' + (pv < -0.1 ? 'Passengers walking past are down ' + pct(-pv) + ' on budget' + (u.gate ? ' (nearest gate ' + esc(u.gate) + ')' : '') + '.' : 'Spend per passenger is below plan.')]);
@@ -806,8 +842,13 @@
     S.zone = z; S.selected = null;
     S.scope = f ? (f.terminal || 'all') : u.terminal;
     if (!SCOPES[S.scope]) S.scope = 'all';
-    var box = f ? f.box : SCOPES[S.scope].box;
-    if (z === 'Car Parks & Ground') { S.scope = 'Ground'; S.zone = null; box = SCOPES.Ground.box; }
+    var box = f ? f.box : null;
+    if (!box) {
+      var b0 = null;
+      S.units.forEach(function (x) { if (x.zone !== z) return; var b = x.box; if (!b0) b0 = { x0: b.x, y0: b.y, x1: b.x + b.w, y1: b.y + b.h }; else { b0.x0 = Math.min(b0.x0, b.x); b0.y0 = Math.min(b0.y0, b.y); b0.x1 = Math.max(b0.x1, b.x + b.w); b0.y1 = Math.max(b0.y1, b.y + b.h); } });
+      box = { x: b0.x0, y: b0.y0, w: b0.x1 - b0.x0, h: b0.y1 - b0.y0 };
+    }
+    if (PIER_ZONES[z]) box = { x: box.x - 90, y: box.y - 40, w: box.w + 180, h: box.h + 60 };
     animateTo(box, 40);
     renderAll();
   }
@@ -1044,7 +1085,7 @@
         return {
           code: String(prop(it, 'Unit Code') || prop(it, 'name') || ''), name: prop(it, 'Unit Name') || prop(it, 'Unit Code'), tenant: prop(it, 'Tenant') || '',
           category: prop(it, 'Category') || '', terminal: prop(it, 'Terminal') || '', zone: prop(it, 'Zone') || '', area: Number(prop(it, 'Area (m²)')) || 0,
-          model: prop(it, 'Operating Model') || 'Concession', box: shape(prop(it, 'Shape')), lease: prop(it, 'Lease Expiry') || '', mag: Number(prop(it, 'MAG (€/yr)')) || 0, gate: prop(it, 'Nearest Gate') || ''
+          model: prop(it, 'Operating Model') || 'Concession', box: shape(prop(it, 'Shape')), lease: prop(it, 'Lease Expiry') || '', mag: Number(prop(it, 'MAG (£/yr)') || prop(it, 'MAG (€/yr)') || prop(it, 'MAG')) || 0, gate: prop(it, 'Nearest Gate') || ''
         };
       }).filter(function (u) { return u.code && u.box.w > 0; });
       S.byCode = {}; S.units.forEach(function (u) { S.byCode[u.code] = u; });
@@ -1062,11 +1103,13 @@
   var featSub = SDK.subscribeToItems(ALIAS.features, {
     onData: function (d) {
       S.features = (d.items || []).map(function (it) {
-        return { name: prop(it, 'Feature'), type: prop(it, 'Type'), box: shape(prop(it, 'Shape')), label: prop(it, 'Label') || '', terminal: prop(it, 'Terminal') || '', zone: prop(it, 'Zone') || '', pier: prop(it, 'Pier') || '', heading: Number(prop(it, 'Heading')) || 0, side: Number(prop(it, 'Heading')) ? '' : '' };
+        var lx = prop(it, 'LabelX'), ly = prop(it, 'LabelY');
+        return { name: prop(it, 'Feature'), type: prop(it, 'Type'), box: shape(prop(it, 'Shape')), label: prop(it, 'Label') || '', sub: prop(it, 'Sub') || '', terminal: prop(it, 'Terminal') || '', zone: prop(it, 'Zone') || '', pier: prop(it, 'Pier') || '', heading: Number(prop(it, 'Heading')) || 0, ends: prop(it, 'Ends') || '', closed: !!prop(it, 'Closed'), small: !!prop(it, 'Small'), labelX: lx === undefined || lx === '' ? null : Number(lx), labelY: ly === undefined || ly === '' ? null : Number(ly), side: '' };
       });
       // gate side: which side of its pier the gate sits on
       var piers = {};
-      S.features.forEach(function (f) { if (f.type === 'pier') piers[f.zone.slice(5)] = f; });
+      PIER_ZONES = {};
+      S.features.forEach(function (f) { if (f.type === 'pier' || f.type === 'ghostpier') piers[f.zone || f.name] = f; if (f.type === 'pier') PIER_ZONES[f.zone] = f; });
       S.features.forEach(function (f) { if (f.type === 'gate' && piers[f.pier]) f.side = f.box.x <= piers[f.pier].box.x + 1 ? 'L' : 'R'; });
       S.ready.features = true;
       maybeBuild();
