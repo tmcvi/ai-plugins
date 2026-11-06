@@ -97,75 +97,74 @@ Use the arrow keys to step through and Esc to exit.
 
 All asset, operational, financial and project data is **example data**. The projects are illustrative and are not Manchester Airports Group plans.
 
-### Extra Pigment objects for this layer
+## Built in Pigment
 
-| Object | Kind | Notes |
-|---|---|---|
-| `Asset` | List | Properties: Type, Terminal, Pier, Gate, Facts. Map Features link to it with an `Asset` property. |
-| `Project` | List | Properties: Project Name, Type, Status, Sponsor, Shape or Line, Asset, Budget, Forecast, Spent to Date, % Complete, Phases (`Name:YYYY-MM:YYYY-MM\|…`; in a full build this becomes its own Project Phase list), Affected Units, Revenue Impact, Benefits, Risks, Description. |
-| `assetKpis` | View | Rows Asset × columns Aero Revenue, Commercial Revenue, Property & Other Revenue, Staff Costs, Maintenance, Utilities, Other Opex, Depreciation, EBITDA, Operating Profit, Budget EBITDA, Passengers, Movements, Utilisation, Availability, Service Level, Condition Score. Page: months. |
-| `assetTrend` | View | Rows Month × Revenue, Operating Costs, EBITDA, Budget EBITDA. Page: `assets` (one asset). |
-| `projectSpend` | View | Rows Month (2024–2029) × Planned, Actual and Forecast (all cumulative). Page: `projects` (one project). |
+The Frame is built in the Viridian workspace, in the app **MAG Commercial & Estate Map** (`0e387115-117c-4772-8f85-9e56f94f3c64`). Everything is in the `Commercial Map` folder. **Internal Viridian use only:** the basemap is traced from Google Maps and must not be shown or sent to MAG (see "Before going live").
 
-Add bindings for `assets` and `projects` (List, `can_read`) and for the three Views. `assetMonth()` and `projectCurve()` in `src/mock-sdk.js` show the example logic.
-
-## Moving it into Pigment
+Frame: `MAG Commercial & Estate Map` (`3acaf510-d692-4ca4-8af1-5b7b7baefa0a`). Its body is `dist/frame-body.min.js` (157 KB). It was pushed in 19,000-character chunks and read back byte for byte. To show it, add the Frame to a board in the Pigment UI; the board API cannot place Frames.
 
 ### Lists
 
-**Unit.** The item name is the unit code (for example `T2-P1-03`). Properties:
-
-- `Unit Name`, `Tenant` and `Category`. `Tenant` and `Category` are writable for re-letting.
-- `Terminal`: `T2`, `T3`, `Landside` or `Ground`.
-- `Zone`, `Area (m²)` and `Operating Model`.
-- `Shape`: `x,y,w,h` in a 1600×1000 map space.
-- `Lease Expiry`, `MAG (£/yr)` and `Nearest Gate`.
-
-**Map Feature.** Background geometry. Properties: `Type`, `Shape`, `Label`, `Sub`, `LabelX`, `LabelY`, `Terminal`, `Zone`, `Pier`, `Heading`, `Ends`, `Closed`.
-
-`Type` is one of `base` (with `Class` and `Path`), `runwayline` (with `Line`), `place`, `roadlabel`, `poi`, `walkway`, `station`, `terminal`, `closed`, `zone`, `pier`, `ghostpier`, `security`, `checkin`, `holdroom`, `stand`, `gate` or `compass`.
-
-**Month** (Jan–Dec 2026) and **Gate**.
+| List | Items | Notes |
+|---|---|---|
+| Month (calendar 2026) | 12 | Labels `Jan 26` … `Dec 26`. The Frame matches on the first three letters. |
+| Terminal | 3 | T1, T2, T3 |
+| Category | 15 | Conversion, Avg Ticket, Default Share, Cost Ratio, Operating Model, Group |
+| Footfall Basis | 10 | Scope, Terminal, Share, Space Cost Rate |
+| Gate | 32 | Terminal, Pier, Share of terminal departures |
+| Unit | 97 | Display property `Code`. Name, tenant, terminal, zone, shape, lease, gate, category, area, MAG, footfall basis, exposure, trading and ticket factors, fixed cost |
+| Asset | 43 | Runways, terminals, piers, stands, security, hotels, cargo, station |
+| Asset Line / Asset Profile | 15 / 2 | P&L and KPI lines; Seasonal or Flat monthly phasing |
+| Map Object | 180 | `F:` features, `A:` assets, `P:` projects; `Meta` holds JSON (Frames cannot read list properties) |
 
 ### Metrics
 
-By Unit × Month × Version (Actual, Budget):
+- **Inputs:** Terminal Departing Pax and Budget Terminal Departing Pax (Terminal × Month); Basis Ramp and Budget Basis Ramp (the Pier 2 ramp-up); Profile Weight; Asset Annual Value (Asset × Asset Line).
+- **Passenger flow:** Basis Pax, Gate Departing Pax and Passengers Exposed, each with a Budget twin.
+- **Unit P&L (Unit × Month):**
+  - Transactions = passengers × conversion of the current category × trading factor.
+  - Tenant Sales.
+  - Concession Income, with a MAG floor for concessions.
+  - Other Income (service charge £26/m²).
+  - Direct Cost.
+  - Allocated Cost (area × space-cost rate).
+  - Airport Profit.
+  - Budget Tenant Sales and Budget Profit, on the contracted category and rate.
+- **What-if (writable sinks):** Unit Category (`sCategory`) and Revenue Share (`sRate`). Both are formula metrics with overrides on: a write from the map overrides the default, and clearing the override restores it.
+- **Frame helpers:** Unit Meta (pipe-delimited text), Unit Area, Unit MAG and Object Meta.
 
-- Drivers: Passengers Exposed, Conversion, Average Ticket, Revenue Share (by Unit only, writable), and Space Cost Rate by zone.
-- Calculated: Tenant Sales, Concession Income (`MAX(MAG / 12, Revenue Share × Sales)`), Other Income, Direct Cost, Allocated Cost, Airport Profit, Budget Profit and Transactions.
-- By Gate × Month: Departing Pax and Budget Departing Pax.
+Pigment matches `src/mock-sdk.js` exactly: YTD Oct profit £171.9M, budget £166.9M, tenant sales £483.7M.
 
-`calc()` in `src/mock-sdk.js` is a working reference for this logic.
+Watch out: in Pigment formulas, wrap both sides of a `>` comparison in brackets (`(a / 12) > (b * c)`). Without them the comparison binds before `*` and the formula fails to compile.
 
-### Views
+### Frame data sources
 
-| Alias | Rows | Columns | Page |
-|---|---|---|---|
-| `unitKpis` | Unit | Tenant Sales, Concession Income, Other Income, Direct Cost, Allocated Cost, Airport Profit, Budget Profit, Transactions, Passengers Exposed, Budget Passengers Exposed, Revenue Share | `months` (multi-select) |
-| `unitTrend` | Month | Airport Profit, Budget Profit, Tenant Sales, Transactions | `units` (one unit) |
-| `gatePax` | Gate | Departing Pax, Budget Departing Pax | `months` |
+| Source | Labels | Values |
+|---|---|---|
+| `objects` | Map Object | Object Meta |
+| `unitInputs` | Unit | Unit Meta, Revenue Share, Unit Category, Unit Area, Unit MAG |
+| `unitMonthly` | Unit, Month | Tenant Sales, Concession Income, Other Income, Direct Cost, Allocated Cost, Airport Profit, Budget Profit, Transactions, Passengers Exposed, Budget Passengers Exposed |
+| `gateMonthly` | Gate, Month | Gate Departing Pax, Budget Gate Departing Pax |
+| `assetAnnual` | Asset, Asset Line | Asset Annual Value |
+| `profiles` | Asset Profile, Month | Profile Weight |
 
-### Frame bindings
+The sinks are `sRate` (Revenue Share) and `sCategory` (Unit Category). Both are keyed `{ unitList: <unit code> }`.
 
-```json
-[
-  { "type": "List",   "alias": "units",        "list_id": "<Unit>",        "can_read": true, "can_write": true },
-  { "type": "List",   "alias": "features",     "list_id": "<Map Feature>", "can_read": true },
-  { "type": "List",   "alias": "months",       "list_id": "<Month>" },
-  { "type": "View",   "alias": "unitKpis",     "view_id": "<view>",        "can_read": true },
-  { "type": "View",   "alias": "unitTrend",    "view_id": "<view>",        "can_read": true },
-  { "type": "View",   "alias": "gatePax",      "view_id": "<view>",        "can_read": true },
-  { "type": "Metric", "alias": "revenueShare", "metric_id": "<metric>",    "can_write": true }
-]
+### Rebuilding
+
+```bash
+node tools/export_pigment.js      # mock engine -> dist/pigment-load.json, prints the YTD check
+TERSER_PATH=/path/to/terser node build.js
 ```
+
+To push a new body, replace the Frame body in chunks of at most 20,000 characters with `update_frame_body`. Then read it back with `search_frames` and diff it against `dist/frame-body.min.js`.
 
 ### Before going live
 
 - Point what-if write-back at a scenario or sandbox version.
 - `MONTHS` and `LAST_ACTUAL` are constants at the top of `frame.js`. Drive them from the Month list when the period rolls forward.
-- Confirm that `prop()` matches the real `subscribeToItems` item shape.
 - **Basemap licensing.** The current basemap is traced from a Google Maps screenshot. That is fine for an internal concept, but Google's terms restrict derived map data. For anything shown to a customer or published, retrace from OpenStreetMap (ODbL, with "© OpenStreetMap contributors" attribution) or from the airport's own GIS. The colour rules in `trace_basemap.py` will need adjusting for a different map style.
-- For a customer-ready interior, replace the schematic terminal geometry with coordinates from Manchester's own CAD or GIS floor plans. The `Shape` columns take them directly.
+- For a customer-ready interior, replace the schematic terminal geometry with coordinates from Manchester's own CAD or GIS floor plans. The `Shape` values in Map Object Meta take them directly.
 
 ## Sources for the public facts
 

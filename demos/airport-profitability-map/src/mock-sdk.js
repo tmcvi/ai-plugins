@@ -156,8 +156,8 @@
   [['Hale Barns', 255, 290], ['Warburton Green', 640, 712], ['Ringway', 1095, 1294], ['Thorns Green', 462, 1640], ['Morley Green', 2802, 3118], ['Moss Nook', 3470, 455], ['Styal', 3600, 1900]].forEach(function (p) {
     F(p[0], 'place', 0, 0, 0, 0, { 'Label': p[0], 'LabelX': String(p[1]), 'LabelY': String(p[2]) });
   });
-  [['M56', 1335, 935], ['M56', 2236, 212], ['A538 Wilmslow Rd', 1590, 1700], ['Altrincham Rd', 2900, 2470], ['Ringway Rd W', 3150, 545]].forEach(function (p) {
-    F(p[0] + ' label', 'roadlabel', 0, 0, 0, 0, { 'Label': p[0], 'LabelX': String(p[1]), 'LabelY': String(p[2]) });
+  [['M56', 1335, 935], ['M56', 2236, 212], ['A538 Wilmslow Rd', 1590, 1700], ['Altrincham Rd', 2900, 2470], ['Ringway Rd W', 3150, 545]].forEach(function (p, i) {
+    F(p[0] + ' label ' + (i + 1), 'roadlabel', 0, 0, 0, 0, { 'Label': p[0], 'LabelX': String(p[1]), 'LabelY': String(p[2]) });
   });
   F('Radisson Blu Hotel', 'poi', 2440, 520, 0, 0, { 'Label': 'Radisson Blu' });
   F('Clayton Hotel', 'poi', 2730, 560, 0, 0, { 'Label': 'Clayton Hotel' });
@@ -469,11 +469,11 @@
       o.aero = o.mov * (id === 'Pier 2' ? 310 : 185); o.comm = commercial(function (u) { return u.Zone === id; }, m, ver);
       o.staff = ng * 32000; o.maint = ng * (id === 'Pier 1' ? 30000 : 19000); o.util = ng * 9000 * (1.2 - 0.2 * season); o.other = ng * 6000;
       o.dep = id === 'Pier 2' ? 0.95e6 : id === 'Pier 1' ? 0.62e6 : 0.12e6;
-      o.util_ = o.mov / (ng * 30 * 7.5); o.avail = id === 'Pier 1' ? 0.86 : id === 'Pier 2' ? 0.985 : 0.95; o.cond = id === 'Pier 2' ? 4.9 : id === 'Pier 1' ? 4.2 : 3.1;
+      o.util_ = Math.min(0.95, o.mov / (ng * 30 * 12)); o.avail = id === 'Pier 1' ? 0.86 : id === 'Pier 2' ? 0.985 : 0.95; o.cond = id === 'Pier 2' ? 4.9 : id === 'Pier 1' ? 4.2 : 3.1;
     } else if (T === 'Aircraft stand') {
       var g = a['Gate'], gp = (gatePax[ver][g] || [])[m] || 0, wide = /Pier 2/.test(a['Pier'] || '');
       o.pax = gp; o.mov = gp / (wide ? 175 : 128); o.aero = o.mov * (wide ? 310 : 185) + o.mov * 42; o.maint = 18000; o.util = 4200; o.other = 2500; o.dep = wide ? 75000 : 52000;
-      o.util_ = o.mov / (30 * 7.5); o.avail = standAvail[g] || 0.97; o.cond = /T3/.test(g) ? 3.1 : /P2/.test(g) ? 4.9 : 4.2;
+      o.util_ = Math.min(0.95, o.mov / (30 * 12)); o.avail = standAvail[g] || 0.97; o.cond = /T3/.test(g) ? 3.1 : /P2/.test(g) ? 4.9 : 4.2;
     } else if (T === 'Runway') {
       var share = /05L/.test(id) ? 0.63 : 0.37, mv = allDep(m, ver) / 135 * 2 * share;
       o.mov = mv; o.aero = mv * 520; o.staff = 0.62e6 * share * 1.6; o.maint = /05L/.test(id) ? 0.42e6 : 0.21e6; o.util = 0.09e6; o.other = 0.05e6; o.dep = /05L/.test(id) ? 0.38e6 : 0.71e6;
