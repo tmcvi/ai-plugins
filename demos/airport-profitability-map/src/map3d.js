@@ -122,7 +122,7 @@
     GB.prototype.v = function (q, n, c, k) { this.p.push(q[0], q[1], q[2]); this.n.push(n[0], n[1], n[2]); this.c.push(c[0], c[1], c[2], c[3]); this.k.push(k[0], k[1], k[2], 1); };
     GB.prototype.quad = function (a, b, c, d, n, col, k) { this.v(a, n, col, k); this.v(b, n, col, k); this.v(c, n, col, k); this.v(a, n, col, k); this.v(c, n, col, k); this.v(d, n, col, k); };
     GB.prototype.box = function (x0, z0, x1, z1, y0, y1, col, k, topCol) {
-      k = k || [0, 0, 0];
+      k = k || this.curK || [0, 0, 0];
       this.quad([x0, y1, z0], [x1, y1, z0], [x1, y1, z1], [x0, y1, z1], [0, 1, 0], topCol || col, k);
       this.quad([x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1], [0, 0, 1], col, k);
       this.quad([x1, y0, z0], [x0, y0, z0], [x0, y1, z0], [x1, y1, z0], [0, 0, -1], col, k);
@@ -131,7 +131,7 @@
     };
     // oriented box: centre (cx,cz), forward (fx,fz) unit vector, half-lengths along forward/right
     GB.prototype.obox = function (cx, cz, fx, fz, hf, hr, y0, y1, col) {
-      var rx = -fz, rz = fx, P = function (a, b, y) { return [cx + fx * a + rx * b, y, cz + fz * a + rz * b]; }, k = [0, 0, 0];
+      var rx = -fz, rz = fx, P = function (a, b, y) { return [cx + fx * a + rx * b, y, cz + fz * a + rz * b]; }, k = this.curK || [0, 0, 0];
       this.quad(P(hf, -hr, y1), P(hf, hr, y1), P(-hf, hr, y1), P(-hf, -hr, y1), [0, 1, 0], col, k);
       this.quad(P(hf, -hr, y0), P(hf, hr, y0), P(hf, hr, y1), P(hf, -hr, y1), [fx, 0, fz], col, k);
       this.quad(P(-hf, hr, y0), P(-hf, -hr, y0), P(-hf, -hr, y1), P(-hf, hr, y1), [-fx, 0, -fz], col, k);
@@ -140,7 +140,7 @@
     };
     GB.prototype.wedge = function (cx, cz, fx, fz, pts, y0, y1, col) {
       // flat prism from a 2D outline given in (forward, right) coordinates
-      var rx = -fz, rz = fx, k = [0, 0, 0], self = this;
+      var rx = -fz, rz = fx, k = this.curK || [0, 0, 0], self = this;
       var W = pts.map(function (q) { return [cx + fx * q[0] + rx * q[1], cz + fz * q[0] + rz * q[1]]; });
       for (var i = 1; i < W.length - 1; i++) {
         self.v([W[0][0], y1, W[0][1]], [0, 1, 0], col, k); self.v([W[i][0], y1, W[i][1]], [0, 1, 0], col, k); self.v([W[i + 1][0], y1, W[i + 1][1]], [0, 1, 0], col, k);
@@ -277,9 +277,10 @@
       gb.box(r.x + r.w - t, r.y, r.x + r.w, r.y + r.h, FLOOR, h, C.wall, null, C.wallTop);
     }
     function buildStatic() {
-      var gb = new GB();
+      var gb = new GB(), po = new GB();
       S.features.forEach(function (f) {
         var r = f.box;
+        gb.curK = f.asset && S.assetIdx[f.asset] !== undefined ? pickCol(10000 + S.assetIdx[f.asset]) : null;
         switch (f.type) {
           case 'terminal': gb.box(r.x, r.y, r.x + r.w, r.y + r.h, 0, FLOOR, C.floor); walls(gb, r, WALL.terminal); break;
           case 'pier':
@@ -308,7 +309,8 @@
               else gb.box(r.x + q - 1.5, r.y + 2, r.x + q + 1.5, r.y + r.h - 2, FLOOR, FLOOR + 3, C.desk);
             }
             break;
-          case 'stand': aircraft(gb, r.x + r.w / 2, r.y + r.h / 2, f.heading || 0, r.w * 0.82); break;
+          case 'stand': var sa = S.akpi[f.asset]; if (!(sa && sa.avail !== null && sa.avail < 0.8)) aircraft(gb, r.x + r.w / 2, r.y + r.h / 2, f.heading || 0, r.w * 0.82); else gb.box(r.x + r.w * 0.3, r.y + r.h * 0.3, r.x + r.w * 0.7, r.y + r.h * 0.7, 0, 0.6, col('#3a4553')); break;
+          case 'runwayline': var L0 = f.line, ln = Math.hypot(L0[2] - L0[0], L0[3] - L0[1]); po.curK = gb.curK; po.obox((L0[0] + L0[2]) / 2, (L0[1] + L0[3]) / 2, (L0[2] - L0[0]) / ln, (L0[3] - L0[1]) / ln, ln / 2, 24, 0, 0.6, [0, 0, 0, 1]); break;
           case 'gate': if (!f.closed) gb.box(r.x - 1.5, r.y - 1.5, r.x + 1.5, r.y + 1.5, 0, 6, col('#ffc627')); break;
           case 'poi':
             if (/radisson/i.test(f.name)) gb.box(r.x - 28, r.y - 34, r.x + 28, r.y + 26, 0, 46, C.hotel, null, C.hotelTop);
@@ -318,6 +320,7 @@
         }
       });
       upload('static', gb);
+      upload('pickonly', po);
     }
 
     // ----------------------------------------------------- dynamic scene
@@ -339,6 +342,7 @@
         var r = u.box, inside = u.terminal !== 'Ground', t = heightT(u, dom);
         var c = col(colorFor(u, S.lens, dom));
         if (!inScope(u)) c = mix(c, grey, 0.72);
+        if (S.showProjects) c = mix(c, grey, 0.45);
         var y0 = inside ? FLOOR : 0, h;
         if (inside) h = 2.5 + t * 46 * grow;
         else if (/multi-storey/i.test(u.name)) h = 16 + t * 26;
@@ -351,8 +355,18 @@
           sel.box(r.x + r.w / 2 - 1, r.y + r.h / 2 - 1, r.x + r.w / 2 + 1, r.y + r.h / 2 + 1, y0 + h, y0 + h + 40, [1, 0.78, 0.15, 0.9]);
         }
       });
+      if (S.selAsset) {
+        S.features.forEach(function (f) {
+          if (f.asset !== S.selAsset || f.type === 'gate') return;
+          var r = f.box, Y = { terminal: WALL.terminal + 3, pier: WALL.pier + 3, closed: 14, station: WALL.station + 4, walkway: 15, stand: 12, security: 6, checkin: 6, holdroom: 4 }[f.type] || 10;
+          if (f.type === 'runwayline') { var L1 = f.line, l1 = Math.hypot(L1[2] - L1[0], L1[3] - L1[1]); sel.obox((L1[0] + L1[2]) / 2, (L1[1] + L1[3]) / 2, (L1[2] - L1[0]) / l1, (L1[3] - L1[1]) / l1, l1 / 2 + 6, 26, 0.2, 5, [1, 0.78, 0.15, 0.4]); return; }
+          if (f.type === 'poi') { sel.box(r.x - 40, r.y - 44, r.x + 40, r.y + 36, 0, 52, [1, 0.78, 0.15, 0.25]); return; }
+          sel.box(r.x - 3, r.y - 3, r.x + r.w + 3, r.y + r.h + 3, 0, Y, [1, 0.78, 0.15, f.type === 'terminal' || f.type === 'pier' ? 0.14 : 0.3]);
+        });
+      }
       upload('units', gb);
       upload('sel', sel);
+      buildProjects();
       // zone roofs coloured by zone total
       var vals = S.aggs.map(function (g) { return zoneAgg(g.zone, S.lens); });
       var adom = { maxAbs: 0, min: Infinity, max: -Infinity };
@@ -373,6 +387,43 @@
       buildFlow();
       dirty = true;
     }
+    function buildProjects() {
+      var tv = new GB(), cr = new GB();
+      projList = [];
+      if (S.showProjects) S.projects.forEach(function (p, i) {
+        if (!projVisible(p)) return;
+        var c = col(PSTAT[p.status] || '#94a3b8'), on = S.selProject === p.id, k = pickCol(20000 + i);
+        var vol = [c[0], c[1], c[2], on ? 0.34 : 0.2], beam = [c[0], c[1], c[2], 0.95];
+        tv.curK = k; cr.curK = k;
+        var H = { 'In delivery': 30, 'Approved': 20, 'Design': 15, 'Proposed': 11 }[p.status] || 12;
+        if (p.line) {
+          var L = p.line, ln = Math.hypot(L[2] - L[0], L[3] - L[1]), fx = (L[2] - L[0]) / ln, fz = (L[3] - L[1]) / ln;
+          tv.obox((L[0] + L[2]) / 2, (L[1] + L[3]) / 2, fx, fz, ln / 2, 34, 0.3, 4, vol);
+          for (var d = 80; d < ln - 60; d += 140) cr.obox(L[0] + fx * d - fz * 30, L[1] + fz * d + fx * 30, fx, fz, 4, 4, 0, 7, beam);
+          projList.push({ p: p, x: (L[0] + L[2]) / 2, z: (L[1] + L[3]) / 2, y: 12 });
+          return;
+        }
+        var r = p.box, x0 = r.x, z0 = r.y, x1 = r.x + r.w, z1 = r.y + r.h, t = 1.4;
+        tv.box(x0, z0, x1, z1, 0.2, H, vol);
+        [[x0, z0, x1, z0 + t], [x0, z1 - t, x1, z1], [x0, z0, x0 + t, z1], [x1 - t, z0, x1, z1]].forEach(function (e) { tv.box(e[0], e[1], e[2], e[3], H - t, H, beam); tv.box(e[0], e[1], e[2], e[3], 0.2, 1.2, beam); });
+        [[x0, z0], [x1 - t, z0], [x0, z1 - t], [x1 - t, z1 - t]].forEach(function (q) { tv.box(q[0], q[1], q[0] + t, q[1] + t, 0, H, beam); });
+        if (p.status === 'In delivery') {
+          var mx = x0 + Math.min(18, r.w * 0.2), mz = z0 + Math.min(18, r.h * 0.2), CH = 92, a = (i * 67 + 30) * D2R, jx = Math.cos(a), jz = Math.sin(a);
+          var crane = col('#f2b01e');
+          cr.box(mx - 2.6, mz - 2.6, mx + 2.6, mz + 2.6, 0, CH, crane);
+          cr.obox(mx + jx * 34, mz + jz * 34, jx, jz, 38, 1.6, CH, CH + 3.2, crane);
+          cr.obox(mx - jx * 12, mz - jz * 12, jx, jz, 12, 1.8, CH, CH + 2.6, crane);
+          cr.obox(mx - jx * 20, mz - jz * 20, jx, jz, 4, 3, CH - 5, CH, col('#5d6773'));
+          cr.box(mx - 2, mz - 2, mx + 2, mz + 2, CH + 3.2, CH + 9, crane);
+          cr.obox(mx + jx * 52, mz + jz * 52, jx, jz, 0.4, 0.4, H + 6, CH, col('#cfd6df'));
+          cr.box(mx + jx * 52 - 2, mz + jz * 52 - 2, mx + jx * 52 + 2, mz + jz * 52 + 2, H + 3, H + 6, col('#cfd6df'));
+        }
+        projList.push({ p: p, x: r.x + r.w / 2, z: r.y + r.h / 2, y: p.status === 'In delivery' ? 100 : H + 4 });
+      });
+      upload('proj', tv);
+      upload('cranes', cr);
+    }
+    var projList = [];
     function buildFlow() {
       var g = { p: [], uv: [], c: [] };
       if (S.flow) {
@@ -458,10 +509,12 @@
       setCommon(P_MESH, pick);
       drawMesh(meshes.static, 1, pick);
       drawMesh(meshes.units, 1, pick);
+      drawMesh(meshes.cranes, 1, pick);
       var ra = roofAlpha();
-      if (pick) { if (ra > 0.5) drawMesh(meshes.roofs, 1, true); return; }
+      if (pick) { drawMesh(meshes.pickonly, 1, true); if (ra > 0.5) drawMesh(meshes.roofs, 1, true); drawMesh(meshes.proj, 1, true); return; }
       gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
       if (ra > 0.01) drawMesh(meshes.roofs, 0.94 * ra, false);
+      drawMesh(meshes.proj, 1, false);
       drawMesh(meshes.sel, 1, false);
       gl.depthMask(true);
       if (S.flow && meshes.flow && meshes.flow.count) {
@@ -499,6 +552,8 @@
       dirty = true;
       var id = px[0] + (px[1] << 8) + (px[2] << 16);
       if (!id) return null;
+      if (id >= 20000) { var pj = S.projects[id - 20000]; return pj ? { project: pj } : null; }
+      if (id >= 10000) { var as = S.assets[id - 10000]; return as ? { asset: as } : null; }
       if (id >= 5000) { var a = S.aggs[id - 5000]; return a ? { zone: a.zone } : null; }
       var u = S.units[id - 1];
       return u ? { unit: u } : null;
@@ -554,7 +609,22 @@
       var old = overlay.querySelectorAll('.l3.zone');
       for (var i = 0; i < old.length; i++) old[i].remove();
       // 1. area callouts (whole-airport view) or zone totals (mid range) take priority
-      if (cam.dist >= 2300) {
+      var oldp = overlay.querySelectorAll('.l3.proj');
+      for (var j = 0; j < oldp.length; j++) oldp[j].remove();
+      projList.slice().sort(function (a, b) { return (b.p.id === S.selProject) - (a.p.id === S.selProject) || b.p.forecast - a.p.forecast; }).forEach(function (q) {
+        var p = project([q.x, q.y, q.z]);
+        if (!p || p.x < 0 || p.y < 0 || p.x > cssW || p.y > cssH) return;
+        var w = Math.max(q.p.name.length * 6.4, 120);
+        if (!place({ x: p.x, y: p.y - 18 }, w, 36) && q.p.id !== S.selProject) return;
+        var el = document.createElement('div');
+        el.className = 'l3 proj';
+        el.style.borderColor = PSTAT[q.p.status] || '#94a3b8';
+        if (q.p.id === S.selProject) el.style.boxShadow = '0 0 0 2px ' + (PSTAT[q.p.status] || '#94a3b8');
+        el.innerHTML = '<b>' + esc(q.p.name) + '</b>' + esc(q.p.status) + ' · ' + money(q.p.forecast) + ' · ' + ymLabel(q.p.e - 1);
+        el.style.transform = 'translate(' + p.x.toFixed(1) + 'px,' + p.y.toFixed(1) + 'px)';
+        overlay.appendChild(el);
+      });
+      if (cam.dist >= 2300 && !S.showProjects) {
         [['T2', 'Terminal 2'], ['T3', 'Terminal 3'], ['Landside', 'Station & Skylink'], ['Ground', 'Car parks']].forEach(function (t) {
           var pts = S.units.filter(function (u) { return u.terminal === t[0]; });
           if (!pts.length) return;
@@ -567,7 +637,7 @@
           while (!place({ x: cp.x, y: cp.y - 22 }, Math.max(t[1].length * 8, 90) + 20, 50) && tries++ < 4) cp.y -= 54;
           chip('callout', t[1], a.text, cp, Math.min(1, (cam.dist - 2300) / 300));
         });
-      } else if (ra > 0.35) {
+      } else if (ra > 0.35 && !S.showProjects) {
         Object.keys(zoneLabels).sort(function (a, b) { return zoneLabels[b].w - zoneLabels[a].w; }).forEach(function (k) {
           var a = zoneLabels[k], p = project([a.x, a.y, a.z]);
           if (!p || p.x < -60 || p.y < -30 || p.x > cssW + 60 || p.y > cssH + 30) return;
@@ -677,6 +747,8 @@
       canvas.style.cursor = hit ? 'pointer' : 'grab';
       var r = canvas.getBoundingClientRect();
       if (hit && hit.unit) showTip(unitTip(hit.unit), r.left + e.offsetX, r.top + e.offsetY);
+      else if (hit && hit.project) { var pp = hit.project; showTip('<b>' + esc(pp.name) + '</b><br><span class=\'k\'>' + esc(pp.status) + ' · ' + esc(pp.type) + '</span><br><span class=\'k\'>Forecast:</span> ' + money(pp.forecast) + ' · ' + ymLabel(pp.s) + ' to ' + ymLabel(pp.e - 1) + '<br><span class=\'k\'>Click for costs and timeline</span>', r.left + e.offsetX, r.top + e.offsetY); }
+      else if (hit && hit.asset) { var ad = assetData(hit.asset.id); showTip('<b>' + esc(hit.asset.id) + '</b><br><span class=\'k\'>' + esc(hit.asset.type) + '</span>' + (ad ? '<br><span class=\'k\'>EBITDA:</span> ' + money(ad.ebitda) + (ad.avail !== null ? '<br><span class=\'k\'>Availability:</span> ' + pct(ad.avail) : '') : '') + '<br><span class=\'k\'>Click for operations and P&amp;L</span>', r.left + e.offsetX, r.top + e.offsetY); }
       else if (hit && hit.zone) {
         var ag = zoneAgg(hit.zone, S.lens), ap = zoneAgg(hit.zone, 'profit');
         showTip('<b>' + esc(hit.zone) + '</b><br><span class=\'k\'>' + esc(LENSES.filter(function (l) { return l.key === S.lens; })[0].label) + ':</span> ' + esc(ag.text) + (S.lens !== 'profit' ? '<br><span class=\'k\'>Profit:</span> ' + esc(ap.text) : '') + '<br><span class=\'k\'>Click to fly in</span>', r.left + e.offsetX, r.top + e.offsetY);
@@ -690,6 +762,8 @@
       if (d.moved) return;
       var hit = pickAt(e.offsetX, e.offsetY);
       if (hit && hit.unit) selectUnit(hit.unit.code, true);
+      else if (hit && hit.project) selectProject(hit.project.id, true);
+      else if (hit && hit.asset) selectAsset(hit.asset.id, true);
       else if (hit && hit.zone) setZone(hit.zone);
     }
     function onWheel3(e) { e.preventDefault(); hideTip(); zoomBy(Math.pow(1.0018, e.deltaY), e.offsetX, e.offsetY); }
@@ -743,6 +817,7 @@
         if (!raf) raf = requestAnimationFrame(loop);
       },
       paint: function () { buildDynamic(); },
+      refreshStatic: function () { buildStatic(); dirty = true; },
       flyTo: flyTo,
       zoomBy: function (f) { zoomBy(f); },
       rotate: function (deg) { startTween({ tx: cam.tx, tz: cam.tz, dist: cam.dist, yaw: cam.yaw + deg, pitch: cam.pitch }, 500); },

@@ -440,7 +440,199 @@
       return { labels: { rows: gates.map(function (g) { return [g.name]; }), columns: [['Departing Pax'], ['Budget Departing Pax']] }, cells: [a, b] };
     }
   };
-  var LISTS = { units: units, features: features };
+  // =================================================== ASSETS (example data)
+  // Every physical component on the map is an Asset with its own P&L and
+  // operational KPIs. Map Features point at their asset via the 'Asset' property.
+  var assets = [], assetBy = {};
+  function A(id, type, terminal, props) {
+    if (assetBy[id]) return assetBy[id];
+    var a = { 'Asset': id, 'Type': type, 'Terminal': terminal };
+    for (var k in props || {}) a[k] = props[k];
+    assets.push(a); assetBy[id] = a;
+    return a;
+  }
+  features.forEach(function (f) {
+    var t = f['Type'], n = f['Feature'], term = f['Terminal'] || '';
+    var id = null;
+    if (t === 'terminal') id = A(n, 'Terminal', term)['Asset'];
+    else if (t === 'closed') id = A('Terminal 1', 'Closed terminal', 'T1')['Asset'];
+    else if (t === 'ghostpier') id = 'Terminal 1';
+    else if (t === 'pier') id = A(n, 'Pier', term)['Asset'];
+    else if (t === 'holdroom') id = f['Pier'];
+    else if (t === 'stand' || t === 'gate') { if (f['Closed']) return; id = A('Stand ' + n.replace(/^(Stand|Gate) /, ''), 'Aircraft stand', term, { 'Pier': f['Pier'], 'Gate': n.replace(/^(Stand|Gate) /, '') })['Asset']; }
+    else if (t === 'runwayline') id = A(n, 'Runway', 'Airfield')['Asset'];
+    else if (t === 'security') id = A(n, 'Security', term)['Asset'];
+    else if (t === 'checkin') id = A(term + ' Check-in hall', 'Check-in', term)['Asset'];
+    else if (t === 'station') id = A('The Station', 'Transport interchange', 'Landside')['Asset'];
+    else if (t === 'walkway') id = A('Skylink', 'Walkway', 'Landside')['Asset'];
+    else if (t === 'poi') id = A(n, /freight/i.test(n) ? 'Cargo' : 'Hotel', 'Landside')['Asset'];
+    if (id) f['Asset'] = id;
+  });
+  var ASSET_FACTS = {
+    'Terminal 2': { 'Opened': '1993 · rebuilt 2019–2025', 'Capacity': '~24M passengers a year', 'Condition': '4.6 / 5', 'Gross area': '96,000 m²' },
+    'Terminal 3': { 'Opened': '1989 · extended 2026', 'Capacity': '~8M passengers a year', 'Condition': '3.3 / 5', 'Gross area': '38,000 m²' },
+    'Terminal 1': { 'Opened': '1962', 'Status': 'Closed 15 March 2026', 'Condition': '1.8 / 5', 'Future use': 'Part merged into T3; remainder for redevelopment' },
+    'Pier 1': { 'Opened': '2019', 'Contact stands': '10', 'Condition': '4.2 / 5' }, 'Pier 2': { 'Opened': '2025', 'Contact stands': '12 incl. A380-capable', 'Condition': '4.9 / 5' },
+    'T3 Pier': { 'Opened': '1998', 'Contact stands': '4', 'Condition': '3.1 / 5' },
+    'Runway 05L/23R': { 'Length': '3,048 m × 45 m', 'Surface': 'Asphalt, last resurfaced 2011', 'Pavement condition': '58 / 100 (due for resurfacing)' },
+    'Runway 05R/23L': { 'Length': '3,050 m × 45 m', 'Surface': 'Asphalt, opened 2001', 'Pavement condition': '79 / 100' },
+    'The Station': { 'Services': 'Rail, Metrolink, coach', 'Opened': '1993 · Metrolink 2014' },
+    'Skylink': { 'Length': '~1 km of covered walkways', 'Travelators': '14' },
+    'Radisson Blu Hotel': { 'Rooms': '360', 'Arrangement': 'Ground lease to hotel operator' }, 'Clayton Hotel': { 'Rooms': '365', 'Arrangement': 'Ground lease to hotel operator' },
+    'World Freight Terminal': { 'Arrangement': 'Leased warehouses and cargo handling', 'Area': '~110,000 m²' }
+  };
+  assets.forEach(function (a) { var f = ASSET_FACTS[a['Asset']]; if (f) a['Facts'] = Object.keys(f).map(function (k) { return k + ': ' + f[k]; }).join(' | '); });
+
+  var ASSET_COLS = ['Aero Revenue', 'Commercial Revenue', 'Property & Other Revenue', 'Staff Costs', 'Maintenance', 'Utilities', 'Other Opex', 'Depreciation',
+    'EBITDA', 'Operating Profit', 'Budget EBITDA', 'Passengers', 'Movements', 'Utilisation', 'Availability', 'Service Level', 'Condition Score'];
+  var standAvail = {}; gates.forEach(function (g) { standAvail[g.name] = rr(0.955, 0.995); });
+  ['P1·7', 'P1·8', 'P1·9', 'P1·10'].forEach(function (g) { standAvail[g] = rr(0.62, 0.74); }); // air-bridge replacement works
+  function commercial(test, m, ver) { var s = 0; units.forEach(function (u) { if (test(u)) { var x = calc(u, m, ver); s += x.conc + x.other; } }); return s; }
+  function assetMonth(a, m, ver) {
+    var id = a['Asset'], T = a['Type'], b = ver === 'Budget', season = DEP[m] / 1.42;
+    var o = { aero: 0, comm: 0, prop: 0, staff: 0, maint: 0, util: 0, other: 0, dep: 0, pax: null, mov: null, util_: null, avail: null, sla: null, cond: null };
+    if (T === 'Terminal') {
+      var t = a['Terminal'], dep = termDep(t, m, ver), isT2 = t === 'T2';
+      o.pax = dep; o.mov = dep / 128;
+      o.aero = dep * (isT2 ? 12.6 : 8.4); o.comm = commercial(function (u) { return u.Terminal === t && !/Pier/.test(u.Zone); }, m, ver);
+      o.prop = isT2 ? 160000 : 60000;
+      o.staff = dep * (isT2 ? 2.4 : 2.1) + (isT2 ? 1.25e6 : 0.55e6); o.maint = isT2 ? 0.82e6 : 0.58e6; o.util = (isT2 ? 0.78e6 : 0.36e6) * (1.25 - 0.25 * season); o.other = dep * 0.85;
+      o.dep = isT2 ? 4.6e6 : 1.15e6; o.util_ = dep / (isT2 ? 1.95e6 : 0.62e6); o.cond = isT2 ? 4.6 : 3.3; o.sla = isT2 ? 0.95 : (m >= 3 ? 0.86 : 0.93);
+    } else if (T === 'Closed terminal') {
+      var d1 = termDep('T1', m, ver);
+      o.pax = d1; o.aero = d1 * 11; o.comm = 0; o.staff = d1 * 2.5 + (m < 3 ? 0.4e6 : 0.08e6); o.maint = m < 3 ? 0.3e6 : 0.12e6; o.util = m < 3 ? 0.3e6 : 0.11e6; o.other = 0.06e6; o.dep = m < 3 ? 0.4e6 : 0; o.cond = 1.8;
+    } else if (T === 'Pier') {
+      var pd = pierPax(id, m, ver), ng = gates.filter(function (g) { return g.pier === id; }).length;
+      o.pax = pd; o.mov = pd / (id === 'Pier 2' ? 175 : 128);
+      o.aero = o.mov * (id === 'Pier 2' ? 310 : 185); o.comm = commercial(function (u) { return u.Zone === id; }, m, ver);
+      o.staff = ng * 32000; o.maint = ng * (id === 'Pier 1' ? 30000 : 19000); o.util = ng * 9000 * (1.2 - 0.2 * season); o.other = ng * 6000;
+      o.dep = id === 'Pier 2' ? 0.95e6 : id === 'Pier 1' ? 0.62e6 : 0.12e6;
+      o.util_ = o.mov / (ng * 30 * 7.5); o.avail = id === 'Pier 1' ? 0.86 : id === 'Pier 2' ? 0.985 : 0.95; o.cond = id === 'Pier 2' ? 4.9 : id === 'Pier 1' ? 4.2 : 3.1;
+    } else if (T === 'Aircraft stand') {
+      var g = a['Gate'], gp = (gatePax[ver][g] || [])[m] || 0, wide = /Pier 2/.test(a['Pier'] || '');
+      o.pax = gp; o.mov = gp / (wide ? 175 : 128); o.aero = o.mov * (wide ? 310 : 185) + o.mov * 42; o.maint = 18000; o.util = 4200; o.other = 2500; o.dep = wide ? 75000 : 52000;
+      o.util_ = o.mov / (30 * 7.5); o.avail = standAvail[g] || 0.97; o.cond = /T3/.test(g) ? 3.1 : /P2/.test(g) ? 4.9 : 4.2;
+    } else if (T === 'Runway') {
+      var share = /05L/.test(id) ? 0.63 : 0.37, mv = allDep(m, ver) / 135 * 2 * share;
+      o.mov = mv; o.aero = mv * 520; o.staff = 0.62e6 * share * 1.6; o.maint = /05L/.test(id) ? 0.42e6 : 0.21e6; o.util = 0.09e6; o.other = 0.05e6; o.dep = /05L/.test(id) ? 0.38e6 : 0.71e6;
+      o.util_ = mv / (61 * 17 * 30 * share * 1.15); o.avail = /05L/.test(id) ? 0.982 : 0.995; o.cond = /05L/.test(id) ? 2.9 : 4.0;
+    } else if (T === 'Security') {
+      var sd = termDep(a['Terminal'], m, ver), T2s = a['Terminal'] === 'T2';
+      o.pax = sd; o.staff = sd * (T2s ? 1.95 : 2.15) + 0.15e6; o.maint = T2s ? 0.12e6 : 0.07e6; o.util = 0.04e6; o.other = sd * 0.18; o.dep = T2s ? 0.31e6 : 0.09e6;
+      o.sla = T2s ? 0.955 : (m >= 3 ? 0.84 : 0.92); o.avail = T2s ? 0.97 : 0.93; o.cond = T2s ? 4.7 : 3.2;
+    } else if (T === 'Check-in') {
+      var cd = termDep(a['Terminal'], m, ver);
+      o.pax = cd; o.aero = cd * 0.55; o.staff = 0.05e6; o.maint = 0.06e6; o.util = 0.03e6; o.other = 0.02e6; o.dep = 0.08e6; o.avail = 0.985; o.cond = a['Terminal'] === 'T2' ? 4.6 : 3.4;
+    } else if (T === 'Transport interchange') {
+      var ad = allDep(m, ver);
+      o.pax = ad * 2 * 0.3; o.prop = 0.12e6; o.comm = commercial(function (u) { return u.Zone === 'The Station'; }, m, ver);
+      o.staff = 0.09e6; o.maint = 0.07e6; o.util = 0.05e6; o.other = 0.03e6; o.dep = 0.22e6; o.avail = 0.99; o.cond = 3.8;
+    } else if (T === 'Walkway') {
+      o.pax = allDep(m, ver) * 1.1; o.comm = commercial(function (u) { return u.Zone === 'Skylink'; }, m, ver);
+      o.maint = 0.11e6; o.util = 0.04e6; o.staff = 0.03e6; o.dep = 0.14e6; o.avail = m >= 5 ? 0.91 : 0.97; o.cond = 3.0;
+    } else if (T === 'Hotel') {
+      var rad = /radisson/i.test(id);
+      o.prop = rad ? 0.21e6 : 0.13e6; o.other = 0.01e6; o.util_ = (rad ? 0.84 : 0.79) * (0.9 + 0.1 * season); o.cond = 4.0;
+    } else if (T === 'Cargo') {
+      o.prop = 0.92e6; o.aero = 0.18e6; o.staff = 0.11e6; o.maint = 0.12e6; o.util = 0.04e6; o.other = 0.03e6; o.dep = 0.21e6; o.mov = 9300 * (0.95 + 0.1 * season); o.util_ = 0.88; o.cond = 3.6;
+    }
+    if (b) { var f = id === 'Terminal 3' || T === 'Security' && a['Terminal'] === 'T3' ? 1.0 : 1; o.aero *= 0.99 * f; o.comm *= 1; o.staff *= 0.97; o.maint *= 0.95; }
+    return o;
+  }
+  function aggAsset(a, idx) {
+    var s = { aero: 0, comm: 0, prop: 0, staff: 0, maint: 0, util: 0, other: 0, dep: 0, bE: 0, pax: null, mov: null, u: [], av: [], sla: [], cond: null };
+    idx.forEach(function (m) {
+      var x = assetMonth(a, m, 'Actual'), y = assetMonth(a, m, 'Budget');
+      ['aero', 'comm', 'prop', 'staff', 'maint', 'util', 'other', 'dep'].forEach(function (k) { s[k] += x[k]; });
+      s.bE += y.aero + y.comm + y.prop - y.staff - y.maint - y.util - y.other;
+      if (x.pax !== null) s.pax = (s.pax || 0) + x.pax; if (x.mov !== null) s.mov = (s.mov || 0) + x.mov;
+      if (x.util_ !== null) s.u.push(x.util_); if (x.avail !== null) s.av.push(x.avail); if (x.sla !== null) s.sla.push(x.sla); s.cond = x.cond;
+    });
+    var avg = function (l) { return l.length ? l.reduce(function (p, c) { return p + c; }, 0) / l.length : null; };
+    var e = s.aero + s.comm + s.prop - s.staff - s.maint - s.util - s.other;
+    return [s.aero, s.comm, s.prop, s.staff, s.maint, s.util, s.other, s.dep, e, e - s.dep, s.bE, s.pax, s.mov, avg(s.u), avg(s.av), avg(s.sla), s.cond];
+  }
+
+  // ================================================= PROJECTS (example data)
+  var projects = [];
+  function PJ(id, name, type, status, sponsor, box, line, asset, budget, forecast, spent, pct, phases, affected, revImpact, benefits, risks, desc) {
+    projects.push({ 'Project': id, 'Project Name': name, 'Type': type, 'Status': status, 'Sponsor': sponsor, 'Shape': box ? box.join(',') : '', 'Line': line ? line.join(',') : '',
+      'Asset': asset, 'Budget (£)': budget, 'Forecast (£)': forecast, 'Spent to Date (£)': spent, '% Complete': pct, 'Phases': phases, 'Affected Units': affected || '',
+      'Revenue Impact (£)': revImpact || 0, 'Benefits': benefits, 'Risks': risks, 'Description': desc,
+      'Start': phases.split('|')[0].split(':')[1], 'End': phases.split('|').slice(-1)[0].split(':')[2] });
+  }
+  PJ('PRJ-101', 'Pier 1 air-bridge replacement', 'Asset renewal', 'In delivery', 'Head of Airfield Infrastructure', [1676, 262, 140, 166], null, 'Pier 1', 18.6e6, 19.9e6, 11.4e6, 0.58,
+    'Design:2025-03:2025-09|Procurement:2025-08:2025-12|Construction:2026-01:2027-03|Commissioning:2027-03:2027-06', 'T2-P1-09,T2-P1-10', 410000,
+    'Replaces four 1990s air bridges; stand availability back above 98%; frees 2 widebody-capable gates.', 'Supplier lead times on bridge cabs; works sequencing around summer peak.', 'Phased replacement of air bridges on gates P1·7 to P1·10 with two stands out of use at a time.');
+  PJ('PRJ-102', 'Runway 05L/23R resurfacing', 'Asset renewal', 'Approved', 'Airfield Director', null, [1593, 2241, 3360, 810], 'Runway 05L/23R', 42e6, 42e6, 1.9e6, 0.06,
+    'Design:2026-01:2026-09|Procurement:2026-07:2027-02|Construction:2027-04:2027-10|Commissioning:2027-10:2027-11', '', 0,
+    'Restores pavement condition from 58 to 95+; extends life by ~15 years; new AGL lighting cuts energy 40%.', 'Night-only works; any overrun moves traffic onto 05R/23L.', 'Full-length mill-and-overlay with new airfield ground lighting, delivered in night closures.');
+  PJ('PRJ-103', 'T3 extension phase 2', 'Capacity', 'In delivery', 'Terminal Development Director', [2416, 756, 228, 148], null, 'Terminal 3', 64e6, 61.5e6, 41.8e6, 0.72,
+    'Design:2024-10:2025-04|Procurement:2025-02:2025-06|Construction:2025-05:2027-01|Commissioning:2027-01:2027-03', 'T3-X-01,T3-X-02,T3-X-03,T3-X-04', 0,
+    '+2.5M passengers a year of T3 capacity; 6 new commercial units; 4 extra security lanes.', 'Interface with live T3 operation; asbestos in former T1 structure.', 'Converts the western part of the former Terminal 1 into a Terminal 3 departure lounge and security hall.');
+  PJ('PRJ-104', 'Terminal 1 demolition and enabling works', 'Enabling', 'Design', 'Property Director', [2436, 896, 108, 214], null, 'Terminal 1', 27e6, 28.4e6, 0.6e6, 0.03,
+    'Design:2026-06:2027-03|Procurement:2027-02:2027-06|Construction:2027-07:2028-09', '', 0,
+    'Clears 3.2 ha for future stands or a hotel and office plot; removes £1.4M a year of holding costs.', 'Planning conditions; utilities diversions.', 'Soft-strip and demolition of the redundant T1 pier and eastern T1 structure.');
+  PJ('PRJ-105', 'Multi-Storey T2 solar canopy and EV charging', 'Sustainability', 'Approved', 'Head of Car Parking', [2316, 406, 108, 128], null, 'Multi-Storey T2', 6.8e6, 6.8e6, 0.4e6, 0.05,
+    'Design:2026-05:2026-12|Procurement:2026-11:2027-02|Construction:2027-02:2027-11', 'CP-02', 180000,
+    '1.9 MWp solar; 400 EV bays; £0.9M a year EV charging revenue.', 'Roof deck loading; temporary loss of 300 spaces in peak.', 'Solar canopy over the top deck and 400 EV charging bays.');
+  PJ('PRJ-106', 'T2 landside food court refit', 'Commercial', 'Design', 'Retail & Commercial Director', [2212, 282, 88, 396], null, 'Terminal 2', 9.4e6, 9.4e6, 0.3e6, 0.02,
+    'Design:2026-09:2027-05|Procurement:2027-04:2027-08|Construction:2027-09:2028-04', 'T2-L-01,T2-L-02,T2-L-03,T2-L-04,T2-L-08', 620000,
+    'Replaces the loss-making arrivals café; +£1.6M a year landside income.', 'Phasing around the arrivals hall; tenant break clauses.', 'Reconfigures T2 landside into a food court with meeter-greeter seating.');
+  PJ('PRJ-107', 'Skylink travelator renewal', 'Asset renewal', 'In delivery', 'Head of Terminal Engineering', [2296, 568, 384, 196], null, 'Skylink', 12.1e6, 13.4e6, 9.2e6, 0.81,
+    'Design:2025-01:2025-05|Procurement:2025-04:2025-08|Construction:2025-06:2027-01|Commissioning:2027-01:2027-02', 'SK-01,SK-02,SK-03', 95000,
+    '14 travelators replaced; availability back to 99%; journey time T2 to Station down 2 minutes.', 'Forecast £1.3M over budget after structural repairs found in phase 2.', 'Replaces all Skylink travelators and refurbishes the glazing and lighting.');
+  PJ('PRJ-108', 'JetParks 4 new surface car park', 'Capacity', 'Proposed', 'Head of Car Parking', [2950, 812, 150, 80], null, '', 22e6, 22e6, 0, 0,
+    'Design:2027-03:2027-12|Procurement:2027-11:2028-03|Construction:2028-03:2028-12', '', 0,
+    '+3,800 spaces; £5.2M a year parking revenue at maturity.', 'Planning consent; ecology surveys.', 'New park-and-ride car park east of Terminal 3 with a shuttle link.');
+  PJ('PRJ-109', 'World Freight Terminal expansion', 'Capacity', 'Proposed', 'Cargo Director', [1500, 1110, 220, 90], null, 'World Freight Terminal', 35e6, 35e6, 0, 0,
+    'Design:2027-06:2028-03|Procurement:2028-02:2028-06|Construction:2028-07:2029-09', '', 0,
+    '+40,000 tonnes a year of cargo capacity; £3.1M a year rent.', 'Tenant pre-let not yet secured.', 'New 18,000 m² cross-dock warehouse and expanded HGV yard.');
+  PJ('PRJ-110', 'The Station capacity upgrade', 'Capacity', 'Design', 'Surface Access Director', [2506, 512, 118, 104], null, 'The Station', 15e6, 15.8e6, 0.5e6, 0.04,
+    'Design:2026-04:2027-02|Procurement:2027-01:2027-05|Construction:2027-06:2028-06', 'LS-01,LS-02', 140000,
+    'Fourth rail platform and wider concourse for 30% more rail passengers.', 'Network Rail possessions; Metrolink interface.', 'Adds a platform and widens The Station concourse.');
+
+  var PMONTHS = []; for (var yy = 2024; yy <= 2029; yy++) for (var mm = 1; mm <= 12; mm++) PMONTHS.push(yy + '-' + (mm < 10 ? '0' : '') + mm);
+  var NOW_IDX = PMONTHS.indexOf('2026-10');
+  function projectCurve(p) {
+    var s = PMONTHS.indexOf(p['Start']), e = Math.max(s + 1, PMONTHS.indexOf(p['End']));
+    var plan = [], act = [], fc = [];
+    var sigmoid = function (t) { return t <= 0 ? 0 : t >= 1 ? 1 : t * t * (3 - 2 * t); };
+    PMONTHS.forEach(function (m, i) {
+      var t = (i - s) / (e - s);
+      plan.push(Math.round(p['Budget (£)'] * sigmoid(t)));
+      if (i <= NOW_IDX) act.push(i < s ? 0 : Math.round(p['Spent to Date (£)'] * sigmoid((i - s) / Math.max(1, NOW_IDX - s)) ));
+      else act.push(null);
+      if (i < NOW_IDX) fc.push(null);
+      else { var t2 = (i - NOW_IDX) / Math.max(1, e - NOW_IDX); fc.push(Math.round(p['Spent to Date (£)'] + (p['Forecast (£)'] - p['Spent to Date (£)']) * sigmoid(t2))); }
+    });
+    return { plan: plan, act: act, fc: fc };
+  }
+
+  VIEWS.assetKpis = function (pd) {
+    var idx = monthIdx(pageSel(pd, 'months'));
+    var cells = ASSET_COLS.map(function () { return []; });
+    assets.forEach(function (a) { aggAsset(a, idx).forEach(function (v, c) { cells[c].push(v === null ? null : Math.round(v * 1000) / 1000); }); });
+    return { labels: { rows: assets.map(function (a) { return [a['Asset']]; }), columns: ASSET_COLS.map(function (c) { return [c]; }) }, cells: cells };
+  };
+  VIEWS.assetTrend = function (pd) {
+    var sel = pageSel(pd, 'assets'), a = sel && assetBy[sel[0]];
+    var cols = ['Revenue', 'Operating Costs', 'EBITDA', 'Budget EBITDA'], cells = cols.map(function () { return []; });
+    MONTHS.forEach(function (m, i) {
+      if (!a) { cells.forEach(function (c) { c.push(null); }); return; }
+      var x = assetMonth(a, i, 'Actual'), y = assetMonth(a, i, 'Budget');
+      var rev = x.aero + x.comm + x.prop, cost = x.staff + x.maint + x.util + x.other;
+      cells[0].push(Math.round(rev)); cells[1].push(Math.round(cost)); cells[2].push(Math.round(rev - cost)); cells[3].push(Math.round(y.aero + y.comm + y.prop - y.staff - y.maint - y.util - y.other));
+    });
+    return { labels: { rows: MONTHS.map(function (m) { return [m]; }), columns: cols.map(function (c) { return [c]; }) }, cells: cells };
+  };
+  VIEWS.projectSpend = function (pd) {
+    var sel = pageSel(pd, 'projects'), p = projects.filter(function (x) { return sel && x['Project'] === sel[0]; })[0];
+    var cols = ['Planned (cumulative)', 'Actual (cumulative)', 'Forecast (cumulative)'];
+    var c = p ? projectCurve(p) : { plan: PMONTHS.map(function () { return null; }), act: PMONTHS.map(function () { return null; }), fc: PMONTHS.map(function () { return null; }) };
+    return { labels: { rows: PMONTHS.map(function (m) { return [m]; }), columns: cols.map(function (x) { return [x]; }) }, cells: [c.plan, c.act, c.fc] };
+  };
+  var LISTS = { units: units, features: features, assets: assets, projects: projects };
 
   // ------------------------------------------------------- subscriptions
   var vizSubs = [], listSubs = [];

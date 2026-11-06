@@ -67,6 +67,48 @@ same.
 4. Search **Arrivals café**. Read the generated explanation, profit bridge and trend.
 5. Re-let it as **News & Convenience** and press **Apply**. "That wrote to Pigment, the model recalculated, and the map updated." Then press **Undo all**.
 
+## Assets, capital projects and the story
+
+**Click any component.** Terminals, piers, every aircraft stand, both runways, security, check-in, The Station, the Skylink, the hotels, the World Freight Terminal and the closed T1 are all clickable. Each opens an asset panel with:
+
+- **Operations** (by type): passengers, aircraft movements, utilisation, availability, security queue performance, condition score.
+- **P&L**: aeronautical, commercial and property revenue; staff, maintenance, utilities and other costs; EBITDA and margin; depreciation; operating profit; vs budget.
+- A **monthly EBITDA trend** and the **capital projects** on that asset.
+- Plain-English flags, for example "Availability 68%: out of service for the Pier 1 air-bridge replacement".
+
+**Capital projects layer.** Toggle it with "Capital projects". Ten example schemes appear on the map as 3D construction volumes coloured by status. Live sites (In delivery) get a tower crane, and the runway scheme shows works markers along the runway. Stands under works show with no aircraft.
+
+- **Filters:** project type, status, and a timeline slider ("On site now", any month 2025–2029, or ▶ to watch sites appear and finish).
+- **Programme summary:** project count, forecast, spent, revenue at risk, a programme Gantt and the filtered list.
+- **Project panel:** budget vs forecast vs spent, % complete, current phase, a phase Gantt with a "today" line, a cumulative spend S-curve (planned, actual, forecast), affected commercial units and revenue at risk, benefits, risks and sponsor.
+
+**Tell the story.** A guided, eight-step tour that flies the camera and sets the lens, layers and selection for each step. Every number in the captions is calculated live from the data:
+
+1. The airport at a glance.
+2. Terminal 1 closes and passengers shift to T2.
+3. T3 security is under pressure.
+4. The T3 extension responds.
+5. The Pier 1 works take stands out of action.
+6. The arrivals café loses money, and the food-court refit fixes it.
+7. The runway needs resurfacing.
+8. The whole capital programme.
+
+Use the arrow keys to step through and Esc to exit.
+
+All asset, operational, financial and project data is **example data**. The projects are illustrative and are not Manchester Airports Group plans.
+
+### Extra Pigment objects for this layer
+
+| Object | Kind | Notes |
+|---|---|---|
+| `Asset` | List | Properties: Type, Terminal, Pier, Gate, Facts. Map Features link to it with an `Asset` property. |
+| `Project` | List | Properties: Project Name, Type, Status, Sponsor, Shape or Line, Asset, Budget, Forecast, Spent to Date, % Complete, Phases (`Name:YYYY-MM:YYYY-MM\|…`; in a full build this becomes its own Project Phase list), Affected Units, Revenue Impact, Benefits, Risks, Description. |
+| `assetKpis` | View | Rows Asset × columns Aero Revenue, Commercial Revenue, Property & Other Revenue, Staff Costs, Maintenance, Utilities, Other Opex, Depreciation, EBITDA, Operating Profit, Budget EBITDA, Passengers, Movements, Utilisation, Availability, Service Level, Condition Score. Page: months. |
+| `assetTrend` | View | Rows Month × Revenue, Operating Costs, EBITDA, Budget EBITDA. Page: `assets` (one asset). |
+| `projectSpend` | View | Rows Month (2024–2029) × Planned, Actual and Forecast (all cumulative). Page: `projects` (one project). |
+
+Add bindings for `assets` and `projects` (List, `can_read`) and for the three Views. `assetMonth()` and `projectCurve()` in `src/mock-sdk.js` show the example logic.
+
 ## Moving it into Pigment
 
 ### Lists

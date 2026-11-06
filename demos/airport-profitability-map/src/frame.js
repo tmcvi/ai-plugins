@@ -65,7 +65,7 @@
   var S = {
     units: [], byCode: {}, features: [], kpi: {}, gatePax: {}, gateBudget: {}, trend: null,
     lens: 'profit', period: 'ytd', scope: 'all', zone: null, selected: null, flow: false,
-    view: { x: AIRPORT_VIEW.x, y: AIRPORT_VIEW.y, w: AIRPORT_VIEW.w, h: AIRPORT_VIEW.h }, aggs: [], mode: '3d', stale: true, edits: [], baseline: null, busy: false,
+    view: { x: AIRPORT_VIEW.x, y: AIRPORT_VIEW.y, w: AIRPORT_VIEW.w, h: AIRPORT_VIEW.h }, aggs: [], mode: '3d', assets: [], assetBy: {}, assetIdx: {}, akpi: {}, projects: [], selAsset: null, selProject: null, showProjects: false, pf: { types: {}, statuses: {}, month: null }, pspend: null, story: null, pfPlaying: false, stale: true, edits: [], baseline: null, busy: false,
     playing: false, ready: { units: false, features: false, kpis: false }, error: null, toast: null
   };
   var subs = [];
@@ -251,7 +251,7 @@
     '.apm [hidden]{display:none!important}',
     '.apm button,.apm select,.apm input{font:inherit;color:inherit}',
     '.apm :focus-visible{outline:2px solid var(--sign);outline-offset:2px}',
-    '.apm-top{display:flex;align-items:center;gap:14px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);background:var(--surface);flex-wrap:wrap}',
+    '.apm-top{display:flex;align-items:center;gap:10px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);background:var(--surface);flex-wrap:wrap}',
     '.apm-brand{display:flex;align-items:center;gap:10px;min-width:0}',
     '.apm-mark{min-width:34px;height:30px;padding:0 6px;border-radius:6px;background:var(--sign);color:var(--signInk);display:grid;place-items:center;font-weight:800;font-size:13px;letter-spacing:.04em;flex:none}',
     '.apm-demo{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--sign);border:1px solid rgba(255,198,39,.5);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:2px;cursor:help}',
@@ -269,7 +269,7 @@
     '.apm-btn.primary{background:var(--sign);color:var(--signInk);border-color:var(--sign);font-weight:700}',
     '.apm-btn:disabled{opacity:.5;cursor:default}',
     '.apm-search{position:relative}',
-    '.apm-search input{background:var(--raise);border:1px solid var(--line2);border-radius:7px;padding:6px 10px;width:200px}',
+    '.apm-search input{background:var(--raise);border:1px solid var(--line2);border-radius:7px;padding:6px 10px;width:190px}',
     '.apm-results{position:absolute;right:0;top:calc(100% + 4px);width:280px;background:var(--raise);border:1px solid var(--line2);border-radius:8px;box-shadow:0 12px 32px rgba(0,0,0,.45);z-index:20;overflow:hidden}',
     '.apm-results button{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;background:none;border:0;padding:8px 10px;cursor:pointer}',
     '.apm-results button:hover{background:var(--surface)}',
@@ -371,8 +371,31 @@
     '.l3.zone.callout{background:rgba(18,24,33,.88);border:1px solid rgba(255,198,39,.55);border-radius:8px;padding:5px 10px;text-shadow:none;translate:-50% -100%}',
     '.l3.zone.callout b{font-size:12px;color:#ffc627;letter-spacing:.06em;text-transform:uppercase}',
     '.l3.zone.callout span{font-size:15px;font-weight:700;color:#fff}',
-    '.apm-compass{position:absolute;right:12px;top:104px;z-index:5;background:none;border:0;padding:0;cursor:pointer;border-radius:50%}',
+    '.apm-compass{position:absolute;right:12px;top:160px;z-index:5;background:none;border:0;padding:0;cursor:pointer;border-radius:50%}',
     '.apm-compass svg{display:block;transition:transform .1s linear}',
+    '.apm-pfilter{top:96px;left:12px;flex-direction:column;align-items:stretch;gap:5px;background:rgba(18,24,33,.94);border:1px solid rgba(255,198,39,.45);border-radius:10px;padding:8px 10px;max-width:min(560px,calc(100% - 24px))}',
+    '.apm-frow{display:flex;align-items:center;gap:4px;flex-wrap:wrap}',
+    '.apm-flab{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:46px;flex:none}',
+    '.apm-fchip{background:var(--raise);border:1px solid var(--line2);border-radius:999px;padding:3px 9px;font-size:11.5px;cursor:pointer;color:var(--ink2);display:inline-flex;align-items:center;gap:5px}',
+    '.apm-fchip i{width:8px;height:8px;border-radius:2px;display:inline-block}',
+    '.apm-fchip.on{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}',
+    '.apm-pfilter input[type=range]{flex:1;min-width:110px;accent-color:#ffc627}',
+    '.apm-fmonth{font-size:12px;min-width:62px;font-variant-numeric:tabular-nums}',
+    '.apm-fsum{font-size:12px;color:var(--ink2);border-top:1px solid var(--line);padding-top:6px}',
+    '.apm-story{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(560px,calc(100% - 32px));background:rgba(18,24,33,.97);border:1px solid var(--sign);border-radius:12px;padding:14px 16px;z-index:9;box-shadow:0 18px 50px rgba(0,0,0,.55)}',
+    '.apm-story h3{margin:2px 0 6px;font-size:18px;text-wrap:balance}',
+    '.apm-story p{margin:0 0 12px;color:var(--ink2);font-size:14px;line-height:1.5}',
+    '.apm-story p b{color:var(--ink)}',
+    '.apm-story .apm-actions{align-items:center;justify-content:space-between}',
+    '.apm-st-top{display:flex;justify-content:space-between;align-items:center}',
+    '.apm-st-step{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--sign);font-weight:700}',
+    '.apm-st-dots{display:flex;gap:5px}',
+    '.apm-st-dots i{width:7px;height:7px;border-radius:50%;background:var(--line2)}',
+    '.apm-st-dots i.on{background:var(--sign)}',
+    '.apm-tools .apm-btn[aria-pressed=true]{background:var(--sign);color:var(--signInk);border-color:var(--sign);font-weight:700}',
+    '.l3.proj{translate:-50% -100%;background:rgba(18,24,33,.92);border:1px solid;border-radius:7px;padding:3px 8px;font-size:11px;color:#eef1f4;line-height:1.3;text-align:center}',
+    '.l3.proj b{display:block;font-size:11.5px}',
+    '.projl{font-size:22px;font-weight:800;paint-order:stroke;stroke:#0b0f14;stroke-width:5px;pointer-events:none}',
     '.apm-3donly{display:none!important}',
     '.apm.is3d .apm-3donly{display:grid!important}',
     '.u.in,.ul.in{transition:opacity .35s ease}',
@@ -432,19 +455,21 @@
         '<div class=\'apm-brand\'><div class=\'apm-mark\' aria-hidden=\'true\'>' + esc(CONFIG.mark) + '</div><div><div class=\'apm-title\'>' + esc(CONFIG.airport) + ' <span class=\'apm-demo\' title=\'Real layout and passenger scale. Unit-level sales, costs and profits are invented for demonstration.\'>' + esc(CONFIG.disclaimer) + '</span></div><div class=\'apm-sub\'>' + esc(CONFIG.subtitle) + '</div></div></div>' +
         '<nav class=\'apm-tabs\' aria-label=\'Area\'>' + tabs + '</nav>' +
         '<div class=\'apm-spacer\'></div>' +
-        '<div class=\'apm-period\'><label for=\'apm-period\' class=\'apm-sub\'>Period</label><select id=\'apm-period\' class=\'apm-select\' data-act=\'period\'>' + opts + '</select>' +
-        '<button class=\'apm-btn\' data-act=\'play\' id=\'apm-play\' title=\'Play Jan to Oct month by month\'>▶ Play 2026</button></div>' +
-        '<div class=\'apm-search\'><input id=\'apm-q\' type=\'search\' placeholder=\'Find a unit or tenant\' autocomplete=\'off\' aria-label=\'Find a unit or tenant\'><div class=\'apm-results\' id=\'apm-results\' hidden></div></div>' +
+        '<div class=\'apm-period\'><label for=\'apm-period\' class=\'apm-sub\' style=\'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)\'>Period</label><select id=\'apm-period\' class=\'apm-select\' data-act=\'period\'>' + opts + '</select>' +
+        '<button class=\'apm-btn\' data-act=\'play\' id=\'apm-play\' title=\'Play Jan to Oct 2026 month by month\'>▶ Play</button><button class=\'apm-btn primary\' data-act=\'story\' title=\'A guided tour of the key stories\'>Tell the story</button></div>' +
+        '<div class=\'apm-search\'><input id=\'apm-q\' type=\'search\' placeholder=\'Find a unit, asset or project\' autocomplete=\'off\' aria-label=\'Find a unit or tenant\'><div class=\'apm-results\' id=\'apm-results\' hidden></div></div>' +
       '</header>' +
       '<section class=\'apm-kpis\' id=\'apm-kpis\' aria-label=\'Headline figures\'></section>' +
       '<div class=\'apm-main\'>' +
         '<div class=\'apm-map\' id=\'apm-map\'>' +
           '<div class=\'apm-float apm-lens\'><div class=\'apm-seg\' role=\'group\' aria-label=\'Colour units by\'>' + lens + '</div></div>' +
           '<div class=\'apm-float apm-crumbs\' id=\'apm-crumbs\'></div>' +
-          '<div class=\'apm-float apm-tools\'><div class=\'apm-seg\'><button data-act=\'mode\' id=\'apm-modebtn\' aria-pressed=\'true\'>3D</button></div><button class=\'apm-btn\' data-act=\'flow\' id=\'apm-flowbtn\' aria-pressed=\'false\'>Passenger flow</button><div id=\'apm-scn\'></div></div>' +
+          '<div class=\'apm-float apm-tools\'><div class=\'apm-seg\'><button data-act=\'mode\' id=\'apm-modebtn\' aria-pressed=\'true\'>3D</button></div><button class=\'apm-btn\' data-act=\'flow\' id=\'apm-flowbtn\' aria-pressed=\'false\'>Passenger flow</button><button class=\'apm-btn\' data-act=\'projects\' id=\'apm-projbtn\' aria-pressed=\'false\'>⚒ Capital projects</button><div id=\'apm-scn\'></div></div>' +
           '<div class=\'apm-float apm-legend\' id=\'apm-legend\'></div>' +
           '<div class=\'apm-float apm-zoom\'><button class=\'apm-btn apm-3donly\' data-act=\'rot\' data-v=\'-45\' aria-label=\'Rotate left\'>⟲</button><button class=\'apm-btn apm-3donly\' data-act=\'rot\' data-v=\'45\' aria-label=\'Rotate right\'>⟳</button><button class=\'apm-btn apm-3donly\' data-act=\'tilt\' aria-label=\'Toggle top-down view\'>⊤</button><button class=\'apm-btn\' data-act=\'zin\' aria-label=\'Zoom in\'>+</button><button class=\'apm-btn\' data-act=\'zout\' aria-label=\'Zoom out\'>−</button><button class=\'apm-btn\' data-act=\'zreset\' aria-label=\'Show whole airport\'>⤢</button></div>' +
           '<div class=\'apm-month\' id=\'apm-month\' hidden></div>' +
+          '<div class=\'apm-float apm-pfilter\' id=\'apm-pfilter\' hidden></div>' +
+          '<div class=\'apm-story\' id=\'apm-story\' role=\'dialog\' aria-label=\'Story\' hidden></div>' +
           '<div class=\'apm-state\' id=\'apm-state\'><div>Loading the airport model…</div></div>' +
         '</div>' +
         '<aside class=\'apm-side\' id=\'apm-side\' aria-live=\'polite\'></aside>' +
@@ -645,10 +670,26 @@
       if (g.label) { g.label.lastChild.textContent = a.text; g.label.classList.toggle('dk', lum(c) > 0.55); }
     });
     paintFlow();
+    paintProjects2D();
     if (M3) M3.paint();
     renderLegend(dom);
   }
 
+  function paintProjects2D() {
+    var g = $('apm-proj2d');
+    if (!g) { g = el('g', { id: 'apm-proj2d' }, svg); }
+    while (g.firstChild) g.removeChild(g.firstChild);
+    if (!S.showProjects) return;
+    S.projects.forEach(function (p) {
+      if (!projVisible(p)) return;
+      var c = PSTAT[p.status] || '#94a3b8', on = S.selProject === p.id, shp;
+      if (p.line) shp = el('line', { x1: p.line[0], y1: p.line[1], x2: p.line[2], y2: p.line[3], stroke: c, 'stroke-width': 40, 'stroke-opacity': on ? 0.5 : 0.3, 'data-proj': p.id, style: 'cursor:pointer' }, g);
+      else shp = el('rect', { x: p.box.x, y: p.box.y, width: p.box.w, height: p.box.h, rx: 4, fill: c, 'fill-opacity': on ? 0.4 : 0.22, stroke: c, 'stroke-width': on ? 4 : 2.5, 'stroke-dasharray': p.status === 'In delivery' ? '' : '10 6', 'data-proj': p.id, style: 'cursor:pointer' }, g);
+      el('title', {}, shp).textContent = p.name + ' · ' + p.status + ' · ' + money(p.forecast);
+      var cx = p.box.x + p.box.w / 2, cy = p.line ? p.box.y + p.box.h / 2 : p.box.y - 8;
+      var t = el('text', { x: cx, y: cy, 'text-anchor': 'middle', class: 'projl', fill: c }, g); t.textContent = p.name;
+    });
+  }
   function paintFlow() {
     var g = $('apm-flow'); if (!g) return;
     while (g.firstChild) g.removeChild(g.firstChild);
@@ -709,6 +750,7 @@
     } else {
       h += '<div class=\'apm-sw\'>' + GROUP_COLORS.map(function (g) { return '<span><i style=\'background:' + g[1] + '\'></i>' + esc(g[0]) + '</span>'; }).join('') + '</div>';
     }
+    if (S.showProjects) h += '<div class=\'apm-legend-t\' style=\'margin-top:4px\'>Capital projects</div><div class=\'apm-sw\'>' + PSTATUSES.map(function (x) { return '<span><i style=\'background:' + PSTAT[x] + '\'></i>' + esc(x) + '</span>'; }).join('') + '</div>';
     if (is3D()) h += '<div class=\'apm-note\' style=\'margin:0\'>Fly in to a terminal: tower height shows the size of the value.</div>';
     $('apm-legend').innerHTML = h;
   }
@@ -738,12 +780,16 @@
     $('apm-period').value = S.period;
     var mb = $('apm-modebtn'); if (mb) { mb.textContent = S.mode === '3d' ? '3D view' : '2D map'; mb.setAttribute('aria-pressed', S.mode === '3d' ? 'true' : 'false'); mb.title = S.mode === '3d' ? 'Switch to the flat 2D map' : 'Switch to the 3D view'; }
     app.classList.toggle('is3d', is3D());
-    $('apm-play').textContent = S.playing ? '❚❚ Pause' : '▶ Play 2026';
+    $('apm-play').textContent = S.playing ? '❚❚ Pause' : '▶ Play';
     var c = '<button data-act=\'crumb\' data-v=\'all\'>Airport</button>';
     if (S.scope !== 'all') c += ' / <button data-act=\'crumb\' data-v=\'' + S.scope + '\'>' + esc(SCOPES[S.scope].label) + '</button>';
     if (S.zone) c += ' / <button data-act=\'crumb\' data-v=\'zone\'>' + esc(S.zone) + '</button>';
     var su = S.selected && S.byCode[S.selected];
     if (su) c += ' / <b>' + esc(su.name) + '</b>';
+    if (S.selAsset) c += ' / <b>' + esc(S.selAsset) + '</b>';
+    if (S.selProject) { var sp = projById(S.selProject); if (sp) c += ' / <b>' + esc(sp.name) + '</b>'; }
+    var pb = $('apm-projbtn'); if (pb) pb.setAttribute('aria-pressed', S.showProjects ? 'true' : 'false');
+    renderPFilter(); renderStory();
     $('apm-crumbs').innerHTML = c;
     var scn = '';
     if (S.edits.length || S.busy) {
@@ -805,6 +851,8 @@
       '<div class=\'apm-flag\'><i style=\'background:' + STATUS.serious + '\'>!</i><div><b>' + expiring.length + (expiring.length === 1 ? ' lease ends' : ' leases end') + ' within 12 months</b><br>' + money(atRisk) + ' of annualised profit to renew or re-let. <button class=\'apm-btn\' data-act=\'lens\' data-v=\'lease\' style=\'padding:1px 8px;margin-top:4px\'>Show on map</button></div></div>' +
       '<div class=\'apm-flag\'><i style=\'background:' + STATUS.warning + '\'>' + CONFIG.currency + '</i><div><b>' + mags.length + ' tenant' + (mags.length === 1 ? '' : 's') + ' paying only the minimum guarantee</b><br>' +
       (mags.length ? mags.slice(0, 3).map(function (u) { return '<button class=\'apm-btn\' data-act=\'select\' data-v=\'' + esc(u.code) + '\' style=\'padding:1px 8px;margin:4px 4px 0 0\'>' + esc(u.name) + '</button>'; }).join('') : 'All tenants are trading above their guarantee.') + '</div></div></div>';
+    if (S.projects.length && !S.showProjects) { var pt = 0; S.projects.forEach(function (p) { pt += p.forecast; }); h += '<div class=\'apm-sec\'><div class=\'apm-flag\' style=\'margin:0\'><i style=\'background:#fab219\'>⚒</i><div><b>' + S.projects.length + ' capital projects · ' + money(pt) + '</b><br>Upcoming works, costs and timelines. <button class=\'apm-btn\' data-act=\'projects\' style=\'padding:1px 8px;margin-top:4px\'>Show on map</button></div></div></div>'; }
+    if (S.showProjects) h = h.replace('<div class=\'apm-sec\'><h3 class=\'apm-h\'>Variance', programmeHtml() + '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Variance');
     h += '<div class=\'apm-sec\'><p class=\'apm-note\' style=\'margin:0\'>Layout is a schematic of the real terminal arrangement. Passenger totals are set to public scale; every unit-level sales, cost and profit figure is invented for this demo.</p></div>';
     $('apm-side').innerHTML = h;
   }
@@ -905,9 +953,248 @@
     $('apm-side').innerHTML = h;
   }
 
+  // ======================================================= ASSETS & PROJECTS
+  var AC = { aero: 'Aero Revenue', comm: 'Commercial Revenue', prop: 'Property & Other Revenue', staff: 'Staff Costs', maint: 'Maintenance', util: 'Utilities', other: 'Other Opex', dep: 'Depreciation', ebitda: 'EBITDA', op: 'Operating Profit', bebitda: 'Budget EBITDA', pax: 'Passengers', mov: 'Movements', utl: 'Utilisation', avail: 'Availability', sla: 'Service Level', cond: 'Condition Score' };
+  var PSTAT = { 'In delivery': '#fab219', 'Approved': '#c084fc', 'Design': '#2dd4bf', 'Proposed': '#94a3b8', 'Complete': '#4fb3ff' };
+  var PTYPES = ['Asset renewal', 'Capacity', 'Commercial', 'Sustainability', 'Enabling'];
+  var PSTATUSES = ['In delivery', 'Approved', 'Design', 'Proposed'];
+  var PM0 = 2024, NOW_YM = (2026 - PM0) * 12 + 9.9;
+  function ym(s) { var p = String(s || '').split('-'); return (Number(p[0]) - PM0) * 12 + (Number(p[1]) - 1); }
+  function ymLabel(i) { var y = PM0 + Math.floor(i / 12), m = Math.round(i % 12); return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][m] + ' ' + y; }
+  function parseProject(it) {
+    var phases = String(prop(it, 'Phases') || '').split('|').filter(Boolean).map(function (s) { var q = s.split(':'); return { name: q[0], s: ym(q[1]), e: ym(q[2]) + 1 }; });
+    var line = String(prop(it, 'Line') || ''), shp = String(prop(it, 'Shape') || '');
+    var p = {
+      id: prop(it, 'Project'), name: prop(it, 'Project Name'), type: prop(it, 'Type'), status: prop(it, 'Status'), sponsor: prop(it, 'Sponsor') || '',
+      box: shp ? shape(shp) : null, line: line ? line.split(',').map(Number) : null, asset: prop(it, 'Asset') || '',
+      budget: Number(prop(it, 'Budget (£)')) || 0, forecast: Number(prop(it, 'Forecast (£)')) || 0, spent: Number(prop(it, 'Spent to Date (£)')) || 0, pct: Number(prop(it, '% Complete')) || 0,
+      phases: phases, affected: String(prop(it, 'Affected Units') || '').split(',').filter(Boolean), revImpact: Number(prop(it, 'Revenue Impact (£)')) || 0,
+      benefits: prop(it, 'Benefits') || '', risks: prop(it, 'Risks') || '', desc: prop(it, 'Description') || ''
+    };
+    p.s = phases.length ? phases[0].s : 0; p.e = phases.length ? phases[phases.length - 1].e : 0;
+    if (!p.box && p.line) { var L = p.line; p.box = { x: Math.min(L[0], L[2]), y: Math.min(L[1], L[3]), w: Math.abs(L[2] - L[0]), h: Math.abs(L[3] - L[1]) }; }
+    return p;
+  }
+  function projVisible(p) {
+    if (!S.showProjects) return false;
+    if (Object.keys(S.pf.types).length && !S.pf.types[p.type]) return false;
+    if (Object.keys(S.pf.statuses).length && !S.pf.statuses[p.status]) return false;
+    if (S.pf.month !== null && !(p.s <= S.pf.month && S.pf.month < p.e)) return false;
+    return true;
+  }
+  function phaseAt(p, t) { for (var i = 0; i < p.phases.length; i++) if (p.phases[i].s <= t && t < p.phases[i].e) return p.phases[i].name; return t < p.s ? 'Not started' : 'Complete'; }
+  function assetData(id) { return S.akpi[id] || null; }
+  function assetByName(id) { return S.assetBy[id] || null; }
+  function assetBox(id) {
+    var b0 = null;
+    S.features.forEach(function (f) {
+      if (f.asset !== id) return;
+      var b = f.type === 'runwayline' ? { x: Math.min(f.line[0], f.line[2]), y: Math.min(f.line[1], f.line[3]), w: Math.abs(f.line[2] - f.line[0]), h: Math.abs(f.line[3] - f.line[1]) } : f.type === 'poi' ? { x: f.box.x - 60, y: f.box.y - 60, w: 120, h: 120 } : f.type === 'gate' ? { x: f.box.x - 30, y: f.box.y - 30, w: 60, h: 60 } : f.box;
+      if (!b0) b0 = { x0: b.x, y0: b.y, x1: b.x + b.w, y1: b.y + b.h }; else { b0.x0 = Math.min(b0.x0, b.x); b0.y0 = Math.min(b0.y0, b.y); b0.x1 = Math.max(b0.x1, b.x + b.w); b0.y1 = Math.max(b0.y1, b.y + b.h); }
+    });
+    return b0 ? { x: b0.x0, y: b0.y0, w: b0.x1 - b0.x0, h: b0.y1 - b0.y0 } : null;
+  }
+  function clearSel() { S.selected = null; S.selAsset = null; S.selProject = null; }
+  function flyBox(b, min) { var w = Math.max(b.w * 1.6, min || 420), h = Math.max(b.h * 1.6, w * 0.55); animateTo({ x: b.x + b.w / 2 - w / 2, y: b.y + b.h / 2 - h / 2, w: w, h: h }); }
+  function selectAsset(id, fly) {
+    var a = assetByName(id); if (!a) return;
+    clearSel(); S.selAsset = id;
+    if (fly) { var b = assetBox(id); if (b) flyBox(b, a.type === 'Aircraft stand' ? 360 : 480); }
+    trendCode = 'A:' + id; S.trend = null;
+    atrendSub.updatePageDefinitions([{ alias: 'assets', selection: [id] }]);
+    renderAll();
+  }
+  function selectProject(id, fly) {
+    var p = S.projects.filter(function (x) { return x.id === id; })[0]; if (!p) return;
+    clearSel(); S.selProject = id;
+    if (!S.showProjects) S.showProjects = true;
+    if (!projVisible(p)) { S.pf.types = {}; S.pf.statuses = {}; S.pf.month = null; }
+    if (fly && p.box) flyBox(p.box, p.line ? 1600 : 520);
+    S.pspend = null; pspendCode = id;
+    pspendSub.updatePageDefinitions([{ alias: 'projects', selection: [id] }]);
+    renderAll();
+  }
+  function programmeTotals() {
+    var t = { n: 0, budget: 0, forecast: 0, spent: 0, risk: 0, live: 0 };
+    S.projects.forEach(function (p) { if (!projVisible(p)) return; t.n++; t.budget += p.budget; t.forecast += p.forecast; t.spent += p.spent; t.risk += p.revImpact; if (p.status === 'In delivery') t.live++; });
+    return t;
+  }
+
+  // ---------------------------------------------------------------- panels
+  function pill(text, color) { return '<span class=\'apm-pill\' style=\'border-color:' + color + ';color:' + color + '\'>' + esc(text) + '</span>'; }
+  function tile(label, value, state) { return '<div><small>' + esc(label) + '</small><b' + (state ? ' class=\'' + state + '\'' : '') + '>' + value + '</b></div>'; }
+  function ganttSvg(list, opts) {
+    opts = opts || {};
+    var W = 340, rowH = opts.rowH || 18, padL = opts.padL || 0, top = 18, H = top + list.length * rowH + 6;
+    var t0 = (2025 - PM0) * 12, t1 = (2030 - PM0) * 12, X = function (t) { return padL + (Math.max(t0, Math.min(t1, t)) - t0) / (t1 - t0) * (W - padL - 4); };
+    var s = '<svg viewBox=\'0 0 ' + W + ' ' + H + '\' role=\'img\' aria-label=\'Project timeline\'>';
+    for (var y = 2025; y <= 2029; y++) { var x = X((y - PM0) * 12); s += '<line x1=\'' + x + '\' x2=\'' + x + '\' y1=\'12\' y2=\'' + H + '\' stroke=\'rgba(255,255,255,.07)\'/><text x=\'' + (x + 3) + '\' y=\'10\' fill=\'#7d8794\' font-size=\'9\'>' + y + '</text>'; }
+    list.forEach(function (r, i) {
+      var y0 = top + i * rowH;
+      if (r.label) s += '<text x=\'' + (padL - 6) + '\' y=\'' + (y0 + rowH / 2 + 3) + '\' fill=\'#a9b3bf\' font-size=\'9.5\' text-anchor=\'end\'>' + esc(r.label) + '</text>';
+      r.bars.forEach(function (b) { s += '<rect x=\'' + X(b.s) + '\' y=\'' + (y0 + 3) + '\' width=\'' + Math.max(2, X(b.e) - X(b.s)) + '\' height=\'' + (rowH - 6) + '\' rx=\'3\' fill=\'' + b.c + '\'' + (r.id ? ' data-act=\'proj\' data-v=\'' + esc(r.id) + '\' style=\'cursor:pointer\'' : '') + '><title>' + esc(b.t || '') + '</title></rect>'; });
+    });
+    var nx = X(NOW_YM); s += '<line x1=\'' + nx + '\' x2=\'' + nx + '\' y1=\'12\' y2=\'' + H + '\' stroke=\'#ffc627\' stroke-width=\'1.5\'/><text x=\'' + (nx + 3) + '\' y=\'' + (H - 2) + '\' fill=\'#ffc627\' font-size=\'8.5\'>today</text>';
+    if (S.pf.month !== null) { var mx = X(S.pf.month + 0.5); s += '<line x1=\'' + mx + '\' x2=\'' + mx + '\' y1=\'12\' y2=\'' + H + '\' stroke=\'#eef1f4\' stroke-dasharray=\'3 3\'/>'; }
+    return s + '</svg>';
+  }
+  var PHASE_C = { 'Design': '#2dd4bf', 'Procurement': '#c084fc', 'Construction': '#fab219', 'Commissioning': '#4fb3ff' };
+  function scurveSvg(sp) {
+    if (!sp) return '<p class=\'apm-note\'>Loading spend profile…</p>';
+    var W = 340, H = 140, padL = 44, padB = 18, padT = 8, n = sp.plan.length;
+    var max = 1; ['plan', 'act', 'fc'].forEach(function (k) { sp[k].forEach(function (v) { if (v !== null) max = Math.max(max, v); }); });
+    var t0 = 12, t1 = n - 1, X = function (i) { return padL + (i - t0) / (t1 - t0) * (W - padL - 4); }, Y = function (v) { return padT + (1 - v / max) * (H - padT - padB); };
+    var s = '<svg viewBox=\'0 0 ' + W + ' ' + H + '\' role=\'img\' aria-label=\'Cumulative spend: planned, actual and forecast\'>';
+    [0, max / 2, max].forEach(function (v) { s += '<line x1=\'' + padL + '\' x2=\'' + (W - 4) + '\' y1=\'' + Y(v) + '\' y2=\'' + Y(v) + '\' stroke=\'rgba(255,255,255,.07)\'/><text x=\'' + (padL - 5) + '\' y=\'' + (Y(v) + 3) + '\' fill=\'#7d8794\' font-size=\'9\' text-anchor=\'end\'>' + money(v) + '</text>'; });
+    for (var y = 2025; y <= 2029; y++) { var xx = X((y - PM0) * 12); s += '<text x=\'' + xx + '\' y=\'' + (H - 5) + '\' fill=\'#7d8794\' font-size=\'9\' text-anchor=\'middle\'>' + y + '</text>'; }
+    var path = function (arr, from) { var d = ''; arr.forEach(function (v, i) { if (v === null || i < from) return; d += (d ? 'L' : 'M') + X(i).toFixed(1) + ',' + Y(v).toFixed(1); }); return d; };
+    s += '<path d=\'' + path(sp.plan, t0) + '\' fill=\'none\' stroke=\'#7d8794\' stroke-width=\'1.5\' stroke-dasharray=\'4 3\'/>';
+    s += '<path d=\'' + path(sp.fc, t0) + '\' fill=\'none\' stroke=\'#fab219\' stroke-width=\'2\' stroke-dasharray=\'5 3\'/>';
+    s += '<path d=\'' + path(sp.act, t0) + '\' fill=\'none\' stroke=\'#fab219\' stroke-width=\'2.5\'/>';
+    var nx = X(Math.floor(NOW_YM)); s += '<line x1=\'' + nx + '\' x2=\'' + nx + '\' y1=\'' + padT + '\' y2=\'' + (H - padB) + '\' stroke=\'rgba(255,198,39,.5)\'/>';
+    return s + '</svg><p class=\'apm-note\' style=\'margin:4px 0 0\'><span style=\'color:#7d8794\'>- - planned</span> · <span style=\'color:#fab219\'>— actual</span> · <span style=\'color:#fab219\'>- - forecast</span></p>';
+  }
+  var ASSET_KPI_LABEL = {
+    pax: { 'Transport interchange': 'Rail and tram passengers', 'Walkway': 'Footfall', 'Security': 'Passengers screened', _: 'Departing passengers' },
+    mov: { 'Cargo': 'Cargo tonnes', _: 'Aircraft movements' },
+    utl: { 'Hotel': 'Room occupancy', 'Cargo': 'Warehouse occupancy', _: 'Utilisation' },
+    avail: { _: 'Availability' }, sla: { _: 'Security queue under 15 min' }, cond: { 'Runway': 'Pavement condition', _: 'Condition score' }
+  };
+  function assetFlags(a, d) {
+    var out = [];
+    var proj = S.projects.filter(function (p) { return p.asset === a.id || (a.type === 'Aircraft stand' && p.asset === a.pier && /air-bridge/i.test(p.name) && /P1·(7|8|9|10)$/.test(a.id)); });
+    if (d.avail !== null && d.avail < 0.9) out.push([STATUS.critical, '!', '<b>Availability ' + pct(d.avail) + '.</b> ' + (proj.length ? 'Out of service for ' + esc(proj[0].name) + '.' : 'Below the 95% target.')]);
+    if (d.sla !== null && d.sla < 0.9) out.push([STATUS.serious, '⏱', '<b>Only ' + pct(d.sla) + ' of passengers clear security within 15 minutes</b>, against a 95% target. Queues grew after Terminal 1 closed.']);
+    if (d.cond !== null && d.cond < 3) out.push([STATUS.serious, '⚒', '<b>Condition ' + d.cond.toFixed(1) + ' / 5.</b> ' + (proj.length ? esc(proj[0].name) + ' is ' + proj[0].status.toLowerCase() + '.' : 'Renewal needed.')]);
+    var vb = d.bebitda ? (d.ebitda - d.bebitda) / Math.abs(d.bebitda) : null;
+    if (vb !== null && Math.abs(vb) > 0.06) out.push([vb > 0 ? '#2a78d6' : STATUS.serious, vb > 0 ? '↑' : '↓', '<b>EBITDA ' + pct(vb, true) + ' vs budget.</b>' + (a.terminal === 'T2' && vb > 0 ? ' More passengers moved here from Terminal 1 than planned.' : a.terminal === 'T3' && vb < 0 ? ' Fewer passengers moved here from Terminal 1 than planned.' : '')]);
+    return { flags: out.map(function (f) { return '<div class=\'apm-flag\'><i style=\'background:' + f[0] + '\'>' + f[1] + '</i><div>' + f[2] + '</div></div>'; }).join(''), proj: proj };
+  }
+  function renderAsset() {
+    var a = assetByName(S.selAsset), d = assetData(S.selAsset);
+    if (!a || !d) { $('apm-side').innerHTML = '<div class=\'apm-sec\'><p class=\'apm-note\'>Loading asset…</p></div>'; return; }
+    var rev = d.aero + d.comm + d.prop, opex = d.staff + d.maint + d.util + d.other, vb = d.bebitda ? (d.ebitda - d.bebitda) / Math.abs(d.bebitda) : null;
+    var h = '<div class=\'apm-sec\'><button class=\'apm-close\' data-act=\'deselect\' aria-label=\'Close asset details\'>✕</button><h2 class=\'apm-name\'>' + esc(a.id) + '</h2>' +
+      '<div class=\'apm-meta\'><span class=\'apm-pill apm-code\'>ASSET</span><span class=\'apm-pill\'>' + esc(a.type) + '</span>' + (a.terminal && a.terminal !== 'Landside' && a.terminal !== 'Airfield' ? '<span class=\'apm-pill\'>' + esc(a.terminal) + '</span>' : '') + '</div>' +
+      (a.facts ? '<p class=\'apm-note\'>' + a.facts.split(' | ').map(esc).join(' · ') + '</p>' : '') + '</div>';
+    var tiles = [];
+    ['pax', 'mov', 'utl', 'avail', 'sla', 'cond'].forEach(function (k) {
+      var v = d[k]; if (v === null || v === undefined) return;
+      var lab = ASSET_KPI_LABEL[k][a.type] || ASSET_KPI_LABEL[k]._;
+      var txt = k === 'pax' || k === 'mov' ? num(v) : k === 'cond' ? (a.type === 'Runway' ? Math.round(v * 20) + ' / 100' : v.toFixed(1) + ' / 5') : pct(v);
+      var st = (k === 'avail' && v < 0.9) || (k === 'sla' && v < 0.9) || (k === 'cond' && v < 3) ? 'dn' : '';
+      tiles.push(tile(lab, txt, st));
+    });
+    var fl = assetFlags(a, d);
+    h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Operations · ' + esc(periodObj().label) + '</h3><div class=\'apm-grid\'>' + tiles.join('') + '</div>' + fl.flags + '</div>';
+    var row = function (l, v, strong, cls) { return '<div class=\'apm-row\' style=\'cursor:default\'><span>' + (strong ? '<b>' + l + '</b>' : l) + '</span><b' + (cls ? ' class=\'' + cls + '\'' : '') + '>' + money(v) + '</b></div>'; };
+    h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>P&amp;L · ' + esc(periodObj().label) + '</h3><div class=\'apm-list\'>' +
+      (d.aero ? row('Aeronautical charges', d.aero) : '') + (d.comm ? row('Commercial income', d.comm) : '') + (d.prop ? row('Property and other income', d.prop) : '') + row('Total revenue', rev, true) +
+      (d.staff ? row('Staff', -d.staff) : '') + (d.maint ? row('Maintenance', -d.maint) : '') + (d.util ? row('Utilities', -d.util) : '') + (d.other ? row('Other operating costs', -d.other) : '') + row('Operating costs', -opex, true) +
+      '<div class=\'apm-row\' style=\'cursor:default;border-top:1px solid rgba(255,255,255,.1);border-radius:0;padding-top:8px\'><span><b>EBITDA</b> <small>' + (rev ? pct(d.ebitda / rev) + ' margin' : '') + '</small></span><b class=\'' + (d.ebitda >= 0 ? 'up' : 'dn') + '\'>' + money(d.ebitda) + '</b></div>' +
+      (d.dep ? row('Depreciation', -d.dep) : '') + row('Operating profit', d.op, true, d.op >= 0 ? 'up' : 'dn') + '</div>' +
+      (vb !== null ? '<p class=\'apm-note\'>EBITDA <span class=\'' + (vb >= 0 ? 'up' : 'dn') + '\'>' + pct(vb, true) + '</span> vs budget of ' + money(d.bebitda) + '.</p>' : '') + '</div>';
+    h += '<div class=\'apm-sec apm-chart\'><h3 class=\'apm-h\'>2026 EBITDA by month <span style=\'text-transform:none;letter-spacing:0;color:#a9b3bf\'>· bars actual, <span style=\'color:#ffc627\'>line budget</span></span></h3><div id=\'apm-trend\'>' + trendSvg(S.trend && S.trend.code === 'A:' + a.id ? S.trend : null) + '</div></div>';
+    if (fl.proj.length) {
+      h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Capital projects on this asset</h3><div class=\'apm-list\'>' + fl.proj.map(function (p) {
+        return '<button class=\'apm-row\' data-act=\'proj\' data-v=\'' + esc(p.id) + '\'><span>' + esc(p.name) + '<small>' + esc(p.status) + ' · ' + ymLabel(p.e - 1) + '</small></span><b>' + money(p.forecast) + '</b></button>';
+      }).join('') + '</div>' + ganttSvg(fl.proj.map(function (p) { return { id: p.id, bars: p.phases.map(function (ph) { return { s: ph.s, e: ph.e, c: PHASE_C[ph.name] || '#7d8794', t: ph.name }; }) }; })) + '</div>';
+    }
+    if (a.type === 'Terminal' || a.type === 'Pier') {
+      var inside = S.units.filter(function (u) { return a.type === 'Pier' ? u.zone === a.id : u.terminal === a.terminal; });
+      var tp = 0; inside.forEach(function (u) { var x = unitData(u.code); if (x) tp += x.profit; });
+      h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Commercial units inside</h3><p class=\'apm-note\' style=\'margin:0\'>' + inside.length + ' units earning ' + money(tp) + ' for the airport. ' +
+        '<button class=\'apm-btn\' data-act=\'zone\' data-v=\'' + esc(a.type === 'Pier' ? a.id : a.terminal + ' Airside') + '\' style=\'padding:1px 8px\'>Show units</button></p></div>';
+    }
+    $('apm-side').innerHTML = h;
+  }
+  function renderProject() {
+    var p = S.projects.filter(function (x) { return x.id === S.selProject; })[0];
+    if (!p) { $('apm-side').innerHTML = ''; return; }
+    var v = p.budget ? (p.forecast - p.budget) / p.budget : 0, c = PSTAT[p.status] || '#94a3b8';
+    var h = '<div class=\'apm-sec\'><button class=\'apm-close\' data-act=\'deselect\' aria-label=\'Close project details\'>✕</button><h2 class=\'apm-name\'>' + esc(p.name) + '</h2>' +
+      '<div class=\'apm-meta\'><span class=\'apm-pill apm-code\'>' + esc(p.id) + '</span>' + pill(p.status, c) + '<span class=\'apm-pill\'>' + esc(p.type) + '</span></div>' +
+      '<p class=\'apm-note\'>' + esc(p.desc) + '</p><p class=\'apm-note\' style=\'margin-top:4px\'>Sponsor: ' + esc(p.sponsor) + (p.asset ? ' · Asset: <button class=\'apm-btn\' data-act=\'asset\' data-v=\'' + esc(p.asset) + '\' style=\'padding:0 6px\'>' + esc(p.asset) + '</button>' : '') + '</p></div>';
+    h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Cost and progress</h3><div class=\'apm-grid\'>' +
+      tile('Approved budget', money(p.budget)) + tile('Forecast at completion', money(p.forecast) + ' <small class=\'' + (v > 0.005 ? 'dn' : v < -0.005 ? 'up' : '') + '\' style=\'display:inline\'>' + (Math.abs(v) > 0.005 ? pct(v, true) : 'on budget') + '</small>') +
+      tile('Spent to date', money(p.spent)) + tile('Complete', pct(p.pct)) + '</div>' +
+      '<div class=\'apm-bar\' style=\'margin-top:10px;height:6px\'><i style=\'width:' + Math.max(2, p.pct * 100) + '%;background:' + c + '\'></i></div>' +
+      '<p class=\'apm-note\'>Now in <b>' + esc(phaseAt(p, NOW_YM)) + '</b> · ' + ymLabel(p.s) + ' to ' + ymLabel(p.e - 1) + '</p></div>';
+    h += '<div class=\'apm-sec apm-chart\'><h3 class=\'apm-h\'>Timeline</h3>' + ganttSvg(p.phases.map(function (ph) { return { label: ph.name, bars: [{ s: ph.s, e: ph.e, c: PHASE_C[ph.name] || '#7d8794', t: ph.name + ': ' + ymLabel(ph.s) + ' to ' + ymLabel(ph.e - 1) }] }; }), { padL: 86, rowH: 20 }) + '</div>';
+    h += '<div class=\'apm-sec apm-chart\'><h3 class=\'apm-h\'>Cumulative spend</h3>' + scurveSvg(S.pspend && S.pspend.id === p.id ? S.pspend : null) + '</div>';
+    var aff = p.affected.map(function (code) { return S.byCode[code]; }).filter(Boolean);
+    h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Commercial impact during works</h3>' +
+      (aff.length ? '<div class=\'apm-list\'>' + aff.map(function (u) { var x = unitData(u.code); return rowBtn(u, x ? money(x.profit) : '—', u.category); }).join('') + '</div>' : '<p class=\'apm-note\' style=\'margin:0\'>No commercial units disrupted.</p>') +
+      (p.revImpact ? '<div class=\'apm-flag\'><i style=\'background:' + STATUS.serious + '\'>£</i><div><b>' + money(p.revImpact) + ' of revenue at risk</b> while works are on site.</div></div>' : '') + '</div>';
+    h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Benefits</h3><p class=\'apm-note\' style=\'margin:0;color:#eef1f4\'>' + esc(p.benefits) + '</p><h3 class=\'apm-h\' style=\'margin-top:12px\'>Key risks</h3><p class=\'apm-note\' style=\'margin:0\'>' + esc(p.risks) + '</p></div>';
+    $('apm-side').innerHTML = h;
+  }
+  function programmeHtml() {
+    var t = programmeTotals(), vis = S.projects.filter(projVisible).sort(function (a, b) { return a.s - b.s; });
+    var h = '<div class=\'apm-sec\'><h2 class=\'apm-h\'>Capital programme' + (S.pf.month !== null ? ' · active ' + ymLabel(S.pf.month) : '') + '</h2><div class=\'apm-grid\'>' +
+      tile('Projects shown', t.n + ' <small style=\'display:inline\'>(' + t.live + ' on site)</small>') + tile('Forecast cost', money(t.forecast)) + tile('Spent to date', money(t.spent)) + tile('Revenue at risk', money(t.risk), t.risk ? 'dn' : '') + '</div></div>';
+    h += '<div class=\'apm-sec apm-chart\'><h3 class=\'apm-h\'>Programme timeline</h3>' + (vis.length ? ganttSvg(vis.map(function (p) { return { id: p.id, label: p.name.length > 22 ? p.name.slice(0, 21) + '…' : p.name, bars: [{ s: p.s, e: p.e, c: PSTAT[p.status], t: p.name + ' · ' + p.status }] }; }), { padL: 118, rowH: 18 }) : '<p class=\'apm-note\'>No projects match the filters.</p>') + '</div>';
+    h += '<div class=\'apm-sec\'><div class=\'apm-list\'>' + vis.map(function (p) {
+      var v = p.budget ? (p.forecast - p.budget) / p.budget : 0;
+      return '<button class=\'apm-row\' data-act=\'proj\' data-v=\'' + esc(p.id) + '\'><span><i style=\'display:inline-block;width:8px;height:8px;border-radius:2px;background:' + PSTAT[p.status] + ';margin-right:6px\'></i>' + esc(p.name) + '<small>' + esc(p.type) + ' · ' + ymLabel(p.e - 1) + '</small></span><b class=\'' + (v > 0.005 ? 'dn' : '') + '\'>' + money(p.forecast) + '</b></button>';
+    }).join('') + '</div></div>';
+    return h;
+  }
+  function renderPFilter() {
+    var el = $('apm-pfilter'); if (!el) return;
+    el.hidden = !S.showProjects;
+    if (!S.showProjects) return;
+    var chip = function (kind, v, on, color) { return '<button class=\'apm-fchip' + (on ? ' on' : '') + '\' data-act=\'pf\' data-k=\'' + kind + '\' data-v=\'' + esc(v) + '\' aria-pressed=\'' + on + '\'>' + (color ? '<i style=\'background:' + color + '\'></i>' : '') + esc(v) + '</button>'; };
+    var t = programmeTotals();
+    el.innerHTML = '<div class=\'apm-frow\'><span class=\'apm-flab\'>Type</span>' + PTYPES.map(function (x) { return chip('type', x, !!S.pf.types[x]); }).join('') + '</div>' +
+      '<div class=\'apm-frow\'><span class=\'apm-flab\'>Status</span>' + PSTATUSES.map(function (x) { return chip('status', x, !!S.pf.statuses[x], PSTAT[x]); }).join('') + '</div>' +
+      '<div class=\'apm-frow\'><span class=\'apm-flab\'>When</span><button class=\'apm-fchip' + (S.pf.month === null ? ' on' : '') + '\' data-act=\'pfwhen\' data-v=\'all\'>Any time</button><button class=\'apm-fchip' + (S.pf.month !== null && Math.abs(S.pf.month - Math.floor(NOW_YM)) < 1 ? ' on' : '') + '\' data-act=\'pfwhen\' data-v=\'now\'>On site now</button>' +
+      '<input id=\'apm-pmonth\' type=\'range\' min=\'' + ((2025 - PM0) * 12) + '\' max=\'' + ((2029 - PM0) * 12 + 11) + '\' value=\'' + (S.pf.month === null ? Math.floor(NOW_YM) : S.pf.month) + '\' aria-label=\'Show projects active in month\'>' +
+      '<b class=\'apm-fmonth\'>' + (S.pf.month === null ? 'All dates' : ymLabel(S.pf.month)) + '</b><button class=\'apm-btn\' data-act=\'pfplay\' style=\'padding:2px 8px\'>' + (S.pfPlaying ? '❚❚' : '▶') + '</button></div>' +
+      '<div class=\'apm-fsum\'><b>' + t.n + '</b> projects · <b>' + money(t.forecast) + '</b> forecast · <b>' + money(t.spent) + '</b> spent · <b class=\'' + (t.risk ? 'dn' : '') + '\'>' + money(t.risk) + '</b> revenue at risk</div>';
+  }
+
+  // ----------------------------------------------------------- story mode
+  function terminalVar(t) { var a = zoneAgg(t, 'var', 'terminal'); return a.v; }
+  function projById(id) { return S.projects.filter(function (p) { return p.id === id; })[0]; }
+  var STORY = [
+    { title: 'Manchester Airport at a glance', run: function () { S.lens = 'profit'; S.showProjects = false; clearSel(); setScope('all'); },
+      text: function () { var t = totals(function () { return true; }), px = departingPax(); return 'Year to date the airport\'s commercial estate has earned <b>' + money(t.profit) + '</b>, <b>' + pct(t.budget ? t.profit / t.budget - 1 : 0, true) + '</b> against budget, from <b>' + num(px.actual) + '</b> departing passengers. Every block on the map is a revenue zone.'; } },
+    { title: 'Terminal 1 closes, and passengers move', run: function () { S.lens = 'var'; S.showProjects = false; clearSel(); setScope('all'); },
+      text: function () { return 'Terminal 1 closed in March 2026. More of its passengers moved to <b>Terminal 2</b> than planned, which is running <b class=\'up\'>' + pct(terminalVar('T2'), true) + '</b> against budget. <b>Terminal 3</b> is <b class=\'dn\'>' + pct(terminalVar('T3'), true) + '</b>.'; } },
+    { title: 'Terminal 3 security is under pressure', run: function () { S.lens = 'var'; S.showProjects = false; selectAsset('T3 Security', true); },
+      text: function () { var d = assetData('T3 Security'), d2 = assetData('T2 Security'); return 'In Terminal 3 only <b class=\'dn\'>' + pct(d ? d.sla : null) + '</b> of passengers clear security within 15 minutes, against <b>' + pct(d2 ? d2.sla : null) + '</b> in Terminal 2. Every minute in a queue is a minute not spent in the shops.'; } },
+    { title: 'The response: Terminal 3 extension phase 2', run: function () { S.pf = { types: {}, statuses: {}, month: null }; selectProject('PRJ-103', true); },
+      text: function () { var p = projById('PRJ-103'); return p ? 'A <b>' + money(p.budget) + '</b> scheme converting part of the old Terminal 1. It is <b>' + pct(p.pct) + '</b> complete and forecast at <b class=\'up\'>' + money(p.forecast) + '</b>. It adds four security lanes and new shops from ' + ymLabel(p.e - 1) + '.' : ''; } },
+    { title: 'Works on Pier 1 take stands out of action', run: function () { selectProject('PRJ-101', true); },
+      text: function () { var p = projById('PRJ-101'), d = assetData('Pier 1'); return p ? 'Air-bridge replacement has cut Pier 1 stand availability to <b class=\'dn\'>' + pct(d ? d.avail : null) + '</b>, with <b>' + money(p.revImpact) + '</b> of revenue at risk. The forecast is <b class=\'dn\'>' + money(p.forecast) + '</b> against a budget of ' + money(p.budget) + '.' : ''; } },
+    { title: 'A loss-maker, and its fix', run: function () { S.lens = 'profit'; S.showProjects = true; selectUnit('T2-L-08', true); },
+      text: function () { var x = unitData('T2-L-08'), p = projById('PRJ-106'); return 'The T2 arrivals café is the airport\'s biggest loss-maker at <b class=\'dn\'>' + money(x ? x.profit : null) + '</b>. The <b>' + (p ? money(p.budget) : '') + ' landside food-court refit</b>, now in design, replaces it from ' + (p ? ymLabel(p.e - 1) : '') + '.'; } },
+    { title: 'The runway needs renewal', run: function () { S.showProjects = true; selectAsset('Runway 05L/23R', true); },
+      text: function () { var p = projById('PRJ-102'); return 'Runway 05L/23R pavement condition is <b class=\'dn\'>58 / 100</b>. A <b>' + (p ? money(p.budget) : '') + '</b> resurfacing is approved for night working between April and October 2027.'; } },
+    { title: 'The whole capital programme', run: function () { S.pf = { types: {}, statuses: {}, month: null }; S.showProjects = true; clearSel(); S.lens = 'profit'; setScope('all'); },
+      text: function () { var t = programmeTotals(); return '<b>' + t.n + '</b> projects worth <b>' + money(t.forecast) + '</b>, with <b>' + money(t.spent) + '</b> spent so far. Use the filters to see where each type of work is happening, or scrub the timeline to watch the sites come and go.'; } }
+  ];
+  function storyGo(i) {
+    if (i < 0 || i >= STORY.length) { S.story = null; renderAll(); return; }
+    S.story = i; STORY[i].run(); renderAll();
+  }
+  function renderStory() {
+    var el = $('apm-story'); if (!el) return;
+    if (S.story === null || S.story === undefined) { el.hidden = true; return; }
+    var st = STORY[S.story];
+    el.hidden = false;
+    el.innerHTML = '<div class=\'apm-st-top\'><span class=\'apm-st-step\'>' + (S.story + 1) + ' / ' + STORY.length + '</span><button class=\'apm-close\' data-act=\'story-end\' aria-label=\'End the story\'>✕</button></div>' +
+      '<h3>' + esc(st.title) + '</h3><p>' + st.text() + '</p><div class=\'apm-actions\'><button class=\'apm-btn\' data-act=\'story-prev\'' + (S.story ? '' : ' disabled') + '>Back</button>' +
+      '<div class=\'apm-st-dots\'>' + STORY.map(function (x, i) { return '<i class=\'' + (i === S.story ? 'on' : '') + '\'></i>'; }).join('') + '</div>' +
+      '<button class=\'apm-btn primary\' data-act=\'story-next\'>' + (S.story === STORY.length - 1 ? 'Finish' : 'Next') + '</button></div>';
+  }
+
   function renderSide() {
     if (!S.ready.kpis) { $('apm-side').innerHTML = '<div class=\'apm-sec\'><p class=\'apm-note\'>Loading insights…</p></div>'; return; }
-    if (S.selected && S.byCode[S.selected]) renderDetail(); else renderInsights();
+    if (S.selProject) renderProject();
+    else if (S.selAsset) renderAsset();
+    else if (S.selected && S.byCode[S.selected]) renderDetail(); else renderInsights();
   }
 
   function renderAll() { renderChrome(); renderKpis(); paint(); renderSide(); }
@@ -977,7 +1264,7 @@
   }
   function selectUnit(code, fly) {
     var u = S.byCode[code]; if (!u) return;
-    S.selected = code;
+    clearSel(); S.selected = code;
     if (!SCOPES[S.scope].test(u) || (S.zone && S.zone !== u.zone)) { S.scope = SCOPES[u.terminal] ? u.terminal : 'all'; S.zone = null; }
     if (fly) {
       var b = u.box, w = Math.max(b.w * 6, is3D() ? 560 : 360), h = w * 0.62;
@@ -995,6 +1282,7 @@
     var pd = [{ alias: ALIAS.months, selection: months }];
     kpiSub.updatePageDefinitions(pd);
     gateSub.updatePageDefinitions(pd);
+    akpiSub.updatePageDefinitions(pd);
     renderChrome();
   }
   var playIdx = 0, playTimer = 0;
@@ -1092,7 +1380,17 @@
     if (act === 'scope') setScope(v);
     else if (act === 'lens') { S.lens = v; renderAll(); }
     else if (act === 'select') selectUnit(v, true);
-    else if (act === 'deselect') { S.selected = null; renderAll(); }
+    else if (act === 'deselect') { clearSel(); renderAll(); }
+    else if (act === 'proj') selectProject(v, true);
+    else if (act === 'asset') selectAsset(v, true);
+    else if (act === 'projects') { S.showProjects = !S.showProjects; if (!S.showProjects) { S.selProject = null; stopPfPlay(); } renderAll(); }
+    else if (act === 'pf') { var kind = a.getAttribute('data-k') === 'type' ? 'types' : 'statuses'; if (S.pf[kind][v]) delete S.pf[kind][v]; else S.pf[kind][v] = true; renderAll(); }
+    else if (act === 'pfwhen') { stopPfPlay(); S.pf.month = v === 'all' ? null : Math.floor(NOW_YM); renderAll(); }
+    else if (act === 'pfplay') { if (S.pfPlaying) stopPfPlay(); else startPfPlay(); renderAll(); }
+    else if (act === 'story') storyGo(0);
+    else if (act === 'story-next') storyGo(S.story + 1);
+    else if (act === 'story-prev') storyGo(S.story - 1);
+    else if (act === 'story-end') storyGo(-1);
     else if (act === 'zone') setZone(v);
     else if (act === 'crumb') { if (v === 'all') setScope('all'); else if (v === 'zone') { S.selected = null; setZone(S.zone); } else setScope(v); }
     else if (act === 'play') togglePlay();
@@ -1106,25 +1404,39 @@
     else if (act === 'apply') applyWhatIf();
     else if (act === 'reset') resetEdits();
   }
+  var pfTimer = 0, pfInputT = 0;
+  function renderPFilterSummary() { var el = app.querySelector('.apm-fsum'); if (!el) return; var t = programmeTotals(); el.innerHTML = '<b>' + t.n + '</b> projects · <b>' + money(t.forecast) + '</b> forecast · <b>' + money(t.spent) + '</b> spent · <b class=\'' + (t.risk ? 'dn' : '') + '\'>' + money(t.risk) + '</b> revenue at risk'; }
+  function stopPfPlay() { S.pfPlaying = false; clearInterval(pfTimer); }
+  function startPfPlay() {
+    S.pfPlaying = true; S.pf.month = (2025 - PM0) * 12;
+    clearInterval(pfTimer);
+    pfTimer = setInterval(function () { S.pf.month += 2; if (S.pf.month > (2029 - PM0) * 12 + 11) { stopPfPlay(); S.pf.month = Math.floor(NOW_YM); } renderAll(); }, 700);
+  }
   function onChange(e) {
     if (e.target.id === 'apm-period') { if (S.playing) { S.playing = false; clearInterval(playTimer); } setPeriod(e.target.value); }
   }
   function onInput(e) {
     if (e.target.id === 'apm-rate') { var o = $('apm-rate-v'); if (o) o.textContent = pct(Number(e.target.value)); }
     if (e.target.id === 'apm-q') search(e.target.value);
+    if (e.target.id === 'apm-pmonth') { stopPfPlay(); S.pf.month = Number(e.target.value); var fm = app.querySelector('.apm-fmonth'); if (fm) fm.textContent = ymLabel(S.pf.month); clearTimeout(pfInputT); pfInputT = setTimeout(function () { paint(); renderSide(); renderPFilterSummary(); }, 60); }
   }
   function search(q) {
     var box = $('apm-results');
     q = (q || '').trim().toLowerCase();
     if (q.length < 2) { box.hidden = true; return; }
-    var hits = S.units.filter(function (u) { return (u.name + ' ' + u.tenant + ' ' + u.code + ' ' + u.category).toLowerCase().indexOf(q) >= 0; }).slice(0, 7);
-    box.innerHTML = hits.length ? hits.map(function (u) { return '<button data-act=\'pick\' data-v=\'' + esc(u.code) + '\'><span>' + esc(u.name) + '</span><small style=\'color:#7d8794\'>' + esc(u.code) + '</small></button>'; }).join('') : '<div style=\'padding:8px 10px;color:#7d8794\'>No unit matches “' + esc(q) + '”.</div>';
+    var hits = [];
+    S.projects.forEach(function (p) { if ((p.name + ' ' + p.id + ' ' + p.type).toLowerCase().indexOf(q) >= 0) hits.push(['proj', p.id, p.name, 'Project']); });
+    S.assets.forEach(function (a) { if ((a.id + ' ' + a.type).toLowerCase().indexOf(q) >= 0) hits.push(['asset', a.id, a.id, a.type]); });
+    S.units.forEach(function (u) { if ((u.name + ' ' + u.tenant + ' ' + u.code + ' ' + u.category).toLowerCase().indexOf(q) >= 0) hits.push(['unit', u.code, u.name, u.code]); });
+    hits = hits.slice(0, 8);
+    box.innerHTML = hits.length ? hits.map(function (h) { return '<button data-act=\'pick\' data-k=\'' + h[0] + '\' data-v=\'' + esc(h[1]) + '\'><span>' + esc(h[2]) + '</span><small style=\'color:#7d8794\'>' + esc(h[3]) + '</small></button>'; }).join('') : '<div style=\'padding:8px 10px;color:#7d8794\'>Nothing matches “' + esc(q) + '”.</div>';
     box.hidden = false;
   }
   function onPick(e) {
     var b = e.target.closest('[data-act=pick]'); if (!b) return;
     $('apm-results').hidden = true; $('apm-q').value = '';
-    selectUnit(b.getAttribute('data-v'), true);
+    var k = b.getAttribute('data-k'), v = b.getAttribute('data-v');
+    if (k === 'proj') selectProject(v, true); else if (k === 'asset') selectAsset(v, true); else selectUnit(v, true);
   }
   function onPointerDown(e) {
     if (!svg || !svg.contains(e.target)) return;
@@ -1147,7 +1459,7 @@
     }
     else if (t.classList && t.classList.contains('apm-hit') && S.trend) {
       var i = Number(t.getAttribute('data-m'));
-      showTip('<b>' + MONTHS[i] + (i > LAST_ACTUAL ? ' · forecast' : '') + '</b><br><span class=\'k\'>Profit:</span> ' + money(S.trend.profit[i]) + '<br><span class=\'k\'>Budget:</span> ' + money(S.trend.budget[i]) + '<br><span class=\'k\'>Sales:</span> ' + money(S.trend.sales[i]), e.clientX, e.clientY);
+      showTip('<b>' + MONTHS[i] + (i > LAST_ACTUAL ? ' · forecast' : '') + '</b><br><span class=\'k\'>' + (S.trend.kind === 'asset' ? 'EBITDA' : 'Profit') + ':</span> ' + money(S.trend.profit[i]) + '<br><span class=\'k\'>Budget:</span> ' + money(S.trend.budget[i]) + '<br><span class=\'k\'>' + (S.trend.kind === 'asset' ? 'Revenue' : 'Sales') + ':</span> ' + money(S.trend.sales[i]), e.clientX, e.clientY);
     } else hideTip();
   }
   function onPointerUp(e) {
@@ -1156,6 +1468,7 @@
     svg.classList.remove('drag');
     drag = null;
     if (wasDrag) return;
+    if (target.getAttribute && target.getAttribute('data-proj')) { selectProject(target.getAttribute('data-proj'), true); return; }
     if (target.classList.contains('u')) selectUnit(target.getAttribute('data-code'), false);
     else if (target.classList.contains('zh') || target.classList.contains('zagg')) setZone(target.getAttribute('data-zone'));
   }
@@ -1165,7 +1478,8 @@
     zoomAt(e.clientX, e.clientY, Math.pow(1.0015, e.deltaY));
   }
   function onKey(e) {
-    if (e.key === 'Escape') { if (S.selected) { S.selected = null; renderAll(); } $('apm-results').hidden = true; return; }
+    if (S.story !== null && S.story !== undefined && (e.key === 'ArrowRight' || e.key === 'ArrowLeft') && !/INPUT|SELECT/.test((e.target.tagName || ''))) { storyGo(S.story + (e.key === 'ArrowRight' ? 1 : -1)); return; }
+    if (e.key === 'Escape') { if (S.story !== null && S.story !== undefined) { storyGo(-1); return; } if (S.selected || S.selAsset || S.selProject) { clearSel(); renderAll(); } $('apm-results').hidden = true; return; }
     if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('u')) { e.preventDefault(); selectUnit(e.target.getAttribute('data-code'), true); }
   }
   function onFocusIn(e) { if (e.target.classList && e.target.classList.contains('u')) { var r = e.target.getBoundingClientRect(); showTip(unitTip(S.byCode[e.target.getAttribute('data-code')]), r.right, r.bottom); } }
@@ -1233,8 +1547,8 @@
   var featSub = SDK.subscribeToItems(ALIAS.features, {
     onData: function (d) {
       S.features = (d.items || []).map(function (it) {
-        var lx = prop(it, 'LabelX'), ly = prop(it, 'LabelY');
-        return { name: prop(it, 'Feature'), type: prop(it, 'Type'), box: shape(prop(it, 'Shape')), label: prop(it, 'Label') || '', sub: prop(it, 'Sub') || '', terminal: prop(it, 'Terminal') || '', zone: prop(it, 'Zone') || '', pier: prop(it, 'Pier') || '', heading: Number(prop(it, 'Heading')) || 0, ends: prop(it, 'Ends') || '', closed: !!prop(it, 'Closed'), small: !!prop(it, 'Small'), far: !!prop(it, 'Far'), cls: prop(it, 'Class') || '', path: prop(it, 'Path') || '', line: String(prop(it, 'Line') || '').split(',').map(Number), labelX: lx === undefined || lx === '' ? null : Number(lx), labelY: ly === undefined || ly === '' ? null : Number(ly), side: '' };
+        var lx = prop(it, 'LabelX'), ly = prop(it, 'LabelY'), asset = prop(it, 'Asset') || '';
+        return { name: prop(it, 'Feature'), type: prop(it, 'Type'), box: shape(prop(it, 'Shape')), label: prop(it, 'Label') || '', sub: prop(it, 'Sub') || '', terminal: prop(it, 'Terminal') || '', zone: prop(it, 'Zone') || '', pier: prop(it, 'Pier') || '', heading: Number(prop(it, 'Heading')) || 0, ends: prop(it, 'Ends') || '', closed: !!prop(it, 'Closed'), small: !!prop(it, 'Small'), far: !!prop(it, 'Far'), cls: prop(it, 'Class') || '', path: prop(it, 'Path') || '', line: String(prop(it, 'Line') || '').split(',').map(Number), labelX: lx === undefined || lx === '' ? null : Number(lx), labelY: ly === undefined || ly === '' ? null : Number(ly), side: '', asset: asset };
       });
       // gate side: which side of its pier the gate sits on
       var piers = {};
@@ -1277,7 +1591,7 @@
   var trendSub = SDK.subscribeToVizualization(ALIAS.trend, {
     pageDefinitions: [],
     onData: function (d) {
-      if (!isReady(d) || !trendCode) return;
+      if (!isReady(d) || !trendCode || trendCode.indexOf('A:') === 0) return;
       var ci = colIndex(d);
       var col = function (n) { return d.cells[ci[n]] ? d.cells[ci[n]].map(numCell) : MONTHS.map(function () { return null; }); };
       S.trend = { code: trendCode, profit: col('Airport Profit'), budget: col('Budget Profit'), sales: col('Tenant Sales') };
@@ -1286,7 +1600,56 @@
     },
     onError: onErr
   });
-  subs.push(unitSub, featSub, kpiSub, gateSub, trendSub);
+  var assetSub = SDK.subscribeToItems('assets', {
+    onData: function (d) {
+      S.assets = (d.items || []).map(function (it) { return { id: prop(it, 'Asset'), type: prop(it, 'Type'), terminal: prop(it, 'Terminal') || '', pier: prop(it, 'Pier') || '', facts: prop(it, 'Facts') || '' }; });
+      S.assetBy = {}; S.assetIdx = {}; S.assets.forEach(function (a, i) { S.assetBy[a.id] = a; S.assetIdx[a.id] = i; });
+      if (M3) M3.refreshStatic();
+      scheduleRender();
+    },
+    onError: onErr
+  });
+  var projSub = SDK.subscribeToItems('projects', {
+    onData: function (d) { S.projects = (d.items || []).map(parseProject).sort(function (a, b) { return a.s - b.s; }); scheduleRender(); },
+    onError: onErr
+  });
+  var akpiSub = SDK.subscribeToVizualization('assetKpis', {
+    pageDefinitions: [{ alias: ALIAS.months, selection: periodObj().months }],
+    onData: function (d) {
+      if (!isReady(d)) return;
+      var ci = colIndex(d), out = {};
+      d.labels.rows.forEach(function (path, r) {
+        var id = lastLabel(path), o = {};
+        Object.keys(AC).forEach(function (k) { var c = ci[AC[k]]; o[k] = c === undefined ? null : numCell(d.cells[c][r]); });
+        ['aero', 'comm', 'prop', 'staff', 'maint', 'util', 'other', 'dep', 'ebitda', 'op', 'bebitda'].forEach(function (k) { o[k] = o[k] || 0; });
+        out[id] = o;
+      });
+      S.akpi = out; if (M3) M3.refreshStatic(); scheduleRender();
+    },
+    onError: onErr
+  });
+  var atrendSub = SDK.subscribeToVizualization('assetTrend', {
+    pageDefinitions: [],
+    onData: function (d) {
+      if (!isReady(d) || !trendCode || trendCode.indexOf('A:') !== 0) return;
+      var ci = colIndex(d), col = function (n) { return d.cells[ci[n]] ? d.cells[ci[n]].map(numCell) : MONTHS.map(function () { return null; }); };
+      S.trend = { code: trendCode, kind: 'asset', profit: col('EBITDA'), budget: col('Budget EBITDA'), sales: col('Revenue') };
+      var host = $('apm-trend'); if (host && S.selAsset && 'A:' + S.selAsset === S.trend.code) host.innerHTML = trendSvg(S.trend);
+    },
+    onError: onErr
+  });
+  var pspendCode = null;
+  var pspendSub = SDK.subscribeToVizualization('projectSpend', {
+    pageDefinitions: [],
+    onData: function (d) {
+      if (!isReady(d) || !pspendCode) return;
+      var ci = colIndex(d), col = function (n) { return d.cells[ci[n]] ? d.cells[ci[n]].map(function (v) { return v === null || typeof v === 'object' ? null : Number(v); }) : []; };
+      S.pspend = { id: pspendCode, plan: col('Planned (cumulative)'), act: col('Actual (cumulative)'), fc: col('Forecast (cumulative)') };
+      if (S.selProject === pspendCode) renderSide();
+    },
+    onError: onErr
+  });
+  subs.push(unitSub, featSub, kpiSub, gateSub, trendSub, assetSub, projSub, akpiSub, atrendSub, pspendSub);
   renderChrome();
 
   // ------------------------------------------------------------- cleanup
@@ -1306,7 +1669,7 @@
     app.removeEventListener('mouseleave', hideTip);
     window.removeEventListener('resize', onResize);
     if (ro) ro.disconnect();
-    clearTimeout(renderTimer); clearTimeout(resizeTimer); clearInterval(playTimer);
+    clearTimeout(renderTimer); clearTimeout(resizeTimer); clearInterval(playTimer); clearInterval(pfTimer); clearTimeout(pfInputT);
     timers.forEach(clearTimeout);
     cancelAnimationFrame(rafId);
     if (tooltip) tooltip.remove();
