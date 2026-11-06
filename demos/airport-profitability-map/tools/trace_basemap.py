@@ -11,7 +11,7 @@ import sys
 
 import contourpy
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 
 src, out = sys.argv[1], sys.argv[2]
 K = float(sys.argv[3]) if len(sys.argv) > 3 else 3.0
@@ -63,13 +63,22 @@ def ring_area(p):
     return 0.5 * abs(np.dot(x, np.roll(y, -1)) - np.dot(y, np.roll(x, -1)))
 
 
+UP = 4  # sub-pixel tracing: upsample the class mask, blur it, then contour at 0.5
+
+
+def soften(mask):
+    im = Image.fromarray((np.pad(mask, 1) * 255).astype(np.uint8), 'L')
+    im = im.resize((im.width * UP, im.height * UP), Image.BICUBIC).filter(ImageFilter.GaussianBlur(UP * 0.7))
+    return np.asarray(im).astype(float) / 255.0
+
+
 def trace(mask, eps=0.9, min_area=40.0, min_hole=25.0):
-    z = np.pad(mask.astype(float), 1)
+    z = soften(mask)
     gen = contourpy.contour_generator(z=z, fill_type='OuterOffset')
     polys, offsets = gen.filled(0.5, 1.5)
     paths = []
     for pts, off in zip(polys, offsets):
-        rings = [pts[off[i]:off[i + 1]] - 1 for i in range(len(off) - 1)]
+        rings = [pts[off[i]:off[i + 1]] / UP - 1 for i in range(len(off) - 1)]
         if not rings or ring_area(rings[0]) < min_area:
             continue
         d = ''
@@ -99,14 +108,14 @@ beige = near((243, 239, 227), 5)
 layers = []
 air = close(lavender | paved | building | road & shift_max(lavender, 6), 4)
 air = open_(air, 2)
-layers += [('airfield', p) for p in trace(air, eps=1.2, min_area=4000, min_hole=600)]
-layers += [('urban', p) for p in trace(open_(close(urban, 2), 1), eps=1.2, min_area=600, min_hole=200)]
-layers += [('forest', p) for p in trace(open_(close(forest, 2), 1), eps=1.2, min_area=300)]
-layers += [('beige', p) for p in trace(open_(close(beige, 2), 1), eps=1.2, min_area=300)]
-layers += [('apronbld', p) for p in trace(close(building, 1), eps=0.8, min_area=30)]
-layers += [('paved', p) for p in trace(open_(close(paved, 1), 0), eps=0.7, min_area=60, min_hole=20)]
-layers += [('water', p) for p in trace(close(water, 1), eps=0.7, min_area=12)]
-layers += [('roadfill', p) for p in trace(close(road, 1), eps=0.8, min_area=60)]
+layers += [('airfield', p) for p in trace(air, eps=0.5, min_area=4000, min_hole=600)]
+layers += [('urban', p) for p in trace(open_(close(urban, 2), 1), eps=0.6, min_area=600, min_hole=200)]
+layers += [('forest', p) for p in trace(open_(close(forest, 2), 1), eps=0.6, min_area=300)]
+layers += [('beige', p) for p in trace(open_(close(beige, 2), 1), eps=0.6, min_area=300)]
+layers += [('apronbld', p) for p in trace(close(building, 1), eps=0.4, min_area=30)]
+layers += [('paved', p) for p in trace(open_(close(paved, 1), 0), eps=0.3, min_area=60, min_hole=20)]
+layers += [('water', p) for p in trace(close(water, 1), eps=0.35, min_area=12)]
+layers += [('roadfill', p) for p in trace(close(road, 1), eps=0.3, min_area=60)]
 
 json.dump({'scale': K, 'width': W * K, 'height': H * K, 'paths': [{'type': t, 'd': d} for t, d in layers]}, open(out, 'w'))
 from collections import Counter

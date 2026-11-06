@@ -65,7 +65,7 @@
   var S = {
     units: [], byCode: {}, features: [], kpi: {}, gatePax: {}, gateBudget: {}, trend: null,
     lens: 'profit', period: 'ytd', scope: 'all', zone: null, selected: null, flow: false,
-    view: { x: AIRPORT_VIEW.x, y: AIRPORT_VIEW.y, w: AIRPORT_VIEW.w, h: AIRPORT_VIEW.h }, aggs: [], stale: true, edits: [], baseline: null, busy: false,
+    view: { x: AIRPORT_VIEW.x, y: AIRPORT_VIEW.y, w: AIRPORT_VIEW.w, h: AIRPORT_VIEW.h }, aggs: [], mode: '3d', stale: true, edits: [], baseline: null, busy: false,
     playing: false, ready: { units: false, features: false, kpis: false }, error: null, toast: null
   };
   var subs = [];
@@ -190,10 +190,10 @@
     }
     return NEUTRAL;
   }
-  function zoneAgg(zone, lens) {
+  function zoneAgg(zone, lens, by) {
     var a = { profit: 0, budget: 0, sales: 0, pax: 0, area: 0, n: 0, expiring: 0, groups: {} };
     S.units.forEach(function (u) {
-      if (u.zone !== zone) return;
+      if ((by ? u[by] : u.zone) !== zone) return;
       var d = unitData(u.code); if (!d) return;
       a.n++; a.profit += d.profit; a.budget += d.budget; a.sales += d.sales; a.pax = Math.max(a.pax, d.pax); a.area += u.area;
       var ml = monthsUntil(u.lease); if (ml !== null && ml <= 12) a.expiring += Math.max(0, d.profit);
@@ -353,6 +353,28 @@
     '.u:hover{stroke:#fff;stroke-width:1.4}',
     '.stale .u{animation:apmPulse .7s ease-in-out infinite alternate}',
     '.dim{opacity:.22}',
+    '.apm-gl{position:absolute;inset:0;display:block;cursor:grab;touch-action:none}',
+    '.apm-ov{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2}',
+    '.l3{position:absolute;left:0;top:0;white-space:nowrap;will-change:transform;margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}',
+    '.l3.place{color:rgba(214,222,232,.55);font-size:15px;font-weight:600;translate:-50% -50%;text-shadow:0 1px 6px #000}',
+    '.l3.road{color:rgba(190,204,222,.75);font-size:11px;font-weight:700;translate:-50% -50%;background:rgba(40,52,68,.8);padding:1px 6px;border-radius:4px}',
+    '.l3.poi{color:#f0b6d2;font-size:12px;font-weight:600;translate:-50% -120%;text-shadow:0 1px 5px #000}',
+    '.l3.term{color:#ffc627;font-size:13px;font-weight:800;letter-spacing:.14em;translate:-50% -140%;text-shadow:0 1px 8px #000}',
+    '.l3.term.closed{color:rgba(238,241,244,.6);font-size:10px;letter-spacing:.1em;translate:-50% -50%}',
+    '.l3.gate{color:#ffc627;font-size:10px;font-weight:800;translate:-50% -130%;text-shadow:0 1px 4px #000}',
+    '.l3.unit{color:#fff;font-size:10px;font-weight:600;translate:-50% -115%;background:rgba(11,15,20,.72);padding:1px 5px;border-radius:4px;max-width:150px;overflow:hidden;text-overflow:ellipsis}',
+    '.l3.unit.sel{background:#ffc627;color:#14110a;font-weight:800;z-index:3}',
+    '.l3.park{color:#eef1f4;font-size:11px;font-weight:700;translate:-50% -115%;text-shadow:0 1px 5px #000}',
+    '.l3.zone{display:flex;flex-direction:column;align-items:center;translate:-50% -50%;color:#fff;text-shadow:0 1px 6px #000;line-height:1.15}',
+    '.l3.zone b{font-size:12px;letter-spacing:.04em}',
+    '.l3.zone span{font-size:11px;font-weight:600;color:#e7edf4}',
+    '.l3.zone.callout{background:rgba(18,24,33,.88);border:1px solid rgba(255,198,39,.55);border-radius:8px;padding:5px 10px;text-shadow:none;translate:-50% -100%}',
+    '.l3.zone.callout b{font-size:12px;color:#ffc627;letter-spacing:.06em;text-transform:uppercase}',
+    '.l3.zone.callout span{font-size:15px;font-weight:700;color:#fff}',
+    '.apm-compass{position:absolute;right:12px;top:104px;z-index:5;background:none;border:0;padding:0;cursor:pointer;border-radius:50%}',
+    '.apm-compass svg{display:block;transition:transform .1s linear}',
+    '.apm-3donly{display:none!important}',
+    '.apm.is3d .apm-3donly{display:grid!important}',
     '.u.in,.ul.in{transition:opacity .35s ease}',
     '.lod0 .u.in{opacity:0;pointer-events:none}',
     '.lod0 .ul.in,.lod0 .near{opacity:0}',
@@ -419,9 +441,9 @@
         '<div class=\'apm-map\' id=\'apm-map\'>' +
           '<div class=\'apm-float apm-lens\'><div class=\'apm-seg\' role=\'group\' aria-label=\'Colour units by\'>' + lens + '</div></div>' +
           '<div class=\'apm-float apm-crumbs\' id=\'apm-crumbs\'></div>' +
-          '<div class=\'apm-float apm-tools\'><button class=\'apm-btn\' data-act=\'flow\' id=\'apm-flowbtn\' aria-pressed=\'false\'>Passenger flow</button><div id=\'apm-scn\'></div></div>' +
+          '<div class=\'apm-float apm-tools\'><div class=\'apm-seg\'><button data-act=\'mode\' id=\'apm-modebtn\' aria-pressed=\'true\'>3D</button></div><button class=\'apm-btn\' data-act=\'flow\' id=\'apm-flowbtn\' aria-pressed=\'false\'>Passenger flow</button><div id=\'apm-scn\'></div></div>' +
           '<div class=\'apm-float apm-legend\' id=\'apm-legend\'></div>' +
-          '<div class=\'apm-float apm-zoom\'><button class=\'apm-btn\' data-act=\'zin\' aria-label=\'Zoom in\'>+</button><button class=\'apm-btn\' data-act=\'zout\' aria-label=\'Zoom out\'>−</button><button class=\'apm-btn\' data-act=\'zreset\' aria-label=\'Show whole airport\'>⤢</button></div>' +
+          '<div class=\'apm-float apm-zoom\'><button class=\'apm-btn apm-3donly\' data-act=\'rot\' data-v=\'-45\' aria-label=\'Rotate left\'>⟲</button><button class=\'apm-btn apm-3donly\' data-act=\'rot\' data-v=\'45\' aria-label=\'Rotate right\'>⟳</button><button class=\'apm-btn apm-3donly\' data-act=\'tilt\' aria-label=\'Toggle top-down view\'>⊤</button><button class=\'apm-btn\' data-act=\'zin\' aria-label=\'Zoom in\'>+</button><button class=\'apm-btn\' data-act=\'zout\' aria-label=\'Zoom out\'>−</button><button class=\'apm-btn\' data-act=\'zreset\' aria-label=\'Show whole airport\'>⤢</button></div>' +
           '<div class=\'apm-month\' id=\'apm-month\' hidden></div>' +
           '<div class=\'apm-state\' id=\'apm-state\'><div>Loading the airport model…</div></div>' +
         '</div>' +
@@ -584,6 +606,17 @@
     applyView();
   }
 
+  /*@MAP3D@*/
+  var M3 = null;
+  function is3D() { return !!M3 && S.mode === '3d'; }
+  function setMode(m) {
+    S.mode = m;
+    if (m === '3d' && !M3) { try { M3 = createMap3D($('apm-map')); if (M3) M3.build(); } catch (err) { console.error(err); M3 = null; } if (!M3) { S.mode = '2d'; toast('3D needs WebGL, which is not available here. Showing the 2D map.'); } }
+    if (M3) M3.setVisible(S.mode === '3d');
+    if (svg) svg.style.display = S.mode === '3d' ? 'none' : '';
+    renderAll();
+  }
+
   // ------------------------------------------------------------- painting
   function paint() {
     if (!built) return;
@@ -612,6 +645,7 @@
       if (g.label) { g.label.lastChild.textContent = a.text; g.label.classList.toggle('dk', lum(c) > 0.55); }
     });
     paintFlow();
+    if (M3) M3.paint();
     renderLegend(dom);
   }
 
@@ -675,6 +709,7 @@
     } else {
       h += '<div class=\'apm-sw\'>' + GROUP_COLORS.map(function (g) { return '<span><i style=\'background:' + g[1] + '\'></i>' + esc(g[0]) + '</span>'; }).join('') + '</div>';
     }
+    if (is3D()) h += '<div class=\'apm-note\' style=\'margin:0\'>Fly in to a terminal: tower height shows the size of the value.</div>';
     $('apm-legend').innerHTML = h;
   }
 
@@ -701,6 +736,8 @@
     app.querySelectorAll('[data-act=scope]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-v') === S.scope && !S.zone ? 'true' : b.getAttribute('data-v') === S.scope ? 'true' : 'false'); });
     app.querySelectorAll('[data-act=lens]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-v') === S.lens ? 'true' : 'false'); });
     $('apm-period').value = S.period;
+    var mb = $('apm-modebtn'); if (mb) { mb.textContent = S.mode === '3d' ? '3D view' : '2D map'; mb.setAttribute('aria-pressed', S.mode === '3d' ? 'true' : 'false'); mb.title = S.mode === '3d' ? 'Switch to the flat 2D map' : 'Switch to the 3D view'; }
+    app.classList.toggle('is3d', is3D());
     $('apm-play').textContent = S.playing ? '❚❚ Pause' : '▶ Play 2026';
     var c = '<button data-act=\'crumb\' data-v=\'all\'>Airport</button>';
     if (S.scope !== 'all') c += ' / <button data-act=\'crumb\' data-v=\'' + S.scope + '\'>' + esc(SCOPES[S.scope].label) + '</button>';
@@ -888,6 +925,7 @@
   }
   function animateTo(box, pad) {
     pad = pad === undefined ? 0 : pad;
+    if (M3) M3.flyTo(box, pad);
     var target = { x: box.x - pad, y: box.y - pad, w: box.w + pad * 2, h: box.h + pad * 2 };
     var from = { x: S.view.x, y: S.view.y, w: S.view.w, h: S.view.h };
     var t0 = performance.now(), dur = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 520;
@@ -942,7 +980,7 @@
     S.selected = code;
     if (!SCOPES[S.scope].test(u) || (S.zone && S.zone !== u.zone)) { S.scope = SCOPES[u.terminal] ? u.terminal : 'all'; S.zone = null; }
     if (fly) {
-      var b = u.box, w = Math.max(b.w * 5, 360), h = w * 0.62;
+      var b = u.box, w = Math.max(b.w * 6, is3D() ? 560 : 360), h = w * 0.62;
       animateTo({ x: b.x + b.w / 2 - w / 2, y: b.y + b.h / 2 - h / 2, w: w, h: h });
     }
     S.trend = S.trend && S.trend.code === code ? S.trend : null;
@@ -1059,8 +1097,11 @@
     else if (act === 'crumb') { if (v === 'all') setScope('all'); else if (v === 'zone') { S.selected = null; setZone(S.zone); } else setScope(v); }
     else if (act === 'play') togglePlay();
     else if (act === 'flow') { S.flow = !S.flow; paint(); }
-    else if (act === 'zin') { var r = svg.getBoundingClientRect(); zoomAt(r.left + r.width / 2, r.top + r.height / 2, 0.7); }
-    else if (act === 'zout') { var r2 = svg.getBoundingClientRect(); zoomAt(r2.left + r2.width / 2, r2.top + r2.height / 2, 1.4); }
+    else if (act === 'zin') { if (is3D()) M3.zoomBy(0.7); else { var r = svg.getBoundingClientRect(); zoomAt(r.left + r.width / 2, r.top + r.height / 2, 0.7); } }
+    else if (act === 'zout') { if (is3D()) M3.zoomBy(1.4); else { var r2 = svg.getBoundingClientRect(); zoomAt(r2.left + r2.width / 2, r2.top + r2.height / 2, 1.4); } }
+    else if (act === 'mode') setMode(S.mode === '3d' ? '2d' : '3d');
+    else if (act === 'rot') { if (is3D()) M3.rotate(Number(v)); }
+    else if (act === 'tilt') { if (is3D()) M3.tilt(); }
     else if (act === 'zreset') setScope('all');
     else if (act === 'apply') applyWhatIf();
     else if (act === 'reset') resetEdits();
@@ -1129,7 +1170,7 @@
   }
   function onFocusIn(e) { if (e.target.classList && e.target.classList.contains('u')) { var r = e.target.getBoundingClientRect(); showTip(unitTip(S.byCode[e.target.getAttribute('data-code')]), r.right, r.bottom); } }
   var resizeTimer = 0;
-  function onResize() { clearTimeout(resizeTimer); resizeTimer = setTimeout(function () { applyView(); renderSide(); }, 120); }
+  function onResize() { clearTimeout(resizeTimer); resizeTimer = setTimeout(function () { applyView(); if (M3) M3.resize(); renderSide(); }, 120); }
 
   app.addEventListener('click', onClick);
   app.addEventListener('click', onPick);
@@ -1164,7 +1205,7 @@
   function onErr(err) { S.error = err && err.message ? err.message : String(err); renderChrome(); }
 
   function maybeBuild() {
-    if (S.ready.units && S.ready.features && !built) buildMap();
+    if (S.ready.units && S.ready.features && !built) { buildMap(); if (S.mode === '3d') setMode('3d'); }
     if (built) scheduleRender();
   }
 
@@ -1250,6 +1291,7 @@
 
   // ------------------------------------------------------------- cleanup
   root.__cleanup = function () {
+    if (M3) { try { M3.destroy(); } catch (e) { /* ignore */ } M3 = null; }
     subs.forEach(function (s) { try { s.unsubscribe(); } catch (e) { /* ignore */ } });
     app.removeEventListener('click', onClick);
     app.removeEventListener('click', onPick);

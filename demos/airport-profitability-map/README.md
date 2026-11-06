@@ -22,6 +22,14 @@ The map is **north-up and geographic**:
 - The terminals, piers, The Station, the hotels and the car parks are placed where they sit on the map.
 - Only the **terminal interiors are schematic**.
 
+**3D view (default).** The view is rendered with plain WebGL in `src/map3d.js`. The build inlines it into the Frame body, because Frames cannot load libraries.
+
+- The traced basemap is painted onto two ground textures: a 2048 px texture for the whole airfield and a 4096 px texture for the terminal area.
+- Terminals, piers, The Station, the Skylink, the hotels and the World Freight Terminal are extruded in 3D. Aircraft sit on every stand.
+- Roofs are coloured by zone total. As you fly in, the roofs fade and every unit rises as a tower: its colour shows the lens and its height shows the size of the value.
+- Controls: drag to pan, right-drag or Shift-drag to orbit and tilt, scroll to zoom. The compass resets to north.
+- Clicking or searching flies the camera in. The 2D map remains one click away.
+
 **Semantic zoom.** The opening view is the whole airfield, with every terminal zone, pier and car park shaded as one block by its total. Zooming in, or clicking a zone or tab, fades in the internal layout: units, holdrooms, gates and aircraft on stand. Tenant units use **generic
 names** ("Coffee house · P1-03"), so no invented figures are attached to real brands.
 Airport-run assets (lounges, car parks) use their public names. To pitch with real tenant
@@ -39,6 +47,7 @@ same.
 | `src/mock-sdk.js` | Stand-in for `window.PigmentSDK` outside Pigment: the Manchester layout, a dummy passenger and commercial model, and recalculation after writes. Not used in Pigment. |
 | `src/basemap-man.json` | Traced basemap paths, inlined at build time as `window.__MAN_BASEMAP`. In Pigment they become Map Feature items of type `base` with a `Path`. |
 | `tools/trace_basemap.py` | Turns a map screenshot into basemap paths: `python3 tools/trace_basemap.py <png> src/basemap-man.json 3`. Needs `numpy`, `pillow`, `contourpy`. |
+| `src/map3d.js` | The WebGL 3D renderer. `build.js` inlines it into the Frame; `dist/frame-body.js` is the complete Frame body to paste into Pigment. |
 | `build.js` | `node build.js` writes `dist/airport-profit-map.html` (artifact page) and `dist/standalone.html` (open locally). |
 
 ## Stories built into the data

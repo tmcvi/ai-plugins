@@ -5,7 +5,7 @@ const path = require('path');
 const src = (f) => fs.readFileSync(path.join(__dirname, 'src', f), 'utf8');
 const basemap = 'window.__MAN_BASEMAP = ' + src('basemap-man.json').trim() + ';';
 const mock = basemap + '\n' + src('mock-sdk.js');
-const frame = src('frame.js');
+const frame = src('frame.js').replace('  /*@MAP3D@*/', () => src('map3d.js'));
 const head = [
   '<title>Aurora Airport Profit Map</title>',
   '<meta name="claude:viewport-fit-sides" content="cover">',
@@ -18,4 +18,6 @@ fs.writeFileSync(path.join(__dirname, 'dist', 'airport-profit-map.html'), head +
 // Standalone file for opening locally in a browser
 fs.writeFileSync(path.join(__dirname, 'dist', 'standalone.html'),
   '<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n' + head + '\n</head><body>\n' + body + '\n</body></html>\n');
+// The Frame body to paste into Pigment (3D module inlined)
+fs.writeFileSync(path.join(__dirname, 'dist', 'frame-body.js'), frame);
 console.log('Built dist/airport-profit-map.html and dist/standalone.html');
