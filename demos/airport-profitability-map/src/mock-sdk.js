@@ -318,128 +318,90 @@
   U('CP-12', 'Car Rental', 'Ground', 'Car Parks', 'ground', 2320, 696, 92, 56, 1, { name: 'Car rental centre', tenant: 'Rental concessions', area: 8000, lease: '2028-03-31' });
   park('CP-13', 'Runway Visitor Park', 1930, 1500, 120, 80, 0.004, 9, 12000);
 
-  // ------------------------------------------------------------ passengers
+  // ===================================================== PIGMENT MODEL ENGINE
+  // Mirrors the Pigment formulas one for one, so the local mock and the real
+  // application show the same numbers. Inputs: Terminal Departing Pax
+  // (Terminal x Month, Actual and Budget) and the Pier 2 ramp-up.
+  var TERMS = ['T1', 'T2', 'T3'];
+  var MLABEL = MONTHS.map(function (m) { return m.slice(0, 3) + ' ' + m.slice(-2); }); // Pigment month display, e.g. "Jan 26"
+  var termPax = { Actual: {}, Budget: {} };
+  TERMS.forEach(function (t) {
+    termPax.Actual[t] = MONTHS.map(function (m, i) { return Math.round(DEP[i] * 1e6 * (SHARE.Actual[i][t] || 0)); });
+    termPax.Budget[t] = MONTHS.map(function (m, i) { return Math.round(DEP[i] * 1e6 * 0.985 * (SHARE.Budget[i][t] || 0)); });
+  });
+  var termW = {};
+  gates.forEach(function (g) { termW[g.terminal] = (termW[g.terminal] || 0) + gateW[g.name]; });
+  gates.forEach(function (g) { g.share = Math.round(gateW[g.name] / termW[g.terminal] * 1e6) / 1e6; });
   var gatePax = { Actual: {}, Budget: {} };
-  ['Actual', 'Budget'].forEach(function (ver) {
-    var termW = {};
-    gates.forEach(function (g) { termW[g.terminal] = (termW[g.terminal] || 0) + gateW[g.name]; });
-    gates.forEach(function (g) {
-      gatePax[ver][g.name] = MONTHS.map(function (m, i) {
-        var dep = DEP[i] * 1e6 * (ver === 'Budget' ? 0.985 : 1);
-        var share = SHARE[ver][i][g.terminal] || 0;
-        return dep * share * gateW[g.name] / termW[g.terminal] * (ver === 'Actual' ? rr(0.96, 1.05) : 1);
-      });
-    });
-  });
-  function sumGates(test, m, ver) { var s = 0; gates.forEach(function (g) { if (test(g)) s += gatePax[ver][g.name][m]; }); return s; }
-  function pierPax(p, m, ver) { return sumGates(function (g) { return g.pier === p; }, m, ver); }
-  function termDep(t, m, ver) { return sumGates(function (g) { return g.terminal === t; }, m, ver); }
-  function allDep(m, ver) { return sumGates(function () { return true; }, m, ver); }
+  ['Actual', 'Budget'].forEach(function (ver) { gates.forEach(function (g) { gatePax[ver][g.name] = MONTHS.map(function (m, i) { return termPax[ver][g.terminal][i] * g.share; }); }); });
+  function termDep(t, m, ver) { return termPax[ver][t] ? termPax[ver][t][m] : 0; }
+  function allDep(m, ver) { var s = 0; TERMS.forEach(function (t) { s += termPax[ver][t][m]; }); return s; }
+  function pierPax(p, m, ver) { var s = 0; gates.forEach(function (g) { if (g.pier === p) s += gatePax[ver][g.name][m]; }); return s; }
 
-  function exposure(u, md, m, ver) {
-    var ramp = md.pier === 'Pier 2' ? P2_RAMP[ver][m] : 1;
-    switch (md.zoneType) {
-      case 'pier': return pierPax(md.pier, m, ver) * md.pos * ramp;
-      case 'airside': return termDep(md.term, m, ver) * md.pos;
-      case 'landside': return termDep(md.term, m, ver) * 2.1 * md.pos;
-      case 'station': return allDep(m, ver) * 2 * 0.3 * md.pos;
-      case 'link': return allDep(m, ver) * 0.55;
-      case 'ground': return allDep(m, ver);
-    }
-    return 0;
+  // Footfall Basis list: which passengers a unit sees, and its space cost rate
+  var BASES = {}, BASE_ORDER = [];
+  function B(name, terminal, scope, share, spaceCost) { BASES[name] = { name: name, terminal: terminal, scope: scope, share: share, spaceCost: spaceCost }; BASE_ORDER.push(name); }
+  ['Pier 1', 'Pier 2', 'T3 Pier'].forEach(function (p) {
+    var s = 0, t = null; gates.forEach(function (g) { if (g.pier === p) { s += g.share; t = g.terminal; } });
+    B(p, t, 'Terminal', Math.round(s * 1e6) / 1e6, 52);
+  });
+  B('T2 Departures', 'T2', 'Terminal', 1, 60); B('T3 Departures', 'T3', 'Terminal', 1, 60);
+  B('T2 Landside', 'T2', 'Terminal', 2.1, 46); B('T3 Landside', 'T3', 'Terminal', 2.1, 46);
+  B('The Station', '', 'All', 0.6, 40); B('Skylink', '', 'All', 0.55, 40); B('All Departures', '', 'All', 1, 2.6);
+  var RAMP = { Actual: { 'Pier 2': P2_RAMP.Actual }, Budget: { 'Pier 2': P2_RAMP.Budget } };
+  function basisPax(b, m, ver) {
+    var x = BASES[b], base = x.scope === 'All' ? allDep(m, ver) : termDep(x.terminal, m, ver);
+    return base * x.share * (RAMP[ver][b] ? RAMP[ver][b][m] : 1);
   }
 
-  units.forEach(function (u) { rates[u['Unit Code'] + ':orig'] = rates[u['Unit Code']]; });
+  // Unit list properties used by the formulas
+  var unitCat = {};
   units.forEach(function (u) {
-    var md = meta[u['Unit Code']], c = CATS[md.origCat];
-    if (c.model !== 'Concession') return;
-    var fee = 0;
-    for (var m = 0; m < 12; m++) fee += exposure(u, md, m, 'Budget') * c.conv * md.locF * c.ticket * rates[u['Unit Code']];
-    u['MAG (£/yr)'] = Math.round(fee * md.magMult / 1000) * 1000;
+    var code = u['Unit Code'], md = meta[code], c = CATS[md.origCat];
+    var basis = md.zoneType === 'pier' ? md.pier : md.zoneType === 'airside' ? md.term + ' Departures' : md.zoneType === 'landside' ? md.term + ' Landside' :
+      md.zoneType === 'station' ? 'The Station' : md.zoneType === 'link' ? 'Skylink' : 'All Departures';
+    u['Footfall Basis'] = basis;
+    u['Exposure Weight'] = md.zoneType === 'link' || md.zoneType === 'ground' ? 1 : Math.round(md.pos * 1e4) / 1e4;
+    u['Trading Factor'] = Math.round(md.locF * 1e4) / 1e4;
+    u['Ticket Factor'] = Math.round(md.tkF * 1e4) / 1e4;
+    u['Ticket Override Ratio'] = md.ticket ? Math.round(md.ticket / c.ticket * 1e4) / 1e4 : 1;
+    u['Default Revenue Share'] = rates[code] || 0;
+    u['Fixed Cost'] = c.model === 'Airport-operated' ? Math.round(c.fixed * (md.origCat === 'Parking' ? md.locF * 6 : 1)) : 0;
+    unitCat[code] = md.origCat;
   });
-
-  function calc(u, m, ver) {
-    var code = u['Unit Code'], md = meta[code];
-    var cat = ver === 'Budget' ? md.origCat : u['Category'];
+  function rawSales(u, cat, m, ver, withTicketFactor) {
     var c = CATS[cat];
-    var area = u['Area (m²)'];
-    var pax = exposure(u, md, m, ver);
-    var noise = ver === 'Budget' ? 1 : md.noise[m];
-    var tx = pax * c.conv * md.locF * noise;
-    var ticket = (cat === md.origCat && md.ticket) || c.ticket;
-    var sales = tx * ticket * (ver === 'Budget' ? 1 : md.tkF);
-    var rate = ver === 'Budget' ? rates[code + ':orig'] : rates[code];
-    var conc = 0, other = 0, direct = 0, alloc = area * SPACE_COST[md.zoneType];
-    if (c.model === 'Concession') {
-      conc = Math.max((u['MAG (£/yr)'] || 0) / 12, sales * (rate || 0));
-      other = area * SERVICE_CHARGE;
-      direct = area * DIRECT_COST;
-    } else if (c.model === 'Media') {
-      conc = sales * rate; direct = 300;
-    } else {
-      conc = sales; direct = sales * c.costRatio + c.fixed * (cat === 'Parking' ? md.locF * 6 : 1);
-    }
-    return { sales: sales, conc: conc, other: other, direct: direct, alloc: alloc, profit: conc + other - direct - alloc, tx: tx, pax: pax };
+    var pax = basisPax(u['Footfall Basis'], m, ver) * u['Exposure Weight'];
+    var tx = pax * c.conv * u['Trading Factor'];
+    return { pax: pax, tx: tx, sales: tx * c.ticket * (withTicketFactor ? u['Ticket Factor'] : 1) * (cat === u['Category'] ? u['Ticket Override Ratio'] : 1) };
+  }
+  // Minimum annual guarantee: a share of the budgeted annual fee
+  units.forEach(function (u) {
+    var c = CATS[u['Category']];
+    if (c.model !== 'Concession') { u['MAG (£/yr)'] = 0; return; }
+    var fee = 0;
+    for (var m = 0; m < 12; m++) fee += rawSales(u, u['Category'], m, 'Budget', false).sales * u['Default Revenue Share'];
+    u['MAG (£/yr)'] = Math.round(fee * meta[u['Unit Code']].magMult / 1000) * 1000;
+  });
+  function calc(u, m, ver) {
+    var code = u['Unit Code'], b = ver === 'Budget';
+    var cat = b ? u['Category'] : unitCat[code], c = CATS[cat];
+    var r = rawSales(u, cat, m, ver, !b), sales = r.sales;
+    var rate = b ? u['Default Revenue Share'] : rates[code];
+    var area = u['Area (m²)'], conc, other = 0, direct;
+    var alloc = area * BASES[u['Footfall Basis']].spaceCost;
+    if (c.model === 'Concession') { conc = Math.max((u['MAG (£/yr)'] || 0) / 12, sales * (rate || 0)); other = area * SERVICE_CHARGE; direct = area * DIRECT_COST; }
+    else if (c.model === 'Media') { conc = sales * (rate || 0); direct = 300; }
+    else { conc = sales; direct = sales * c.costRatio + u['Fixed Cost']; }
+    return { sales: sales, conc: conc, other: other, direct: direct, alloc: alloc, profit: conc + other - direct - alloc, tx: r.tx, pax: r.pax };
+  }
+  var CAT_GROUP = { 'Duty Free': 'Duty Free', 'Café & Bakery': 'Food & Beverage', 'Bar & Restaurant': 'Food & Beverage', 'Quick Service': 'Food & Beverage', 'Fashion & Luxury': 'Specialist Retail',
+    'Health & Beauty': 'Specialist Retail', 'Tech & Electronics': 'Specialist Retail', 'Jewellery & Watches': 'Specialist Retail', 'Toys & Gifts': 'Specialist Retail', 'News & Convenience': 'Convenience',
+    'Lounge': 'Lounges', 'Parking': 'Parking & Mobility', 'Car Rental': 'Parking & Mobility', 'Currency Exchange': 'Services', 'Advertising': 'Advertising' };
+  function unitMeta(u) {
+    return [u['Unit Name'], u['Tenant'], u['Terminal'], u['Zone'], u['Shape'], u['Lease Expiry'] || '', u['Nearest Gate'] || '', u['Operating Model'], u['Category']].join('|');
   }
 
-  var KPI_COLS = ['Tenant Sales', 'Concession Income', 'Other Income', 'Direct Cost', 'Allocated Cost',
-    'Airport Profit', 'Budget Profit', 'Transactions', 'Passengers Exposed', 'Budget Passengers Exposed', 'Revenue Share'];
-
-  function aggUnit(u, idx) {
-    var a = { sales: 0, conc: 0, other: 0, direct: 0, alloc: 0, profit: 0, budget: 0, tx: 0, pax: 0, bpax: 0 };
-    idx.forEach(function (m) {
-      var x = calc(u, m, 'Actual'), b = calc(u, m, 'Budget');
-      a.sales += x.sales; a.conc += x.conc; a.other += x.other; a.direct += x.direct; a.alloc += x.alloc;
-      a.profit += x.profit; a.tx += x.tx; a.pax += x.pax; a.budget += b.profit; a.bpax += b.pax;
-    });
-    return a;
-  }
-  function monthIdx(sel) {
-    var out = [];
-    (sel || []).forEach(function (s) { var i = MONTHS.indexOf(s); if (i >= 0) out.push(i); });
-    return out.length ? out : [9];
-  }
-  function pageSel(pd, alias) {
-    for (var i = 0; i < (pd || []).length; i++) if (pd[i].alias === alias) return pd[i].selection;
-    return null;
-  }
-
-  var VIEWS = {
-    unitKpis: function (pd) {
-      var idx = monthIdx(pageSel(pd, 'months'));
-      var cells = KPI_COLS.map(function () { return []; });
-      units.forEach(function (u) {
-        var a = aggUnit(u, idx);
-        [a.sales, a.conc, a.other, a.direct, a.alloc, a.profit, a.budget, a.tx, a.pax, a.bpax, rates[u['Unit Code']]].forEach(function (v, c) {
-          cells[c].push(v === null || v === undefined ? null : Math.round(v * 100) / 100);
-        });
-      });
-      return { labels: { rows: units.map(function (u) { return [u['Unit Code']]; }), columns: KPI_COLS.map(function (c) { return [c]; }) }, cells: cells };
-    },
-    unitTrend: function (pd) {
-      var sel = pageSel(pd, 'units'), code = sel && sel[0];
-      var u = units.filter(function (x) { return x['Unit Code'] === code; })[0];
-      var cols = ['Airport Profit', 'Budget Profit', 'Tenant Sales', 'Transactions'];
-      var cells = cols.map(function () { return []; });
-      MONTHS.forEach(function (m, i) {
-        if (!u) { cells.forEach(function (c) { c.push(null); }); return; }
-        var x = calc(u, i, 'Actual'), b = calc(u, i, 'Budget');
-        cells[0].push(Math.round(x.profit)); cells[1].push(Math.round(b.profit));
-        cells[2].push(Math.round(x.sales)); cells[3].push(Math.round(x.tx));
-      });
-      return { labels: { rows: MONTHS.map(function (m) { return [m]; }), columns: cols.map(function (c) { return [c]; }) }, cells: cells };
-    },
-    gatePax: function (pd) {
-      var idx = monthIdx(pageSel(pd, 'months'));
-      var a = [], b = [];
-      gates.forEach(function (g) {
-        var s = 0, t = 0;
-        idx.forEach(function (m) { s += gatePax.Actual[g.name][m]; t += gatePax.Budget[g.name][m]; });
-        a.push(Math.round(s)); b.push(Math.round(t));
-      });
-      return { labels: { rows: gates.map(function (g) { return [g.name]; }), columns: [['Departing Pax'], ['Budget Departing Pax']] }, cells: [a, b] };
-    }
-  };
   // =================================================== ASSETS (example data)
   // Every physical component on the map is an Asset with its own P&L and
   // operational KPIs. Map Features point at their asset via the 'Asset' property.
@@ -609,119 +571,117 @@
     return { plan: plan, act: act, fc: fc };
   }
 
-  VIEWS.assetKpis = function (pd) {
-    var idx = monthIdx(pageSel(pd, 'months'));
-    var cells = ASSET_COLS.map(function () { return []; });
-    assets.forEach(function (a) { aggAsset(a, idx).forEach(function (v, c) { cells[c].push(v === null ? null : Math.round(v * 1000) / 1000); }); });
-    return { labels: { rows: assets.map(function (a) { return [a['Asset']]; }), columns: ASSET_COLS.map(function (c) { return [c]; }) }, cells: cells };
-  };
-  VIEWS.assetTrend = function (pd) {
-    var sel = pageSel(pd, 'assets'), a = sel && assetBy[sel[0]];
-    var cols = ['Revenue', 'Operating Costs', 'EBITDA', 'Budget EBITDA'], cells = cols.map(function () { return []; });
-    MONTHS.forEach(function (m, i) {
-      if (!a) { cells.forEach(function (c) { c.push(null); }); return; }
-      var x = assetMonth(a, i, 'Actual'), y = assetMonth(a, i, 'Budget');
-      var rev = x.aero + x.comm + x.prop, cost = x.staff + x.maint + x.util + x.other;
-      cells[0].push(Math.round(rev)); cells[1].push(Math.round(cost)); cells[2].push(Math.round(rev - cost)); cells[3].push(Math.round(y.aero + y.comm + y.prop - y.staff - y.maint - y.util - y.other));
-    });
-    return { labels: { rows: MONTHS.map(function (m) { return [m]; }), columns: cols.map(function (c) { return [c]; }) }, cells: cells };
-  };
-  VIEWS.projectSpend = function (pd) {
-    var sel = pageSel(pd, 'projects'), p = projects.filter(function (x) { return sel && x['Project'] === sel[0]; })[0];
-    var cols = ['Planned (cumulative)', 'Actual (cumulative)', 'Forecast (cumulative)'];
-    var c = p ? projectCurve(p) : { plan: PMONTHS.map(function () { return null; }), act: PMONTHS.map(function () { return null; }), fc: PMONTHS.map(function () { return null; }) };
-    return { labels: { rows: PMONTHS.map(function (m) { return [m]; }), columns: cols.map(function (x) { return [x]; }) }, cells: [c.plan, c.act, c.fc] };
-  };
-  var LISTS = { units: units, features: features, assets: assets, projects: projects };
+  // ------------------------------------------- asset annual values + profiles
+  // Pigment holds each asset's annual value per Asset Line, phased by a profile.
+  var ASSET_LINES = [['Aero Revenue', 'aero', 'Flow'], ['Commercial Revenue', 'comm', 'Flow'], ['Property & Other Revenue', 'prop', 'Flow'], ['Staff Costs', 'staff', 'Flow'],
+    ['Maintenance', 'maint', 'Flow'], ['Utilities', 'util', 'Flow'], ['Other Opex', 'other', 'Flow'], ['Depreciation', 'dep', 'Flow'], ['Budget EBITDA', 'bE', 'Flow'],
+    ['Passengers', 'pax', 'Flow'], ['Movements', 'mov', 'Flow'], ['Utilisation', 'util_', 'Level'], ['Availability', 'avail', 'Level'], ['Service Level', 'sla', 'Level'], ['Condition Score', 'cond', 'Level']];
+  var depSum = DEP.reduce(function (a, b) { return a + b; }, 0);
+  var PROFILES = { 'Seasonal': DEP.map(function (d) { return Math.round(d / depSum * 1e6) / 1e6; }), 'Flat': MONTHS.map(function () { return Math.round(1e6 / 12) / 1e6; }) };
+  var assetAnnual = {};
+  assets.forEach(function (a) {
+    a['Profile'] = /Hotel|Cargo|Closed/.test(a['Type']) ? 'Flat' : 'Seasonal';
+    var acc = {}, lv = {};
+    for (var m = 0; m < 12; m++) {
+      var x = assetMonth(a, m, 'Actual'), y = assetMonth(a, m, 'Budget');
+      x.bE = y.aero + y.comm + y.prop - y.staff - y.maint - y.util - y.other;
+      ASSET_LINES.forEach(function (L) {
+        var v = x[L[1]]; if (v === null || v === undefined) return;
+        if (L[2] === 'Flow') acc[L[0]] = (acc[L[0]] || 0) + v; else { lv[L[0]] = lv[L[0]] || []; lv[L[0]].push(v); }
+      });
+    }
+    var out = {};
+    for (var k in acc) if (Math.abs(acc[k]) > 0.5) out[k] = Math.round(acc[k]);
+    for (var k2 in lv) out[k2] = Math.round(lv[k2].reduce(function (p, c) { return p + c; }, 0) / lv[k2].length * 1000) / 1000;
+    assetAnnual[a['Asset']] = out;
+  });
 
-  // ------------------------------------------------------- subscriptions
-  var vizSubs = [], listSubs = [];
-  function loadingShape() {
-    return { labels: { rows: [{ kind: 'loading' }], columns: [['Loading']] }, cells: [[{ kind: 'loading' }]], rowOffset: 0, totalRowCount: 0 };
-  }
-  function emitViz(sub, delay) {
+  // -------------------------------------------------- Map Object list (JSON)
+  // Frames cannot read list properties, so each drawable object carries its
+  // definition as JSON in the Object Meta metric. Basemap paths ship in the Frame.
+  var objects = [];
+  features.forEach(function (f) {
+    if (f['Type'] === 'base') return;
+    var o = { t: f['Type'], s: f['Shape'] };
+    [['Label', 'l'], ['Sub', 'sub'], ['LabelX', 'lx'], ['LabelY', 'ly'], ['Terminal', 'term'], ['Zone', 'z'], ['Pier', 'p'], ['Heading', 'h'], ['Ends', 'e'], ['Closed', 'c'], ['Small', 'sm'], ['Far', 'f'], ['Line', 'ln'], ['Asset', 'a']].forEach(function (k) {
+      if (f[k[0]] !== undefined && f[k[0]] !== '') o[k[1]] = f[k[0]];
+    });
+    objects.push({ name: 'F:' + f['Feature'], meta: JSON.stringify(o) });
+  });
+  assets.forEach(function (a) { objects.push({ name: 'A:' + a['Asset'], meta: JSON.stringify({ type: a['Type'], term: a['Terminal'], pier: a['Pier'] || '', gate: a['Gate'] || '', facts: a['Facts'] || '', prof: a['Profile'] }) }); });
+  projects.forEach(function (p) {
+    objects.push({ name: 'P:' + p['Project'], meta: JSON.stringify({ name: p['Project Name'], type: p['Type'], status: p['Status'], sponsor: p['Sponsor'], shape: p['Shape'], line: p['Line'], asset: p['Asset'],
+      budget: p['Budget (£)'], forecast: p['Forecast (£)'], spent: p['Spent to Date (£)'], pct: p['% Complete'], phases: p['Phases'], affected: p['Affected Units'], risk: p['Revenue Impact (£)'],
+      benefits: p['Benefits'], risks: p['Risks'], desc: p['Description'] }) });
+  });
+
+  // ----------------------------------------------------------- data sources
+  // Same names, labels and value order as the Frame's Pigment data sources.
+  var SOURCES = {
+    objects: function () { return objects.map(function (o) { return { labels: [o.name], values: [o.meta] }; }); },
+    unitInputs: function () { return units.map(function (u) { var c = u['Unit Code']; return { labels: [c], values: [unitMeta(u), rates[c] || 0, { label: unitCat[c] }, u['Area (m²)'], u['MAG (£/yr)'] || 0] }; }); },
+    unitMonthly: function () {
+      var rows = [];
+      units.forEach(function (u) {
+        MONTHS.forEach(function (m, i) {
+          var x = calc(u, i, 'Actual'), b = calc(u, i, 'Budget');
+          rows.push({ labels: [u['Unit Code'], MLABEL[i]], values: [x.sales, x.conc, x.other, x.direct, x.alloc, x.profit, b.profit, x.tx, x.pax, b.pax] });
+        });
+      });
+      return rows;
+    },
+    gateMonthly: function () { var rows = []; gates.forEach(function (g) { MONTHS.forEach(function (m, i) { rows.push({ labels: [g.name, MLABEL[i]], values: [gatePax.Actual[g.name][i], gatePax.Budget[g.name][i]] }); }); }); return rows; },
+    assetAnnual: function () { var rows = []; assets.forEach(function (a) { var v = assetAnnual[a['Asset']]; ASSET_LINES.forEach(function (L) { if (v[L[0]] !== undefined) rows.push({ labels: [a['Asset'], L[0]], values: [v[L[0]]] }); }); }); return rows; },
+    profiles: function () { var rows = []; Object.keys(PROFILES).forEach(function (p) { PROFILES[p].forEach(function (w, i) { rows.push({ labels: [p, MLABEL[i]], values: [w] }); }); }); return rows; }
+  };
+  var dsSubs = [];
+  function emit(sub, delay) {
     if (sub.dead) return;
     clearTimeout(sub.t);
-    try { sub.h.onData(loadingShape()); } catch (e) { console.error(e); }
+    try { sub.h.onData({ rows: [{ labels: [{ kind: 'loading' }], values: [{ kind: 'loading' }] }], rowOffset: 0, totalRowCount: 0 }); } catch (e) { console.error(e); }
     sub.t = setTimeout(function () {
       if (sub.dead) return;
-      var d = VIEWS[sub.alias](sub.page);
-      var off = (sub.scroll && sub.scroll.offset) || 0;
-      var n = Math.min((sub.scroll && sub.scroll.numberOfRows) || 1000, 1000);
-      var total = d.labels.rows.length;
-      d.labels.rows = d.labels.rows.slice(off, off + n);
-      d.cells = d.cells.map(function (col) { return col.slice(off, off + n); });
-      d.rowOffset = off; d.totalRowCount = total;
-      try { sub.h.onData(d); } catch (e) { console.error(e); }
-    }, delay === undefined ? 180 : delay);
+      var all = SOURCES[sub.name](), off = sub.scroll.offset || 0, n = Math.min(sub.scroll.numberOfRows || 1000, 1000);
+      try { sub.h.onData({ rows: all.slice(off, off + n), rowOffset: off, totalRowCount: all.length }); } catch (e) { console.error(e); }
+    }, delay === undefined ? 160 : delay);
   }
-  function emitList(sub) {
-    if (sub.dead) return;
-    setTimeout(function () {
-      if (sub.dead) return;
-      var items = LISTS[sub.alias].map(function (it) { var o = {}; for (var k in it) o[k] = it[k]; return o; });
-      try { sub.h.onData({ items: items, partialResult: false }); } catch (e) { console.error(e); }
-    }, 60);
-  }
-  function recalcAll() {
-    listSubs.forEach(function (s) { if (s.alias === 'units') emitList(s); });
-    vizSubs.forEach(function (s) { emitViz(s, 650); });
-  }
+  function recalc() { dsSubs.forEach(function (s) { if (s.name === 'unitInputs' || s.name === 'unitMonthly') { s.scroll = { offset: 0, numberOfRows: 1000 }; emit(s, 650); } }); }
 
   var SDK = {
-    subscribeToVizualization: function (alias, h) {
-      var sub = { alias: alias, h: h, page: h.pageDefinitions || [], scroll: h.scroll };
-      if (!VIEWS[alias]) {
-        setTimeout(function () { h.onError && h.onError({ message: 'No View is bound to the alias "' + alias + '".' }); }, 0);
-        return { unsubscribe: function () {}, updatePageDefinitions: function () {}, updateScroll: function () {} };
-      }
-      vizSubs.push(sub);
-      emitViz(sub);
+    subscribeToDataSource: function (name, h) {
+      var sub = { name: name, h: h, scroll: h.scroll || { offset: 0, numberOfRows: 1000 } };
+      if (!SOURCES[name]) { setTimeout(function () { h.onError && h.onError({ message: 'No data source named "' + name + '".' }); }, 0); return { unsubscribe: function () {}, updateScroll: function () {} }; }
+      dsSubs.push(sub); emit(sub);
       return {
-        unsubscribe: function () { sub.dead = true; clearTimeout(sub.t); vizSubs = vizSubs.filter(function (s) { return s !== sub; }); },
-        updatePageDefinitions: function (p) { sub.page = p || []; emitViz(sub, 120); },
-        updateScroll: function (s) { sub.scroll = s; emitViz(sub, 60); }
+        unsubscribe: function () { sub.dead = true; clearTimeout(sub.t); dsSubs = dsSubs.filter(function (s) { return s !== sub; }); },
+        updateScroll: function (s) { sub.scroll = s; emit(sub, 40); }
       };
     },
-    subscribeToItems: function (alias, h) {
-      var sub = { alias: alias, h: h };
-      if (!LISTS[alias]) {
-        setTimeout(function () { h.onError && h.onError({ message: 'No List is bound to the alias "' + alias + '".' }); }, 0);
-        return { unsubscribe: function () {} };
-      }
-      listSubs.push(sub);
-      emitList(sub);
-      return { unsubscribe: function () { sub.dead = true; listSubs = listSubs.filter(function (s) { return s !== sub; }); } };
-    },
-    addItem: function () { return Promise.reject(new Error('addItem is not used by this Frame.')); },
-    editItem: function (alias, itemName, values) {
+    editValue: function (sink, coords, value) {
       return new Promise(function (resolve, reject) {
         setTimeout(function () {
-          if (alias !== 'units') return reject(new Error('List "' + alias + '" is read-only in this prototype.'));
-          var u = units.filter(function (x) { return x['Unit Code'] === itemName; })[0];
-          if (!u) return reject(new Error('Item "' + itemName + '" not found.'));
-          for (var k in values) {
-            if (k === 'Category' && !CATS[values[k]]) return reject(new Error('Unknown category "' + values[k] + '".'));
-            u[k] = values[k];
-          }
-          resolve();
-          recalcAll();
-        }, 220);
-      });
-    },
-    editValue: function (alias, coords, value) {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          if (alias !== 'revenueShare') return reject(new Error('Metric "' + alias + '" is not writable.'));
-          var code = coords && coords.units;
+          var code = coords && coords.unitList;
           if (!meta[code]) return reject(new Error('Unit "' + code + '" not found.'));
-          rates[code] = value === null ? null : Number(value);
-          resolve();
-          recalcAll();
-        }, 220);
+          if (sink === 'sRate') rates[code] = value === null ? null : Number(value);
+          else if (sink === 'sCategory') { if (!CATS[value]) return reject(new Error('Unknown category "' + value + '".')); unitCat[code] = value; }
+          else return reject(new Error('No data sink named "' + sink + '".'));
+          resolve(); recalc();
+        }, 200);
       });
     }
   };
-
   window.PigmentSDK = Object.freeze(SDK);
+
+  // --------------------------------------------- export for the Pigment build
+  window.__APM_EXPORT = function () {
+    return {
+      months: MLABEL,
+      categories: Object.keys(CATS).map(function (k) { var c = CATS[k]; return { name: k, conv: Math.round(c.conv * 1e6) / 1e6, ticket: c.ticket, model: c.model, costRatio: c.costRatio || 0, rate: c.rate || 0, group: CAT_GROUP[k] }; }),
+      bases: BASE_ORDER.map(function (b) { return BASES[b]; }),
+      gates: gates.map(function (g) { return { name: g.name, terminal: g.terminal, pier: g.pier, share: g.share }; }),
+      units: units.map(function (u) { return u; }),
+      termPax: termPax, ramp: RAMP, profiles: PROFILES, assetLines: ASSET_LINES, assets: assets.map(function (a) { return { id: a['Asset'], profile: a['Profile'] }; }), assetAnnual: assetAnnual,
+      objects: objects, sources: { unitMonthly: SOURCES.unitMonthly(), unitInputs: SOURCES.unitInputs() }
+    };
+  };
 })();

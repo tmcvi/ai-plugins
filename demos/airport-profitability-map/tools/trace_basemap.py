@@ -89,7 +89,7 @@ def trace(mask, eps=0.9, min_area=40.0, min_hole=25.0):
             s = np.vstack([rdp(ring[: k + 1], eps)[:-1], rdp(ring[k:], eps)])
             if len(s) < 3:
                 continue
-            d += 'M' + ' L'.join('%g,%g' % (round(x * K, 1), round(y * K, 1)) for x, y in s) + 'Z'
+            d += 'M' + ' L'.join('%d,%d' % (round(x * K), round(y * K)) for x, y in s) + 'Z'
         if d:
             paths.append(d)
     return paths
@@ -114,7 +114,7 @@ layers += [('forest', p) for p in trace(open_(close(forest, 2), 1), eps=0.6, min
 layers += [('beige', p) for p in trace(open_(close(beige, 2), 1), eps=0.6, min_area=300)]
 layers += [('apronbld', p) for p in trace(close(building, 1), eps=0.4, min_area=30)]
 layers += [('paved', p) for p in trace(open_(close(paved, 1), 0), eps=0.3, min_area=60, min_hole=20)]
-layers += [('water', p) for p in trace(close(water, 1), eps=0.35, min_area=12)]
+layers += [('water', p) for p in trace(close(water, 1), eps=0.5, min_area=40)]
 layers += [('roadfill', p) for p in trace(close(road, 1), eps=0.3, min_area=60)]
 
 json.dump({'scale': K, 'width': W * K, 'height': H * K, 'paths': [{'type': t, 'd': d} for t, d in layers]}, open(out, 'w'))

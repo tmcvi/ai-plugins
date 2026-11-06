@@ -12,8 +12,8 @@
   var root = document.getElementById('app');
   if (root.__cleanup) root.__cleanup();
   var SDK = window.PigmentSDK;
-  if (!SDK) {
-    root.innerHTML = '<p style=\'font:14px system-ui;padding:24px\'>PigmentSDK is not available. Open this Frame inside Pigment.</p>';
+  if (!SDK || typeof SDK.subscribeToDataSource !== 'function') {
+    root.innerHTML = '<p style=\'font:14px system-ui;padding:24px;color:#eef1f4;background:#0b0f14\'>This Frame needs PigmentSDK.subscribeToDataSource. Open it inside Pigment.</p>';
     return;
   }
 
@@ -65,7 +65,7 @@
   var S = {
     units: [], byCode: {}, features: [], kpi: {}, gatePax: {}, gateBudget: {}, trend: null,
     lens: 'profit', period: 'ytd', scope: 'all', zone: null, selected: null, flow: false,
-    view: { x: AIRPORT_VIEW.x, y: AIRPORT_VIEW.y, w: AIRPORT_VIEW.w, h: AIRPORT_VIEW.h }, aggs: [], mode: '3d', assets: [], assetBy: {}, assetIdx: {}, akpi: {}, projects: [], selAsset: null, selProject: null, showProjects: false, pf: { types: {}, statuses: {}, month: null }, pspend: null, story: null, pfPlaying: false, stale: true, edits: [], baseline: null, busy: false,
+    view: { x: AIRPORT_VIEW.x, y: AIRPORT_VIEW.y, w: AIRPORT_VIEW.w, h: AIRPORT_VIEW.h }, aggs: [], mode: '3d', um: null, gm: null, aa: null, prof: null, assets: [], assetBy: {}, assetIdx: {}, akpi: {}, projects: [], selAsset: null, selProject: null, showProjects: false, pf: { types: {}, statuses: {}, month: null }, pspend: null, story: null, pfPlaying: false, stale: true, edits: [], baseline: null, busy: false,
     playing: false, ready: { units: false, features: false, kpis: false }, error: null, toast: null
   };
   var subs = [];
@@ -631,6 +631,26 @@
     applyView();
   }
 
+  /*@BASEMAP@*/
+  // Basemap traced from a map tile, delta-encoded (see build.js); decoded to SVG path strings.
+  var APM_BASEMAP = (function () {
+    if (typeof APM_BASEMAP_ENC === 'undefined') return { paths: [] };
+    var A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+    return { paths: APM_BASEMAP_ENC.split('\n').map(function (line) {
+      var eq = line.indexOf('='), type = line.slice(0, eq), d = '';
+      line.slice(eq + 1).split('|').forEach(function (ring) {
+        var c = ring.indexOf(':'), p = ring.slice(0, c).split(',').map(Number), x = p[0], y = p[1], s = ring.slice(c + 1), i = 0;
+        d += 'M' + x + ',' + y;
+        while (i < s.length) {
+          if (s.charAt(i) === '~') { var j = s.indexOf('~', i + 1), q = s.slice(i + 1, j).split(','); x += Number(q[0]); y += Number(q[1]); i = j + 1; }
+          else { x += A.indexOf(s.charAt(i)) - 32; y += A.indexOf(s.charAt(i + 1)) - 32; i += 2; }
+          d += 'L' + x + ',' + y;
+        }
+        d += 'Z';
+      });
+      return { type: type, d: d };
+    }) };
+  })();
   /*@MAP3D@*/
   var M3 = null;
   function is3D() { return !!M3 && S.mode === '3d'; }
@@ -961,15 +981,15 @@
   var PM0 = 2024, NOW_YM = (2026 - PM0) * 12 + 9.9;
   function ym(s) { var p = String(s || '').split('-'); return (Number(p[0]) - PM0) * 12 + (Number(p[1]) - 1); }
   function ymLabel(i) { var y = PM0 + Math.floor(i / 12), m = Math.round(i % 12); return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][m] + ' ' + y; }
-  function parseProject(it) {
-    var phases = String(prop(it, 'Phases') || '').split('|').filter(Boolean).map(function (s) { var q = s.split(':'); return { name: q[0], s: ym(q[1]), e: ym(q[2]) + 1 }; });
-    var line = String(prop(it, 'Line') || ''), shp = String(prop(it, 'Shape') || '');
+  function parseProject(id, o) {
+    var phases = String(o.phases || '').split('|').filter(Boolean).map(function (s) { var q = s.split(':'); return { name: q[0], s: ym(q[1]), e: ym(q[2]) + 1 }; });
+    var line = String(o.line || ''), shp = String(o.shape || '');
     var p = {
-      id: prop(it, 'Project'), name: prop(it, 'Project Name'), type: prop(it, 'Type'), status: prop(it, 'Status'), sponsor: prop(it, 'Sponsor') || '',
-      box: shp ? shape(shp) : null, line: line ? line.split(',').map(Number) : null, asset: prop(it, 'Asset') || '',
-      budget: Number(prop(it, 'Budget (£)')) || 0, forecast: Number(prop(it, 'Forecast (£)')) || 0, spent: Number(prop(it, 'Spent to Date (£)')) || 0, pct: Number(prop(it, '% Complete')) || 0,
-      phases: phases, affected: String(prop(it, 'Affected Units') || '').split(',').filter(Boolean), revImpact: Number(prop(it, 'Revenue Impact (£)')) || 0,
-      benefits: prop(it, 'Benefits') || '', risks: prop(it, 'Risks') || '', desc: prop(it, 'Description') || ''
+      id: id, name: o.name, type: o.type, status: o.status, sponsor: o.sponsor || '',
+      box: shp ? shape(shp) : null, line: line ? line.split(',').map(Number) : null, asset: o.asset || '',
+      budget: Number(o.budget) || 0, forecast: Number(o.forecast) || 0, spent: Number(o.spent) || 0, pct: Number(o.pct) || 0,
+      phases: phases, affected: String(o.affected || '').split(',').filter(Boolean), revImpact: Number(o.risk) || 0,
+      benefits: o.benefits || '', risks: o.risks || '', desc: o.desc || ''
     };
     p.s = phases.length ? phases[0].s : 0; p.e = phases.length ? phases[phases.length - 1].e : 0;
     if (!p.box && p.line) { var L = p.line; p.box = { x: Math.min(L[0], L[2]), y: Math.min(L[1], L[3]), w: Math.abs(L[2] - L[0]), h: Math.abs(L[3] - L[1]) }; }
@@ -1000,8 +1020,7 @@
     var a = assetByName(id); if (!a) return;
     clearSel(); S.selAsset = id;
     if (fly) { var b = assetBox(id); if (b) flyBox(b, a.type === 'Aircraft stand' ? 360 : 480); }
-    trendCode = 'A:' + id; S.trend = null;
-    atrendSub.updatePageDefinitions([{ alias: 'assets', selection: [id] }]);
+    S.trend = assetTrend(id);
     renderAll();
   }
   function selectProject(id, fly) {
@@ -1010,8 +1029,7 @@
     if (!S.showProjects) S.showProjects = true;
     if (!projVisible(p)) { S.pf.types = {}; S.pf.statuses = {}; S.pf.month = null; }
     if (fly && p.box) flyBox(p.box, p.line ? 1600 : 520);
-    S.pspend = null; pspendCode = id;
-    pspendSub.updatePageDefinitions([{ alias: 'projects', selection: [id] }]);
+    S.pspend = projectSpend(p);
     renderAll();
   }
   function programmeTotals() {
@@ -1270,20 +1288,14 @@
       var b = u.box, w = Math.max(b.w * 6, is3D() ? 560 : 360), h = w * 0.62;
       animateTo({ x: b.x + b.w / 2 - w / 2, y: b.y + b.h / 2 - h / 2, w: w, h: h });
     }
-    S.trend = S.trend && S.trend.code === code ? S.trend : null;
-    trendCode = code;
-    trendSub.updatePageDefinitions([{ alias: ALIAS.units, selection: [code] }]);
+    S.trend = unitTrend(code);
     renderAll();
   }
 
   function setPeriod(key) {
     S.period = key;
-    var months = periodObj().months;
-    var pd = [{ alias: ALIAS.months, selection: months }];
-    kpiSub.updatePageDefinitions(pd);
-    gateSub.updatePageDefinitions(pd);
-    akpiSub.updatePageDefinitions(pd);
-    renderChrome();
+    recompute();
+    renderAll();
   }
   var playIdx = 0, playTimer = 0;
   function togglePlay() {
@@ -1318,13 +1330,13 @@
     var writes = [];
     if (S.baseline === null) { S.baseline = totalProfit(); S.baselinePeriod = S.period; }
     if (newCat !== u.category) {
-      S.edits.push({ code: u.code, kind: 'item', from: { 'Category': u.category, 'Tenant': u.tenant }, to: { 'Category': newCat, 'Tenant': 'Proposed ' + newCat + ' tenant' } });
-      writes.push(function () { return SDK.editItem(ALIAS.units, u.code, { 'Category': newCat, 'Tenant': 'Proposed ' + newCat + ' tenant' }); });
+      S.edits.push({ code: u.code, kind: 'cat', from: u.category, to: newCat });
+      writes.push(function () { return SDK.editValue('sCategory', { unitList: u.code }, newCat); });
       if (rateEl && Math.abs(newRate - (d.rate || 0)) < 0.001) newRate = DEFAULT_RATE[newCat] || newRate;
     }
     if (newRate !== null && Math.abs(newRate - (d.rate || 0)) >= 0.001) {
       S.edits.push({ code: u.code, kind: 'rate', from: d.rate, to: newRate });
-      writes.push(function () { var c = {}; c[ALIAS.units] = u.code; return SDK.editValue(ALIAS.rate, c, newRate); });
+      writes.push(function () { return SDK.editValue('sRate', { unitList: u.code }, newRate); });
     }
     if (!writes.length) { toast('Nothing changed. Move the slider or pick a new category.'); return; }
     runWrites(writes, 'Recalculated. Map, KPIs and insights updated.');
@@ -1333,8 +1345,8 @@
     if (S.busy || !S.edits.length) return;
     var writes = S.edits.slice().reverse().map(function (e) {
       return function () {
-        if (e.kind === 'item') return SDK.editItem(ALIAS.units, e.code, e.from);
-        var c = {}; c[ALIAS.units] = e.code; return SDK.editValue(ALIAS.rate, c, e.from);
+        if (e.kind === 'cat') return SDK.editValue('sCategory', { unitList: e.code }, e.from);
+        return SDK.editValue('sRate', { unitList: e.code }, e.from);
       };
     });
     S.edits = [];
@@ -1502,154 +1514,178 @@
   if (ro) ro.observe(document.documentElement);
 
   // ------------------------------------------------------------- data in
-  function hasLoadingKind(arr) {
-    for (var i = 0; i < arr.length; i++) {
-      var it = arr[i];
-      if (Array.isArray(it)) { if (hasLoadingKind(it)) return true; }
-      else if (it && typeof it === 'object' && it.kind === 'loading') return true;
+  // Six Pigment data sources (see README). Rows arrive as
+  // { labels: [...], values: [...] } in declaration order, 1,000 rows a window.
+  var MON3 = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function cellTxt(v) {
+    if (v === null || v === undefined) return '';
+    if (typeof v === 'object') { if (v.kind) return ''; var c = v.label != null ? v.label : v.name != null ? v.name : v.displayName != null ? v.displayName : v.value; return c == null ? '' : String(c); }
+    return String(v);
+  }
+  function numCell(v) { return typeof v === 'number' && isFinite(v) ? v : (v === null || v === undefined || typeof v === 'object' || v === '' ? null : Number(v)); }
+  function monthIndex(label) { var t = cellTxt(label); var i = MON3.indexOf(t.slice(0, 3)); return i; }
+  function anyLoading(rows) {
+    for (var i = 0; i < rows.length; i++) {
+      var ls = rows[i].labels || [], vs = rows[i].values || [], j;
+      for (j = 0; j < ls.length; j++) if (ls[j] && typeof ls[j] === 'object' && ls[j].kind === 'loading') return true;
+      for (j = 0; j < vs.length; j++) if (vs[j] && typeof vs[j] === 'object' && vs[j].kind === 'loading') return true;
     }
     return false;
   }
-  function isReady(d) {
-    if (!d || !d.labels || !d.labels.columns.length) return false;
-    return !hasLoadingKind(d.labels.rows) && !hasLoadingKind(d.labels.columns) && !hasLoadingKind(d.cells);
-  }
-  function numCell(v) { return typeof v === 'number' ? v : (v === null || v === undefined || typeof v === 'object' ? null : Number(v)); }
-  function colIndex(d) { var m = {}; d.labels.columns.forEach(function (c, i) { m[lastLabel(c)] = i; }); return m; }
   function onErr(err) { S.error = err && err.message ? err.message : String(err); renderChrome(); }
+  var SRC = {}, RETRY = [2000, 5000, 10000, 20000, 40000], DATA = {};
+  var SOURCE_LIST = ['objects', 'unitInputs', 'unitMonthly', 'gateMonthly', 'assetAnnual', 'profiles'];
+  function openSource(name, attempt) {
+    SRC[name] = { acc: [], requested: 0, sub: null };
+    try {
+      SRC[name].sub = SDK.subscribeToDataSource(name, {
+        onData: function (d) { onSourceData(name, d); },
+        onError: function (err) {
+          var m = err && err.message ? err.message : String(err);
+          if (/too many/i.test(m) && attempt < RETRY.length) { closeSource(name); timers.push(setTimeout(function () { openSource(name, attempt + 1); }, RETRY[attempt])); return; }
+          onErr(err);
+        },
+        dynamicFilters: [],
+        scroll: { offset: 0, numberOfRows: 1000 }
+      });
+      subs.push(SRC[name].sub);
+    } catch (e) { onErr(e); }
+  }
+  function closeSource(name) { var s = SRC[name] && SRC[name].sub; try { if (typeof s === 'function') s(); else if (s && s.unsubscribe) s.unsubscribe(); } catch (e) { /* ignore */ } }
+  function onSourceData(name, d) {
+    var src = SRC[name];
+    if (!src || !d || !d.rows) return;
+    if (anyLoading(d.rows)) { if (name === 'unitMonthly' && S.ready.kpis) { S.stale = true; if (svg) svg.classList.add('stale'); renderChrome(); } return; }
+    var off = d.rowOffset || 0;
+    if (off === 0) { src.acc = []; src.requested = 0; }
+    for (var i = 0; i < d.rows.length; i++) src.acc[off + i] = d.rows[i];
+    var total = d.totalRowCount || (off + d.rows.length), loaded = off + d.rows.length;
+    if (total > loaded && loaded > src.requested && src.sub && src.sub.updateScroll) { src.requested = loaded; src.sub.updateScroll({ offset: loaded, numberOfRows: 1000 }); return; }
+    DATA[name] = src.acc.filter(function (x) { return !!x; });
+    ingest(name);
+  }
+
+  function parseJSON(s) { try { return JSON.parse(s); } catch (e) { return null; } }
+  function ingest(name) {
+    var rows = DATA[name];
+    if (name === 'objects') {
+      var feats = [], assetsL = [], projs = [];
+      (typeof APM_BASEMAP !== 'undefined' ? APM_BASEMAP.paths : []).forEach(function (p) { feats.push({ name: 'base', type: 'base', cls: p.type, path: p.d, box: { x: 0, y: 0, w: 0, h: 0 }, label: '', line: [] }); });
+      rows.forEach(function (r) {
+        var key = cellTxt(r.labels[0]), o = parseJSON(cellTxt(r.values[0]));
+        if (!key || !o) return;
+        var kind = key.slice(0, 2), id = key.slice(2);
+        if (kind === 'F:') feats.push({
+          name: id, type: o.t, box: shape(o.s), label: o.l || '', sub: o.sub || '', terminal: o.term || '', zone: o.z || '', pier: o.p || '', heading: Number(o.h) || 0, ends: o.e || '',
+          closed: !!o.c, small: !!o.sm, far: !!o.f, cls: '', path: '', line: String(o.ln || '').split(',').map(Number),
+          labelX: o.lx === undefined || o.lx === '' ? null : Number(o.lx), labelY: o.ly === undefined || o.ly === '' ? null : Number(o.ly), side: '', asset: o.a || ''
+        });
+        else if (kind === 'A:') assetsL.push({ id: id, type: o.type, terminal: o.term || '', pier: o.pier || '', gate: o.gate || '', facts: o.facts || '', prof: o.prof || 'Seasonal' });
+        else if (kind === 'P:') projs.push(parseProject(id, o));
+      });
+      S.features = feats;
+      var piers = {}; PIER_ZONES = {};
+      S.features.forEach(function (f) { if (f.type === 'pier' || f.type === 'ghostpier') piers[f.zone || f.name] = f; if (f.type === 'pier') PIER_ZONES[f.zone] = f; });
+      S.features.forEach(function (f) { var pp = piers[f.pier]; if (f.type !== 'gate' || !pp) return; if (pp.box.w > pp.box.h) f.side = f.box.y <= pp.box.y + 1 ? 'T' : 'B'; else f.side = f.box.x <= pp.box.x + 1 ? 'L' : 'R'; });
+      S.assets = assetsL; S.assetBy = {}; S.assetIdx = {}; S.assets.forEach(function (a, i) { S.assetBy[a.id] = a; S.assetIdx[a.id] = i; });
+      S.projects = projs.sort(function (a, b) { return a.s - b.s; });
+      S.ready.features = true;
+      if (M3) M3.refreshStatic();
+    } else if (name === 'unitInputs') {
+      S.units = rows.map(function (r) {
+        var code = cellTxt(r.labels[0]), m = cellTxt(r.values[0]).split('|');
+        var cat = cellTxt(r.values[2]) || m[8] || '';
+        return { code: code, name: m[0] || code, tenant: cat !== m[8] ? 'Proposed ' + cat + ' tenant' : (m[1] || ''), terminal: m[2] || '', zone: m[3] || '', box: shape(m[4]), lease: m[5] || '', gate: m[6] || '',
+          model: m[7] || 'Concession', origCategory: m[8] || cat, category: cat, rate: numCell(r.values[1]), area: numCell(r.values[3]) || 0, mag: numCell(r.values[4]) || 0 };
+      }).filter(function (u) { return u.code && u.box.w > 0; });
+      S.byCode = {}; S.units.forEach(function (u) { S.byCode[u.code] = u; });
+      S.ready.units = true;
+    } else if (name === 'unitMonthly') {
+      var um = {};
+      rows.forEach(function (r) {
+        var code = cellTxt(r.labels[0]), mi = monthIndex(r.labels[1]); if (!code || mi < 0) return;
+        var v = r.values, a = um[code] = um[code] || [];
+        a[mi] = { sales: numCell(v[0]) || 0, conc: numCell(v[1]) || 0, other: numCell(v[2]) || 0, direct: numCell(v[3]) || 0, alloc: numCell(v[4]) || 0, profit: numCell(v[5]) || 0, budget: numCell(v[6]) || 0, tx: numCell(v[7]) || 0, pax: numCell(v[8]) || 0, bpax: numCell(v[9]) || 0 };
+      });
+      S.um = um; S.ready.kpis = true; S.stale = false; S.error = null;
+    } else if (name === 'gateMonthly') {
+      var gm = {};
+      rows.forEach(function (r) { var g = cellTxt(r.labels[0]), mi = monthIndex(r.labels[1]); if (!g || mi < 0) return; (gm[g] = gm[g] || [])[mi] = [numCell(r.values[0]) || 0, numCell(r.values[1]) || 0]; });
+      S.gm = gm;
+    } else if (name === 'assetAnnual') {
+      var aa = {};
+      rows.forEach(function (r) { var id = cellTxt(r.labels[0]), line = cellTxt(r.labels[1]); if (!id || !line) return; (aa[id] = aa[id] || {})[line] = numCell(r.values[0]); });
+      S.aa = aa;
+    } else if (name === 'profiles') {
+      var pr = {};
+      rows.forEach(function (r) { var p = cellTxt(r.labels[0]), mi = monthIndex(r.labels[1]); if (!p || mi < 0) return; (pr[p] = pr[p] || [])[mi] = numCell(r.values[0]) || 0; });
+      S.prof = pr;
+    }
+    recompute();
+    if (S.selected) S.trend = unitTrend(S.selected); else if (S.selAsset) S.trend = assetTrend(S.selAsset);
+    if (name === 'unitMonthly' && S.pendingToast && !S.busy) { toast(S.pendingToast); S.pendingToast = null; }
+    if (name === 'unitMonthly' && S.edits.length === 0 && !S.busy) S.baseline = null;
+    if ((name === 'assetAnnual' || name === 'profiles') && M3) M3.refreshStatic();
+    maybeBuild(); scheduleRender();
+  }
+
+  // Period totals, trends and spend curves are worked out here from the monthly data.
+  function periodIdx() { return periodObj().months.map(function (m) { return MONTHS.indexOf(m); }); }
+  function recompute() {
+    var idx = periodIdx(), kpi = {};
+    S.units.forEach(function (u) {
+      var arr = (S.um || {})[u.code]; if (!arr) return;
+      var a = { sales: 0, conc: 0, other: 0, direct: 0, alloc: 0, profit: 0, budget: 0, tx: 0, pax: 0, bpax: 0, rate: u.rate };
+      idx.forEach(function (i) { var x = arr[i]; if (!x) return; for (var k in x) a[k] += x[k]; });
+      kpi[u.code] = a;
+    });
+    S.kpi = kpi;
+    S.gatePax = {}; S.gateBudget = {};
+    Object.keys(S.gm || {}).forEach(function (g) { var s = 0, b = 0; idx.forEach(function (i) { var x = S.gm[g][i]; if (x) { s += x[0]; b += x[1]; } }); S.gatePax[g] = s; S.gateBudget[g] = b; });
+    var ak = {};
+    S.assets.forEach(function (a) {
+      var v = (S.aa || {})[a.id]; if (!v) return;
+      var w = (S.prof || {})[a.prof] || [], share = 0; idx.forEach(function (i) { share += w[i] || 0; });
+      var o = {};
+      Object.keys(AC).forEach(function (k) { o[k] = null; });
+      var flow = function (line) { var x = v[line]; return x === undefined || x === null ? 0 : x * share; };
+      var lvl = function (line) { var x = v[line]; return x === undefined ? null : x; };
+      o.aero = flow('Aero Revenue'); o.comm = flow('Commercial Revenue'); o.prop = flow('Property & Other Revenue'); o.staff = flow('Staff Costs'); o.maint = flow('Maintenance');
+      o.util = flow('Utilities'); o.other = flow('Other Opex'); o.dep = flow('Depreciation'); o.bebitda = flow('Budget EBITDA');
+      o.pax = v['Passengers'] === undefined ? null : flow('Passengers'); o.mov = v['Movements'] === undefined ? null : flow('Movements');
+      o.utl = lvl('Utilisation'); o.avail = lvl('Availability'); o.sla = lvl('Service Level'); o.cond = lvl('Condition Score');
+      o.ebitda = o.aero + o.comm + o.prop - o.staff - o.maint - o.util - o.other; o.op = o.ebitda - o.dep;
+      ak[a.id] = o;
+    });
+    S.akpi = ak;
+  }
+  function unitTrend(code) {
+    var arr = (S.um || {})[code] || [];
+    return { code: code, profit: MONTHS.map(function (m, i) { return arr[i] ? arr[i].profit : null; }), budget: MONTHS.map(function (m, i) { return arr[i] ? arr[i].budget : null; }), sales: MONTHS.map(function (m, i) { return arr[i] ? arr[i].sales : null; }) };
+  }
+  function assetTrend(id) {
+    var a = S.assetBy[id], v = (S.aa || {})[id] || {}, w = (S.prof || {})[a ? a.prof : 'Seasonal'] || [];
+    var g = function (k) { return v[k] || 0; };
+    var rev = g('Aero Revenue') + g('Commercial Revenue') + g('Property & Other Revenue'), cost = g('Staff Costs') + g('Maintenance') + g('Utilities') + g('Other Opex');
+    return { code: 'A:' + id, kind: 'asset', profit: MONTHS.map(function (m, i) { return (rev - cost) * (w[i] || 0); }), budget: MONTHS.map(function (m, i) { return g('Budget EBITDA') * (w[i] || 0); }), sales: MONTHS.map(function (m, i) { return rev * (w[i] || 0); }) };
+  }
+  function projectSpend(p) {
+    var t0 = (2024 - PM0) * 12, n = 72, sig = function (t) { return t <= 0 ? 0 : t >= 1 ? 1 : t * t * (3 - 2 * t); }, now = Math.floor(NOW_YM);
+    var plan = [], act = [], fc = [];
+    for (var j = 0; j < n; j++) {
+      var i = t0 + j;
+      plan.push(p.budget * sig((i - p.s) / Math.max(1, p.e - 1 - p.s)));
+      act.push(i <= now ? (i < p.s ? 0 : p.spent * sig((i - p.s) / Math.max(1, now - p.s))) : null);
+      fc.push(i < now ? null : p.spent + (p.forecast - p.spent) * sig((i - now) / Math.max(1, p.e - 1 - now)));
+    }
+    return { id: p.id, plan: plan, act: act, fc: fc };
+  }
 
   function maybeBuild() {
     if (S.ready.units && S.ready.features && !built) { buildMap(); if (S.mode === '3d') setMode('3d'); }
     if (built) scheduleRender();
   }
-
-  var unitSub = SDK.subscribeToItems(ALIAS.units, {
-    onData: function (d) {
-      S.units = (d.items || []).map(function (it) {
-        return {
-          code: String(prop(it, 'Unit Code') || prop(it, 'name') || ''), name: prop(it, 'Unit Name') || prop(it, 'Unit Code'), tenant: prop(it, 'Tenant') || '',
-          category: prop(it, 'Category') || '', terminal: prop(it, 'Terminal') || '', zone: prop(it, 'Zone') || '', area: Number(prop(it, 'Area (m²)')) || 0,
-          model: prop(it, 'Operating Model') || 'Concession', box: shape(prop(it, 'Shape')), lease: prop(it, 'Lease Expiry') || '', mag: Number(prop(it, 'MAG (£/yr)') || prop(it, 'MAG (€/yr)') || prop(it, 'MAG')) || 0, gate: prop(it, 'Nearest Gate') || ''
-        };
-      }).filter(function (u) { return u.code && u.box.w > 0; });
-      S.byCode = {}; S.units.forEach(function (u) { S.byCode[u.code] = u; });
-      if (d.partialResult) toast('Only part of the Unit list loaded. Some units are missing from the map.');
-      var first = !S.ready.units;
-      S.ready.units = true;
-      if (built && !first) {
-        // labels may change after a re-let; refresh names without rebuilding geometry
-        S.units.forEach(function (u) { var e = unitEls[u.code]; if (e) e.rect.setAttribute('aria-label', u.name); });
-      }
-      maybeBuild();
-    },
-    onError: onErr
-  });
-  var featSub = SDK.subscribeToItems(ALIAS.features, {
-    onData: function (d) {
-      S.features = (d.items || []).map(function (it) {
-        var lx = prop(it, 'LabelX'), ly = prop(it, 'LabelY'), asset = prop(it, 'Asset') || '';
-        return { name: prop(it, 'Feature'), type: prop(it, 'Type'), box: shape(prop(it, 'Shape')), label: prop(it, 'Label') || '', sub: prop(it, 'Sub') || '', terminal: prop(it, 'Terminal') || '', zone: prop(it, 'Zone') || '', pier: prop(it, 'Pier') || '', heading: Number(prop(it, 'Heading')) || 0, ends: prop(it, 'Ends') || '', closed: !!prop(it, 'Closed'), small: !!prop(it, 'Small'), far: !!prop(it, 'Far'), cls: prop(it, 'Class') || '', path: prop(it, 'Path') || '', line: String(prop(it, 'Line') || '').split(',').map(Number), labelX: lx === undefined || lx === '' ? null : Number(lx), labelY: ly === undefined || ly === '' ? null : Number(ly), side: '', asset: asset };
-      });
-      // gate side: which side of its pier the gate sits on
-      var piers = {};
-      PIER_ZONES = {};
-      S.features.forEach(function (f) { if (f.type === 'pier' || f.type === 'ghostpier') piers[f.zone || f.name] = f; if (f.type === 'pier') PIER_ZONES[f.zone] = f; });
-      S.features.forEach(function (f) { var pp = piers[f.pier]; if (f.type !== 'gate' || !pp) return; if (pp.box.w > pp.box.h) f.side = f.box.y <= pp.box.y + 1 ? 'T' : 'B'; else f.side = f.box.x <= pp.box.x + 1 ? 'L' : 'R'; });
-      S.ready.features = true;
-      maybeBuild();
-    },
-    onError: onErr
-  });
-  var kpiSub = SDK.subscribeToVizualization(ALIAS.kpis, {
-    pageDefinitions: [{ alias: ALIAS.months, selection: periodObj().months }],
-    onData: function (d) {
-      if (!isReady(d)) { if (S.ready.kpis) { S.stale = true; if (svg) svg.classList.add('stale'); renderChrome(); } return; }
-      var ci = colIndex(d), kpi = {};
-      d.labels.rows.forEach(function (path, r) {
-        var code = lastLabel(path); if (!code) return;
-        var g = function (k) { var c = ci[COL[k]]; return c === undefined ? null : numCell(d.cells[c][r]); };
-        kpi[code] = { sales: g('sales') || 0, conc: g('conc') || 0, other: g('other') || 0, direct: g('direct') || 0, alloc: g('alloc') || 0, profit: g('profit') || 0, budget: g('budget') || 0, tx: g('tx') || 0, pax: g('pax') || 0, bpax: g('bpax') || 0, rate: g('rate') };
-      });
-      S.kpi = kpi; S.stale = false; S.ready.kpis = true; S.error = null;
-      if (S.pendingToast && !S.busy) { toast(S.pendingToast); S.pendingToast = null; }
-      if (S.edits.length === 0 && !S.busy) S.baseline = null;
-      maybeBuild(); scheduleRender();
-    },
-    onError: onErr
-  });
-  var gateSub = SDK.subscribeToVizualization(ALIAS.gates, {
-    pageDefinitions: [{ alias: ALIAS.months, selection: periodObj().months }],
-    onData: function (d) {
-      if (!isReady(d)) return;
-      var ci = colIndex(d), a = ci['Departing Pax'], b = ci['Budget Departing Pax'];
-      S.gatePax = {}; S.gateBudget = {};
-      d.labels.rows.forEach(function (p, r) { var g = lastLabel(p); S.gatePax[g] = numCell(d.cells[a][r]) || 0; if (b !== undefined) S.gateBudget[g] = numCell(d.cells[b][r]) || 0; });
-      scheduleRender();
-    },
-    onError: onErr
-  });
-  var trendSub = SDK.subscribeToVizualization(ALIAS.trend, {
-    pageDefinitions: [],
-    onData: function (d) {
-      if (!isReady(d) || !trendCode || trendCode.indexOf('A:') === 0) return;
-      var ci = colIndex(d);
-      var col = function (n) { return d.cells[ci[n]] ? d.cells[ci[n]].map(numCell) : MONTHS.map(function () { return null; }); };
-      S.trend = { code: trendCode, profit: col('Airport Profit'), budget: col('Budget Profit'), sales: col('Tenant Sales') };
-      var host = $('apm-trend');
-      if (host && S.selected === S.trend.code) host.innerHTML = trendSvg(S.trend);
-    },
-    onError: onErr
-  });
-  var assetSub = SDK.subscribeToItems('assets', {
-    onData: function (d) {
-      S.assets = (d.items || []).map(function (it) { return { id: prop(it, 'Asset'), type: prop(it, 'Type'), terminal: prop(it, 'Terminal') || '', pier: prop(it, 'Pier') || '', facts: prop(it, 'Facts') || '' }; });
-      S.assetBy = {}; S.assetIdx = {}; S.assets.forEach(function (a, i) { S.assetBy[a.id] = a; S.assetIdx[a.id] = i; });
-      if (M3) M3.refreshStatic();
-      scheduleRender();
-    },
-    onError: onErr
-  });
-  var projSub = SDK.subscribeToItems('projects', {
-    onData: function (d) { S.projects = (d.items || []).map(parseProject).sort(function (a, b) { return a.s - b.s; }); scheduleRender(); },
-    onError: onErr
-  });
-  var akpiSub = SDK.subscribeToVizualization('assetKpis', {
-    pageDefinitions: [{ alias: ALIAS.months, selection: periodObj().months }],
-    onData: function (d) {
-      if (!isReady(d)) return;
-      var ci = colIndex(d), out = {};
-      d.labels.rows.forEach(function (path, r) {
-        var id = lastLabel(path), o = {};
-        Object.keys(AC).forEach(function (k) { var c = ci[AC[k]]; o[k] = c === undefined ? null : numCell(d.cells[c][r]); });
-        ['aero', 'comm', 'prop', 'staff', 'maint', 'util', 'other', 'dep', 'ebitda', 'op', 'bebitda'].forEach(function (k) { o[k] = o[k] || 0; });
-        out[id] = o;
-      });
-      S.akpi = out; if (M3) M3.refreshStatic(); scheduleRender();
-    },
-    onError: onErr
-  });
-  var atrendSub = SDK.subscribeToVizualization('assetTrend', {
-    pageDefinitions: [],
-    onData: function (d) {
-      if (!isReady(d) || !trendCode || trendCode.indexOf('A:') !== 0) return;
-      var ci = colIndex(d), col = function (n) { return d.cells[ci[n]] ? d.cells[ci[n]].map(numCell) : MONTHS.map(function () { return null; }); };
-      S.trend = { code: trendCode, kind: 'asset', profit: col('EBITDA'), budget: col('Budget EBITDA'), sales: col('Revenue') };
-      var host = $('apm-trend'); if (host && S.selAsset && 'A:' + S.selAsset === S.trend.code) host.innerHTML = trendSvg(S.trend);
-    },
-    onError: onErr
-  });
-  var pspendCode = null;
-  var pspendSub = SDK.subscribeToVizualization('projectSpend', {
-    pageDefinitions: [],
-    onData: function (d) {
-      if (!isReady(d) || !pspendCode) return;
-      var ci = colIndex(d), col = function (n) { return d.cells[ci[n]] ? d.cells[ci[n]].map(function (v) { return v === null || typeof v === 'object' ? null : Number(v); }) : []; };
-      S.pspend = { id: pspendCode, plan: col('Planned (cumulative)'), act: col('Actual (cumulative)'), fc: col('Forecast (cumulative)') };
-      if (S.selProject === pspendCode) renderSide();
-    },
-    onError: onErr
-  });
-  subs.push(unitSub, featSub, kpiSub, gateSub, trendSub, assetSub, projSub, akpiSub, atrendSub, pspendSub);
+  SOURCE_LIST.forEach(function (n) { openSource(n, 0); });
   renderChrome();
 
   // ------------------------------------------------------------- cleanup
