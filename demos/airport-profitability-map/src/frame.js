@@ -13,7 +13,7 @@
   if (root.__cleanup) root.__cleanup();
   var SDK = window.PigmentSDK;
   if (!SDK || typeof SDK.subscribeToDataSource !== 'function') {
-    root.innerHTML = '<p style=\'font:14px system-ui;padding:24px;color:#eef1f4;background:#0b0f14\'>This Frame needs PigmentSDK.subscribeToDataSource. Open it inside Pigment.</p>';
+    root.innerHTML = '<p style=\'font:14px system-ui;padding:24px;color:#eef4f9;background:#011326\'>This Frame needs PigmentSDK.subscribeToDataSource. Open it inside Pigment.</p>';
     return;
   }
 
@@ -25,11 +25,13 @@
   var AS_OF = new Date('2026-10-31T00:00:00Z');
   var PERIODS = [{ key: 'ytd', label: 'YTD Oct 2026', months: MONTHS.slice(0, 10) }, { key: 'fy', label: 'FY 2026 · actual + forecast', months: MONTHS.slice() }];
   MONTHS.forEach(function (m, i) { PERIODS.push({ key: 'm' + i, label: m + (i > LAST_ACTUAL ? ' · forecast' : ''), months: [m] }); });
-  var CONFIG = { airport: 'Manchester Airport', mark: 'MAN', subtitle: 'Commercial profitability map', currency: '£', disclaimer: 'Illustrative data' };
+  var CONFIG = { airport: 'Manchester Airport', title: 'Commercial & estate map', subtitle: 'Manchester Airport · 2026 · Actual & Budget', currency: '£', disclaimer: 'Illustrative data' };
+  // MAG logo, shared with the MAG Aviation Income route-network Frame so both read as one solution.
+  var MAG_LOGO = "<svg style='display:block;width:100%;height:100%' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 159.4 100'><defs><linearGradient id='mgA' x1='0' y1='1' x2='.75' y2='0'><stop offset='0' stop-color='#8a939c'/><stop offset='.55' stop-color='#cdd3d8'/><stop offset='.8' stop-color='#f1f3f5'/><stop offset='1' stop-color='#dfe3e7'/></linearGradient><linearGradient id='mgB' x1='0' y1='0' x2='1' y2='.6'><stop offset='0' stop-color='#86c6e8'/><stop offset='.6' stop-color='#b4def4'/><stop offset='1' stop-color='#d9effa'/></linearGradient></defs><path fill='url(#mgA)' d='M58.0 0.3 40.5 5.1 37.5 6.7 34.7 8.2 32.1 9.8 29.6 11.3 27.2 12.9 24.9 14.5 22.8 16.0 20.7 17.6 18.8 19.1 17.0 20.7 15.3 22.2 13.8 23.8 12.3 25.3 10.9 26.9 9.6 28.5 8.5 30.0 7.4 31.6 6.4 33.1 5.4 34.7 4.6 36.2 3.9 37.8 3.2 39.3 2.6 40.9 2.1 42.5 1.6 44.0 1.2 45.6 0.9 47.1 0.7 48.7 0.5 50.2 0.4 51.8 0.3 53.3 0.3 54.9 0.3 56.5 0.4 58.0 0.6 59.6 0.8 61.1 1.0 62.7 1.3 64.2 1.7 65.8 2.1 67.3 2.6 68.9 3.1 70.5 3.6 72.0 4.3 73.6 5.0 75.1 5.7 76.7 6.6 78.2 7.5 79.8 8.5 81.4 9.6 82.9 10.8 84.5 12.1 86.0 13.6 87.6 15.2 89.1 17.0 90.7 18.9 92.2 21.0 93.8 23.4 95.4 26.0 96.9 27.1 97.3 28.8 98.0 30.4 98.5 32.1 99.0 33.7 99.3 35.4 99.6 37.1 99.7 38.7 99.7 40.4 99.6 42.0 99.4 43.7 99.1 45.3 98.6 47.0 98.1 48.6 97.4 50.3 96.7 52.0 95.8 53.6 94.8 55.3 93.7 56.9 92.4 58.6 91.1 59.4 90.4 58.2 89.2 55.8 87.9 53.6 86.6 51.5 85.3 49.5 84.0 47.6 82.7 45.8 81.3 44.1 80.0 42.5 78.7 41.0 77.4 39.5 76.1 38.1 74.7 36.8 73.4 35.6 72.1 34.4 70.8 33.3 69.5 32.2 68.2 31.2 66.8 30.2 65.5 29.3 64.2 28.4 62.9 27.6 61.6 26.7 60.3 25.9 58.9 25.1 57.6 25.7 55.8 26.4 54.1 27.2 52.3 28.0 50.5 28.9 48.7 29.9 46.9 30.9 45.2 31.9 43.4 33.0 41.6 34.1 39.8 35.2 38.0 36.4 36.2 37.6 34.5 38.9 32.7 40.1 30.9 41.4 29.1 42.7 27.3 43.9 25.6 45.2 23.8 46.5 22.0 47.8 20.2 49.1 18.4 50.3 16.7 51.6 14.9 52.8 13.1 54.0 11.3 55.1 9.5 56.3 7.7 57.4 6.0Z'/><path fill='url(#mgB)' d='M25.1 57.6 25.9 58.9 26.7 60.3 27.6 61.6 28.4 62.9 29.3 64.2 30.2 65.5 31.2 66.8 32.2 68.2 33.3 69.5 34.4 70.8 35.6 72.1 36.8 73.4 38.1 74.7 39.5 76.1 41.0 77.4 42.5 78.7 44.1 80.0 45.8 81.3 47.6 82.7 49.5 84.0 51.5 85.3 53.6 86.6 55.8 87.9 58.2 89.2 59.4 90.4 58.6 91.1 56.5 92.8 54.4 94.3 52.3 95.6 50.2 96.7 48.1 97.7 46.0 98.4 43.9 99.0 41.8 99.4 39.7 99.7 37.6 99.7 35.6 99.6 33.5 99.3 31.4 98.8 29.3 98.1 28.7 96.9 27.4 95.3 26.3 93.8 25.3 92.2 24.4 90.6 23.6 89.1 23.0 87.5 22.4 85.9 22.0 84.4 21.6 82.8 21.3 81.3 21.2 79.7 21.1 78.1 21.0 76.6 21.1 75.0 21.2 73.4 21.4 71.9 21.7 70.3 22.0 68.7 22.3 67.2 22.7 65.6 23.1 64.0 23.6 62.5 24.1 60.9 24.6 59.3Z'/><path fill='#012f60' fill-rule='evenodd' d='M116.1 33.5 115.5 33.3 108.1 33.4 107.7 33.5 107.2 33.9 106.9 35.0 106.7 35.2 106.1 37.4 105.8 37.9 105.5 39.5 105.0 40.5 105.0 41.0 104.7 42.0 104.4 42.5 104.4 42.8 103.6 45.0 103.6 45.6 103.0 47.0 103.0 47.5 102.7 48.0 102.7 48.5 102.1 49.6 101.8 50.8 101.3 52.3 101.2 52.9 100.7 54.1 100.7 54.6 99.9 56.7 99.9 57.1 99.3 58.3 99.0 60.0 98.4 61.3 98.4 61.7 97.9 62.9 97.9 63.5 97.0 65.6 96.8 66.9 96.4 67.6 96.4 67.9 96.2 68.3 96.3 69.1 96.9 69.3 101.8 69.4 102.6 69.1 103.1 68.4 103.3 67.2 103.7 66.6 103.7 65.9 103.9 65.4 103.9 64.9 104.2 64.4 105.1 61.1 105.3 60.8 105.8 60.7 116.6 60.7 117.2 61.3 117.3 62.3 117.5 62.7 117.5 63.2 118.3 65.5 118.6 67.0 118.9 67.6 118.9 68.1 119.3 69.1 119.9 69.3 120.6 69.4 127.0 69.4 127.4 69.1 127.5 68.3 126.6 66.3 126.4 64.9 125.8 63.5 125.2 61.2 125.0 61.0 124.9 60.4 124.4 59.1 124.4 58.6 124.2 58.2 123.8 56.6 123.2 55.5 122.7 53.5 122.1 51.9 121.9 50.7 121.6 50.1 121.5 49.6 121.0 48.5 121.0 48.1 120.7 47.5 120.7 47.2 120.0 45.7 119.8 44.5 119.5 43.7 119.5 43.3 119.3 42.9 119.3 42.4 118.6 41.1 118.4 40.4 118.4 39.9 118.2 39.6 118.1 39.0 117.3 36.9 117.3 36.1 117.0 35.3 116.7 35.0 116.7 34.7 116.4 34.1 116.4 33.8ZM110.9 41.8 111.2 41.8 111.8 43.1 112.1 44.6 112.9 46.9 112.9 47.3 113.1 48.0 113.2 48.7 113.5 49.0 113.8 49.8 113.8 50.2 114.4 51.5 114.4 51.9 114.6 52.6 114.6 53.1 114.9 53.6 115.0 54.6 114.7 54.8 107.7 54.9 107.3 54.8 107.1 54.6 107.0 53.7 107.2 53.4 107.3 52.8 107.5 52.4 107.6 51.9 107.9 51.4 107.9 51.0 108.2 50.4 108.4 49.1 108.7 48.6 108.7 48.2 109.0 47.6 109.1 47.0 109.3 46.7 109.4 46.0 109.6 45.7 109.9 44.4 110.2 43.8 110.2 43.4ZM55.6 33.6 55.5 33.9 55.4 35.2 55.5 36.4 55.3 39.8 55.3 66.4 55.4 68.7 55.5 69.1 56.4 69.3 60.8 69.4 61.4 69.2 61.6 68.8 61.6 43.1 61.6 41.4 61.8 41.2 62.0 41.4 62.0 41.8 62.3 42.2 62.4 42.6 62.6 42.9 62.8 44.3 63.2 45.0 63.2 45.5 63.8 46.7 64.1 47.8 64.1 48.2 64.5 49.2 64.6 49.9 64.9 50.5 64.9 50.9 65.2 51.3 65.5 52.9 66.0 54.0 66.3 55.4 66.6 55.8 66.6 56.4 66.9 57.0 67.0 57.6 67.2 58.1 67.5 59.5 68.0 60.7 68.3 62.0 68.9 63.4 68.9 63.7 69.5 65.0 69.5 65.7 69.7 66.2 69.7 66.8 70.1 67.3 70.3 68.5 70.7 69.1 71.4 69.3 74.5 69.4 75.9 69.2 76.4 68.3 76.4 67.4 76.8 66.2 76.9 65.6 77.1 65.3 77.5 64.3 77.7 63.0 78.3 61.6 78.3 61.2 78.5 60.9 78.6 60.3 79.1 59.0 79.2 58.3 79.7 57.4 80.0 55.7 80.6 54.4 80.7 53.8 81.0 53.3 81.0 52.9 81.2 52.5 81.2 51.8 81.5 51.4 81.5 50.9 81.7 50.4 81.7 49.9 82.0 49.2 82.3 48.7 82.6 48.0 83.4 44.7 83.7 44.1 84.0 42.8 84.2 42.5 84.4 41.7 84.8 41.4 85.0 41.7 85.1 43.9 84.9 50.9 85.0 66.3 84.9 67.0 84.9 68.0 85.0 68.6 85.3 69.2 85.6 69.3 86.8 69.4 90.2 69.3 91.8 69.3 92.4 69.1 92.6 68.5 92.6 34.2 92.5 33.8 92.3 33.5 91.4 33.3 81.8 33.4 81.5 33.5 81.1 33.8 81.0 35.1 80.0 37.6 79.6 39.5 79.2 40.4 79.1 41.1 78.3 43.4 78.3 43.9 77.7 45.3 77.7 45.9 77.2 47.2 77.1 47.7 76.9 48.1 76.8 48.6 76.5 49.1 76.3 50.6 75.7 52.0 75.4 53.3 75.1 53.9 75.1 54.3 74.9 55.3 74.1 56.8 73.8 56.6 73.1 55.3 72.9 54.1 72.4 52.8 72.4 52.4 72.2 52.1 71.5 49.5 71.0 48.6 70.9 47.9 69.9 45.1 69.8 44.5 69.5 43.8 69.5 43.3 68.4 40.7 68.3 40.0 67.8 38.2 67.5 37.7 67.2 36.2 67.0 35.3 66.7 35.0 66.3 33.7 66.1 33.5 65.5 33.3 56.4 33.3ZM134.7 35.7 134.0 36.4 133.0 37.1 132.0 38.6 131.5 39.0 131.0 39.8 129.7 42.3 128.8 44.8 128.8 45.5 128.6 46.0 128.6 47.1 128.3 48.0 128.3 49.2 128.1 49.9 128.1 52.9 128.3 53.6 128.3 54.8 128.6 55.7 128.6 56.8 128.8 57.3 128.8 58.0 129.1 58.6 129.1 59.0 129.4 59.8 130.2 61.3 130.5 62.2 130.8 62.6 131.3 63.7 132.2 64.5 132.9 65.5 134.3 66.9 135.2 67.3 135.7 67.8 138.7 69.2 139.4 69.3 140.1 69.6 140.6 69.6 141.2 69.8 145.6 69.8 146.5 69.5 147.0 69.5 147.7 69.2 148.2 69.2 148.5 69.0 149.0 68.9 149.7 68.3 150.2 68.3 150.7 67.9 150.9 67.8 151.4 67.4 152.1 66.9 152.6 66.4 152.8 66.0 153.2 65.7 153.4 65.7 153.7 66.2 153.8 66.8 154.2 67.4 154.4 68.4 154.9 69.2 155.5 69.5 158.1 69.6 158.8 69.4 159.0 68.8 159.1 67.6 159.0 51.1 158.8 50.6 157.9 50.3 144.8 50.3 144.1 50.7 143.9 51.2 143.9 54.8 144.1 55.6 144.5 56.1 151.0 56.2 151.2 56.4 151.3 58.5 151.0 59.0 151.0 59.6 150.4 60.7 148.8 62.5 147.7 62.8 146.7 63.4 145.0 63.7 142.6 63.4 140.9 62.6 140.4 62.5 139.3 61.3 138.3 59.8 137.7 58.1 137.4 57.7 137.2 56.8 137.1 55.6 136.9 55.0 136.9 47.8 137.2 46.8 137.2 46.0 137.4 45.5 137.4 44.7 137.7 44.3 138.0 43.1 139.1 41.4 140.4 39.9 142.3 39.1 143.6 38.8 144.8 38.8 146.1 39.1 146.5 39.4 146.8 39.4 147.1 39.6 147.8 39.9 149.1 41.1 149.3 41.6 150.2 42.8 151.0 45.0 151.4 45.3 152.2 45.3 152.8 45.1 153.6 45.1 155.1 44.8 156.6 44.8 157.1 44.5 158.0 44.5 158.3 44.2 158.4 43.4 158.2 42.2 156.7 38.9 154.6 36.4 154.1 36.2 153.5 35.3 152.9 35.0 151.6 34.2 150.5 33.9 149.3 33.3 148.8 33.3 148.4 33.0 147.5 33.0 146.8 32.8 146.0 32.8 142.8 32.8 141.4 33.0 140.4 33.0 140.1 33.3 139.4 33.3 137.9 33.9Z'/></svg>";
   var WORLD = { x: 0, y: 0, w: 3711, h: 3579 };            // map space (north up)
   var AIRPORT_VIEW = { x: 330, y: -80, w: 3440, h: 3720 };  // opening view: the whole airfield
   var LOD_FAR = 1300;                                        // wider than this: show zone totals, hide unit detail
-  var BASE_COLORS = { land: '#11201a', airfield: '#18202d', urban: '#1e2329', forest: '#0e2a1b', beige: '#1b211a', water: '#1d4466', apronbld: '#26344a', paved: '#344052', roadfill: '#56677e' };
+  var BASE_COLORS = { land: '#0c2847', airfield: '#0f2f52', urban: '#12345a', forest: '#0b2644', beige: '#0e2c4e', water: '#03182f', apronbld: '#1a446e', paved: '#1e4a76', roadfill: '#3a6995' };
   // Area tabs. Keys match the 'Terminal' property on Units and Map Features; zoom boxes come from the data.
   var SCOPE_LIST = [['all', 'Airport'], ['T2', 'Terminal 2'], ['T3', 'Terminal 3'], ['Landside', 'Station & Skylink'], ['Ground', 'Car parks']];
   var SCOPES = {};
@@ -46,11 +48,11 @@
   var RETENANT = ['Café & Bakery', 'Bar & Restaurant', 'Quick Service', 'News & Convenience', 'Health & Beauty', 'Fashion & Luxury', 'Jewellery & Watches', 'Toys & Gifts', 'Tech & Electronics', 'Duty Free', 'Currency Exchange'];
   var DEFAULT_RATE = { 'Duty Free': 0.36, 'Fashion & Luxury': 0.16, 'Health & Beauty': 0.17, 'Tech & Electronics': 0.12, 'News & Convenience': 0.20, 'Café & Bakery': 0.15, 'Bar & Restaurant': 0.15, 'Quick Service': 0.13, 'Currency Exchange': 0.30, 'Jewellery & Watches': 0.16, 'Toys & Gifts': 0.17 };
 
-  var NEUTRAL = '#3a414b';
-  var DIV_POS = [NEUTRAL, '#1f4f8f', '#2a78d6', '#5598e7', '#9ec5f4'];
-  var DIV_NEG = [NEUTRAL, '#7a3434', '#c24141', '#e66767', '#f4a6a6'];
-  var SEQ = ['#1f2a36', '#184f95', '#2a78d6', '#6da7ec', '#cde2fb'];
-  var STATUS = { critical: '#d03b3b', serious: '#ec835a', warning: '#fab219', ok: NEUTRAL };
+  var NEUTRAL = '#2b4866';
+  var DIV_POS = [NEUTRAL, '#2d6a9e', '#4f9fd4', '#8fd0f2', '#d9effa'];
+  var DIV_NEG = [NEUTRAL, '#7f3446', '#c2414f', '#f87171', '#fca5a5'];
+  var SEQ = ['#173b5f', '#245d8e', '#3f87bf', '#8fd0f2', '#d9effa'];
+  var STATUS = { critical: '#f87171', serious: '#fb923c', warning: '#fbbf24', ok: NEUTRAL };
 
   var LENSES = [
     { key: 'profit', label: 'Profit', hint: 'Airport profit after space costs' },
@@ -174,11 +176,11 @@
   function valueColor(v, lens, dom) {
     if (lens === 'cat') { for (var i = 0; i < GROUP_COLORS.length; i++) if (GROUP_COLORS[i][0] === v) return GROUP_COLORS[i][1]; return NEUTRAL; }
     if (lens === 'lease') {
-      if (v === null) return '#2a313b';
+      if (v === null) return '#1f3a57';
       if (v === 'agg') return NEUTRAL;
       return v <= 6 ? STATUS.critical : v <= 12 ? STATUS.serious : v <= 24 ? STATUS.warning : STATUS.ok;
     }
-    if (v === null || !isFinite(v)) return '#2a313b';
+    if (v === null || !isFinite(v)) return '#1f3a57';
     if (lens === 'profit' || lens === 'sqm') {
       var k = LENS_K[lens], t = symlog(v, k) / symlog(dom.maxAbs || 1, k);
       return t >= 0 ? ramp(DIV_POS, t) : ramp(DIV_NEG, -t);
@@ -245,57 +247,65 @@
 
   // ------------------------------------------------------------------ CSS
   var css = [
-    '.apm{--bg:#0b0f14;--surface:#121821;--raise:#18202b;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--ink:#eef1f4;--ink2:#a9b3bf;--muted:#7d8794;--sign:#ffc627;--signInk:#14110a;--good:#4fb3ff;--bad:#f06b6b;',
-    'position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:13px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color-scheme:dark;overflow:hidden}',
+    '.apm{--bg:#011326;--surface:#021b36;--raise:#04213f;--line:rgba(169,219,243,.14);--line2:rgba(169,219,243,.24);--ink:#eef4f9;--ink2:#9cb3c9;--muted:#62809d;--sign:#8fd0f2;--signInk:#012f60;--good:#34d399;--bad:#f87171;--navy:#012f60;--card:rgba(250,252,254,.97);--ltext:#0b2545;--ldim:#4a6683;--lfaint:#7f95aa;--lline:rgba(1,47,96,.11);--lsoft:#eef3f7;--amber:#f59e0b;--glass:rgba(2,27,54,.84);',
+    'position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:13px/1.4 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;color-scheme:dark;overflow:hidden}',
     '.apm *{box-sizing:border-box}',
     '.apm [hidden]{display:none!important}',
     '.apm button,.apm select,.apm input{font:inherit;color:inherit}',
     '.apm :focus-visible{outline:2px solid var(--sign);outline-offset:2px}',
-    '.apm-top{display:flex;align-items:center;gap:10px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);background:var(--surface);flex-wrap:wrap}',
+    '.apm-top{display:flex;align-items:center;gap:10px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--lline);background:var(--card);color:var(--ltext);flex-wrap:wrap;position:relative;z-index:10;color-scheme:light}',
     '.apm-brand{display:flex;align-items:center;gap:10px;min-width:0}',
-    '.apm-mark{min-width:34px;height:30px;padding:0 6px;border-radius:6px;background:var(--sign);color:var(--signInk);display:grid;place-items:center;font-weight:800;font-size:13px;letter-spacing:.04em;flex:none}',
-    '.apm-demo{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--sign);border:1px solid rgba(255,198,39,.5);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:2px;cursor:help}',
-    '.apm-title{font-weight:700;font-size:15px;letter-spacing:.01em;white-space:nowrap}',
-    '.apm-sub{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}',
-    '.apm-tabs{display:flex;gap:2px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:2px;overflow-x:auto;max-width:100%}',
-    '.apm-tab{background:none;border:0;padding:6px 10px;border-radius:6px;cursor:pointer;color:var(--ink2);white-space:nowrap}',
-    '.apm-tab:hover{color:var(--ink);background:var(--raise)}',
-    '.apm-tab[aria-pressed=true]{background:var(--sign);color:var(--signInk);font-weight:700}',
+    '.apm-mark{display:block;height:34px;width:54px;flex:none}',
+    '.apm-div{width:1px;align-self:stretch;margin:2px 2px;background:var(--lline)}',
+    '.apm-demo{font-size:9.5px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;color:#b45309;background:rgba(245,158,11,.08);border:1px solid rgba(217,119,6,.4);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:2px;cursor:help}',
+    '.apm-title{font-weight:700;font-size:13.5px;letter-spacing:-.01em;color:var(--navy);white-space:nowrap}',
+    '.apm-sub{color:var(--ldim);font-size:10.5px;white-space:nowrap}',
+    '.apm-tabs{display:flex;gap:2px;background:var(--lsoft);border-radius:9px;padding:2px;overflow-x:auto;max-width:100%}',
+    '.apm-tab{background:none;border:0;padding:5px 10px;border-radius:7px;cursor:pointer;color:var(--ldim);font-size:12px;white-space:nowrap}',
+    '.apm-tab:hover{color:var(--navy)}',
+    '.apm-tab[aria-pressed=true]{background:var(--navy);color:#fff;font-weight:600}',
     '.apm-spacer{flex:1}',
     '.apm-period{display:flex;align-items:center;gap:6px}',
-    '.apm-select{background:var(--raise);border:1px solid var(--line2);border-radius:7px;padding:6px 8px;cursor:pointer}',
-    '.apm-btn{background:var(--raise);border:1px solid var(--line2);border-radius:7px;padding:6px 10px;cursor:pointer;white-space:nowrap}',
+    '.apm-select{background:var(--raise);border:1px solid var(--line);border-radius:8px;padding:6px 8px;cursor:pointer}',
+    '.apm-top .apm-select,.apm-top .apm-btn,.apm-top .apm-search input{background:var(--lsoft);border-color:transparent;color:var(--ltext)}',
+    '.apm-top .apm-btn:hover,.apm-top .apm-select:hover{border-color:rgba(1,47,96,.25)}',
+    '.apm-top .apm-btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}',
+    '.apm-top .apm-search input::placeholder{color:var(--lfaint)}',
+    '.apm-top .apm-select{max-width:160px}.apm-top .apm-search input{width:168px}.apm-top{gap:8px}',
+    '.apm-top :focus-visible{outline-color:var(--navy)}',
+    '.apm-btn{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;white-space:nowrap}',
     '.apm-btn:hover{border-color:var(--ink2)}',
-    '.apm-btn.primary{background:var(--sign);color:var(--signInk);border-color:var(--sign);font-weight:700}',
+    '.apm-btn.primary{background:var(--sign);color:var(--signInk);border-color:var(--sign);font-weight:650}',
     '.apm-btn:disabled{opacity:.5;cursor:default}',
     '.apm-search{position:relative}',
-    '.apm-search input{background:var(--raise);border:1px solid var(--line2);border-radius:7px;padding:6px 10px;width:190px}',
-    '.apm-results{position:absolute;right:0;top:calc(100% + 4px);width:280px;background:var(--raise);border:1px solid var(--line2);border-radius:8px;box-shadow:0 12px 32px rgba(0,0,0,.45);z-index:20;overflow:hidden}',
+    '.apm-search input{background:var(--raise);border:1px solid var(--line);border-radius:8px;padding:6px 10px;width:190px}',
+    '.apm-results{position:absolute;right:0;top:calc(100% + 4px);width:280px;background:#fbfdfe;color:var(--ltext);border:1px solid rgba(1,47,96,.08);border-radius:12px;box-shadow:0 10px 30px rgba(0,8,24,.38);z-index:20;overflow:hidden}',
     '.apm-results button{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;background:none;border:0;padding:8px 10px;cursor:pointer}',
-    '.apm-results button:hover{background:var(--surface)}',
-    '.apm-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-bottom:1px solid var(--line);background:var(--surface);overflow-x:auto}',
-    '.apm-kpi{padding:10px 16px;border-right:1px solid var(--line);min-width:150px}',
+    '.apm-results button:hover{background:#eaf2f8}',
+    '.apm-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-bottom:1px solid var(--lline);background:var(--card);color:var(--ltext);overflow-x:auto;position:relative;z-index:9;box-shadow:0 10px 30px rgba(0,8,24,.38)}',
+    '.apm-kpi{padding:9px 16px;border-right:1px solid var(--lline);min-width:150px}',
     '.apm-kpi:last-child{border-right:0}',
-    '.apm-kpi-l{color:var(--muted);font-size:11px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}',
-    '.apm-kpi-v{font-size:22px;font-weight:700;letter-spacing:-.01em;margin-top:2px;white-space:nowrap}',
-    '.apm-kpi-d{font-size:12px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+    '.apm-kpi-l{color:var(--lfaint);font-size:10px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}',
+    '.apm-kpi-v{font-size:19px;font-weight:650;letter-spacing:-.01em;margin-top:2px;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--ltext)}',
+    '.apm-kpi-d{font-size:11.5px;color:var(--ldim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+    '.apm-kpis .up{color:#047857}.apm-kpis .dn{color:#dc2626}',
     '.apm-kpi-l{overflow:hidden;text-overflow:ellipsis}',
     '.up{color:var(--good)}.dn{color:var(--bad)}',
     '.apm-main{flex:1;display:flex;min-height:0}',
-    '.apm-map{position:relative;flex:1;min-width:0;overflow:hidden;background:#11201a}',
+    '.apm-map{position:relative;flex:1;min-width:0;overflow:hidden;background:var(--bg)}',
     '.apm-map svg{display:block;width:100%;height:100%;cursor:grab;touch-action:none;user-select:none}',
     '.apm-map svg.drag{cursor:grabbing}',
     '.apm-float{position:absolute;display:flex;gap:6px;align-items:center;z-index:5}',
     '.apm-lens{top:12px;left:12px;flex-wrap:wrap;max-width:calc(100% - 24px)}',
-    '.apm-seg{display:flex;background:rgba(18,24,33,.92);border:1px solid var(--line2);border-radius:8px;padding:2px;backdrop-filter:blur(6px);overflow-x:auto;max-width:100%}',
-    '.apm-seg button{background:none;border:0;border-radius:6px;padding:6px 10px;cursor:pointer;color:var(--ink2);white-space:nowrap}',
+    '.apm-seg{display:flex;background:var(--glass);border:1px solid var(--line);border-radius:10px;padding:2px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 12px 40px rgba(0,0,0,.35);overflow-x:auto;max-width:100%}',
+    '.apm-seg button{background:none;border:0;border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;color:var(--ink2);white-space:nowrap}',
     '.apm-seg button:hover{color:var(--ink)}',
-    '.apm-seg button[aria-pressed=true]{background:var(--ink);color:var(--bg);font-weight:600}',
-    '.apm-crumbs{top:56px;left:12px;font-size:12px;color:var(--ink2);background:rgba(18,24,33,.92);border:1px solid var(--line2);border-radius:8px;padding:4px 6px;max-width:calc(100% - 24px);overflow:hidden}',
+    '.apm-seg button[aria-pressed=true]{background:rgba(143,208,242,.14);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(143,208,242,.35)}',
+    '.apm-crumbs{top:56px;left:12px;font-size:12px;color:var(--ink2);background:var(--glass);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:4px 6px;max-width:calc(100% - 24px);overflow:hidden}',
     '.apm-crumbs button{background:none;border:0;cursor:pointer;color:var(--ink2);padding:2px 4px;border-radius:4px;white-space:nowrap}',
     '.apm-crumbs button:hover{color:var(--ink);background:var(--raise)}',
     '.apm-crumbs b{color:var(--ink);padding:2px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
-    '.apm-legend{left:12px;bottom:12px;flex-direction:column;align-items:stretch;background:rgba(18,24,33,.92);border:1px solid var(--line2);border-radius:8px;padding:10px 12px;min-width:220px;gap:6px}',
+    '.apm-legend{left:12px;bottom:12px;flex-direction:column;align-items:stretch;background:var(--glass);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:10px 12px;min-width:220px;gap:6px}',
     '.apm-legend-t{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}',
     '.apm-grad{height:10px;border-radius:3px}',
     '.apm-ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);font-variant-numeric:tabular-nums}',
@@ -303,15 +313,15 @@
     '.apm-sw span{display:flex;align-items:center;gap:6px;white-space:nowrap}',
     '.apm-sw i{width:10px;height:10px;border-radius:2px;display:inline-block;flex:none}',
     '.apm-zoom{right:12px;bottom:12px;flex-direction:column;gap:4px}',
-    '.apm-zoom .apm-btn{width:34px;height:34px;padding:0;display:grid;place-items:center;font-size:16px;background:rgba(18,24,33,.92)}',
+    '.apm-zoom .apm-btn{width:34px;height:34px;padding:0;display:grid;place-items:center;font-size:16px;background:rgba(2,27,54,.92)}',
     '.apm-tools{top:12px;right:12px;flex-direction:column;align-items:flex-end}',
-    '.apm-chip{display:flex;align-items:center;gap:8px;background:rgba(18,24,33,.92);border:1px solid var(--line2);border-radius:8px;padding:6px 10px;font-size:12px;white-space:nowrap}',
-    '.apm-chip.scn{border-color:var(--sign)}',
-    '.apm-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--sign)}',
+    '.apm-chip{display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:6px 10px;font-size:12px;white-space:nowrap}',
+    '.apm-chip.scn{border-color:rgba(245,158,11,.6);background:rgba(245,158,11,.1);color:#fcd34d}',
+    '.apm-chip .dot{width:7px;height:7px;border-radius:50%;background:#f87171;box-shadow:0 0 0 3px rgba(248,113,113,.25)}',
     '.apm-chip.busy .dot{animation:apmPulse 0.8s ease-in-out infinite alternate}',
     '@keyframes apmPulse{from{opacity:.25}to{opacity:1}}',
     '.apm-month{position:absolute;right:64px;bottom:14px;font-size:42px;font-weight:800;letter-spacing:.02em;color:var(--sign);opacity:.9;pointer-events:none;z-index:4;text-shadow:0 2px 18px rgba(0,0,0,.6)}',
-    '.apm-side{width:380px;flex:none;border-left:1px solid var(--line);background:var(--surface);overflow-y:auto;overscroll-behavior:contain}',
+    '.apm-side{width:380px;flex:none;border-left:1px solid var(--line);background:var(--surface);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent}',
     '.apm-sec{padding:14px 16px;border-bottom:1px solid var(--line)}',
     '.apm-h{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:600}',
     '.apm-name{font-size:18px;font-weight:700;margin:0;text-wrap:balance}',
@@ -320,8 +330,8 @@
     '.apm-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--sign);color:var(--signInk);border-color:var(--sign);font-weight:700}',
     '.apm-big{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}',
     '.apm-big b{font-size:30px;letter-spacing:-.02em}',
-    '.apm-flag{display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border-radius:7px;background:var(--raise);margin-top:6px;font-size:12px;color:var(--ink2)}',
-    '.apm-flag i{flex:none;width:18px;height:18px;border-radius:4px;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:11px;color:#111}',
+    '.apm-flag{display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.035);border:1px solid var(--line);margin-top:6px;font-size:12px;color:var(--ink2)}',
+    '.apm-flag i{flex:none;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:11px;color:#011326}',
     '.apm-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}',
     '.apm-grid div{min-width:0}',
     '.apm-grid small{display:block;color:var(--muted);font-size:11px}',
@@ -334,19 +344,21 @@
     '.apm-row b{font-variant-numeric:tabular-nums}',
     '.apm-bar{height:4px;border-radius:2px;background:var(--line);grid-column:1/-1;overflow:hidden}',
     '.apm-bar i{display:block;height:100%;border-radius:2px}',
-    '.apm-whatif{background:var(--raise);border:1px solid var(--line2);border-radius:9px;padding:12px}',
+    '.apm-whatif{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.4);border-radius:12px;padding:12px}',
+    '.apm-whatif .apm-btn.primary{background:var(--amber);border-color:var(--amber);color:#1f1300}',
+    '.apm-wih{color:#fbbf24}',
     '.apm-field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}',
     '.apm-field label{font-size:12px;color:var(--ink2);display:flex;justify-content:space-between}',
-    '.apm-field input[type=range]{width:100%;accent-color:#ffc627}',
+    '.apm-field input[type=range]{width:100%;accent-color:#f59e0b}',
     '.apm-actions{display:flex;gap:8px;flex-wrap:wrap}',
     '.apm-note{font-size:12px;color:var(--muted);margin:8px 0 0}',
     '.apm-chart svg{display:block;width:100%;height:auto;overflow:visible}',
     '.apm-close{float:right;background:none;border:1px solid var(--line2);border-radius:6px;cursor:pointer;color:var(--ink2);padding:2px 8px}',
-    '.apm-tip{position:fixed;z-index:50;pointer-events:none;background:#1d2633;border:1px solid rgba(255,255,255,.16);color:#eef1f4;border-radius:8px;padding:8px 10px;font:12px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:260px}',
+    '.apm-tip{position:fixed;z-index:50;pointer-events:none;background:rgba(2,24,48,.95);border:1px solid rgba(169,219,243,.14);color:#eef4f9;border-radius:12px;padding:10px 12px;font:12px/1.5 Inter,-apple-system,"Segoe UI",sans-serif;box-shadow:0 14px 36px rgba(0,0,0,.5);max-width:268px}',
     '.apm-tip b{font-size:13px}',
-    '.apm-tip .k{color:#a9b3bf}',
+    '.apm-tip .k{color:#9cb3c9}',
     '.apm-state{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink2);z-index:6;pointer-events:none}',
-    '.apm-state div{background:rgba(18,24,33,.95);border:1px solid var(--line2);border-radius:10px;padding:14px 18px;max-width:340px;text-align:center}',
+    '.apm-state div{background:rgba(2,27,54,.95);border:1px solid var(--line2);border-radius:10px;padding:14px 18px;max-width:340px;text-align:center}',
     '.apm-toast{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-weight:600;z-index:8;white-space:nowrap}',
     /* svg classes */
     '.u{transition:fill .45s ease;cursor:pointer}',
@@ -355,34 +367,34 @@
     '.dim{opacity:.22}',
     '.apm-gl{position:absolute;inset:0;display:block;cursor:grab;touch-action:none}',
     '.apm-ov{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2}',
-    '.l3{position:absolute;left:0;top:0;white-space:nowrap;will-change:transform;margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}',
-    '.l3.place{color:rgba(214,222,232,.55);font-size:15px;font-weight:600;translate:-50% -50%;text-shadow:0 1px 6px #000}',
-    '.l3.road{color:rgba(190,204,222,.75);font-size:11px;font-weight:700;translate:-50% -50%;background:rgba(40,52,68,.8);padding:1px 6px;border-radius:4px}',
+    '.l3{position:absolute;left:0;top:0;white-space:nowrap;will-change:transform;margin:0;font-family:Inter,-apple-system,"Segoe UI",sans-serif}',
+    '.l3.place{color:rgba(169,219,243,.55);font-size:15px;font-weight:600;translate:-50% -50%;text-shadow:0 1px 6px #000}',
+    '.l3.road{color:rgba(169,219,243,.75);font-size:11px;font-weight:700;translate:-50% -50%;background:rgba(2,27,54,.85);padding:1px 6px;border-radius:4px}',
     '.l3.poi{color:#f0b6d2;font-size:12px;font-weight:600;translate:-50% -120%;text-shadow:0 1px 5px #000}',
-    '.l3.term{color:#ffc627;font-size:13px;font-weight:800;letter-spacing:.14em;translate:-50% -140%;text-shadow:0 1px 8px #000}',
-    '.l3.term.closed{color:rgba(238,241,244,.6);font-size:10px;letter-spacing:.1em;translate:-50% -50%}',
-    '.l3.gate{color:#ffc627;font-size:10px;font-weight:800;translate:-50% -130%;text-shadow:0 1px 4px #000}',
-    '.l3.unit{color:#fff;font-size:10px;font-weight:600;translate:-50% -115%;background:rgba(11,15,20,.72);padding:1px 5px;border-radius:4px;max-width:150px;overflow:hidden;text-overflow:ellipsis}',
-    '.l3.unit.sel{background:#ffc627;color:#14110a;font-weight:800;z-index:3}',
-    '.l3.park{color:#eef1f4;font-size:11px;font-weight:700;translate:-50% -115%;text-shadow:0 1px 5px #000}',
+    '.l3.term{color:#8fd0f2;font-size:13px;font-weight:800;letter-spacing:.14em;translate:-50% -140%;text-shadow:0 1px 8px #000}',
+    '.l3.term.closed{color:rgba(238,244,249,.6);font-size:10px;letter-spacing:.1em;translate:-50% -50%}',
+    '.l3.gate{color:#8fd0f2;font-size:10px;font-weight:800;translate:-50% -130%;text-shadow:0 1px 4px #000}',
+    '.l3.unit{color:#fff;font-size:10px;font-weight:600;translate:-50% -115%;background:rgba(1,19,38,.72);padding:1px 5px;border-radius:4px;max-width:150px;overflow:hidden;text-overflow:ellipsis}',
+    '.l3.unit.sel{background:#8fd0f2;color:#012f60;font-weight:800;z-index:3}',
+    '.l3.park{color:#eef4f9;font-size:11px;font-weight:700;translate:-50% -115%;text-shadow:0 1px 5px #000}',
     '.l3.zone{display:flex;flex-direction:column;align-items:center;translate:-50% -50%;color:#fff;text-shadow:0 1px 6px #000;line-height:1.15}',
     '.l3.zone b{font-size:12px;letter-spacing:.04em}',
     '.l3.zone span{font-size:11px;font-weight:600;color:#e7edf4}',
-    '.l3.zone.callout{background:rgba(18,24,33,.88);border:1px solid rgba(255,198,39,.55);border-radius:8px;padding:5px 10px;text-shadow:none;translate:-50% -100%}',
-    '.l3.zone.callout b{font-size:12px;color:#ffc627;letter-spacing:.06em;text-transform:uppercase}',
+    '.l3.zone.callout{background:rgba(2,27,54,.88);border:1px solid rgba(143,208,242,.55);border-radius:8px;padding:5px 10px;text-shadow:none;translate:-50% -100%}',
+    '.l3.zone.callout b{font-size:12px;color:#8fd0f2;letter-spacing:.06em;text-transform:uppercase}',
     '.l3.zone.callout span{font-size:15px;font-weight:700;color:#fff}',
     '.apm-compass{position:absolute;right:12px;top:160px;z-index:5;background:none;border:0;padding:0;cursor:pointer;border-radius:50%}',
     '.apm-compass svg{display:block;transition:transform .1s linear}',
-    '.apm-pfilter{top:96px;left:12px;flex-direction:column;align-items:stretch;gap:5px;background:rgba(18,24,33,.94);border:1px solid rgba(255,198,39,.45);border-radius:10px;padding:8px 10px;max-width:min(560px,calc(100% - 24px))}',
+    '.apm-pfilter{top:96px;left:12px;flex-direction:column;align-items:stretch;gap:5px;background:rgba(2,27,54,.94);border:1px solid rgba(143,208,242,.45);border-radius:10px;padding:8px 10px;max-width:min(560px,calc(100% - 24px))}',
     '.apm-frow{display:flex;align-items:center;gap:4px;flex-wrap:wrap}',
     '.apm-flab{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:46px;flex:none}',
     '.apm-fchip{background:var(--raise);border:1px solid var(--line2);border-radius:999px;padding:3px 9px;font-size:11.5px;cursor:pointer;color:var(--ink2);display:inline-flex;align-items:center;gap:5px}',
     '.apm-fchip i{width:8px;height:8px;border-radius:2px;display:inline-block}',
     '.apm-fchip.on{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}',
-    '.apm-pfilter input[type=range]{flex:1;min-width:110px;accent-color:#ffc627}',
+    '.apm-pfilter input[type=range]{flex:1;min-width:110px;accent-color:#8fd0f2}',
     '.apm-fmonth{font-size:12px;min-width:62px;font-variant-numeric:tabular-nums}',
     '.apm-fsum{font-size:12px;color:var(--ink2);border-top:1px solid var(--line);padding-top:6px}',
-    '.apm-story{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(560px,calc(100% - 32px));background:rgba(18,24,33,.97);border:1px solid var(--sign);border-radius:12px;padding:14px 16px;z-index:9;box-shadow:0 18px 50px rgba(0,0,0,.55)}',
+    '.apm-story{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(560px,calc(100% - 32px));background:rgba(2,27,54,.97);border:1px solid var(--sign);border-radius:12px;padding:14px 16px;z-index:9;box-shadow:0 18px 50px rgba(0,0,0,.55)}',
     '.apm-story h3{margin:2px 0 6px;font-size:18px;text-wrap:balance}',
     '.apm-story p{margin:0 0 12px;color:var(--ink2);font-size:14px;line-height:1.5}',
     '.apm-story p b{color:var(--ink)}',
@@ -393,40 +405,40 @@
     '.apm-st-dots i{width:7px;height:7px;border-radius:50%;background:var(--line2)}',
     '.apm-st-dots i.on{background:var(--sign)}',
     '.apm-tools .apm-btn[aria-pressed=true]{background:var(--sign);color:var(--signInk);border-color:var(--sign);font-weight:700}',
-    '.l3.proj{translate:-50% -100%;background:rgba(18,24,33,.92);border:1px solid;border-radius:7px;padding:3px 8px;font-size:11px;color:#eef1f4;line-height:1.3;text-align:center}',
+    '.l3.proj{translate:-50% -100%;background:rgba(2,27,54,.92);border:1px solid;border-radius:7px;padding:3px 8px;font-size:11px;color:#eef4f9;line-height:1.3;text-align:center}',
     '.l3.proj b{display:block;font-size:11.5px}',
-    '.projl{font-size:22px;font-weight:800;paint-order:stroke;stroke:#0b0f14;stroke-width:5px;pointer-events:none}',
+    '.projl{font-size:22px;font-weight:800;paint-order:stroke;stroke:#011326;stroke-width:5px;pointer-events:none}',
     '.apm-3donly{display:none!important}',
     '.apm.is3d .apm-3donly{display:grid!important}',
     '.u.in,.ul.in{transition:opacity .35s ease}',
     '.lod0 .u.in{opacity:0;pointer-events:none}',
     '.lod0 .ul.in,.lod0 .near{opacity:0}',
     '.near{transition:opacity .35s}',
-    '.zagg{opacity:0;pointer-events:none;transition:opacity .35s ease,fill .45s ease;stroke:rgba(11,15,20,.9);stroke-width:2}',
+    '.zagg{opacity:0;pointer-events:none;transition:opacity .35s ease,fill .45s ease;stroke:rgba(1,19,38,.9);stroke-width:2}',
     '.lod0 .zagg{opacity:.95;pointer-events:auto;cursor:zoom-in}',
-    '.lod0 .zagg:hover{stroke:#ffc627;stroke-width:3}',
+    '.lod0 .zagg:hover{stroke:#8fd0f2;stroke-width:3}',
     '.lod0 .zagg.dim{opacity:.35}',
     '.zaggl{fill:#fff;font-weight:700;pointer-events:none;opacity:0;transition:opacity .35s}',
-    '.zaggl.dk{fill:#0b0f14}',
+    '.zaggl.dk{fill:#011326}',
     '.zaggl .zv{font-weight:500;opacity:.9}',
     '.lod0 .zaggl{opacity:1}',
-    '.place{fill:rgba(214,222,232,.42);font-size:58px;font-weight:600;letter-spacing:.02em;pointer-events:none}',
-    '.roadl{fill:rgba(170,185,205,.6);font-size:34px;font-weight:700;pointer-events:none}',
+    '.place{fill:rgba(169,219,243,.42);font-size:58px;font-weight:600;letter-spacing:.02em;pointer-events:none}',
+    '.roadl{fill:rgba(169,219,243,.6);font-size:34px;font-weight:700;pointer-events:none}',
     '.poil{fill:rgba(225,170,200,.85);font-size:30px;font-weight:600;pointer-events:none}',
     '.rwy{fill:rgba(240,244,248,.85);font-size:30px;font-weight:800;letter-spacing:.05em;pointer-events:none}',
-    '.maplbl{fill:rgba(214,222,232,.45);font-weight:700;pointer-events:none}',
-    '.tlabel{fill:#ffc627;font-size:34px;font-weight:800;letter-spacing:.12em;pointer-events:none}',
+    '.maplbl{fill:rgba(169,219,243,.45);font-weight:700;pointer-events:none}',
+    '.tlabel{fill:#8fd0f2;font-size:34px;font-weight:800;letter-spacing:.12em;pointer-events:none}',
     '.place,.roadl,.poil,.tlabel{transition:opacity .35s}',
     '.lod1 .place,.lod1 .roadl{opacity:0}',
     '.lod2 .tlabel,.lod2 .poil{opacity:0}',
     '.ul{fill:#fff;font-size:5.4px;font-weight:600;pointer-events:none;opacity:0;transition:opacity .2s}',
-    '.ul.dk{fill:#0b0f14}',
+    '.ul.dk{fill:#011326}',
     '.ul.huge,.lod1 .ul.big,.lod2 .ul{opacity:1}',
-    '.gl{fill:#ffc627;font-size:9px;font-weight:800;letter-spacing:.04em;pointer-events:none}',
-    '.zl{fill:rgba(238,241,244,.45);font-size:11px;font-weight:700;letter-spacing:.18em;pointer-events:none}',
+    '.gl{fill:#8fd0f2;font-size:9px;font-weight:800;letter-spacing:.04em;pointer-events:none}',
+    '.zl{fill:rgba(238,244,249,.45);font-size:11px;font-weight:700;letter-spacing:.18em;pointer-events:none}',
     '.zh{fill:transparent;cursor:zoom-in}',
-    '.zh:hover{fill:rgba(255,198,39,.05);stroke:rgba(255,198,39,.4);stroke-width:1}',
-    '.flow{fill:none;stroke:#ffc627;stroke-linecap:round;stroke-dasharray:2 10;animation:apmFlow 1.1s linear infinite;opacity:.85;pointer-events:none}',
+    '.zh:hover{fill:rgba(143,208,242,.05);stroke:rgba(143,208,242,.4);stroke-width:1}',
+    '.flow{fill:none;stroke:#8fd0f2;stroke-linecap:round;stroke-dasharray:2 10;animation:apmFlow 1.1s linear infinite;opacity:.85;pointer-events:none}',
     '@keyframes apmFlow{to{stroke-dashoffset:-24}}',
     '@media (prefers-reduced-motion:reduce){.flow,.stale .u,.apm-chip.busy .dot{animation:none}.u{transition:none}}',
     '@media (max-width:820px){.apm-main{flex-direction:column}.apm-side{width:auto;height:46%;border-left:0;border-top:1px solid var(--line)}.apm-kpis{grid-template-columns:repeat(5,minmax(140px,1fr))}.apm-search input{width:140px}.apm-legend{min-width:0;padding:6px 8px}.apm-legend .apm-note{display:none}.apm-month{font-size:24px}.apm-kpi-v{font-size:18px}.apm-tools{top:auto;bottom:12px;right:56px}}'
@@ -452,7 +464,7 @@
     var lens = LENSES.map(function (l) { return '<button data-act=\'lens\' data-v=\'' + l.key + '\' title=\'' + esc(l.hint) + '\' aria-pressed=\'false\'>' + esc(l.label) + '</button>'; }).join('');
     return '' +
       '<header class=\'apm-top\'>' +
-        '<div class=\'apm-brand\'><div class=\'apm-mark\' aria-hidden=\'true\'>' + esc(CONFIG.mark) + '</div><div><div class=\'apm-title\'>' + esc(CONFIG.airport) + ' <span class=\'apm-demo\' title=\'Real layout and passenger scale. Unit-level sales, costs and profits are invented for demonstration.\'>' + esc(CONFIG.disclaimer) + '</span></div><div class=\'apm-sub\'>' + esc(CONFIG.subtitle) + '</div></div></div>' +
+        '<div class=\'apm-brand\'><span class=\'apm-mark\' title=\'MAG\'>' + MAG_LOGO + '</span><span class=\'apm-div\'></span><div><div class=\'apm-title\'>' + esc(CONFIG.title) + ' <span class=\'apm-demo\' title=\'Real layout and passenger scale. Unit-level sales, costs and profits are invented for demonstration.\'>' + esc(CONFIG.disclaimer) + '</span></div><div class=\'apm-sub\'>' + esc(CONFIG.subtitle) + '</div></div></div>' +
         '<nav class=\'apm-tabs\' aria-label=\'Area\'>' + tabs + '</nav>' +
         '<div class=\'apm-spacer\'></div>' +
         '<div class=\'apm-period\'><label for=\'apm-period\' class=\'apm-sub\' style=\'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)\'>Period</label><select id=\'apm-period\' class=\'apm-select\' data-act=\'period\'>' + opts + '</select>' +
@@ -496,8 +508,8 @@
     host.insertBefore(svg, host.firstChild);
     var defs = el('defs', {}, svg);
     var pat = el('pattern', { id: 'apm-hatch', width: 6, height: 6, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
-    el('rect', { width: 6, height: 6, fill: '#1a222c' }, pat);
-    el('line', { x1: 0, y1: 0, x2: 0, y2: 6, stroke: '#2c3643', 'stroke-width': 2 }, pat);
+    el('rect', { width: 6, height: 6, fill: '#0e2742' }, pat);
+    el('line', { x1: 0, y1: 0, x2: 0, y2: 6, stroke: '#1f3d5c', 'stroke-width': 2 }, pat);
     var glow = el('filter', { id: 'apm-glow', x: '-50%', y: '-50%', width: '200%', height: '200%' }, defs);
     el('feGaussianBlur', { stdDeviation: 3, result: 'b' }, glow);
     var mg = el('feMerge', {}, glow); el('feMergeNode', { in: 'b' }, mg); el('feMergeNode', { in: 'SourceGraphic' }, mg);
@@ -540,44 +552,44 @@
         case 'roadlabel': txt(gMap, f.labelX, f.labelY, f.label, 'roadl', null); break;
         case 'poi':
           var hotel = /hotel|radisson/i.test(f.name || '');
-          el('circle', { cx: r.x, cy: r.y, r: 9, fill: hotel ? '#d55181' : '#7d8794', stroke: '#0b0f14', 'stroke-width': 2 }, gMap);
+          el('circle', { cx: r.x, cy: r.y, r: 9, fill: hotel ? '#d55181' : '#62809d', stroke: '#011326', 'stroke-width': 2 }, gMap);
           txt(gMap, r.x + 14, r.y + 6, f.label, 'poil', null, 'start');
           break;
-        case 'terminal': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: '#18202a', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg); break;
+        case 'terminal': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: '#12304f', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg); break;
         case 'closed': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: 'url(#apm-hatch)', stroke: 'rgba(255,255,255,.2)', 'stroke-dasharray': '6 5', 'stroke-width': 1.5 }, gBg); break;
         case 'ghostpier': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 8, fill: 'none', stroke: 'rgba(255,255,255,.2)', 'stroke-dasharray': '6 5', 'stroke-width': 1.5 }, gBg); break;
-        case 'station': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: '#1a2330', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg); break;
-        case 'walkway': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#2a3545', stroke: 'rgba(255,255,255,.12)' }, gBg); break;
+        case 'station': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: '#173556', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg); break;
+        case 'walkway': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#24486c', stroke: 'rgba(255,255,255,.12)' }, gBg); break;
         case 'pier':
-          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 8, fill: '#18202a', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg);
-          if (r.w > r.h) el('rect', { x: r.x + 4, y: r.y + 52, width: r.w - 8, height: r.h - 104, fill: '#1d2631' }, gBg);
-          else el('rect', { x: r.x + r.w / 2 - 15, y: r.y + 4, width: 30, height: r.h - 8, fill: '#1d2631' }, gBg);
+          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 8, fill: '#12304f', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg);
+          if (r.w > r.h) el('rect', { x: r.x + 4, y: r.y + 52, width: r.w - 8, height: r.h - 104, fill: '#16314f' }, gBg);
+          else el('rect', { x: r.x + r.w / 2 - 15, y: r.y + 4, width: 30, height: r.h - 8, fill: '#16314f' }, gBg);
           break;
         case 'security':
-          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#141a22', stroke: 'rgba(255,255,255,.08)' }, gBg);
+          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#0e2742', stroke: 'rgba(255,255,255,.08)' }, gBg);
           var vert = r.h > r.w, nl = Math.max(3, Math.floor((vert ? r.h : r.w) / 30));
           for (var s = 0; s < nl; s++) {
             var p0 = 10 + s * ((vert ? r.h : r.w) - 20) / (nl - 1);
-            if (vert) el('line', { x1: r.x + 4, x2: r.x + r.w - 4, y1: r.y + p0, y2: r.y + p0, stroke: '#2a3340', 'stroke-width': 3 }, gBg);
-            else el('line', { y1: r.y + 4, y2: r.y + r.h - 4, x1: r.x + p0, x2: r.x + p0, stroke: '#2a3340', 'stroke-width': 3 }, gBg);
+            if (vert) el('line', { x1: r.x + 4, x2: r.x + r.w - 4, y1: r.y + p0, y2: r.y + p0, stroke: '#24425f', 'stroke-width': 3 }, gBg);
+            else el('line', { y1: r.y + 4, y2: r.y + r.h - 4, x1: r.x + p0, x2: r.x + p0, stroke: '#24425f', 'stroke-width': 3 }, gBg);
           }
           break;
-        case 'checkin': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#202935', stroke: 'rgba(255,255,255,.06)' }, gBg); break;
+        case 'checkin': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#1a3a5c', stroke: 'rgba(255,255,255,.06)' }, gBg); break;
         case 'holdroom': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 2, fill: 'url(#apm-hatch)' }, gBg); break;
         case 'stand':
           var cx = r.x + r.w / 2, cy = r.y + r.h / 2, sc = r.w / 64;
-          el('path', { d: PLANE, fill: '#2a3440', stroke: '#3a4655', 'stroke-width': 1 / sc, transform: 'translate(' + cx + ',' + cy + ') rotate(' + (f.heading || 0) + ') scale(' + sc + ')' }, gBg);
+          el('path', { d: PLANE, fill: '#1f3d5c', stroke: '#2b4a6b', 'stroke-width': 1 / sc, transform: 'translate(' + cx + ',' + cy + ') rotate(' + (f.heading || 0) + ') scale(' + sc + ')' }, gBg);
           break;
         case 'gate':
-          if (f.closed) { el('circle', { cx: r.x, cy: r.y, r: 2.5, fill: '#4b5562' }, gGates); break; }
-          el('circle', { cx: r.x, cy: r.y, r: 3, fill: '#ffc627' }, gGates);
+          if (f.closed) { el('circle', { cx: r.x, cy: r.y, r: 2.5, fill: '#3a5878' }, gGates); break; }
+          el('circle', { cx: r.x, cy: r.y, r: 3, fill: '#8fd0f2' }, gGates);
           var gx = r.x, gy = r.y + 3, anc = 'middle';
           if (f.side === 'L') { gx = r.x + 6; anc = 'start'; } else if (f.side === 'R') { gx = r.x - 6; anc = 'end'; } else if (f.side === 'T') { gy = r.y + 13; } else if (f.side === 'B') { gy = r.y - 6; }
           txt(gLabels, gx, gy, f.label, 'gl near', null, anc);
           break;
         case 'compass':
           var cg = el('g', { transform: 'translate(' + (r.x + r.w / 2) + ',' + (r.y + r.h / 2) + ') rotate(' + (f.heading || 0) + ') scale(2.4)' }, gMap);
-          el('circle', { r: 17, fill: 'rgba(11,15,20,.6)', stroke: 'rgba(255,255,255,.25)' }, cg);
+          el('circle', { r: 17, fill: 'rgba(1,19,38,.6)', stroke: 'rgba(255,255,255,.25)' }, cg);
           el('path', { d: 'M0,-14 L6,8 L0,4 L-6,8 Z', fill: '#cfd6df' }, cg);
           txt(cg, 0, -21, 'N', 'zl', 'font-size:10px;fill:#cfd6df;letter-spacing:0');
           break;
@@ -600,8 +612,8 @@
         var lx = f.labelX !== null ? f.labelX : r.x + r.w / 2;
         var ly = f.labelY !== null ? f.labelY : r.y + r.h / 2 + 3;
         if (f.far) { txt(gMap, lx, ly, f.label, 'tlabel', null); return; }
-        var t = txt(gLabels, lx, ly, f.label, 'zl near', f.small ? 'font-size:7.5px;letter-spacing:.14em;fill:rgba(238,241,244,.4)' : null);
-        if (f.sub) txt(gLabels, lx, ly + 11, f.sub, 'zl near', 'font-size:7px;letter-spacing:.12em;fill:rgba(238,241,244,.4)');
+        var t = txt(gLabels, lx, ly, f.label, 'zl near', f.small ? 'font-size:7.5px;letter-spacing:.14em;fill:rgba(238,244,249,.4)' : null);
+        if (f.sub) txt(gLabels, lx, ly + 11, f.sub, 'zl near', 'font-size:7px;letter-spacing:.12em;fill:rgba(238,244,249,.4)');
         return t;
       }
     });
@@ -617,7 +629,7 @@
     unitEls = {};
     S.units.forEach(function (u) {
       var r = u.box, inside = u.terminal !== 'Ground';
-      var rect = el('rect', { x: r.x + 0.8, y: r.y + 0.8, width: Math.max(r.w - 1.6, 1), height: Math.max(r.h - 1.6, 1), rx: 2.5, class: 'u' + (inside ? ' in' : ''), fill: NEUTRAL, stroke: '#0b0f14', 'stroke-width': 1, 'data-code': u.code, tabindex: 0, role: 'button', 'aria-label': u.name }, gUnits);
+      var rect = el('rect', { x: r.x + 0.8, y: r.y + 0.8, width: Math.max(r.w - 1.6, 1), height: Math.max(r.h - 1.6, 1), rx: 2.5, class: 'u' + (inside ? ' in' : ''), fill: NEUTRAL, stroke: '#011326', 'stroke-width': 1, 'data-code': u.code, tabindex: 0, role: 'button', 'aria-label': u.name }, gUnits);
       var big = r.w * r.h > 2500, huge = !inside;
       var label = el('text', { x: r.x + r.w / 2, y: r.y + r.h / 2 + 2, class: 'ul' + (big ? ' big' : '') + (huge ? ' huge' : '') + (inside ? ' in' : ''), 'text-anchor': 'middle' }, gLabels);
       var fsz = huge ? Math.min(22, Math.max(9, r.w / 10)) : big ? Math.min(10, Math.max(6, r.w / 14)) : 5.4;
@@ -626,7 +638,7 @@
       if (huge || big) label.setAttribute('style', 'font-size:' + fsz + 'px');
       unitEls[u.code] = { rect: rect, label: label };
     });
-    el('rect', { id: 'apm-selbox', x: 0, y: 0, width: 0, height: 0, rx: 3, fill: 'none', stroke: '#ffc627', 'stroke-width': 2.4, filter: 'url(#apm-glow)', visibility: 'hidden', 'pointer-events': 'none' }, gSel);
+    el('rect', { id: 'apm-selbox', x: 0, y: 0, width: 0, height: 0, rx: 3, fill: 'none', stroke: '#8fd0f2', 'stroke-width': 2.4, filter: 'url(#apm-glow)', visibility: 'hidden', 'pointer-events': 'none' }, gSel);
     built = true;
     applyView();
   }
@@ -683,7 +695,7 @@
     var adom = { maxAbs: 0, min: Infinity, max: -Infinity };
     aggVals.forEach(function (a) { if (typeof a.v === 'number' && isFinite(a.v)) { adom.maxAbs = Math.max(adom.maxAbs, Math.abs(a.v)); adom.min = Math.min(adom.min, a.v); adom.max = Math.max(adom.max, a.v); } });
     S.aggs.forEach(function (g, i) {
-      var a = aggVals[i], c = a.v === null ? '#2a313b' : valueColor(a.v, S.lens, adom);
+      var a = aggVals[i], c = a.v === null ? '#1f3a57' : valueColor(a.v, S.lens, adom);
       g.rect.setAttribute('fill', c);
       g.rect.classList.toggle('dim', S.zone ? g.zone !== S.zone : false);
       g.text = a.text;
@@ -745,7 +757,7 @@
         var v = S.gatePax[f.label] || 0, b = S.gateBudget[f.label] || 0;
         if (f.closed && !v) return;
         var rad = 3 + 8 * Math.sqrt(v / maxGate);
-        var c = el('circle', { cx: f.box.x, cy: f.box.y, r: rad, fill: b && v < b * 0.8 ? 'rgba(240,107,107,.35)' : 'rgba(255,198,39,.28)', stroke: b && v < b * 0.8 ? '#f06b6b' : '#ffc627', 'stroke-width': 1 }, g);
+        var c = el('circle', { cx: f.box.x, cy: f.box.y, r: rad, fill: b && v < b * 0.8 ? 'rgba(248,113,113,.35)' : 'rgba(143,208,242,.28)', stroke: b && v < b * 0.8 ? '#f87171' : '#8fd0f2', 'stroke-width': 1 }, g);
         var t = el('title', {}, c); t.textContent = 'Gate ' + f.label + ': ' + num(v) + ' departing pax (' + pct(b ? v / b - 1 : null, true) + ' vs budget)';
       }
     });
@@ -766,7 +778,7 @@
       h += '<div class=\'apm-grad\' style=\'background:linear-gradient(90deg,' + SEQ.join(',') + ')\'></div>';
       h += '<div class=\'apm-ticks\'><span>' + money(dom.min) + '</span><span>per passenger walking past</span><span>' + money(dom.max) + '</span></div>';
     } else if (S.lens === 'lease') {
-      h += '<div class=\'apm-sw\'><span><i style=\'background:' + STATUS.critical + '\'></i>≤ 6 months</span><span><i style=\'background:' + STATUS.serious + '\'></i>7–12 months</span><span><i style=\'background:' + STATUS.warning + '\'></i>13–24 months</span><span><i style=\'background:' + STATUS.ok + '\'></i>Over 24 months</span><span><i style=\'background:#2a313b;outline:1px solid #3a4655\'></i>Airport-operated</span></div>';
+      h += '<div class=\'apm-sw\'><span><i style=\'background:' + STATUS.critical + '\'></i>≤ 6 months</span><span><i style=\'background:' + STATUS.serious + '\'></i>7–12 months</span><span><i style=\'background:' + STATUS.warning + '\'></i>13–24 months</span><span><i style=\'background:' + STATUS.ok + '\'></i>Over 24 months</span><span><i style=\'background:#1f3a57;outline:1px solid #2b4a6b\'></i>Airport-operated</span></div>';
     } else {
       h += '<div class=\'apm-sw\'>' + GROUP_COLORS.map(function (g) { return '<span><i style=\'background:' + g[1] + '\'></i>' + esc(g[0]) + '</span>'; }).join('') + '</div>';
     }
@@ -858,11 +870,11 @@
 
     h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Variance to budget by zone</h3><div class=\'apm-list\'>' + zl.map(function (z) {
       var w = Math.min(100, Math.abs(z.v) * 250);
-      return '<button class=\'apm-row\' data-act=\'zone\' data-v=\'' + esc(z.k) + '\'><span>' + esc(z.k) + '<small>' + money(z.d, { sign: true }) + '</small></span><b class=\'' + (z.v >= 0 ? 'up' : 'dn') + '\'>' + pct(z.v, true) + '</b><div class=\'apm-bar\'><i style=\'width:' + Math.max(2, w) + '%;background:' + (z.v >= 0 ? '#2a78d6' : '#d03b3b') + '\'></i></div></button>';
+      return '<button class=\'apm-row\' data-act=\'zone\' data-v=\'' + esc(z.k) + '\'><span>' + esc(z.k) + '<small>' + money(z.d, { sign: true }) + '</small></span><b class=\'' + (z.v >= 0 ? 'up' : 'dn') + '\'>' + pct(z.v, true) + '</b><div class=\'apm-bar\'><i style=\'width:' + Math.max(2, w) + '%;background:' + (z.v >= 0 ? '#4f9fd4' : '#f87171') + '\'></i></div></button>';
     }).join('') + '</div></div>';
 
     h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Biggest profit pools</h3><div class=\'apm-list\'>' +
-      top.map(function (u) { return rowBtn(u, money(P(u)), u.zone, Math.abs(P(u)) / maxTop * 100, '#2a78d6'); }).join('') + '</div></div>';
+      top.map(function (u) { return rowBtn(u, money(P(u)), u.zone, Math.abs(P(u)) / maxTop * 100, '#4f9fd4'); }).join('') + '</div></div>';
 
     h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Loss-making units (' + list.filter(function (u) { return P(u) < 0; }).length + ')</h3><div class=\'apm-list\'>' +
       (losers.length ? losers.map(function (u) { return rowBtn(u, money(P(u)), u.category); }).join('') : '<p class=\'apm-note\' style=\'margin:0\'>No loss-making units in this area.</p>') + '</div></div>';
@@ -887,21 +899,21 @@
     var y = function (v) { return padT + (max - v) / (max - min) * (H - padT - padB); };
     var bw = (W - padL - padR) / 12;
     var s = '<svg viewBox=\'0 0 ' + W + ' ' + H + '\' role=\'img\' aria-label=\'Monthly profit against budget\'>';
-    s += '<defs><pattern id=\'apm-fc\' width=\'4\' height=\'4\' patternUnits=\'userSpaceOnUse\' patternTransform=\'rotate(45)\'><rect width=\'4\' height=\'4\' fill=\'#1f4f8f\'/><line x1=\'0\' y1=\'0\' x2=\'0\' y2=\'4\' stroke=\'#5598e7\' stroke-width=\'1.5\'/></pattern></defs>';
+    s += '<defs><pattern id=\'apm-fc\' width=\'4\' height=\'4\' patternUnits=\'userSpaceOnUse\' patternTransform=\'rotate(45)\'><rect width=\'4\' height=\'4\' fill=\'#174470\'/><line x1=\'0\' y1=\'0\' x2=\'0\' y2=\'4\' stroke=\'#6fbbe6\' stroke-width=\'1.5\'/></pattern></defs>';
     var ticks = [max, (max + min) / 2, min];
     if (min < 0 && max > 0) ticks = [max, 0, min];
-    ticks.forEach(function (v) { s += '<line x1=\'' + padL + '\' x2=\'' + (W - padR) + '\' y1=\'' + y(v) + '\' y2=\'' + y(v) + '\' stroke=\'rgba(255,255,255,' + (v === 0 ? '.25' : '.07') + ')\'/><text x=\'' + (padL - 6) + '\' y=\'' + (y(v) + 3) + '\' fill=\'#7d8794\' font-size=\'9\' text-anchor=\'end\'>' + money(v) + '</text>'; });
+    ticks.forEach(function (v) { s += '<line x1=\'' + padL + '\' x2=\'' + (W - padR) + '\' y1=\'' + y(v) + '\' y2=\'' + y(v) + '\' stroke=\'rgba(255,255,255,' + (v === 0 ? '.25' : '.07') + ')\'/><text x=\'' + (padL - 6) + '\' y=\'' + (y(v) + 3) + '\' fill=\'#62809d\' font-size=\'9\' text-anchor=\'end\'>' + money(v) + '</text>'; });
     t.profit.forEach(function (v, i) {
       if (v === null) return;
       var x = padL + i * bw + 3, top = y(Math.max(v, 0)), bot = y(Math.min(v, 0));
-      var fill = i > LAST_ACTUAL ? 'url(#apm-fc)' : (v >= 0 ? '#2a78d6' : '#d03b3b');
+      var fill = i > LAST_ACTUAL ? 'url(#apm-fc)' : (v >= 0 ? '#4f9fd4' : '#f87171');
       s += '<rect x=\'' + x + '\' y=\'' + top + '\' width=\'' + (bw - 6) + '\' height=\'' + Math.max(1, bot - top) + '\' rx=\'2\' fill=\'' + fill + '\'/>';
     });
     var pts = t.budget.map(function (v, i) { return (padL + i * bw + bw / 2) + ',' + y(v || 0); }).join(' ');
-    s += '<polyline points=\'' + pts + '\' fill=\'none\' stroke=\'#ffc627\' stroke-width=\'2\' stroke-linejoin=\'round\'/>';
-    t.budget.forEach(function (v, i) { s += '<circle cx=\'' + (padL + i * bw + bw / 2) + '\' cy=\'' + y(v || 0) + '\' r=\'2.5\' fill=\'#ffc627\' stroke=\'#121821\' stroke-width=\'1\'/>'; });
+    s += '<polyline points=\'' + pts + '\' fill=\'none\' stroke=\'#fbbf24\' stroke-width=\'2\' stroke-dasharray=\'4 3\' stroke-linejoin=\'round\'/>';
+    t.budget.forEach(function (v, i) { s += '<circle cx=\'' + (padL + i * bw + bw / 2) + '\' cy=\'' + y(v || 0) + '\' r=\'2.5\' fill=\'#fbbf24\' stroke=\'#021b36\' stroke-width=\'1\'/>'; });
     MONTHS.forEach(function (m, i) {
-      s += '<text x=\'' + (padL + i * bw + bw / 2) + '\' y=\'' + (H - 6) + '\' fill=\'' + (i > LAST_ACTUAL ? '#5d6773' : '#7d8794') + '\' font-size=\'9\' text-anchor=\'middle\'>' + m[0] + '</text>';
+      s += '<text x=\'' + (padL + i * bw + bw / 2) + '\' y=\'' + (H - 6) + '\' fill=\'' + (i > LAST_ACTUAL ? '#3a5878' : '#62809d') + '\' font-size=\'9\' text-anchor=\'middle\'>' + m[0] + '</text>';
       s += '<rect class=\'apm-hit\' data-m=\'' + i + '\' x=\'' + (padL + i * bw) + '\' y=\'' + padT + '\' width=\'' + bw + '\' height=\'' + (H - padT - padB) + '\' fill=\'transparent\'/>';
     });
     return s + '</svg>';
@@ -913,7 +925,7 @@
     var h = '<div class=\'apm-list\'>';
     items.forEach(function (it) {
       if (!it[1]) return;
-      h += '<div class=\'apm-row\' style=\'cursor:default\'><span>' + esc(it[0]) + '</span><b>' + money(it[1], { sign: true }) + '</b><div class=\'apm-bar\'><i style=\'width:' + Math.abs(it[1]) / max * 100 + '%;background:' + (it[2] ? '#2a78d6' : '#7a3434') + '\'></i></div></div>';
+      h += '<div class=\'apm-row\' style=\'cursor:default\'><span>' + esc(it[0]) + '</span><b>' + money(it[1], { sign: true }) + '</b><div class=\'apm-bar\'><i style=\'width:' + Math.abs(it[1]) / max * 100 + '%;background:' + (it[2] ? '#4f9fd4' : '#7f3446') + '\'></i></div></div>';
     });
     h += '<div class=\'apm-row\' style=\'cursor:default;border-top:1px solid rgba(255,255,255,.1);border-radius:0;padding-top:8px\'><span><b>Airport profit</b></span><b class=\'' + (d.profit >= 0 ? 'up' : 'dn') + '\'>' + money(d.profit) + '</b></div>';
     return h + '</div>';
@@ -927,7 +939,7 @@
     var vb = d.budget ? (d.profit - d.budget) / Math.abs(d.budget) : 0;
     var pv = d.bpax ? d.pax / d.bpax - 1 : 0;
     if (vb < -0.12) out.push([STATUS.serious, '↓', '<b>' + pct(vb, true) + ' vs budget.</b> ' + (pv < -0.1 ? 'Passengers walking past are down ' + pct(-pv) + ' on budget' + (u.gate ? ' (nearest gate ' + esc(u.gate) + ')' : '') + '.' : 'Spend per passenger is below plan.')]);
-    if (vb > 0.12) out.push(['#2a78d6', '↑', '<b>' + pct(vb, true) + ' vs budget.</b> ' + (pv > 0.1 ? 'Passengers walking past are up ' + pct(pv) + ' on budget.' : 'Trading ahead of plan.')]);
+    if (vb > 0.12) out.push(['#4f9fd4', '↑', '<b>' + pct(vb, true) + ' vs budget.</b> ' + (pv > 0.1 ? 'Passengers walking past are up ' + pct(pv) + ' on budget.' : 'Trading ahead of plan.')]);
     var ml = monthsUntil(u.lease);
     if (ml !== null && ml <= 12) out.push([STATUS.serious, '⏱', '<b>Lease ends ' + fmtDate(u.lease) + '</b> (' + Math.max(ml, 0) + ' months). ' + money(d.profit * 12 / n) + ' of annual profit to secure.']);
     // rank on profit / m2 within group
@@ -958,13 +970,13 @@
       '<div><small>Profit per m²</small><b>' + money(d.profit / u.area) + '</b></div>' +
       '<div><small>Revenue share</small><b>' + (d.rate === null || d.rate === undefined ? 'n/a' : pct(d.rate)) + '</b></div>' +
       '<div><small>Minimum guarantee</small><b>' + (u.mag ? money(u.mag) + '/yr' : 'n/a') + '</b></div></div></div>';
-    h += '<div class=\'apm-sec apm-chart\'><h3 class=\'apm-h\'>2026 profit by month <span style=\'text-transform:none;letter-spacing:0;color:#a9b3bf\'>· bars actual, hatched forecast, <span style=\'color:#ffc627\'>line budget</span></span></h3><div id=\'apm-trend\'>' + trendSvg(S.trend && S.trend.code === u.code ? S.trend : null) + '</div></div>';
+    h += '<div class=\'apm-sec apm-chart\'><h3 class=\'apm-h\'>2026 profit by month <span style=\'text-transform:none;letter-spacing:0;color:#9cb3c9\'>· bars actual, hatched forecast, <span style=\'color:#fbbf24\'>line budget</span></span></h3><div id=\'apm-trend\'>' + trendSvg(S.trend && S.trend.code === u.code ? S.trend : null) + '</div></div>';
     if (u.model === 'Airport-operated') {
       h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>What if</h3><p class=\'apm-note\' style=\'margin:0\'>This unit is run by the airport. Model tariffs and staffing in the operational planning app; this map picks up the result.</p></div>';
     } else {
       var rate = d.rate || 0;
       var opts = RETENANT.map(function (c) { return '<option' + (c === u.category ? ' selected' : '') + '>' + esc(c) + '</option>'; }).join('');
-      h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>What if · writes to Pigment</h3><div class=\'apm-whatif\'>' +
+      h += '<div class=\'apm-sec\'><h3 class=\'apm-h apm-wih\'>⚡ What if · writes to Pigment</h3><div class=\'apm-whatif\'>' +
         '<div class=\'apm-field\'><label for=\'apm-rate\'><span>Revenue share to airport</span><b id=\'apm-rate-v\'>' + pct(rate) + '</b></label><input id=\'apm-rate\' type=\'range\' min=\'0.05\' max=\'0.45\' step=\'0.01\' value=\'' + rate + '\'></div>' +
         (u.model === 'Concession' ? '<div class=\'apm-field\'><label for=\'apm-cat\'><span>Re-let the unit as</span></label><select id=\'apm-cat\' class=\'apm-select\'>' + opts + '</select></div>' : '') +
         '<div class=\'apm-actions\'><button class=\'apm-btn primary\' data-act=\'apply\'' + (S.busy ? ' disabled' : '') + '>Apply and recalculate</button></div>' +
@@ -1046,14 +1058,14 @@
     var W = 340, rowH = opts.rowH || 18, padL = opts.padL || 0, top = 18, H = top + list.length * rowH + 6;
     var t0 = (2025 - PM0) * 12, t1 = (2030 - PM0) * 12, X = function (t) { return padL + (Math.max(t0, Math.min(t1, t)) - t0) / (t1 - t0) * (W - padL - 4); };
     var s = '<svg viewBox=\'0 0 ' + W + ' ' + H + '\' role=\'img\' aria-label=\'Project timeline\'>';
-    for (var y = 2025; y <= 2029; y++) { var x = X((y - PM0) * 12); s += '<line x1=\'' + x + '\' x2=\'' + x + '\' y1=\'12\' y2=\'' + H + '\' stroke=\'rgba(255,255,255,.07)\'/><text x=\'' + (x + 3) + '\' y=\'10\' fill=\'#7d8794\' font-size=\'9\'>' + y + '</text>'; }
+    for (var y = 2025; y <= 2029; y++) { var x = X((y - PM0) * 12); s += '<line x1=\'' + x + '\' x2=\'' + x + '\' y1=\'12\' y2=\'' + H + '\' stroke=\'rgba(255,255,255,.07)\'/><text x=\'' + (x + 3) + '\' y=\'10\' fill=\'#62809d\' font-size=\'9\'>' + y + '</text>'; }
     list.forEach(function (r, i) {
       var y0 = top + i * rowH;
-      if (r.label) s += '<text x=\'' + (padL - 6) + '\' y=\'' + (y0 + rowH / 2 + 3) + '\' fill=\'#a9b3bf\' font-size=\'9.5\' text-anchor=\'end\'>' + esc(r.label) + '</text>';
+      if (r.label) s += '<text x=\'' + (padL - 6) + '\' y=\'' + (y0 + rowH / 2 + 3) + '\' fill=\'#9cb3c9\' font-size=\'9.5\' text-anchor=\'end\'>' + esc(r.label) + '</text>';
       r.bars.forEach(function (b) { s += '<rect x=\'' + X(b.s) + '\' y=\'' + (y0 + 3) + '\' width=\'' + Math.max(2, X(b.e) - X(b.s)) + '\' height=\'' + (rowH - 6) + '\' rx=\'3\' fill=\'' + b.c + '\'' + (r.id ? ' data-act=\'proj\' data-v=\'' + esc(r.id) + '\' style=\'cursor:pointer\'' : '') + '><title>' + esc(b.t || '') + '</title></rect>'; });
     });
-    var nx = X(NOW_YM); s += '<line x1=\'' + nx + '\' x2=\'' + nx + '\' y1=\'12\' y2=\'' + H + '\' stroke=\'#ffc627\' stroke-width=\'1.5\'/><text x=\'' + (nx + 3) + '\' y=\'' + (H - 2) + '\' fill=\'#ffc627\' font-size=\'8.5\'>today</text>';
-    if (S.pf.month !== null) { var mx = X(S.pf.month + 0.5); s += '<line x1=\'' + mx + '\' x2=\'' + mx + '\' y1=\'12\' y2=\'' + H + '\' stroke=\'#eef1f4\' stroke-dasharray=\'3 3\'/>'; }
+    var nx = X(NOW_YM); s += '<line x1=\'' + nx + '\' x2=\'' + nx + '\' y1=\'12\' y2=\'' + H + '\' stroke=\'#8fd0f2\' stroke-width=\'1.5\'/><text x=\'' + (nx + 3) + '\' y=\'' + (H - 2) + '\' fill=\'#8fd0f2\' font-size=\'8.5\'>today</text>';
+    if (S.pf.month !== null) { var mx = X(S.pf.month + 0.5); s += '<line x1=\'' + mx + '\' x2=\'' + mx + '\' y1=\'12\' y2=\'' + H + '\' stroke=\'#eef4f9\' stroke-dasharray=\'3 3\'/>'; }
     return s + '</svg>';
   }
   var PHASE_C = { 'Design': '#2dd4bf', 'Procurement': '#c084fc', 'Construction': '#fab219', 'Commissioning': '#4fb3ff' };
@@ -1063,14 +1075,14 @@
     var max = 1; ['plan', 'act', 'fc'].forEach(function (k) { sp[k].forEach(function (v) { if (v !== null) max = Math.max(max, v); }); });
     var t0 = 12, t1 = n - 1, X = function (i) { return padL + (i - t0) / (t1 - t0) * (W - padL - 4); }, Y = function (v) { return padT + (1 - v / max) * (H - padT - padB); };
     var s = '<svg viewBox=\'0 0 ' + W + ' ' + H + '\' role=\'img\' aria-label=\'Cumulative spend: planned, actual and forecast\'>';
-    [0, max / 2, max].forEach(function (v) { s += '<line x1=\'' + padL + '\' x2=\'' + (W - 4) + '\' y1=\'' + Y(v) + '\' y2=\'' + Y(v) + '\' stroke=\'rgba(255,255,255,.07)\'/><text x=\'' + (padL - 5) + '\' y=\'' + (Y(v) + 3) + '\' fill=\'#7d8794\' font-size=\'9\' text-anchor=\'end\'>' + money(v) + '</text>'; });
-    for (var y = 2025; y <= 2029; y++) { var xx = X((y - PM0) * 12); s += '<text x=\'' + xx + '\' y=\'' + (H - 5) + '\' fill=\'#7d8794\' font-size=\'9\' text-anchor=\'middle\'>' + y + '</text>'; }
+    [0, max / 2, max].forEach(function (v) { s += '<line x1=\'' + padL + '\' x2=\'' + (W - 4) + '\' y1=\'' + Y(v) + '\' y2=\'' + Y(v) + '\' stroke=\'rgba(255,255,255,.07)\'/><text x=\'' + (padL - 5) + '\' y=\'' + (Y(v) + 3) + '\' fill=\'#62809d\' font-size=\'9\' text-anchor=\'end\'>' + money(v) + '</text>'; });
+    for (var y = 2025; y <= 2029; y++) { var xx = X((y - PM0) * 12); s += '<text x=\'' + xx + '\' y=\'' + (H - 5) + '\' fill=\'#62809d\' font-size=\'9\' text-anchor=\'middle\'>' + y + '</text>'; }
     var path = function (arr, from) { var d = ''; arr.forEach(function (v, i) { if (v === null || i < from) return; d += (d ? 'L' : 'M') + X(i).toFixed(1) + ',' + Y(v).toFixed(1); }); return d; };
-    s += '<path d=\'' + path(sp.plan, t0) + '\' fill=\'none\' stroke=\'#7d8794\' stroke-width=\'1.5\' stroke-dasharray=\'4 3\'/>';
+    s += '<path d=\'' + path(sp.plan, t0) + '\' fill=\'none\' stroke=\'#62809d\' stroke-width=\'1.5\' stroke-dasharray=\'4 3\'/>';
     s += '<path d=\'' + path(sp.fc, t0) + '\' fill=\'none\' stroke=\'#fab219\' stroke-width=\'2\' stroke-dasharray=\'5 3\'/>';
     s += '<path d=\'' + path(sp.act, t0) + '\' fill=\'none\' stroke=\'#fab219\' stroke-width=\'2.5\'/>';
-    var nx = X(Math.floor(NOW_YM)); s += '<line x1=\'' + nx + '\' x2=\'' + nx + '\' y1=\'' + padT + '\' y2=\'' + (H - padB) + '\' stroke=\'rgba(255,198,39,.5)\'/>';
-    return s + '</svg><p class=\'apm-note\' style=\'margin:4px 0 0\'><span style=\'color:#7d8794\'>- - planned</span> · <span style=\'color:#fab219\'>— actual</span> · <span style=\'color:#fab219\'>- - forecast</span></p>';
+    var nx = X(Math.floor(NOW_YM)); s += '<line x1=\'' + nx + '\' x2=\'' + nx + '\' y1=\'' + padT + '\' y2=\'' + (H - padB) + '\' stroke=\'rgba(143,208,242,.5)\'/>';
+    return s + '</svg><p class=\'apm-note\' style=\'margin:4px 0 0\'><span style=\'color:#62809d\'>- - planned</span> · <span style=\'color:#fab219\'>— actual</span> · <span style=\'color:#fab219\'>- - forecast</span></p>';
   }
   var ASSET_KPI_LABEL = {
     pax: { 'Transport interchange': 'Rail and tram passengers', 'Walkway': 'Footfall', 'Security': 'Passengers screened', _: 'Departing passengers' },
@@ -1085,7 +1097,7 @@
     if (d.sla !== null && d.sla < 0.9) out.push([STATUS.serious, '⏱', '<b>Only ' + pct(d.sla) + ' of passengers clear security within 15 minutes</b>, against a 95% target. Queues grew after Terminal 1 closed.']);
     if (d.cond !== null && d.cond < 3) out.push([STATUS.serious, '⚒', '<b>Condition ' + d.cond.toFixed(1) + ' / 5.</b> ' + (proj.length ? esc(proj[0].name) + ' is ' + proj[0].status.toLowerCase() + '.' : 'Renewal needed.')]);
     var vb = d.bebitda ? (d.ebitda - d.bebitda) / Math.abs(d.bebitda) : null;
-    if (vb !== null && Math.abs(vb) > 0.06) out.push([vb > 0 ? '#2a78d6' : STATUS.serious, vb > 0 ? '↑' : '↓', '<b>EBITDA ' + pct(vb, true) + ' vs budget.</b>' + (a.terminal === 'T2' && vb > 0 ? ' More passengers moved here from Terminal 1 than planned.' : a.terminal === 'T3' && vb < 0 ? ' Fewer passengers moved here from Terminal 1 than planned.' : '')]);
+    if (vb !== null && Math.abs(vb) > 0.06) out.push([vb > 0 ? '#4f9fd4' : STATUS.serious, vb > 0 ? '↑' : '↓', '<b>EBITDA ' + pct(vb, true) + ' vs budget.</b>' + (a.terminal === 'T2' && vb > 0 ? ' More passengers moved here from Terminal 1 than planned.' : a.terminal === 'T3' && vb < 0 ? ' Fewer passengers moved here from Terminal 1 than planned.' : '')]);
     return { flags: out.map(function (f) { return '<div class=\'apm-flag\'><i style=\'background:' + f[0] + '\'>' + f[1] + '</i><div>' + f[2] + '</div></div>'; }).join(''), proj: proj };
   }
   function renderAsset() {
@@ -1112,11 +1124,11 @@
       '<div class=\'apm-row\' style=\'cursor:default;border-top:1px solid rgba(255,255,255,.1);border-radius:0;padding-top:8px\'><span><b>EBITDA</b> <small>' + (rev ? pct(d.ebitda / rev) + ' margin' : '') + '</small></span><b class=\'' + (d.ebitda >= 0 ? 'up' : 'dn') + '\'>' + money(d.ebitda) + '</b></div>' +
       (d.dep ? row('Depreciation', -d.dep) : '') + row('Operating profit', d.op, true, d.op >= 0 ? 'up' : 'dn') + '</div>' +
       (vb !== null ? '<p class=\'apm-note\'>EBITDA <span class=\'' + (vb >= 0 ? 'up' : 'dn') + '\'>' + pct(vb, true) + '</span> vs budget of ' + money(d.bebitda) + '.</p>' : '') + '</div>';
-    h += '<div class=\'apm-sec apm-chart\'><h3 class=\'apm-h\'>2026 EBITDA by month <span style=\'text-transform:none;letter-spacing:0;color:#a9b3bf\'>· bars actual, <span style=\'color:#ffc627\'>line budget</span></span></h3><div id=\'apm-trend\'>' + trendSvg(S.trend && S.trend.code === 'A:' + a.id ? S.trend : null) + '</div></div>';
+    h += '<div class=\'apm-sec apm-chart\'><h3 class=\'apm-h\'>2026 EBITDA by month <span style=\'text-transform:none;letter-spacing:0;color:#9cb3c9\'>· bars actual, <span style=\'color:#fbbf24\'>line budget</span></span></h3><div id=\'apm-trend\'>' + trendSvg(S.trend && S.trend.code === 'A:' + a.id ? S.trend : null) + '</div></div>';
     if (fl.proj.length) {
       h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Capital projects on this asset</h3><div class=\'apm-list\'>' + fl.proj.map(function (p) {
         return '<button class=\'apm-row\' data-act=\'proj\' data-v=\'' + esc(p.id) + '\'><span>' + esc(p.name) + '<small>' + esc(p.status) + ' · ' + ymLabel(p.e - 1) + '</small></span><b>' + money(p.forecast) + '</b></button>';
-      }).join('') + '</div>' + ganttSvg(fl.proj.map(function (p) { return { id: p.id, bars: p.phases.map(function (ph) { return { s: ph.s, e: ph.e, c: PHASE_C[ph.name] || '#7d8794', t: ph.name }; }) }; })) + '</div>';
+      }).join('') + '</div>' + ganttSvg(fl.proj.map(function (p) { return { id: p.id, bars: p.phases.map(function (ph) { return { s: ph.s, e: ph.e, c: PHASE_C[ph.name] || '#62809d', t: ph.name }; }) }; })) + '</div>';
     }
     if (a.type === 'Terminal' || a.type === 'Pier') {
       var inside = S.units.filter(function (u) { return a.type === 'Pier' ? u.zone === a.id : u.terminal === a.terminal; });
@@ -1138,13 +1150,13 @@
       tile('Spent to date', money(p.spent)) + tile('Complete', pct(p.pct)) + '</div>' +
       '<div class=\'apm-bar\' style=\'margin-top:10px;height:6px\'><i style=\'width:' + Math.max(2, p.pct * 100) + '%;background:' + c + '\'></i></div>' +
       '<p class=\'apm-note\'>Now in <b>' + esc(phaseAt(p, NOW_YM)) + '</b> · ' + ymLabel(p.s) + ' to ' + ymLabel(p.e - 1) + '</p></div>';
-    h += '<div class=\'apm-sec apm-chart\'><h3 class=\'apm-h\'>Timeline</h3>' + ganttSvg(p.phases.map(function (ph) { return { label: ph.name, bars: [{ s: ph.s, e: ph.e, c: PHASE_C[ph.name] || '#7d8794', t: ph.name + ': ' + ymLabel(ph.s) + ' to ' + ymLabel(ph.e - 1) }] }; }), { padL: 86, rowH: 20 }) + '</div>';
+    h += '<div class=\'apm-sec apm-chart\'><h3 class=\'apm-h\'>Timeline</h3>' + ganttSvg(p.phases.map(function (ph) { return { label: ph.name, bars: [{ s: ph.s, e: ph.e, c: PHASE_C[ph.name] || '#62809d', t: ph.name + ': ' + ymLabel(ph.s) + ' to ' + ymLabel(ph.e - 1) }] }; }), { padL: 86, rowH: 20 }) + '</div>';
     h += '<div class=\'apm-sec apm-chart\'><h3 class=\'apm-h\'>Cumulative spend</h3>' + scurveSvg(S.pspend && S.pspend.id === p.id ? S.pspend : null) + '</div>';
     var aff = p.affected.map(function (code) { return S.byCode[code]; }).filter(Boolean);
     h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Commercial impact during works</h3>' +
       (aff.length ? '<div class=\'apm-list\'>' + aff.map(function (u) { var x = unitData(u.code); return rowBtn(u, x ? money(x.profit) : '—', u.category); }).join('') + '</div>' : '<p class=\'apm-note\' style=\'margin:0\'>No commercial units disrupted.</p>') +
       (p.revImpact ? '<div class=\'apm-flag\'><i style=\'background:' + STATUS.serious + '\'>£</i><div><b>' + money(p.revImpact) + ' of revenue at risk</b> while works are on site.</div></div>' : '') + '</div>';
-    h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Benefits</h3><p class=\'apm-note\' style=\'margin:0;color:#eef1f4\'>' + esc(p.benefits) + '</p><h3 class=\'apm-h\' style=\'margin-top:12px\'>Key risks</h3><p class=\'apm-note\' style=\'margin:0\'>' + esc(p.risks) + '</p></div>';
+    h += '<div class=\'apm-sec\'><h3 class=\'apm-h\'>Benefits</h3><p class=\'apm-note\' style=\'margin:0;color:#eef4f9\'>' + esc(p.benefits) + '</p><h3 class=\'apm-h\' style=\'margin-top:12px\'>Key risks</h3><p class=\'apm-note\' style=\'margin:0\'>' + esc(p.risks) + '</p></div>';
     $('apm-side').innerHTML = h;
   }
   function programmeHtml() {
@@ -1441,7 +1453,7 @@
     S.assets.forEach(function (a) { if ((a.id + ' ' + a.type).toLowerCase().indexOf(q) >= 0) hits.push(['asset', a.id, a.id, a.type]); });
     S.units.forEach(function (u) { if ((u.name + ' ' + u.tenant + ' ' + u.code + ' ' + u.category).toLowerCase().indexOf(q) >= 0) hits.push(['unit', u.code, u.name, u.code]); });
     hits = hits.slice(0, 8);
-    box.innerHTML = hits.length ? hits.map(function (h) { return '<button data-act=\'pick\' data-k=\'' + h[0] + '\' data-v=\'' + esc(h[1]) + '\'><span>' + esc(h[2]) + '</span><small style=\'color:#7d8794\'>' + esc(h[3]) + '</small></button>'; }).join('') : '<div style=\'padding:8px 10px;color:#7d8794\'>Nothing matches “' + esc(q) + '”.</div>';
+    box.innerHTML = hits.length ? hits.map(function (h) { return '<button data-act=\'pick\' data-k=\'' + h[0] + '\' data-v=\'' + esc(h[1]) + '\'><span>' + esc(h[2]) + '</span><small style=\'color:#62809d\'>' + esc(h[3]) + '</small></button>'; }).join('') : '<div style=\'padding:8px 10px;color:#62809d\'>Nothing matches “' + esc(q) + '”.</div>';
     box.hidden = false;
   }
   function onPick(e) {

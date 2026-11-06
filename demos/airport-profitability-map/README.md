@@ -103,6 +103,14 @@ The Frame is built in the Viridian workspace, in the app **MAG Commercial & Esta
 
 Frame: `MAG Commercial & Estate Map` (`3acaf510-d692-4ca4-8af1-5b7b7baefa0a`). Its body is `dist/frame-body.min.js` (157 KB). It was pushed in 19,000-character chunks and read back byte for byte. To show it, add the Frame to a board in the Pigment UI; the board API cannot place Frames.
 
+### Look and feel
+
+The Frame shares the MAG Aviation Income route-network Frame's design language so the two read as one solution:
+
+- the MAG logo, navy (`#012f60`) and sky (`#8fd0f2`) palette, and Inter type;
+- light header and KPI cards over a dark navy map (`#011326`), with glass panels for the floating controls;
+- amber (`#f59e0b`) for anything what-if, and amber dashed lines for budget.
+
 ### Lists
 
 | List | Items | Notes |
