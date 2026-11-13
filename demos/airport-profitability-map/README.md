@@ -1,4 +1,4 @@
-# Airport Profitability Map: Manchester Airport prototype (Pigment Frame)
+# Airport Profitability Map: Manchester and London Gatwick (Pigment Frame)
 
 An interactive floor plan of Manchester Airport (MAN) with each commercial unit coloured by how
 much profit it makes for the airport. Viewers drill from the airport to a terminal, a pier and a
@@ -96,6 +96,44 @@ same.
 Use the arrow keys to step through and Esc to exit.
 
 All asset, operational, financial and project data is **example data**. The projects are illustrative and are not Manchester Airports Group plans.
+
+## London Gatwick edition
+
+The same Frame also renders **London Gatwick (LGW)**. `build.js` produces one Frame body per airport (`dist/frame-body.min.js` for Manchester, `dist/frame-body-lgw.min.js` for Gatwick). Both read the same Pigment application, and each shows only its own airport.
+
+### Accuracy
+
+| Real (OpenStreetMap and public sources) | Schematic or invented |
+|---|---|
+| North and South Terminal **outlines**, every pier (1 to 6), the Pier 3 satellite and its bridge, and the Pier 6 air bridge over the taxiway | The airside/landside split inside each terminal, the security line and every unit position |
+| **All 119 stands** with their real numbers and parking headings; the 75 contact stands are the gates (Pier 1 `1M`–`5M`, Pier 2 `10`–`28`, Pier 3 `31`–`38`, Pier 4 `46`–`54`, Pier 5 `551`–`569`, Pier 6 `681`–`698`) | Each gate's share of its terminal's passengers |
+| Aprons and the taxiway network; the airfield outline is a smoothed envelope around them | Every unit's sales, costs, profit, lease and guarantee; budgets; asset P&L and KPIs |
+| Runways **08R/26L (3,316 m)** and **08L/26R (2,565 m, standby)** at their surveyed thresholds | The split of passengers between terminals (about 52/48, with a spring shift north) |
+| Named buildings: Sofitel, Premier Inn, Hampton by Hilton, Cargo Terminal, Hangars 6, 7, 9 and 11, Control Tower, Fire Station, Short Stay North 5, Car Park 6 | Station footprint (it sits east of the South Terminal), the shuttle line, and the Long Stay North, Long Stay South, Short Stay South and Meet & Greet car-park positions |
+| About **43M passengers in 2025**; 2026 set slightly above | Projects other than the Northern Runway are illustrative |
+| The **Northern Runway** (08L/26R moved 12 m north for dual operations; development consent 2025; about £2.2bn) | |
+
+The layout comes from `data/egkk-layout.json`, generated from OpenStreetMap by the open-source ultimate-atc project's importer. **Data © OpenStreetMap contributors, ODbL 1.0.** Any page that shows the Gatwick map must carry that attribution. The geometry has no Google or other proprietary source, so unlike the Manchester basemap it can be shown to a customer with the attribution.
+
+**Not yet drawn: landside roads, rail and land use.** They need a live OpenStreetMap query (Overpass), and that host is blocked from the build environment. Once `overpass-api.de` is allowed, add them to `tools/build_lgw_geo.py` and move the approximate car parks onto their real footprints.
+
+### How it is built
+
+- `tools/build_lgw_geo.py data/egkk-layout.json src/geo-lgw.json` projects the layout and rotates it so runway 08R/26L runs left to right. True north is 12.3° clockwise of up, and the compass and stand headings allow for it. It then cuts the terminal outlines into piers and zones and writes the basemap: airfield, paved areas, and building footprints as `bldNN` classes extruded NN units high in 3D. 1 unit = 1.34 m, the scale the Frame is tuned for.
+- `src/mock-lgw.js` is the Gatwick generator and model engine, the counterpart of `mock-sdk.js`. It checks that every unit sits inside its zone outline (`node tools/export_pigment.js LGW` lists any that do not).
+- Map Object `Meta` carries `ap:'LGW'` and a `pg` outline (`x,y x,y …`), and Gatwick unit codes start `LGW-`. The Manchester Frame ignores both.
+- The Frame draws `pg` outlines as real shapes in 2D and as extruded floors, walls and roofs in 3D. Airport settings sit in the `AIRPORTS` constant at the top of `frame.js`: view, area tabs, story, camera, compass offset and label sizes.
+
+### Gatwick story
+
+1. London Gatwick at a glance.
+2. Airline moves shift passengers north: North Terminal above budget, South Terminal below.
+3. South Terminal security is under pressure.
+4. The response: South Terminal security and departure lounge expansion.
+5. Pier 5 air-bridge works take stands 560 to 569 out of action.
+6. The South Terminal arrivals café loses money, and the arrivals hall refit fixes it.
+7. The Northern Runway.
+8. The whole capital programme.
 
 ## Built in Pigment
 

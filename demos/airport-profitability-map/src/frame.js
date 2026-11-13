@@ -47,6 +47,7 @@
     },
     LGW: {
       code: 'LGW', logo: LGW_MARK, logoTitle: 'London Gatwick',
+      attribution: 'Layout © OpenStreetMap contributors (ODbL)',
       config: { airport: 'London Gatwick', title: 'Commercial & estate map', subtitle: 'London Gatwick · 2026 · Actual & Budget', currency: '£', disclaimer: 'Illustrative data' },
       // Runway-aligned map space: runway 08R/26L runs left to right, true north is 12.3° clockwise of up. 1 unit = 1.34 m.
       world: { x: 0, y: 0, w: 3470, h: 1866 },
@@ -330,6 +331,7 @@
     '.up{color:var(--good)}.dn{color:var(--bad)}',
     '.apm-main{flex:1;display:flex;min-height:0}',
     '.apm-map{position:relative;flex:1;min-width:0;overflow:hidden;background:var(--bg)}',
+    '.apm-attr{position:absolute;right:62px;bottom:6px;z-index:4;font-size:10px;color:rgba(169,219,243,.7);background:rgba(1,19,38,.6);padding:1px 6px;border-radius:4px;pointer-events:none}',
     '.apm-map svg{display:block;width:100%;height:100%;cursor:grab;touch-action:none;user-select:none}',
     '.apm-map svg.drag{cursor:grabbing}',
     '.apm-float{position:absolute;display:flex;gap:6px;align-items:center;z-index:5}',
@@ -517,6 +519,7 @@
           '<div class=\'apm-float apm-crumbs\' id=\'apm-crumbs\'></div>' +
           '<div class=\'apm-float apm-tools\'><div class=\'apm-seg\'><button data-act=\'mode\' id=\'apm-modebtn\' aria-pressed=\'true\'>3D</button></div><button class=\'apm-btn\' data-act=\'flow\' id=\'apm-flowbtn\' aria-pressed=\'false\'>Passenger flow</button><button class=\'apm-btn\' data-act=\'projects\' id=\'apm-projbtn\' aria-pressed=\'false\'>⚒ Capital projects</button><div id=\'apm-scn\'></div></div>' +
           '<div class=\'apm-float apm-legend\' id=\'apm-legend\'></div>' +
+          (AP.attribution ? '<div class=\'apm-attr\'>' + esc(AP.attribution) + '</div>' : '') +
           '<div class=\'apm-float apm-zoom\'><button class=\'apm-btn apm-3donly\' data-act=\'rot\' data-v=\'-45\' aria-label=\'Rotate left\'>⟲</button><button class=\'apm-btn apm-3donly\' data-act=\'rot\' data-v=\'45\' aria-label=\'Rotate right\'>⟳</button><button class=\'apm-btn apm-3donly\' data-act=\'tilt\' aria-label=\'Toggle top-down view\'>⊤</button><button class=\'apm-btn\' data-act=\'zin\' aria-label=\'Zoom in\'>+</button><button class=\'apm-btn\' data-act=\'zout\' aria-label=\'Zoom out\'>−</button><button class=\'apm-btn\' data-act=\'zreset\' aria-label=\'Show whole airport\'>⤢</button></div>' +
           '<div class=\'apm-month\' id=\'apm-month\' hidden></div>' +
           '<div class=\'apm-float apm-pfilter\' id=\'apm-pfilter\' hidden></div>' +
