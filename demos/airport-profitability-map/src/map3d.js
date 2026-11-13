@@ -20,7 +20,7 @@
     compass.className = 'apm-compass'; compass.type = 'button'; compass.setAttribute('aria-label', 'Reset the view to north up');
     compass.innerHTML = '<svg viewBox=\'-20 -20 40 40\' width=\'40\' height=\'40\' aria-hidden=\'true\'><circle r=\'18\' fill=\'rgba(2,27,54,.9)\' stroke=\'rgba(169,219,243,.3)\'/><path d=\'M0,-13 L5,2 L0,0 L-5,2 Z\' fill=\'#8fd0f2\'/><path d=\'M0,13 L5,-2 L0,0 L-5,-2 Z\' fill=\'#3a5878\'/><text y=\'-15.5\' text-anchor=\'middle\' font-size=\'6\' font-weight=\'800\' fill=\'#eef4f9\'>N</text></svg>';
     host.appendChild(compass);
-    function onCompass() { startTween({ tx: cam.tx, tz: cam.tz, dist: cam.dist, yaw: 0, pitch: cam.pitch }, 600); }
+    function onCompass() { startTween({ tx: cam.tx, tz: cam.tz, dist: cam.dist, yaw: -AP.northDeg, pitch: cam.pitch }, 600); }
     compass.addEventListener('click', onCompass);
     var aniso = gl.getExtension('EXT_texture_filter_anisotropic') || gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
 
@@ -138,6 +138,56 @@
       this.quad(P(-hf, -hr, y0), P(hf, -hr, y0), P(hf, -hr, y1), P(-hf, -hr, y1), [-rx, 0, -rz], col, k);
       this.quad(P(hf, hr, y0), P(-hf, hr, y0), P(-hf, hr, y1), P(hf, hr, y1), [rx, 0, rz], col, k);
     };
+    // ear-clipping triangulation of a simple polygon [[x,z],...]; returns index triples
+    function triangulate(P) {
+      var n = P.length, i, area = 0, V = [], out = [];
+      if (n < 3) return out;
+      for (i = 0; i < n; i++) { var q = P[(i + 1) % n]; area += P[i][0] * q[1] - q[0] * P[i][1]; }
+      for (i = 0; i < n; i++) V.push(area > 0 ? i : n - 1 - i);
+      var m = n, cnt = 2 * m, v = m - 1;
+      while (m > 2) {
+        if (cnt-- <= 0) break;
+        var u = v; if (m <= u) u = 0; v = u + 1; if (m <= v) v = 0; var w = v + 1; if (m <= w) w = 0;
+        if (ear(P, u, v, w, m, V)) { out.push([V[u], V[v], V[w]]); for (var a = v, b = v + 1; b < m; a++, b++) V[a] = V[b]; m--; cnt = 2 * m; }
+      }
+      return out;
+    }
+    function ear(P, u, v, w, m, V) {
+      var A = P[V[u]], B = P[V[v]], C = P[V[w]];
+      if ((B[0] - A[0]) * (C[1] - A[1]) - (B[1] - A[1]) * (C[0] - A[0]) < 1e-9) return false;
+      for (var p = 0; p < m; p++) {
+        if (p === u || p === v || p === w) continue;
+        var Q = P[V[p]];
+        if ((C[0] - B[0]) * (Q[1] - B[1]) - (C[1] - B[1]) * (Q[0] - B[0]) >= 0 && (A[0] - C[0]) * (Q[1] - C[1]) - (A[1] - C[1]) * (Q[0] - C[0]) >= 0 && (B[0] - A[0]) * (Q[1] - A[1]) - (B[1] - A[1]) * (Q[0] - A[0]) >= 0) return false;
+      }
+      return true;
+    }
+    var triCache = typeof WeakMap !== 'undefined' ? new WeakMap() : null;
+    // flat-topped prism over a polygon outline; sides=false draws the top face only
+    GB.prototype.poly = function (P, y0, y1, col, k, topCol, sides) {
+      k = k || this.curK || [0, 0, 0];
+      var T = triCache && triCache.get(P);
+      if (!T) { T = triangulate(P); if (triCache) triCache.set(P, T); }
+      var self = this, tc = topCol || col;
+      T.forEach(function (t) { t.forEach(function (i) { self.v([P[i][0], y1, P[i][1]], [0, 1, 0], tc, k); }); });
+      if (sides === false) return;
+      for (var j = 0; j < P.length; j++) {
+        var a = P[j], b = P[(j + 1) % P.length], nx = b[1] - a[1], nz = -(b[0] - a[0]), l = Math.hypot(nx, nz) || 1;
+        self.quad([a[0], y0, a[1]], [b[0], y0, b[1]], [b[0], y1, b[1]], [a[0], y1, a[1]], [nx / l, 0, nz / l], col, k);
+      }
+    };
+    // vertical walls along a polygon outline (no roof), for see-through terminals
+    GB.prototype.pwalls = function (P, y0, y1, col, k) {
+      k = k || this.curK || [0, 0, 0];
+      for (var j = 0; j < P.length; j++) {
+        var a = P[j], b = P[(j + 1) % P.length], nx = b[1] - a[1], nz = -(b[0] - a[0]), l = Math.hypot(nx, nz) || 1;
+        this.quad([a[0], y0, a[1]], [b[0], y0, b[1]], [b[0], y1, b[1]], [a[0], y1, a[1]], [nx / l, 0, nz / l], col, k);
+        this.quad([a[0], y1 - 0.01, a[1]], [b[0], y1 - 0.01, b[1]], [b[0], y1 + 0.6, b[1]], [a[0], y1 + 0.6, a[1]], [0, 1, 0], C.wallTop, k);
+      }
+    };
+    function pathRings(d) {
+      return String(d).split('Z').filter(Boolean).map(function (r) { return r.replace(/^M/, '').split('L').map(function (q) { var c = q.trim().split(','); return [Number(c[0]), Number(c[1])]; }); }).filter(function (r) { return r.length > 2; });
+    }
     GB.prototype.wedge = function (cx, cz, fx, fz, pts, y0, y1, col) {
       // flat prism from a 2D outline given in (forward, right) coordinates
       var rx = -fz, rz = fx, k = this.curK || [0, 0, 0], self = this;
@@ -174,17 +224,18 @@
     // ------------------------------------------------------- ground art
     function paintGround(ctx) {
       ctx.fillStyle = BASE_COLORS.land; ctx.fillRect(-500, -500, WORLD.w + 1000, WORLD.h + 1000);
-      var order = { airfield: 0, urban: 1, forest: 2, beige: 3, water: 4, apronbld: 5, paved: 6, roadfill: 7 };
-      var base = S.features.filter(function (f) { return f.type === 'base'; }).sort(function (a, b) { return (order[a.cls] || 0) - (order[b.cls] || 0); });
+      var order = { airfield: 0, urban: 1, forest: 2, beige: 3, water: 4, paved: 5, apronbld: 6, roadfill: 7 };
+      var base = S.features.filter(function (f) { return f.type === 'base'; }).sort(function (a, b) { return (order[baseCls(a.cls)] || 0) - (order[baseCls(b.cls)] || 0); });
       base.forEach(function (f) {
         if (f.cls === 'roadfill') return;
-        ctx.fillStyle = BASE_COLORS[f.cls] || BASE_COLORS.land;
+        ctx.fillStyle = BASE_COLORS[baseCls(f.cls)] || BASE_COLORS.land;
         ctx.fill(new Path2D(f.path), 'evenodd');
       });
       // apron concrete around piers and terminals (airside)
       ctx.fillStyle = '#1a3a5c';
       S.features.forEach(function (f) {
         if (f.type !== 'pier' && f.type !== 'ghostpier' && f.type !== 'terminal' && f.type !== 'closed') return;
+        if (f.pg) return;   // real outlines sit on real aprons
         var r = f.box, pad = f.type === 'pier' ? 78 : 26;
         roundRect(ctx, r.x - pad, r.y - pad, r.w + pad * 2, r.h + pad * 2, 18); ctx.fill();
       });
@@ -282,8 +333,11 @@
         var r = f.box;
         gb.curK = f.asset && S.assetIdx[f.asset] !== undefined ? pickCol(10000 + S.assetIdx[f.asset]) : null;
         switch (f.type) {
-          case 'terminal': gb.box(r.x, r.y, r.x + r.w, r.y + r.h, 0, FLOOR, C.floor); walls(gb, r, WALL.terminal); break;
+          case 'terminal':
+            if (f.pg) { gb.poly(f.pg, 0, FLOOR, C.floor); gb.pwalls(f.pg, FLOOR, WALL.terminal, C.wall); break; }
+            gb.box(r.x, r.y, r.x + r.w, r.y + r.h, 0, FLOOR, C.floor); walls(gb, r, WALL.terminal); break;
           case 'pier':
+            if (f.pg) { gb.poly(f.pg, 0, FLOOR, C.floor); gb.pwalls(f.pg, FLOOR, WALL.pier, C.wall); break; }
             gb.box(r.x, r.y, r.x + r.w, r.y + r.h, 0, FLOOR, C.floor); walls(gb, r, WALL.pier);
             if (r.w > r.h) gb.box(r.x + 4, r.y + 54, r.x + r.w - 4, r.y + r.h - 54, FLOOR, FLOOR + 0.3, C.slab);
             else gb.box(r.x + r.w / 2 - 14, r.y + 4, r.x + r.w / 2 + 14, r.y + r.h - 4, FLOOR, FLOOR + 0.3, C.slab);
@@ -291,7 +345,11 @@
           case 'closed': gb.box(r.x, r.y, r.x + r.w, r.y + r.h, 0, 11, C.closed, null, col('#1f3a57')); break;
           case 'ghostpier': gb.box(r.x, r.y, r.x + r.w, r.y + r.h, 0, 4, C.closed); break;
           case 'station': gb.box(r.x, r.y, r.x + r.w, r.y + r.h, 0, WALL.station, C.station, null, C.stationTop); gb.box(r.x + 8, r.y + 8, r.x + r.w - 8, r.y + r.h - 8, WALL.station, WALL.station + 2.5, C.glass); break;
-          case 'walkway': gb.box(r.x, r.y, r.x + r.w, r.y + r.h, 9, 13, C.glass, null, col('#6fa8cf')); break;
+          case 'walkway': if (f.pg) gb.poly(f.pg, 9, 13, C.glass, null, col('#6fa8cf')); else gb.box(r.x, r.y, r.x + r.w, r.y + r.h, 9, 13, C.glass, null, col('#6fa8cf')); break;
+          case 'base':
+            var bh = /^bld(\d+)/.exec(f.cls || '');
+            if (bh) { var H0 = Number(bh[1]); gb.curK = null; pathRings(f.path).forEach(function (P) { gb.poly(P, 0, H0, H0 >= 20 ? C.hotel : C.shed, null, H0 >= 20 ? C.hotelTop : col('#2a4d72')); }); }
+            break;
           case 'holdroom':
             gb.box(r.x, r.y, r.x + r.w, r.y + r.h, FLOOR, FLOOR + 0.25, C.slab);
             var horiz = r.w > r.h, n = 3;
@@ -316,6 +374,7 @@
             if (/radisson/i.test(f.name)) gb.box(r.x - 28, r.y - 34, r.x + 28, r.y + 26, 0, 46, C.hotel, null, C.hotelTop);
             else if (/clayton/i.test(f.name)) gb.box(r.x - 26, r.y - 30, r.x + 30, r.y + 22, 0, 34, C.hotel, null, C.hotelTop);
             else if (/freight/i.test(f.name)) { gb.box(r.x - 80, r.y - 50, r.x + 40, r.y + 10, 0, 13, C.shed); gb.box(r.x - 60, r.y + 22, r.x + 70, r.y + 74, 0, 11, C.shed); }
+            else if (r.w > 0) { po.curK = gb.curK; po.box(r.x, r.y, r.x + r.w, r.y + r.h, 0, (f.ht || 10) + 0.5, [0, 0, 0, 1]); }   // real building drawn by the basemap; pick box only
             break;
         }
       });
@@ -360,7 +419,8 @@
           if (f.asset !== S.selAsset || f.type === 'gate') return;
           var r = f.box, Y = { terminal: WALL.terminal + 3, pier: WALL.pier + 3, closed: 14, station: WALL.station + 4, walkway: 15, stand: 12, security: 6, checkin: 6, holdroom: 4 }[f.type] || 10;
           if (f.type === 'runwayline') { var L1 = f.line, l1 = Math.hypot(L1[2] - L1[0], L1[3] - L1[1]); sel.obox((L1[0] + L1[2]) / 2, (L1[1] + L1[3]) / 2, (L1[2] - L1[0]) / l1, (L1[3] - L1[1]) / l1, l1 / 2 + 6, 26, 0.2, 5, [0.56, 0.82, 0.95, 0.4]); return; }
-          if (f.type === 'poi') { sel.box(r.x - 40, r.y - 44, r.x + 40, r.y + 36, 0, 52, [0.56, 0.82, 0.95, 0.25]); return; }
+          if (f.type === 'poi') { if (r.w > 0) sel.box(r.x - 3, r.y - 3, r.x + r.w + 3, r.y + r.h + 3, 0, (f.ht || 10) + 4, [0.56, 0.82, 0.95, 0.3]); else sel.box(r.x - 40, r.y - 44, r.x + 40, r.y + 36, 0, 52, [0.56, 0.82, 0.95, 0.25]); return; }
+          if (f.pg) { sel.poly(f.pg, 0, Y, [0.56, 0.82, 0.95, f.type === 'terminal' || f.type === 'pier' ? 0.14 : 0.3]); return; }
           sel.box(r.x - 3, r.y - 3, r.x + r.w + 3, r.y + r.h + 3, 0, Y, [0.56, 0.82, 0.95, f.type === 'terminal' || f.type === 'pier' ? 0.14 : 0.3]);
         });
       }
@@ -379,6 +439,7 @@
         if (S.zone && S.zone !== g.zone) c = mix(c, grey, 0.6);
         f.forEach(function (ff) {
           var r = ff.box, h = ff.type === 'pier' ? WALL.pier : ff.type === 'station' ? WALL.station + 2.6 : WALL.terminal;
+          if (ff.pg) { rb.poly(ff.pg, h, h + 2, c, pickCol(5000 + i)); aggList.push({ zone: g.zone, x: r.x + r.w / 2, z: r.y + r.h / 2, y: h + 2, text: vals[i].text, w: r.w }); return; }
           rb.box(r.x + 1, r.y + 1, r.x + r.w - 1, r.y + r.h - 1, h, h + 2, c, pickCol(5000 + i));
           aggList.push({ zone: g.zone, x: r.x + r.w / 2, z: r.y + r.h / 2, y: h + 2, text: vals[i].text, w: r.w });
         });
@@ -576,7 +637,7 @@
         var r = f.box;
         if (f.type === 'place') addLabel(f.label, 'place', f.labelX, 0, f.labelY, function (d) { return d > 1500; });
         else if (f.type === 'roadlabel') addLabel(f.label, 'road', f.labelX, 0, f.labelY, function (d) { return d > 1300 && d < 6000; });
-        else if (f.type === 'poi') addLabel(f.label, 'poi', r.x, /radisson/i.test(f.name) ? 48 : /clayton/i.test(f.name) ? 36 : 16, r.y, function (d) { return d < 3600; });
+        else if (f.type === 'poi') addLabel(f.label, 'poi', f.labelX !== null ? f.labelX : r.x, f.ht ? f.ht + 4 : /radisson/i.test(f.name) ? 48 : /clayton/i.test(f.name) ? 36 : 16, f.labelY !== null ? f.labelY : r.y, function (d) { return d < 3600; });
         else if (f.type === 'terminal' || f.type === 'closed') addLabel(f.label + (f.sub ? ' · ' + f.sub : ''), 'term' + (f.type === 'closed' ? ' closed' : ''), r.x + r.w / 2, f.type === 'closed' ? 14 : WALL.terminal + 4, r.y + (f.type === 'closed' ? r.h / 2 : 0), function (d) { return f.type === 'closed' ? d < 2600 : d > 700 && d < 2400; });
         else if (f.type === 'gate' && !f.closed) addLabel(f.label, 'gate', r.x, 7, r.y, function (d) { return d < 1000; });
       });
@@ -587,7 +648,7 @@
     }
     function updateLabels() {
       var ra = roofAlpha();
-      compass.firstChild.style.transform = 'rotate(' + cam.yaw.toFixed(1) + 'deg)';
+      compass.firstChild.style.transform = 'rotate(' + (cam.yaw + AP.northDeg).toFixed(1) + 'deg)';
       var tops = {};
       unitList.forEach(function (e) { tops[e.u.code] = e.top; });
       var zoneLabels = {};
@@ -625,11 +686,11 @@
         overlay.appendChild(el);
       });
       if (cam.dist >= 2300 && !S.showProjects) {
-        [['T2', 'Terminal 2'], ['T3', 'Terminal 3'], ['Landside', 'Station & Skylink'], ['Ground', 'Car parks']].forEach(function (t) {
+        AP.callouts.forEach(function (t) {
           var pts = S.units.filter(function (u) { return u.terminal === t[0]; });
           if (!pts.length) return;
           var cx = 0, cz = 0; pts.forEach(function (u) { cx += u.box.x + u.box.w / 2; cz += u.box.y + u.box.h / 2; }); cx /= pts.length; cz /= pts.length;
-          if (t[0] === 'Ground') { cx = 3150; cz = 520; }
+          if (t.length > 2) { cx = t[2]; cz = t[3]; }
           var p = project([cx, 60, cz]);
           if (!p || p.x < 0 || p.y < 0 || p.x > cssW || p.y > cssH) return;
           var a = zoneAgg(t[0], S.lens, 'terminal');
@@ -672,7 +733,7 @@
       var aspect = cssW / cssH, t = Math.tan(FOV / 2);
       return Math.max(box.w / aspect, box.h * 1.25) / (2 * t) * 1.05;
     }
-    var HERO = { tx: 2330, tz: 1180, dist: 2750, yaw: -22, pitch: 41 };
+    var HERO = AP.hero;
     function flyTo(box, pad, opts) {
       if (box === AIRPORT_VIEW) { startTween({ tx: HERO.tx, tz: HERO.tz, dist: HERO.dist, yaw: HERO.yaw, pitch: HERO.pitch }, 1300); return; }
       pad = pad || 0;
@@ -804,11 +865,11 @@
         resize();
         var max = Math.min(4096, gl.getParameter(gl.MAX_TEXTURE_SIZE));
         tex.all = makeTexture({ x: -200, y: -200, w: WORLD.w + 400, h: WORLD.h + 400 }, Math.min(2048, max));
-        tex.detail = makeTexture({ x: 1440, y: -40, w: 2120, h: 1720 }, max);
+        tex.detail = makeTexture(AP.detail, max);
         groundQuad('groundFar', { x: -9000, y: -9000, w: WORLD.w + 18000, h: WORLD.h + 18000 }, -0.6, tex.all);
         meshes.groundFar.tex = (function () { var t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t); var c = col(BASE_COLORS.land); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([c[0] * 255, c[1] * 255, c[2] * 255, 255])); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); return t; })();
         groundQuad('groundAll', { x: -200, y: -200, w: WORLD.w + 400, h: WORLD.h + 400 }, 0, tex.all);
-        groundQuad('groundDetail', { x: 1440, y: -40, w: 2120, h: 1720 }, 0.05, tex.detail);
+        groundQuad('groundDetail', AP.detail, 0.05, tex.detail);
         buildStatic();
         buildLabels();
         var v = AIRPORT_VIEW;

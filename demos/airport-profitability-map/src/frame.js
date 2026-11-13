@@ -25,15 +25,51 @@
   var AS_OF = new Date('2026-10-31T00:00:00Z');
   var PERIODS = [{ key: 'ytd', label: 'YTD Oct 2026', months: MONTHS.slice(0, 10) }, { key: 'fy', label: 'FY 2026 · actual + forecast', months: MONTHS.slice() }];
   MONTHS.forEach(function (m, i) { PERIODS.push({ key: 'm' + i, label: m + (i > LAST_ACTUAL ? ' · forecast' : ''), months: [m] }); });
-  var CONFIG = { airport: 'Manchester Airport', title: 'Commercial & estate map', subtitle: 'Manchester Airport · 2026 · Actual & Budget', currency: '£', disclaimer: 'Illustrative data' };
   // MAG logo, shared with the MAG Aviation Income route-network Frame so both read as one solution.
   var MAG_LOGO = "<svg style='display:block;width:100%;height:100%' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 159.4 100'><defs><linearGradient id='mgA' x1='0' y1='1' x2='.75' y2='0'><stop offset='0' stop-color='#8a939c'/><stop offset='.55' stop-color='#cdd3d8'/><stop offset='.8' stop-color='#f1f3f5'/><stop offset='1' stop-color='#dfe3e7'/></linearGradient><linearGradient id='mgB' x1='0' y1='0' x2='1' y2='.6'><stop offset='0' stop-color='#86c6e8'/><stop offset='.6' stop-color='#b4def4'/><stop offset='1' stop-color='#d9effa'/></linearGradient></defs><path fill='url(#mgA)' d='M58.0 0.3 40.5 5.1 37.5 6.7 34.7 8.2 32.1 9.8 29.6 11.3 27.2 12.9 24.9 14.5 22.8 16.0 20.7 17.6 18.8 19.1 17.0 20.7 15.3 22.2 13.8 23.8 12.3 25.3 10.9 26.9 9.6 28.5 8.5 30.0 7.4 31.6 6.4 33.1 5.4 34.7 4.6 36.2 3.9 37.8 3.2 39.3 2.6 40.9 2.1 42.5 1.6 44.0 1.2 45.6 0.9 47.1 0.7 48.7 0.5 50.2 0.4 51.8 0.3 53.3 0.3 54.9 0.3 56.5 0.4 58.0 0.6 59.6 0.8 61.1 1.0 62.7 1.3 64.2 1.7 65.8 2.1 67.3 2.6 68.9 3.1 70.5 3.6 72.0 4.3 73.6 5.0 75.1 5.7 76.7 6.6 78.2 7.5 79.8 8.5 81.4 9.6 82.9 10.8 84.5 12.1 86.0 13.6 87.6 15.2 89.1 17.0 90.7 18.9 92.2 21.0 93.8 23.4 95.4 26.0 96.9 27.1 97.3 28.8 98.0 30.4 98.5 32.1 99.0 33.7 99.3 35.4 99.6 37.1 99.7 38.7 99.7 40.4 99.6 42.0 99.4 43.7 99.1 45.3 98.6 47.0 98.1 48.6 97.4 50.3 96.7 52.0 95.8 53.6 94.8 55.3 93.7 56.9 92.4 58.6 91.1 59.4 90.4 58.2 89.2 55.8 87.9 53.6 86.6 51.5 85.3 49.5 84.0 47.6 82.7 45.8 81.3 44.1 80.0 42.5 78.7 41.0 77.4 39.5 76.1 38.1 74.7 36.8 73.4 35.6 72.1 34.4 70.8 33.3 69.5 32.2 68.2 31.2 66.8 30.2 65.5 29.3 64.2 28.4 62.9 27.6 61.6 26.7 60.3 25.9 58.9 25.1 57.6 25.7 55.8 26.4 54.1 27.2 52.3 28.0 50.5 28.9 48.7 29.9 46.9 30.9 45.2 31.9 43.4 33.0 41.6 34.1 39.8 35.2 38.0 36.4 36.2 37.6 34.5 38.9 32.7 40.1 30.9 41.4 29.1 42.7 27.3 43.9 25.6 45.2 23.8 46.5 22.0 47.8 20.2 49.1 18.4 50.3 16.7 51.6 14.9 52.8 13.1 54.0 11.3 55.1 9.5 56.3 7.7 57.4 6.0Z'/><path fill='url(#mgB)' d='M25.1 57.6 25.9 58.9 26.7 60.3 27.6 61.6 28.4 62.9 29.3 64.2 30.2 65.5 31.2 66.8 32.2 68.2 33.3 69.5 34.4 70.8 35.6 72.1 36.8 73.4 38.1 74.7 39.5 76.1 41.0 77.4 42.5 78.7 44.1 80.0 45.8 81.3 47.6 82.7 49.5 84.0 51.5 85.3 53.6 86.6 55.8 87.9 58.2 89.2 59.4 90.4 58.6 91.1 56.5 92.8 54.4 94.3 52.3 95.6 50.2 96.7 48.1 97.7 46.0 98.4 43.9 99.0 41.8 99.4 39.7 99.7 37.6 99.7 35.6 99.6 33.5 99.3 31.4 98.8 29.3 98.1 28.7 96.9 27.4 95.3 26.3 93.8 25.3 92.2 24.4 90.6 23.6 89.1 23.0 87.5 22.4 85.9 22.0 84.4 21.6 82.8 21.3 81.3 21.2 79.7 21.1 78.1 21.0 76.6 21.1 75.0 21.2 73.4 21.4 71.9 21.7 70.3 22.0 68.7 22.3 67.2 22.7 65.6 23.1 64.0 23.6 62.5 24.1 60.9 24.6 59.3Z'/><path fill='#012f60' fill-rule='evenodd' d='M116.1 33.5 115.5 33.3 108.1 33.4 107.7 33.5 107.2 33.9 106.9 35.0 106.7 35.2 106.1 37.4 105.8 37.9 105.5 39.5 105.0 40.5 105.0 41.0 104.7 42.0 104.4 42.5 104.4 42.8 103.6 45.0 103.6 45.6 103.0 47.0 103.0 47.5 102.7 48.0 102.7 48.5 102.1 49.6 101.8 50.8 101.3 52.3 101.2 52.9 100.7 54.1 100.7 54.6 99.9 56.7 99.9 57.1 99.3 58.3 99.0 60.0 98.4 61.3 98.4 61.7 97.9 62.9 97.9 63.5 97.0 65.6 96.8 66.9 96.4 67.6 96.4 67.9 96.2 68.3 96.3 69.1 96.9 69.3 101.8 69.4 102.6 69.1 103.1 68.4 103.3 67.2 103.7 66.6 103.7 65.9 103.9 65.4 103.9 64.9 104.2 64.4 105.1 61.1 105.3 60.8 105.8 60.7 116.6 60.7 117.2 61.3 117.3 62.3 117.5 62.7 117.5 63.2 118.3 65.5 118.6 67.0 118.9 67.6 118.9 68.1 119.3 69.1 119.9 69.3 120.6 69.4 127.0 69.4 127.4 69.1 127.5 68.3 126.6 66.3 126.4 64.9 125.8 63.5 125.2 61.2 125.0 61.0 124.9 60.4 124.4 59.1 124.4 58.6 124.2 58.2 123.8 56.6 123.2 55.5 122.7 53.5 122.1 51.9 121.9 50.7 121.6 50.1 121.5 49.6 121.0 48.5 121.0 48.1 120.7 47.5 120.7 47.2 120.0 45.7 119.8 44.5 119.5 43.7 119.5 43.3 119.3 42.9 119.3 42.4 118.6 41.1 118.4 40.4 118.4 39.9 118.2 39.6 118.1 39.0 117.3 36.9 117.3 36.1 117.0 35.3 116.7 35.0 116.7 34.7 116.4 34.1 116.4 33.8ZM110.9 41.8 111.2 41.8 111.8 43.1 112.1 44.6 112.9 46.9 112.9 47.3 113.1 48.0 113.2 48.7 113.5 49.0 113.8 49.8 113.8 50.2 114.4 51.5 114.4 51.9 114.6 52.6 114.6 53.1 114.9 53.6 115.0 54.6 114.7 54.8 107.7 54.9 107.3 54.8 107.1 54.6 107.0 53.7 107.2 53.4 107.3 52.8 107.5 52.4 107.6 51.9 107.9 51.4 107.9 51.0 108.2 50.4 108.4 49.1 108.7 48.6 108.7 48.2 109.0 47.6 109.1 47.0 109.3 46.7 109.4 46.0 109.6 45.7 109.9 44.4 110.2 43.8 110.2 43.4ZM55.6 33.6 55.5 33.9 55.4 35.2 55.5 36.4 55.3 39.8 55.3 66.4 55.4 68.7 55.5 69.1 56.4 69.3 60.8 69.4 61.4 69.2 61.6 68.8 61.6 43.1 61.6 41.4 61.8 41.2 62.0 41.4 62.0 41.8 62.3 42.2 62.4 42.6 62.6 42.9 62.8 44.3 63.2 45.0 63.2 45.5 63.8 46.7 64.1 47.8 64.1 48.2 64.5 49.2 64.6 49.9 64.9 50.5 64.9 50.9 65.2 51.3 65.5 52.9 66.0 54.0 66.3 55.4 66.6 55.8 66.6 56.4 66.9 57.0 67.0 57.6 67.2 58.1 67.5 59.5 68.0 60.7 68.3 62.0 68.9 63.4 68.9 63.7 69.5 65.0 69.5 65.7 69.7 66.2 69.7 66.8 70.1 67.3 70.3 68.5 70.7 69.1 71.4 69.3 74.5 69.4 75.9 69.2 76.4 68.3 76.4 67.4 76.8 66.2 76.9 65.6 77.1 65.3 77.5 64.3 77.7 63.0 78.3 61.6 78.3 61.2 78.5 60.9 78.6 60.3 79.1 59.0 79.2 58.3 79.7 57.4 80.0 55.7 80.6 54.4 80.7 53.8 81.0 53.3 81.0 52.9 81.2 52.5 81.2 51.8 81.5 51.4 81.5 50.9 81.7 50.4 81.7 49.9 82.0 49.2 82.3 48.7 82.6 48.0 83.4 44.7 83.7 44.1 84.0 42.8 84.2 42.5 84.4 41.7 84.8 41.4 85.0 41.7 85.1 43.9 84.9 50.9 85.0 66.3 84.9 67.0 84.9 68.0 85.0 68.6 85.3 69.2 85.6 69.3 86.8 69.4 90.2 69.3 91.8 69.3 92.4 69.1 92.6 68.5 92.6 34.2 92.5 33.8 92.3 33.5 91.4 33.3 81.8 33.4 81.5 33.5 81.1 33.8 81.0 35.1 80.0 37.6 79.6 39.5 79.2 40.4 79.1 41.1 78.3 43.4 78.3 43.9 77.7 45.3 77.7 45.9 77.2 47.2 77.1 47.7 76.9 48.1 76.8 48.6 76.5 49.1 76.3 50.6 75.7 52.0 75.4 53.3 75.1 53.9 75.1 54.3 74.9 55.3 74.1 56.8 73.8 56.6 73.1 55.3 72.9 54.1 72.4 52.8 72.4 52.4 72.2 52.1 71.5 49.5 71.0 48.6 70.9 47.9 69.9 45.1 69.8 44.5 69.5 43.8 69.5 43.3 68.4 40.7 68.3 40.0 67.8 38.2 67.5 37.7 67.2 36.2 67.0 35.3 66.7 35.0 66.3 33.7 66.1 33.5 65.5 33.3 56.4 33.3ZM134.7 35.7 134.0 36.4 133.0 37.1 132.0 38.6 131.5 39.0 131.0 39.8 129.7 42.3 128.8 44.8 128.8 45.5 128.6 46.0 128.6 47.1 128.3 48.0 128.3 49.2 128.1 49.9 128.1 52.9 128.3 53.6 128.3 54.8 128.6 55.7 128.6 56.8 128.8 57.3 128.8 58.0 129.1 58.6 129.1 59.0 129.4 59.8 130.2 61.3 130.5 62.2 130.8 62.6 131.3 63.7 132.2 64.5 132.9 65.5 134.3 66.9 135.2 67.3 135.7 67.8 138.7 69.2 139.4 69.3 140.1 69.6 140.6 69.6 141.2 69.8 145.6 69.8 146.5 69.5 147.0 69.5 147.7 69.2 148.2 69.2 148.5 69.0 149.0 68.9 149.7 68.3 150.2 68.3 150.7 67.9 150.9 67.8 151.4 67.4 152.1 66.9 152.6 66.4 152.8 66.0 153.2 65.7 153.4 65.7 153.7 66.2 153.8 66.8 154.2 67.4 154.4 68.4 154.9 69.2 155.5 69.5 158.1 69.6 158.8 69.4 159.0 68.8 159.1 67.6 159.0 51.1 158.8 50.6 157.9 50.3 144.8 50.3 144.1 50.7 143.9 51.2 143.9 54.8 144.1 55.6 144.5 56.1 151.0 56.2 151.2 56.4 151.3 58.5 151.0 59.0 151.0 59.6 150.4 60.7 148.8 62.5 147.7 62.8 146.7 63.4 145.0 63.7 142.6 63.4 140.9 62.6 140.4 62.5 139.3 61.3 138.3 59.8 137.7 58.1 137.4 57.7 137.2 56.8 137.1 55.6 136.9 55.0 136.9 47.8 137.2 46.8 137.2 46.0 137.4 45.5 137.4 44.7 137.7 44.3 138.0 43.1 139.1 41.4 140.4 39.9 142.3 39.1 143.6 38.8 144.8 38.8 146.1 39.1 146.5 39.4 146.8 39.4 147.1 39.6 147.8 39.9 149.1 41.1 149.3 41.6 150.2 42.8 151.0 45.0 151.4 45.3 152.2 45.3 152.8 45.1 153.6 45.1 155.1 44.8 156.6 44.8 157.1 44.5 158.0 44.5 158.3 44.2 158.4 43.4 158.2 42.2 156.7 38.9 154.6 36.4 154.1 36.2 153.5 35.3 152.9 35.0 151.6 34.2 150.5 33.9 149.3 33.3 148.8 33.3 148.4 33.0 147.5 33.0 146.8 32.8 146.0 32.8 142.8 32.8 141.4 33.0 140.4 33.0 140.1 33.3 139.4 33.3 137.9 33.9Z'/></svg>";
-  var WORLD = { x: 0, y: 0, w: 3711, h: 3579 };            // map space (north up)
-  var AIRPORT_VIEW = { x: 330, y: -80, w: 3440, h: 3720 };  // opening view: the whole airfield
+  // London Gatwick: a plain text mark (not the airport's logo) in the same navy and sky palette.
+  var LGW_MARK = "<svg style='display:block;width:100%;height:100%' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 108 68'><rect x='1' y='9' width='106' height='50' rx='9' fill='#012f60'/><path d='M14 44 L30 30 L36 33 L24 46 Z' fill='#8fd0f2'/><path d='M22 37 L42 25 Q46 23 47 26 Q47 28 44 30 L27 41 Z' fill='#d9effa'/><text x='52' y='40' font-family='Inter,system-ui,sans-serif' font-size='17' font-weight='800' letter-spacing='1.5' fill='#eef4f9'>LGW</text></svg>";
+  // One Frame body per airport: build.js sets APM_AIRPORT ('MAN' or 'LGW') and inlines that airport's basemap.
+  /*@AIRPORT@*/
+  var AIRPORTS = {
+    MAN: {
+      code: 'MAN', logo: MAG_LOGO, logoTitle: 'MAG',
+      config: { airport: 'Manchester Airport', title: 'Commercial & estate map', subtitle: 'Manchester Airport · 2026 · Actual & Budget', currency: '£', disclaimer: 'Illustrative data' },
+      world: { x: 0, y: 0, w: 3711, h: 3579 },              // map space (north up)
+      view: { x: 330, y: -80, w: 3440, h: 3720 },           // opening view: the whole airfield
+      scopes: [['all', 'Airport'], ['T2', 'Terminal 2'], ['T3', 'Terminal 3'], ['Landside', 'Station & Skylink'], ['Ground', 'Car parks']],
+      callouts: [['T2', 'Terminal 2'], ['T3', 'Terminal 3'], ['Landside', 'Station & Skylink'], ['Ground', 'Car parks', 3150, 520]],
+      hero: { tx: 2330, tz: 1180, dist: 2750, yaw: -22, pitch: 41 },
+      detail: { x: 1440, y: -40, w: 2120, h: 1720 },        // high-resolution ground texture
+      lod: [1300, 1100, 620], northDeg: 0, zonePrefix: /^T[123] /, worksStands: /P1·(7|8|9|10)$/,
+      ownUnit: function (code) { return !/^LGW-/.test(code); }, ownObject: function (o) { return !o.ap || o.ap === 'MAN'; },
+      notes: { queue: ' Queues grew after Terminal 1 closed.', up: { T2: ' More passengers moved here from Terminal 1 than planned.' }, down: { T3: ' Fewer passengers moved here from Terminal 1 than planned.' } }
+    },
+    LGW: {
+      code: 'LGW', logo: LGW_MARK, logoTitle: 'London Gatwick',
+      config: { airport: 'London Gatwick', title: 'Commercial & estate map', subtitle: 'London Gatwick · 2026 · Actual & Budget', currency: '£', disclaimer: 'Illustrative data' },
+      // Runway-aligned map space: runway 08R/26L runs left to right, true north is 12.3° clockwise of up. 1 unit = 1.34 m.
+      world: { x: 0, y: 0, w: 3470, h: 1866 },
+      view: { x: 0, y: -60, w: 3470, h: 1990 },
+      scopes: [['all', 'Airport'], ['NT', 'North Terminal'], ['ST', 'South Terminal'], ['Landside', 'Station & shuttle'], ['Ground', 'Car parks']],
+      callouts: [['NT', 'North Terminal'], ['ST', 'South Terminal'], ['Landside', 'Station & shuttle'], ['Ground', 'Car parks']],
+      hero: { tx: 2180, tz: 930, dist: 2900, yaw: -16, pitch: 44 },
+      detail: { x: 1960, y: 160, w: 1500, h: 1120 },
+      lod: [1150, 1000, 760], northDeg: 12.31, zonePrefix: /^(NT|ST) /, worksStands: /Stand 56[0-9]$/,
+      ownUnit: function (code) { return /^LGW-/.test(code); }, ownObject: function (o) { return o.ap === 'LGW'; },
+      notes: { queue: ' Queues grew as the summer peak built.', up: { NT: ' More passengers than planned after airline moves into the North Terminal.' }, down: { ST: ' Fewer passengers than planned after airlines moved to the North Terminal.' } }
+    }
+  };
+  var AP = AIRPORTS[typeof APM_AIRPORT !== 'undefined' && AIRPORTS[APM_AIRPORT] ? APM_AIRPORT : 'MAN'];
+  var CONFIG = AP.config;
+  var WORLD = AP.world;
+  var AIRPORT_VIEW = AP.view;
   var LOD_FAR = 1300;                                        // wider than this: show zone totals, hide unit detail
+  // basemap classes 'bldNN' are building footprints, extruded NN units high in 3D
+  function baseCls(c) { return /^bld/.test(c) ? 'apronbld' : c; }
   var BASE_COLORS = { land: '#0c2847', airfield: '#0f2f52', urban: '#12345a', forest: '#0b2644', beige: '#0e2c4e', water: '#03182f', apronbld: '#1a446e', paved: '#1e4a76', roadfill: '#3a6995' };
   // Area tabs. Keys match the 'Terminal' property on Units and Map Features; zoom boxes come from the data.
-  var SCOPE_LIST = [['all', 'Airport'], ['T2', 'Terminal 2'], ['T3', 'Terminal 3'], ['Landside', 'Station & Skylink'], ['Ground', 'Car parks']];
+  var SCOPE_LIST = AP.scopes;
   var SCOPES = {};
   SCOPE_LIST.forEach(function (s) { SCOPES[s[0]] = { label: s[1], box: WORLD, test: s[0] === 'all' ? function () { return true; } : function (u) { return u.terminal === s[0]; } }; });
   var PIER_ZONES = {};
@@ -83,6 +119,7 @@
   function money(v, opts) {
     if (v === null || v === undefined || isNaN(v)) return '—';
     var C = CONFIG.currency, a = Math.abs(v), s = v < 0 ? '−' + C : (opts && opts.sign && v > 0 ? '+' + C : C);
+    if (a >= 1e9) return s + (a / 1e9).toFixed(2) + 'bn';
     if (a >= 1e6) return s + (a / 1e6).toFixed(a >= 1e7 ? 1 : 2) + 'M';
     if (a >= 1e3) return s + (a / 1e3).toFixed(a >= 1e5 ? 0 : 1) + 'k';
     return s + (a === 0 ? '0' : a.toFixed(a < 10 ? 2 : 0));
@@ -429,6 +466,8 @@
     '.maplbl{fill:rgba(169,219,243,.45);font-weight:700;pointer-events:none}',
     '.tlabel{fill:#8fd0f2;font-size:34px;font-weight:800;letter-spacing:.12em;pointer-events:none}',
     '.place,.roadl,.poil,.tlabel{transition:opacity .35s}',
+    // Gatwick is drawn at true scale, so its map labels are smaller
+    '.ap-LGW .poil{font-size:17px}.ap-LGW .tlabel{font-size:24px}.ap-LGW .place{font-size:40px}.ap-LGW .rwy{font-size:20px}',
     '.lod1 .place,.lod1 .roadl{opacity:0}',
     '.lod2 .tlabel,.lod2 .poil{opacity:0}',
     '.ul{fill:#fff;font-size:5.4px;font-weight:600;pointer-events:none;opacity:0;transition:opacity .2s}',
@@ -464,7 +503,7 @@
     var lens = LENSES.map(function (l) { return '<button data-act=\'lens\' data-v=\'' + l.key + '\' title=\'' + esc(l.hint) + '\' aria-pressed=\'false\'>' + esc(l.label) + '</button>'; }).join('');
     return '' +
       '<header class=\'apm-top\'>' +
-        '<div class=\'apm-brand\'><span class=\'apm-mark\' title=\'MAG\'>' + MAG_LOGO + '</span><span class=\'apm-div\'></span><div><div class=\'apm-title\'>' + esc(CONFIG.title) + ' <span class=\'apm-demo\' title=\'Real layout and passenger scale. Unit-level sales, costs and profits are invented for demonstration.\'>' + esc(CONFIG.disclaimer) + '</span></div><div class=\'apm-sub\'>' + esc(CONFIG.subtitle) + '</div></div></div>' +
+        '<div class=\'apm-brand\'><span class=\'apm-mark\' title=\'' + esc(AP.logoTitle) + '\'>' + AP.logo + '</span><span class=\'apm-div\'></span><div><div class=\'apm-title\'>' + esc(CONFIG.title) + ' <span class=\'apm-demo\' title=\'Real layout and passenger scale. Unit-level sales, costs and profits are invented for demonstration.\'>' + esc(CONFIG.disclaimer) + '</span></div><div class=\'apm-sub\'>' + esc(CONFIG.subtitle) + '</div></div></div>' +
         '<nav class=\'apm-tabs\' aria-label=\'Area\'>' + tabs + '</nav>' +
         '<div class=\'apm-spacer\'></div>' +
         '<div class=\'apm-period\'><label for=\'apm-period\' class=\'apm-sub\' style=\'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)\'>Period</label><select id=\'apm-period\' class=\'apm-select\' data-act=\'period\'>' + opts + '</select>' +
@@ -506,6 +545,7 @@
     if (svg) svg.remove();
     svg = el('svg', { viewBox: AIRPORT_VIEW.x + ' ' + AIRPORT_VIEW.y + ' ' + AIRPORT_VIEW.w + ' ' + AIRPORT_VIEW.h, preserveAspectRatio: 'xMidYMid meet', role: 'img', 'aria-label': 'Airport map coloured by the selected measure. Zoom into a terminal to see individual units.' });
     host.insertBefore(svg, host.firstChild);
+    svg.classList.add('ap-' + AP.code);
     var defs = el('defs', {}, svg);
     var pat = el('pattern', { id: 'apm-hatch', width: 6, height: 6, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
     el('rect', { width: 6, height: 6, fill: '#0e2742' }, pat);
@@ -518,8 +558,8 @@
     var gFlow = el('g', { id: 'apm-flow' }, svg), gGates = el('g', {}, svg), gLabels = el('g', {}, svg), gAgg = el('g', {}, svg), gMap = el('g', {}, svg), gSel = el('g', {}, svg);
     el('rect', { x: WORLD.x - 4000, y: WORLD.y - 4000, width: WORLD.w + 8000, height: WORLD.h + 8000, fill: BASE_COLORS.land }, gBase);
     var baseOrder = { airfield: 0, urban: 1, forest: 2, beige: 3, water: 4, apronbld: 5, paved: 6, roadfill: 7 };
-    S.features.filter(function (f) { return f.type === 'base'; }).sort(function (a, b) { return (baseOrder[a.cls] || 0) - (baseOrder[b.cls] || 0); }).forEach(function (f) {
-      el('path', { d: f.path, fill: BASE_COLORS[f.cls] || BASE_COLORS.land, 'fill-rule': 'evenodd' }, gBase);
+    S.features.filter(function (f) { return f.type === 'base'; }).sort(function (a, b) { return (baseOrder[baseCls(a.cls)] || 0) - (baseOrder[baseCls(b.cls)] || 0); }).forEach(function (f) {
+      el('path', { d: f.path, fill: BASE_COLORS[baseCls(f.cls)] || BASE_COLORS.land, 'fill-rule': 'evenodd' }, gBase);
     });
     var order = { runwayline: 1, walkway: 2, station: 2, terminal: 2, closed: 2, ghostpier: 3, zone: 3, pier: 3, security: 4, checkin: 4, holdroom: 4, stand: 5, gate: 6 };
     var feats = S.features.filter(function (f) { return f.type !== 'base'; }).sort(function (a, b) { return (order[a.type] || 0) - (order[b.type] || 0); });
@@ -528,6 +568,15 @@
       if (style) t.setAttribute('style', style);
       t.textContent = s;
       return t;
+    }
+    function pgD(f) { return 'M' + f.pg.map(function (q) { return q[0] + ',' + q[1]; }).join(' L') + 'Z'; }
+    // shape(): the feature's real outline when it has one, else its rounded box
+    function shapeEl(f, attrs, parent, rx) {
+      var r = f.box, a = {}, k;
+      for (k in attrs) a[k] = attrs[k];
+      if (f.pg) { a.d = pgD(f); return el('path', a, parent); }
+      a.x = r.x; a.y = r.y; a.width = r.w; a.height = r.h; a.rx = rx;
+      return el('rect', a, parent);
     }
     feats.forEach(function (f) {
       var r = f.box;
@@ -552,16 +601,18 @@
         case 'roadlabel': txt(gMap, f.labelX, f.labelY, f.label, 'roadl', null); break;
         case 'poi':
           var hotel = /hotel|radisson/i.test(f.name || '');
-          el('circle', { cx: r.x, cy: r.y, r: 9, fill: hotel ? '#d55181' : '#62809d', stroke: '#011326', 'stroke-width': 2 }, gMap);
-          txt(gMap, r.x + 14, r.y + 6, f.label, 'poil', null, 'start');
+          var px = f.labelX !== null ? f.labelX : r.x, py = f.labelY !== null ? f.labelY : r.y;
+          el('circle', { cx: px, cy: py, r: 9, fill: hotel || /sofitel|premier|hampton|hilton/i.test(f.name || '') ? '#d55181' : '#62809d', stroke: '#011326', 'stroke-width': 2 }, gMap);
+          txt(gMap, px + 14, py + 6, f.label, 'poil', null, 'start');
           break;
-        case 'terminal': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: '#12304f', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg); break;
+        case 'terminal': shapeEl(f, { fill: '#12304f', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg, 10); break;
         case 'closed': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: 'url(#apm-hatch)', stroke: 'rgba(255,255,255,.2)', 'stroke-dasharray': '6 5', 'stroke-width': 1.5 }, gBg); break;
         case 'ghostpier': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 8, fill: 'none', stroke: 'rgba(255,255,255,.2)', 'stroke-dasharray': '6 5', 'stroke-width': 1.5 }, gBg); break;
-        case 'station': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 10, fill: '#173556', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg); break;
-        case 'walkway': el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 3, fill: '#24486c', stroke: 'rgba(255,255,255,.12)' }, gBg); break;
+        case 'station': shapeEl(f, { fill: '#173556', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg, 10); break;
+        case 'walkway': shapeEl(f, { fill: '#24486c', stroke: 'rgba(255,255,255,.12)' }, gBg, 3); break;
         case 'pier':
-          el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 8, fill: '#12304f', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg);
+          shapeEl(f, { fill: '#12304f', stroke: 'rgba(255,255,255,.18)', 'stroke-width': 1.5 }, gBg, 8);
+          if (f.pg) break;
           if (r.w > r.h) el('rect', { x: r.x + 4, y: r.y + 52, width: r.w - 8, height: r.h - 104, fill: '#16314f' }, gBg);
           else el('rect', { x: r.x + r.w / 2 - 15, y: r.y + 4, width: 30, height: r.h - 8, fill: '#16314f' }, gBg);
           break;
@@ -595,14 +646,14 @@
           break;
       }
       if (f.zone && (f.type === 'zone' || f.type === 'pier' || f.type === 'station' || f.type === 'walkway')) {
-        var z = el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 6, class: 'zh', 'data-zone': f.zone }, gZone);
+        var z = shapeEl(f, { class: 'zh', 'data-zone': f.zone }, gZone, 6);
         el('title', {}, z).textContent = 'Zoom into ' + f.zone;
-        var ag = el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: f.type === 'walkway' ? 3 : 8, class: 'zagg', 'data-zone': f.zone, fill: NEUTRAL }, gAgg);
+        var ag = shapeEl(f, { class: 'zagg', 'data-zone': f.zone, fill: NEUTRAL }, gAgg, f.type === 'walkway' ? 3 : 8);
         var lab = null;
         if (f.type !== 'walkway') {
           var fs = Math.max(13, Math.min(30, r.w / 6, r.h / 3.2));
           lab = el('text', { x: r.x + r.w / 2, y: r.y + r.h / 2, class: 'zaggl far', 'text-anchor': 'middle', style: 'font-size:' + fs + 'px' }, gAgg);
-          var t1 = el('tspan', { x: r.x + r.w / 2, dy: '-0.15em' }, lab); t1.textContent = f.zone.replace(/^T[23] /, '');
+          var t1 = el('tspan', { x: r.x + r.w / 2, dy: '-0.15em' }, lab); t1.textContent = f.zone.replace(AP.zonePrefix, '');
           var t2 = el('tspan', { x: r.x + r.w / 2, dy: '1.15em', class: 'zv' }, lab); t2.textContent = '';
         }
         S.aggs.push({ zone: f.zone, rect: ag, label: lab });
@@ -1092,12 +1143,12 @@
   };
   function assetFlags(a, d) {
     var out = [];
-    var proj = S.projects.filter(function (p) { return p.asset === a.id || (a.type === 'Aircraft stand' && p.asset === a.pier && /air-bridge/i.test(p.name) && /P1·(7|8|9|10)$/.test(a.id)); });
+    var proj = S.projects.filter(function (p) { return p.asset === a.id || (a.type === 'Aircraft stand' && p.asset === a.pier && /air-bridge/i.test(p.name) && AP.worksStands.test(a.id)); });
     if (d.avail !== null && d.avail < 0.9) out.push([STATUS.critical, '!', '<b>Availability ' + pct(d.avail) + '.</b> ' + (proj.length ? 'Out of service for ' + esc(proj[0].name) + '.' : 'Below the 95% target.')]);
-    if (d.sla !== null && d.sla < 0.9) out.push([STATUS.serious, '⏱', '<b>Only ' + pct(d.sla) + ' of passengers clear security within 15 minutes</b>, against a 95% target. Queues grew after Terminal 1 closed.']);
+    if (d.sla !== null && d.sla < 0.9) out.push([STATUS.serious, '⏱', '<b>Only ' + pct(d.sla) + ' of passengers clear security within 15 minutes</b>, against a 95% target.' + AP.notes.queue]);
     if (d.cond !== null && d.cond < 3) out.push([STATUS.serious, '⚒', '<b>Condition ' + d.cond.toFixed(1) + ' / 5.</b> ' + (proj.length ? esc(proj[0].name) + ' is ' + proj[0].status.toLowerCase() + '.' : 'Renewal needed.')]);
     var vb = d.bebitda ? (d.ebitda - d.bebitda) / Math.abs(d.bebitda) : null;
-    if (vb !== null && Math.abs(vb) > 0.06) out.push([vb > 0 ? '#4f9fd4' : STATUS.serious, vb > 0 ? '↑' : '↓', '<b>EBITDA ' + pct(vb, true) + ' vs budget.</b>' + (a.terminal === 'T2' && vb > 0 ? ' More passengers moved here from Terminal 1 than planned.' : a.terminal === 'T3' && vb < 0 ? ' Fewer passengers moved here from Terminal 1 than planned.' : '')]);
+    if (vb !== null && Math.abs(vb) > 0.06) out.push([vb > 0 ? '#4f9fd4' : STATUS.serious, vb > 0 ? '↑' : '↓', '<b>EBITDA ' + pct(vb, true) + ' vs budget.</b>' + ((vb > 0 ? AP.notes.up : AP.notes.down)[a.terminal] || '')]);
     return { flags: out.map(function (f) { return '<div class=\'apm-flag\'><i style=\'background:' + f[0] + '\'>' + f[1] + '</i><div>' + f[2] + '</div></div>'; }).join(''), proj: proj };
   }
   function renderAsset() {
@@ -1187,7 +1238,7 @@
   // ----------------------------------------------------------- story mode
   function terminalVar(t) { var a = zoneAgg(t, 'var', 'terminal'); return a.v; }
   function projById(id) { return S.projects.filter(function (p) { return p.id === id; })[0]; }
-  var STORY = [
+  var STORY_MAN = [
     { title: 'Manchester Airport at a glance', run: function () { S.lens = 'profit'; S.showProjects = false; clearSel(); setScope('all'); },
       text: function () { var t = totals(function () { return true; }), px = departingPax(); return 'Year to date the airport\'s commercial estate has earned <b>' + money(t.profit) + '</b>, <b>' + pct(t.budget ? t.profit / t.budget - 1 : 0, true) + '</b> against budget, from <b>' + num(px.actual) + '</b> departing passengers. Every block on the map is a revenue zone.'; } },
     { title: 'Terminal 1 closes, and passengers move', run: function () { S.lens = 'var'; S.showProjects = false; clearSel(); setScope('all'); },
@@ -1205,6 +1256,25 @@
     { title: 'The whole capital programme', run: function () { S.pf = { types: {}, statuses: {}, month: null }; S.showProjects = true; clearSel(); S.lens = 'profit'; setScope('all'); },
       text: function () { var t = programmeTotals(); return '<b>' + t.n + '</b> projects worth <b>' + money(t.forecast) + '</b>, with <b>' + money(t.spent) + '</b> spent so far. Use the filters to see where each type of work is happening, or scrub the timeline to watch the sites come and go.'; } }
   ];
+  var STORY_LGW = [
+    { title: 'London Gatwick at a glance', run: function () { S.lens = 'profit'; S.showProjects = false; clearSel(); setScope('all'); },
+      text: function () { var t = totals(function () { return true; }), px = departingPax(); return 'Year to date the airport\'s commercial estate has earned <b>' + money(t.profit) + '</b>, <b>' + pct(t.budget ? t.profit / t.budget - 1 : 0, true) + '</b> against budget, from <b>' + num(px.actual) + '</b> departing passengers. Every block on the map is a revenue zone, drawn on the real terminal outlines.'; } },
+    { title: 'Airline moves shift passengers north', run: function () { S.lens = 'var'; S.showProjects = false; clearSel(); setScope('all'); },
+      text: function () { return 'Airline moves in the spring sent more passengers through the <b>North Terminal</b> than budgeted, which is running <b class=\'up\'>' + pct(terminalVar('NT'), true) + '</b> against budget. The <b>South Terminal</b> is <b class=\'dn\'>' + pct(terminalVar('ST'), true) + '</b>.'; } },
+    { title: 'South Terminal security is under pressure', run: function () { S.lens = 'var'; S.showProjects = false; selectAsset('ST Security', true); },
+      text: function () { var d = assetData('ST Security'), d2 = assetData('NT Security'); return 'In the South Terminal only <b class=\'dn\'>' + pct(d ? d.sla : null) + '</b> of passengers clear security within 15 minutes, against <b>' + pct(d2 ? d2.sla : null) + '</b> in the North Terminal. Every minute in a queue is a minute not spent in the shops.'; } },
+    { title: 'The response: South Terminal security and lounge', run: function () { S.pf = { types: {}, statuses: {}, month: null }; selectProject('PRJ-203', true); },
+      text: function () { var p = projById('PRJ-203'); return p ? 'A <b>' + money(p.budget) + '</b> scheme to enlarge South Terminal security and the departure lounge. It is <b>' + pct(p.pct) + '</b> complete and forecast at <b class=\'up\'>' + money(p.forecast) + '</b>, with new lanes and shops from ' + ymLabel(p.e - 1) + '.' : ''; } },
+    { title: 'Works on Pier 5 take stands out of action', run: function () { selectProject('PRJ-205', true); },
+      text: function () { var p = projById('PRJ-205'), d = assetData('NT Pier 5'); return p ? 'Air-bridge replacement has cut Pier 5 stand availability to <b class=\'dn\'>' + pct(d ? d.avail : null) + '</b>, with <b>' + money(p.revImpact) + '</b> of revenue at risk. The forecast is <b class=\'dn\'>' + money(p.forecast) + '</b> against a budget of ' + money(p.budget) + '.' : ''; } },
+    { title: 'A loss-maker, and its fix', run: function () { S.lens = 'profit'; S.showProjects = true; selectUnit('LGW-ST-L-06', true); },
+      text: function () { var x = unitData('LGW-ST-L-06'), p = projById('PRJ-206'); return 'The South Terminal arrivals café is the airport\'s biggest loss-maker at <b class=\'dn\'>' + money(x ? x.profit : null) + '</b>. The <b>' + (p ? money(p.budget) : '') + ' arrivals hall refit</b>, now in design, replaces it from ' + (p ? ymLabel(p.e - 1) : '') + '.'; } },
+    { title: 'The Northern Runway', run: function () { S.showProjects = true; selectAsset('Runway 08L/26R', true); },
+      text: function () { var p = projById('PRJ-201'); return 'Today the northern runway is a standby, used when the main runway is closed. Moving it 12 m north lets both runways operate together. Development consent was granted in 2025; the programme is forecast at <b>' + (p ? money(p.forecast) : '') + '</b>, with dual-runway operations from ' + (p ? ymLabel(p.e - 1) : '') + '.'; } },
+    { title: 'The whole capital programme', run: function () { S.pf = { types: {}, statuses: {}, month: null }; S.showProjects = true; clearSel(); S.lens = 'profit'; setScope('all'); },
+      text: function () { var t = programmeTotals(); return '<b>' + t.n + '</b> projects worth <b>' + money(t.forecast) + '</b>, with <b>' + money(t.spent) + '</b> spent so far. Use the filters to see where each type of work is happening, or scrub the timeline to watch the sites come and go.'; } }
+  ];
+  var STORY = AP.code === 'LGW' ? STORY_LGW : STORY_MAN;
   function storyGo(i) {
     if (i < 0 || i >= STORY.length) { S.story = null; renderAll(); return; }
     S.story = i; STORY[i].run(); renderAll();
@@ -1236,9 +1306,9 @@
     if (!svg) return;
     var v = S.view;
     svg.setAttribute('viewBox', v.x + ' ' + v.y + ' ' + v.w + ' ' + v.h);
-    svg.classList.toggle('lod0', v.w > LOD_FAR);
-    svg.classList.toggle('lod1', v.w < 1100);
-    svg.classList.toggle('lod2', v.w < 620);
+    svg.classList.toggle('lod0', v.w > AP.lod[0]);
+    svg.classList.toggle('lod1', v.w < AP.lod[1]);
+    svg.classList.toggle('lod2', v.w < AP.lod[2]);
   }
   function animateTo(box, pad) {
     pad = pad === undefined ? 0 : pad;
@@ -1585,12 +1655,13 @@
       (typeof APM_BASEMAP !== 'undefined' ? APM_BASEMAP.paths : []).forEach(function (p) { feats.push({ name: 'base', type: 'base', cls: p.type, path: p.d, box: { x: 0, y: 0, w: 0, h: 0 }, label: '', line: [] }); });
       rows.forEach(function (r) {
         var key = cellTxt(r.labels[0]), o = parseJSON(cellTxt(r.values[0]));
-        if (!key || !o) return;
+        if (!key || !o || !AP.ownObject(o)) return;
         var kind = key.slice(0, 2), id = key.slice(2);
         if (kind === 'F:') feats.push({
           name: id, type: o.t, box: shape(o.s), label: o.l || '', sub: o.sub || '', terminal: o.term || '', zone: o.z || '', pier: o.p || '', heading: Number(o.h) || 0, ends: o.e || '',
           closed: !!o.c, small: !!o.sm, far: !!o.f, cls: '', path: '', line: String(o.ln || '').split(',').map(Number),
-          labelX: o.lx === undefined || o.lx === '' ? null : Number(o.lx), labelY: o.ly === undefined || o.ly === '' ? null : Number(o.ly), side: '', asset: o.a || ''
+          labelX: o.lx === undefined || o.lx === '' ? null : Number(o.lx), labelY: o.ly === undefined || o.ly === '' ? null : Number(o.ly), side: '', asset: o.a || '',
+          ht: Number(o.ht) || 0, pg: o.pg ? String(o.pg).split(' ').map(function (q) { return q.split(',').map(Number); }) : null
         });
         else if (kind === 'A:') assetsL.push({ id: id, type: o.type, terminal: o.term || '', pier: o.pier || '', gate: o.gate || '', facts: o.facts || '', prof: o.prof || 'Seasonal' });
         else if (kind === 'P:') projs.push(parseProject(id, o));
@@ -1609,7 +1680,7 @@
         var cat = cellTxt(r.values[2]) || m[8] || '';
         return { code: code, name: m[0] || code, tenant: cat !== m[8] ? 'Proposed ' + cat + ' tenant' : (m[1] || ''), terminal: m[2] || '', zone: m[3] || '', box: shape(m[4]), lease: m[5] || '', gate: m[6] || '',
           model: m[7] || 'Concession', origCategory: m[8] || cat, category: cat, rate: numCell(r.values[1]), area: numCell(r.values[3]) || 0, mag: numCell(r.values[4]) || 0 };
-      }).filter(function (u) { return u.code && u.box.w > 0; });
+      }).filter(function (u) { return u.code && u.box.w > 0 && AP.ownUnit(u.code); });
       S.byCode = {}; S.units.forEach(function (u) { S.byCode[u.code] = u; });
       S.ready.units = true;
     } else if (name === 'unitMonthly') {
