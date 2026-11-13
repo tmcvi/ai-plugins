@@ -48,7 +48,9 @@ same.
 | `src/basemap-man.json` | Traced basemap paths, inlined at build time as `window.__MAN_BASEMAP`. In Pigment they become Map Feature items of type `base` with a `Path`. |
 | `tools/trace_basemap.py` | Turns a map screenshot into basemap paths: `python3 tools/trace_basemap.py <png> src/basemap-man.json 3`. Needs `numpy`, `pillow`, `contourpy`. |
 | `src/map3d.js` | The WebGL 3D renderer. `build.js` inlines it into the Frame; `dist/frame-body.js` is the complete Frame body to paste into Pigment. |
-| `build.js` | `node build.js` writes `dist/airport-profit-map.html` (artifact page) and `dist/standalone.html` (open locally). |
+| `build.js` | `node build.js` builds both airports: `dist/frame-body*.min.js` (Frame bodies) and `dist/standalone.html` / `dist/standalone-lgw.html` (open locally). `node build.js LGW` builds one. |
+| `src/mock-lgw.js`, `src/geo-lgw.json` | Gatwick mock SDK and model engine, and its geometry (built by `tools/build_lgw_geo.py`). |
+| `data/egkk-layout.json` | OpenStreetMap-derived Gatwick layout (© OpenStreetMap contributors, ODbL 1.0). |
 
 ## Stories built into the data
 
@@ -139,7 +141,14 @@ The layout comes from `data/egkk-layout.json`, generated from OpenStreetMap by t
 
 The Frame is built in the Viridian workspace, in the app **MAG Commercial & Estate Map** (`0e387115-117c-4772-8f85-9e56f94f3c64`). Everything is in the `Commercial Map` folder. **Internal Viridian use only:** the basemap is traced from Google Maps and must not be shown or sent to MAG (see "Before going live").
 
-Frame: `MAG Commercial & Estate Map` (`3acaf510-d692-4ca4-8af1-5b7b7baefa0a`). Its body is `dist/frame-body.min.js` (157 KB). It was pushed in 19,000-character chunks and read back byte for byte. To show it, add the Frame to a board in the Pigment UI; the board API cannot place Frames.
+Both airports share the app, and each has its own Frame. The Frames bind the same data sources, and each filters to its own airport (Gatwick unit codes start `LGW-` and its Map Objects carry `ap:'LGW'`).
+
+| Frame | Id | Body |
+|---|---|---|
+| `MAG Commercial & Estate Map` (Manchester) | `3acaf510-d692-4ca4-8af1-5b7b7baefa0a` | `dist/frame-body.min.js` (178 KB) |
+| `Gatwick Commercial & Estate Map` | `768ea054-072a-49ce-90c8-4ceccdecba55` | `dist/frame-body-lgw.min.js` (161 KB) |
+
+Bodies are pushed in 18,000-character chunks and read back byte for byte. To show a Frame, add it to a board in the Pigment UI; the board API cannot place Frames. The Manchester basemap restriction above does not apply to Gatwick, whose layout is OpenStreetMap data (keep the attribution).
 
 ### Look and feel
 
@@ -154,19 +163,20 @@ The Frame shares the MAG Aviation Income route-network Frame's design language s
 | List | Items | Notes |
 |---|---|---|
 | Month (calendar 2026) | 12 | Labels `Jan 26` … `Dec 26`. The Frame matches on the first three letters. |
-| Terminal | 3 | T1, T2, T3 |
+| Airport | 2 | MAN, LGW |
+| Terminal | 5 | T1, T2, T3 (MAN); NT, ST (LGW). Property `Airport` |
 | Category | 15 | Conversion, Avg Ticket, Default Share, Cost Ratio, Operating Model, Group |
-| Footfall Basis | 10 | Scope, Terminal, Share, Space Cost Rate |
-| Gate | 32 | Terminal, Pier, Share of terminal departures |
-| Unit | 97 | Display property `Code`. Name, tenant, terminal, zone, shape, lease, gate, category, area, MAG, footfall basis, exposure, trading and ticket factors, fixed cost |
-| Asset | 43 | Runways, terminals, piers, stands, security, hotels, cargo, station |
-| Asset Line / Asset Profile | 15 / 2 | P&L and KPI lines; Seasonal or Flat monthly phasing |
-| Map Object | 180 | `F:` features, `A:` assets, `P:` projects; `Meta` holds JSON (Frames cannot read list properties) |
+| Footfall Basis | 23 | Scope, Terminal, Airport, Share, Space Cost Rate |
+| Gate | 107 | Terminal, Pier, Share of terminal departures. Gatwick gates are the real stand numbers |
+| Unit | 181 (97 + 84) | Display property `Code`. Name, tenant, terminal, zone, shape, lease, gate, category, area, MAG, footfall basis, exposure, trading and ticket factors, fixed cost |
+| Asset | 142 (43 + 99) | Runways, terminals, piers, stands, security, hotels, cargo, hangars, station |
+| Asset Line / Asset Profile | 15 / 3 | P&L and KPI lines; Seasonal (Manchester), LGW Seasonal or Flat monthly phasing |
+| Map Object | 522 (180 + 342) | `F:` features, `A:` assets, `P:` projects; `Meta` holds JSON (Frames cannot read list properties) |
 
 ### Metrics
 
 - **Inputs:** Terminal Departing Pax and Budget Terminal Departing Pax (Terminal × Month); Basis Ramp and Budget Basis Ramp (the Pier 2 ramp-up); Profile Weight; Asset Annual Value (Asset × Asset Line).
-- **Passenger flow:** Basis Pax, Gate Departing Pax and Passengers Exposed, each with a Budget twin.
+- **Passenger flow:** Basis Pax, Gate Departing Pax and Passengers Exposed, each with a Budget twin. For airport-wide bases (Scope `All`), Basis Pax sums only the terminals of that basis's airport: `'Terminal Departing Pax'[BY SUM: Terminal.Airport][BY CONSTANT: 'Footfall Basis'.Airport]`.
 - **Unit P&L (Unit × Month):**
   - Transactions = passengers × conversion of the current category × trading factor.
   - Tenant Sales.
@@ -179,7 +189,7 @@ The Frame shares the MAG Aviation Income route-network Frame's design language s
 - **What-if (writable sinks):** Unit Category (`sCategory`) and Revenue Share (`sRate`). Both are formula metrics with overrides on: a write from the map overrides the default, and clearing the override restores it.
 - **Frame helpers:** Unit Meta (pipe-delimited text), Unit Area, Unit MAG and Object Meta.
 
-Pigment matches `src/mock-sdk.js` exactly: YTD Oct profit £171.9M, budget £166.9M, tenant sales £483.7M.
+Pigment matches the mocks exactly. Manchester (`src/mock-sdk.js`): YTD Oct profit £171.9M, budget £166.9M, tenant sales £483.7M. Gatwick (`src/mock-lgw.js`): YTD Oct profit £206.4M, budget £201.3M, tenant sales £608.6M.
 
 Watch out: in Pigment formulas, wrap both sides of a `>` comparison in brackets (`(a / 12) > (b * c)`). Without them the comparison binds before `*` and the formula fails to compile.
 
@@ -199,11 +209,13 @@ The sinks are `sRate` (Revenue Share) and `sCategory` (Unit Category). Both are 
 ### Rebuilding
 
 ```bash
-node tools/export_pigment.js      # mock engine -> dist/pigment-load.json, prints the YTD check
+node tools/export_pigment.js      # Manchester mock engine -> dist/pigment-load.json, prints the YTD check
+node tools/export_pigment.js LGW  # Gatwick -> dist/pigment-load-lgw.json (also lists any unit outside its zone)
+python3 tools/build_lgw_geo.py data/egkk-layout.json src/geo-lgw.json   # Gatwick geometry (needs shapely)
 TERSER_PATH=/path/to/terser node build.js
 ```
 
-To push a new body, replace the Frame body in chunks of at most 20,000 characters with `update_frame_body`. Then read it back with `search_frames` and diff it against `dist/frame-body.min.js`.
+To push a new body, set the body to a marker (`/*@@NEXT@@*/`) with `update_frame`, then append chunks of at most 20,000 characters with `update_frame_body`. Read it back with `search_frames` and diff it against the matching `dist/frame-body*.min.js`.
 
 ### Before going live
 
